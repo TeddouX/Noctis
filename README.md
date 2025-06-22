@@ -5,7 +5,7 @@
 
 ### Build locally
 
-__[vcpkg](https://vcpkg.io/en/) __[Cmake](https://cmake.org/) are required.__
+__[vcpkg](https://vcpkg.io/en/) and [Cmake](https://cmake.org/) are required.__
 Follow the installation guide on: [Microsoft Learn](https://learn.microsoft.com/en-us/vcpkg/get_started/get-started?pivots=shell-powershell#1---set-up-vcpkg).  
 After installation, add the `vcpkg/bin` folder to __PATH__.   
 
