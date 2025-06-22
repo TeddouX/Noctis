@@ -5,8 +5,8 @@
 
 ### Build locally
 
-__[vcpkg](https://vcpkg.io/en/) and [Cmake](https://cmake.org/) are required.__
-Follow the installation guide on: [Microsoft Learn](https://learn.microsoft.com/en-us/vcpkg/get_started/get-started?pivots=shell-powershell#1---set-up-vcpkg).  
+__[vcpkg](https://vcpkg.io/en/) and [Cmake](https://cmake.org/) are required.__  
+For __vcpkg__, follow the installation guide on: [Microsoft Learn](https://learn.microsoft.com/en-us/vcpkg/get_started/get-started?pivots=shell-powershell#1---set-up-vcpkg).  
 After installation, add the `vcpkg/bin` folder to __PATH__.   
 
 After building the project, you will need to create a __`CMakeUserPresets.json`__ in the root, containing this (*replace `"PATH/TO/VCPKG"` with the actual path*): 
