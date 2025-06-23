@@ -9,7 +9,7 @@
 class SceneDisplayWidget : public Widget
 {
 public:
-    static constexpr std::string_view name = "SceneDisplay";
+    static constexpr std::string_view name = "Scene";
 
     SceneDisplayWidget();
 

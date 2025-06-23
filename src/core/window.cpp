@@ -17,6 +17,7 @@ Window::Window(int width, int height, const std::string &title)
         NULL
     );
 
+    glfwSetFramebufferSizeCallback(this->m_glfwWindow, Window::GLFWWindowResizeCallback);
     glfwMakeContextCurrent(this->m_glfwWindow);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -24,6 +25,7 @@ Window::Window(int width, int height, const std::string &title)
 		std::cerr << "Failed to initialize GLAD. Exiting now..." << std::endl;
 		exit(-1);
 	}
+
 }
 
 
@@ -49,4 +51,10 @@ GLFWwindow* Window::GetWindow() const
 void Window::GLFWErrorCallback(int code, const char *desc)
 {
     std::cerr << "[ERROR]: glfw error: " + std::string(desc) << std::endl;
+}
+
+
+void Window::GLFWWindowResizeCallback(GLFWwindow* window, int width, int height)
+{
+    glViewport(0, 0, width, height);
 }

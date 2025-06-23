@@ -26,12 +26,13 @@ void SceneDisplayWidget::Render()
         nullptr, 
         ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse
     );
+    ImVec2 windowSize{ ImGui::GetWindowSize() };
 
     this->m_frameBuffer.Bind();
 
     // ONLY FOR TESTING
     Renderer::SetActiveShader(shader);
-    Renderer::RenderModel(60, 800/600, 0.01f, 1000, *model);
+    Renderer::RenderModel(60, windowSize.x / windowSize.y, 0.01f, 1000, *model);
 
     this->m_frameBuffer.Unbind();
 
@@ -43,7 +44,6 @@ void SceneDisplayWidget::Render()
     );
 
     // Resize frame buffer if needed
-    ImVec2 windowSize{ ImGui::GetWindowSize() };
     if (this->m_frameBuffer.width != static_cast<int>(windowSize.x ) 
      || this->m_frameBuffer.height != static_cast<int>(windowSize.y))
         this->m_frameBuffer.Resize(static_cast<int>(windowSize.x), static_cast<int>(windowSize.y));

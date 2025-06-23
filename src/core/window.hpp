@@ -19,4 +19,5 @@ private:
     GLFWwindow* m_glfwWindow;
 
     static void GLFWErrorCallback(int code, const char *desc);
+    static void GLFWWindowResizeCallback(GLFWwindow* window, int width, int height);
 };

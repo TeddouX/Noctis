@@ -23,6 +23,12 @@ add_executable(UnknownEngine
 	src/editor/widgets/widget.hpp
 	src/editor/widgets/scene_display.hpp
 	src/editor/widgets/scene_display.cpp
+	src/editor/widgets/scene_tree.hpp
+	src/editor/widgets/scene_tree.cpp
+	src/editor/widgets/asset_explorer.hpp
+	src/editor/widgets/asset_explorer.cpp
+	src/editor/widgets/actor_properties.hpp
+	src/editor/widgets/actor_properties.cpp
 
 	src/loading/model_loader.hpp
 	src/loading/model_loader.cpp
