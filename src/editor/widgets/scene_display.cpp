@@ -6,26 +6,23 @@
 #include "../../rendering/renderer.hpp"
 #include "../../loading/model_loader.hpp"
 #include "../../core/ecs/all_components.hpp"
-#include "../../core/ecs/component_manager.hpp"
-#include "../../core/ecs/component_array.hpp"
 #include "../../core/ecs/entity.hpp"
+#include "../../core/manager.hpp"
 
 
 // ONLY FOR TESTING
 std::shared_ptr<Model> model;
 std::shared_ptr<Shader> shader;
+Entity monkey = Entity::Create();
 
 SceneDisplayWidget::SceneDisplayWidget()
 {
     // ONLY FOR TESTING
-    model = ModelLoader::LoadModel("./monkey.obj");
-    shader = std::make_shared<Shader>("./src/rendering/shaders/default.vert", "./src/rendering/shaders/default.frag");
+    model = ModelLoader::LoadModel("C:\\Users\\victo\\Documents\\Programming\\Unknown Engine\\monkey.obj");
+    shader = std::make_shared<Shader>("C:\\Users\\victo\\Documents\\Programming\\Unknown Engine\\src\\rendering\\shaders\\default.vert", "C:\\Users\\victo\\Documents\\Programming\\Unknown Engine\\src\\rendering\\shaders\\default.frag");
 
-    ComponentManager componentManager;
-    componentManager.registerComponent<ModelComponent>();
-
-    Entity monkey = Entity::create();
-    componentManager.addComponent(monkey, ModelComponent(model));
+    COMPONENT_MANAGER().AddComponent(monkey, TransformComponent(glm::vec3(-1, 0, 0), glm::vec3(0), glm::vec3(1)));
+    COMPONENT_MANAGER().AddComponent(monkey, ModelComponent(model));
 }
 
 
@@ -39,11 +36,20 @@ void SceneDisplayWidget::Render()
     );
     ImVec2 windowSize{ ImGui::GetWindowSize() };
 
+    // TESTING
+    ImGui::DragFloat("x", &COMPONENT_MANAGER().GetComponent<TransformComponent>(monkey).pos.x, 0.1f);
+    ImGui::DragFloat("y", &COMPONENT_MANAGER().GetComponent<TransformComponent>(monkey).pos.y, 0.1f);
+    ImGui::DragFloat("z", &COMPONENT_MANAGER().GetComponent<TransformComponent>(monkey).pos.z, 0.1f);
+
     this->m_frameBuffer.Bind();
+
+    glClearColor(0.09f, 0.09f, 0.09f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // ONLY FOR TESTING
     Renderer::SetActiveShader(shader);
-    Renderer::RenderModel(60, windowSize.x / windowSize.y, 0.01f, 1000, *model);
+    Renderer::SetActiveCamera(std::make_shared<Camera>(glm::vec3(-3, 0, 0), 60.0f, static_cast<float>(800/600), 0.01f, 1000.0f));
+    RENDER_SYSTEM().Update(COMPONENT_MANAGER(), .0f);
 
     this->m_frameBuffer.Unbind();
 

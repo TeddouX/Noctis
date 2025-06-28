@@ -7,7 +7,7 @@ Model::Model(std::vector<Mesh> &meshes)
 }
 
 
-void Model::Render(Shader &shader)
+void Model::Render(Shader &shader) const
 {
     for (Mesh mesh : this->m_meshes)
         mesh.Render(shader);

@@ -11,12 +11,23 @@ find_package(imgui CONFIG REQUIRED)
 find_package(glad CONFIG REQUIRED)
 find_package(stb REQUIRED)
 
+add_definitions(-D GLM_ENABLE_EXPERIMENTAL)
+
 add_executable(UnknownEngine 
     src/main.cpp
 
+	src/core/manager.hpp
+	src/core/manager.cpp
 	src/core/window.hpp
 	src/core/window.cpp
 	src/core/stb_image_impl.c
+	src/core/ecs/all_components.hpp
+	src/core/ecs/component_array.hpp
+	src/core/ecs/component_manager.hpp
+	src/core/ecs/entity.hpp
+	src/core/ecs/systems/render_system.cpp
+	src/core/ecs/systems/render_system.hpp
+	src/core/ecs/systems/system.hpp
 
     src/editor/editor_ui.hpp
     src/editor/editor_ui.cpp
@@ -33,6 +44,8 @@ add_executable(UnknownEngine
 	src/loading/model_loader.hpp
 	src/loading/model_loader.cpp
 	
+	src/rendering/camera.hpp
+	src/rendering/camera.cpp
 	src/rendering/framebuffer.hpp
 	src/rendering/framebuffer.cpp
 	src/rendering/mesh.hpp

@@ -8,7 +8,7 @@ class IComponentArray
 {
 public:
     virtual ~IComponentArray() = default;
-    virtual void remove(Entity entity) = 0; // This should be the same for every ComponentArray
+    virtual void Remove(Entity entity) = 0; // This should be the same for every ComponentArray
 };
 
 
@@ -18,10 +18,28 @@ class ComponentArray : public IComponentArray
     std::unordered_map<Entity, T> components;
 
 public:
-    void insert(Entity entity, const T& component);
-    void remove(Entity entity) override;
-    bool has(Entity entity) const;
+    void Insert(Entity entity, const T& component)
+    {
+        this->components[entity] = component;
+    }
 
-    T& get(Entity entity);
-    const std::unordered_map<Entity, T>& getAll() const;
+    void Remove(Entity entity) override
+    {
+        this->components.erase(entity);
+    }
+
+    bool Has(Entity entity) const
+    {
+        return this->components.find(entity) != components.end();
+    }
+
+    T& Get(Entity entity)
+    {
+        return this->components.at(entity);
+    }
+
+    const std::unordered_map<Entity, T>& GetAll() const
+    {
+        return this->components;
+    }
 };

@@ -10,7 +10,7 @@ class Model
 public:
     Model(std::vector<Mesh> &meshes);
 
-    void Render(Shader &Shader);
+    void Render(Shader &Shader) const;
 
 private:
     std::vector<Mesh> m_meshes;

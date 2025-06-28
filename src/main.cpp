@@ -1,5 +1,3 @@
-#include <cstdio>
-
 #include "core/window.hpp"
 #include "editor/editor_ui.hpp"
 #include "loading/model_loader.hpp"
@@ -19,10 +17,3 @@ int main()
 
     return 0;
 }
-
-/*
-
-                          
-
-*/
-

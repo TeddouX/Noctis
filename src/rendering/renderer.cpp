@@ -1,23 +1,31 @@
 #include "renderer.hpp"
 
 
-void Renderer::RenderModel(float fov, float aspectRatio, float near, float far, Model &model)
+void Renderer::RenderModel(const Model &model, const TransformComponent &transform)
 {
-    glm::mat4 projectionMat = glm::perspective(glm::radians(fov), aspectRatio, near, far);
-    // Maybe pass this as an argument (easier)
-    glm::mat4 viewMat = glm::lookAt(glm::vec3(-3, 0, 0), glm::vec3(0), glm::vec3(0, 1, 0));
-
     if (!activeShader)
     {
         std::cout << "[ERROR]: Can't render a model without the current shader set." << std::endl;
         return;
     }
 
+    if (!activeCamera)
+    {
+        std::cout << "[ERROR]: Can't render a model without the current camera set." << std::endl;
+        return;
+    }
+
     // Set matrices
     Renderer::activeShader->Use();
-    Renderer::activeShader->SetMatrix("Projection", projectionMat);
-    Renderer::activeShader->SetMatrix("View", viewMat);
-    model.Render(*Renderer::activeShader); // Render the mesh
+    Renderer::activeShader->SetMatrix("Model", transform.GetModelMatrix());
+    Renderer::activeCamera->SetMatrices(*Renderer::activeShader);
+    model.Render(*Renderer::activeShader);
+}
+
+
+void Renderer::SetActiveCamera(std::shared_ptr<Camera> camera)
+{
+    Renderer::activeCamera = camera;
 }
 
 

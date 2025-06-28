@@ -65,7 +65,7 @@ void EditorUI::Render()
 
     this->DockDisplays();
 
-    // ImGui::ShowDemoWindow();
+    ImGui::ShowDemoWindow();
 
     // TESTING
     this->w.Render();

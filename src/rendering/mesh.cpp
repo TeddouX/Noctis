@@ -31,10 +31,8 @@ Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<GLuint> &indices, std::vec
 
 void Mesh::Render(Shader &shader)
 {
-    // TODO
+    // TODO:
     // this->m_texture.Bind();
-
-    shader.SetMatrix("Model", glm::mat4(1));
 
     glBindVertexArray(this->m_VAO);
     glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(this->m_indices.size()), GL_UNSIGNED_INT, 0);
