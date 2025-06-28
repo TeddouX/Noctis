@@ -2,8 +2,13 @@
 
 // ONLY FOR TESTING
 #include "../../rendering/model.hpp"
+#include "../../rendering/shader.hpp"
 #include "../../rendering/renderer.hpp"
 #include "../../loading/model_loader.hpp"
+#include "../../core/ecs/all_components.hpp"
+#include "../../core/ecs/component_manager.hpp"
+#include "../../core/ecs/component_array.hpp"
+#include "../../core/ecs/entity.hpp"
 
 
 // ONLY FOR TESTING
@@ -15,6 +20,12 @@ SceneDisplayWidget::SceneDisplayWidget()
     // ONLY FOR TESTING
     model = ModelLoader::LoadModel("./monkey.obj");
     shader = std::make_shared<Shader>("./src/rendering/shaders/default.vert", "./src/rendering/shaders/default.frag");
+
+    ComponentManager componentManager;
+    componentManager.registerComponent<ModelComponent>();
+
+    Entity monkey = Entity::create();
+    componentManager.addComponent(monkey, ModelComponent(model));
 }
 
 

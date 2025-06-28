@@ -48,7 +48,7 @@ add_executable(UnknownEngine
 	src/rendering/vertex.hpp	
 )
 
-target_include_directories(UnknownEngine PRIVATE Stb_INCLUDE_DIR)
+target_include_directories(UnknownEngine PRIVATE ${Stb_INCLUDE_DIR})
 
 target_link_libraries(UnknownEngine PRIVATE
 	assimp::assimp
