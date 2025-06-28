@@ -3,6 +3,8 @@
 
 Window::Window(int width, int height, const std::string &title)
 {
+    LOG_INFO("Creating window.");
+
     glfwSetErrorCallback(Window::GLFWErrorCallback);
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -17,15 +19,30 @@ Window::Window(int width, int height, const std::string &title)
         NULL
     );
 
+    if (this->m_glfwWindow == NULL)
+	{
+		LOG_ERR("Failed to create GLFW window. Exiting now...");
+		glfwTerminate();
+		exit(-1);
+	}
+
     glfwSetFramebufferSizeCallback(this->m_glfwWindow, Window::GLFWWindowResizeCallback);
     glfwMakeContextCurrent(this->m_glfwWindow);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
-		std::cerr << "Failed to initialize GLAD. Exiting now..." << std::endl;
+		LOG_ERR("Failed to initialize GLAD. Exiting now...");
 		exit(-1);
 	}
 
+}
+
+
+Window::~Window()
+{   
+    LOG_INFO("Destroying window.");
+
+	glfwTerminate();
 }
 
 
@@ -50,7 +67,7 @@ GLFWwindow* Window::GetWindow() const
 
 void Window::GLFWErrorCallback(int code, const char *desc)
 {
-    std::cerr << "[ERROR]: glfw error: " + std::string(desc) << std::endl;
+    LOG_ERR("glfw error: " + std::string(desc));
 }
 
 

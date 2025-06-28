@@ -14,7 +14,7 @@ class Manager
 public:
     Manager();
 
-    static Manager&  GetInstance();
+    static Manager&   GetInstance();
 
     RenderSystem&     GetRenderSystem();
     ComponentManager& GetComponentManager();

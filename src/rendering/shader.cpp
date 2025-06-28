@@ -6,7 +6,7 @@ static bool CheckUniform(int location, const std::string& uniformName)
 {
 	if (location == -1)
 	{
-		std::cerr << "Uniform " + uniformName + " couldn't be foud." << std::endl;
+		LOG_WARN("Uniform {} couldn't be foud.", uniformName);
         return false;
 	}
 
@@ -16,6 +16,8 @@ static bool CheckUniform(int location, const std::string& uniformName)
 
 Shader::Shader(const std::string &vertexPath, const std::string &fragmentPath)
 {
+	LOG_INFO("Loading shaders: {}, {}", vertexPath, fragmentPath);
+
 	std::string vertexString, fragmentString;
 	std::ifstream vertexFile, fragmentFile;
 
@@ -39,7 +41,7 @@ Shader::Shader(const std::string &vertexPath, const std::string &fragmentPath)
 	}
 	catch (const std::ios_base::failure& e) 
 	{
-		std::cerr << "Failed opening file:\n" << e.what() << std::endl;
+		LOG_ERR("Failed opening file: {}", e.what());
 		return;
 	}
 
@@ -59,7 +61,7 @@ Shader::Shader(const std::string &vertexPath, const std::string &fragmentPath)
 	{
 		glGetShaderInfoLog(vertexShader, 1024, NULL, infoLog);
 
-		std::cerr << "Vertex shader compilation failed:\n" << infoLog << std::endl;
+		LOG_ERR("Vertex shader compilation failed:\n{}", infoLog);
 	}
 
 
@@ -72,7 +74,7 @@ Shader::Shader(const std::string &vertexPath, const std::string &fragmentPath)
 	{
 		glGetShaderInfoLog(fragmentShader, 1024, NULL, infoLog);
 
-		std::cerr << "Fragment shader compilation failed:\n" << infoLog << std::endl;
+		LOG_ERR("Fragment shader compilation failed:\n{}", infoLog);
 	}
 
 
@@ -85,7 +87,7 @@ Shader::Shader(const std::string &vertexPath, const std::string &fragmentPath)
 	if (!success)
 	{
 		glGetProgramInfoLog(program, 1024, NULL, infoLog);
-		std::cout << "Shader program linking error:\n" << infoLog << std::endl;
+		LOG_ERR("Shader program linking error:\n{}", infoLog);
 	}
 
 	glDeleteShader(vertexShader);

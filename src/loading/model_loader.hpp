@@ -9,6 +9,7 @@
 #include "../rendering/vertex.hpp"
 #include "../rendering/texture.hpp"
 #include "../rendering/model.hpp"
+#include "../core/logger.hpp"
 
 
 class ModelLoader

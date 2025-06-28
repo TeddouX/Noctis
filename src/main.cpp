@@ -5,7 +5,7 @@
 
 int main() 
 {
-    Window window(800, 600, "COUCOU");
+    Window window(800, 600, "Unknown Engine");
     EditorUI ui(window, "#version 330 core");
 
     while (!window.ShouldClose())

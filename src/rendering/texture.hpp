@@ -3,6 +3,8 @@
 #include <glad/glad.h>
 #include <stb_image.h>
 
+#include "../core/logger.hpp"
+
 
 enum TextureType
 {

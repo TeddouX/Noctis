@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(UnknownEngine)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(assimp CONFIG REQUIRED)
@@ -16,6 +16,8 @@ add_definitions(-D GLM_ENABLE_EXPERIMENTAL)
 add_executable(UnknownEngine 
     src/main.cpp
 
+	src/core/logger.hpp
+	src/core/logger.cpp
 	src/core/manager.hpp
 	src/core/manager.cpp
 	src/core/window.hpp

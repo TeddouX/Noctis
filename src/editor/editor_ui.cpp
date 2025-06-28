@@ -7,6 +7,8 @@
 
 EditorUI::EditorUI(Window &window, const std::string &glslVers)
 {
+    LOG_INFO("Initializing editor UI.");
+
     GLFWwindow* glfwWindow = window.GetWindow();
     this->m_imGuiScale = 1;
 
@@ -65,7 +67,7 @@ void EditorUI::Render()
 
     this->DockDisplays();
 
-    ImGui::ShowDemoWindow();
+    // ImGui::ShowDemoWindow();
 
     // TESTING
     this->w.Render();
