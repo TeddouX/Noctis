@@ -17,6 +17,8 @@ void ConsoleWidget::Update()
 
 void ConsoleWidget::Render()
 {
+    // Remove padding inside the window
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
     ImGui::Begin(std::string(ConsoleWidget::name).c_str());
 
     if (ImGui::BeginTable("table_console_messages", 1, ImGuiTableFlags_Borders))
@@ -44,6 +46,7 @@ void ConsoleWidget::Render()
     }
 
     ImGui::End();
+    ImGui::PopStyleVar();
 }
 
 
@@ -51,9 +54,9 @@ ImU32 ConsoleWidget::ColorFromLogLevel(LogLevel level)
 {
     switch (level)
     {
-    case LogLevel::INFO: return IM_COL32(255, 255, 255, 255);
-    case LogLevel::WARN: return IM_COL32(193, 156, 0, 255);
-    case LogLevel::ERR:  return IM_COL32(231, 72, 86, 255);
+    case LogLevel::INFO: return COL_INFO;
+    case LogLevel::WARN: return COL_WARN;
+    case LogLevel::ERR:  return COL_ERR;
     default:             return 0;
     }
 }
