@@ -27,6 +27,13 @@ EditorUI::EditorUI(Window &window, const std::string &glslVers)
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     // Disable the imgui.ini file 
     io.IniFilename = NULL;
+
+    // Add all widgets
+    m_allWidgets.push_back(std::make_unique<ActorPropertiesWidget>());
+    m_allWidgets.push_back(std::make_unique<AssetExplorerWidget>());
+    m_allWidgets.push_back(std::make_unique<ConsoleWidget>());
+    m_allWidgets.push_back(std::make_unique<SceneDisplayWidget>());
+    m_allWidgets.push_back(std::make_unique<SceneTreeWidget>());
 }
 
 
@@ -44,14 +51,15 @@ void EditorUI::DockDisplays() const
         ImGui::DockBuilderAddNode(dockspaceID);
         ImGui::DockBuilderSetNodeSize(dockspaceID, ImGui::GetMainViewport()->Size);
 
-        ImGuiID centerID = dockspaceID;
+        ImGuiID centerID          = dockspaceID;
         ImGuiID actorPropertiesID = ImGui::DockBuilderSplitNode(centerID, ImGuiDir_Right, .25f, nullptr, &centerID);
-        ImGuiID assetExplorerID = ImGui::DockBuilderSplitNode(centerID, ImGuiDir_Down, .3f, nullptr, &centerID); 
-        ImGuiID sceneTreeID = ImGui::DockBuilderSplitNode(centerID, ImGuiDir_Left, .25f, nullptr, &centerID);
+        ImGuiID assetExplorerID   = ImGui::DockBuilderSplitNode(centerID, ImGuiDir_Down, .3f, nullptr, &centerID);
+        ImGuiID sceneTreeID       = ImGui::DockBuilderSplitNode(centerID, ImGuiDir_Left, .25f, nullptr, &centerID);
 
         ImGui::DockBuilderDockWindow(std::string(SceneDisplayWidget::name).c_str(), centerID);
         ImGui::DockBuilderDockWindow(std::string(ActorPropertiesWidget::name).c_str(), actorPropertiesID);
         ImGui::DockBuilderDockWindow(std::string(AssetExplorerWidget::name).c_str(), assetExplorerID);
+        ImGui::DockBuilderDockWindow(std::string(ConsoleWidget::name).c_str(), assetExplorerID);
         ImGui::DockBuilderDockWindow(std::string(SceneTreeWidget::name).c_str(), sceneTreeID);
 
         ImGui::DockBuilderFinish(dockspaceID);
@@ -67,13 +75,14 @@ void EditorUI::Render()
 
     this->DockDisplays();
 
-    // ImGui::ShowDemoWindow();
+    ImGui::ShowDemoWindow();
 
-    // TESTING
-    this->w.Render();
-    this->w2.Render();
-    this->w3.Render();
-    this->w4.Render();
+    // Update all widgets
+    for (std::unique_ptr<Widget> &widget : this->m_allWidgets)
+    {
+        widget->Update();
+        widget->Render();
+    }
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

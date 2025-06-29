@@ -34,7 +34,8 @@ void SceneDisplayWidget::Render()
         nullptr, 
         ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse
     );
-    ImVec2 windowSize{ ImGui::GetWindowSize() };
+    ImVec2 sceneDisplaySize(ImGui::GetWindowSize());
+    ImVec2 windowSize(ImGui::GetIO().DisplaySize);
 
     // TESTING
     ImGui::DragFloat("x", &COMPONENT_MANAGER().GetComponent<TransformComponent>(monkey).pos.x, 0.1f);
@@ -48,7 +49,13 @@ void SceneDisplayWidget::Render()
 
     // ONLY FOR TESTING
     Renderer::SetActiveShader(shader);
-    Renderer::SetActiveCamera(std::make_shared<Camera>(glm::vec3(-3, 0, 0), 60.0f, static_cast<float>(800/600), 0.01f, 1000.0f));
+    Renderer::SetActiveCamera(std::make_shared<Camera>(
+            glm::vec3(-3, 0, 0), 
+            60.0f, 
+            static_cast<float>(windowSize.x / windowSize.y), 
+            0.01f, 
+            1000.0f
+    ));
     RENDER_SYSTEM().Update(COMPONENT_MANAGER(), .0f);
 
     this->m_frameBuffer.Unbind();
@@ -61,9 +68,9 @@ void SceneDisplayWidget::Render()
     );
 
     // Resize frame buffer if needed
-    if (this->m_frameBuffer.width != static_cast<int>(windowSize.x ) 
-     || this->m_frameBuffer.height != static_cast<int>(windowSize.y))
-        this->m_frameBuffer.Resize(static_cast<int>(windowSize.x), static_cast<int>(windowSize.y));
+    if (this->m_frameBuffer.width != static_cast<int>(sceneDisplaySize.x) 
+     || this->m_frameBuffer.height != static_cast<int>(sceneDisplaySize.y))
+        this->m_frameBuffer.Resize(static_cast<int>(sceneDisplaySize.x), static_cast<int>(sceneDisplaySize.y));
 
  
     ImGui::End();

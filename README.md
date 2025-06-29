@@ -32,6 +32,7 @@ to build the CMake __cache__.
 
 And finally:
 ```cmd
+mkdir build
 cmake --build .\build\
 ```
 to __build__ the project. The *.exe* file can be found in `build/Debug/UnknownEngine.exe`.

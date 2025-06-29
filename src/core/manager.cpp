@@ -14,14 +14,3 @@ Manager& Manager::GetInstance()
     static Manager manager;
     return manager;
 }
-
-
-RenderSystem& Manager::GetRenderSystem()
-{
-    return this->m_renderSystem;
-}
-
-ComponentManager& Manager::GetComponentManager()
-{
-    return this->m_componentManager;
-}

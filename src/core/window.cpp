@@ -59,12 +59,6 @@ void Window::PostRender() const
 }
 
 
-GLFWwindow* Window::GetWindow() const
-{
-    return this->m_glfwWindow;
-}
-
-
 void Window::GLFWErrorCallback(int code, const char *desc)
 {
     LOG_ERR("glfw error: " + std::string(desc));

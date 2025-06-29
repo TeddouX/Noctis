@@ -8,6 +8,7 @@
 #include "widgets/scene_tree.hpp"
 #include "widgets/asset_explorer.hpp"
 #include "widgets/actor_properties.hpp"
+#include "widgets/console_widget.hpp"
 #include "../core/window.hpp"
 
 
@@ -22,9 +23,5 @@ public:
 private:
     float m_imGuiScale;
 
-    // ONLY FOR TESTING
-    SceneDisplayWidget w;
-    SceneTreeWidget w2;
-    AssetExplorerWidget w3;
-    ActorPropertiesWidget w4;
+    std::vector<std::unique_ptr<Widget>> m_allWidgets;
 };

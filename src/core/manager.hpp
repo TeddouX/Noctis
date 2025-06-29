@@ -16,8 +16,8 @@ public:
 
     static Manager&   GetInstance();
 
-    RenderSystem&     GetRenderSystem();
-    ComponentManager& GetComponentManager();
+    inline RenderSystem&     GetRenderSystem()     { return this->m_renderSystem;     };
+    inline ComponentManager& GetComponentManager() { return this->m_componentManager; };
 
 private:
     RenderSystem     m_renderSystem;

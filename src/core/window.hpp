@@ -16,7 +16,7 @@ public:
 
     void PostRender() const;
 
-    GLFWwindow* GetWindow() const;
+    inline GLFWwindow* GetWindow() const { return this->m_glfwWindow; };
 
 private:
     GLFWwindow* m_glfwWindow;
