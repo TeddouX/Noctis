@@ -26,7 +26,7 @@ public:
     void Bind() const;
 
 private:
-    GLuint m_id;
+    GLuint      m_id;
     TextureType m_type;
 
     int m_width, m_height; 

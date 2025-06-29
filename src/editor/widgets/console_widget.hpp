@@ -23,5 +23,5 @@ private:
     ImU32 ColorFromLogLevel(LogLevel level);
 
     std::vector<LogLine> m_logLineBuffer;
-    size_t m_lastFlushIdx;
+    size_t               m_lastFlushIdx;
 };

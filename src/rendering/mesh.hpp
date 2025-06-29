@@ -17,7 +17,7 @@ public:
 private:
     GLuint m_VAO, m_VBO, m_EBO;
 
-    std::vector<Vertex> m_vertices;
-    std::vector<GLuint> m_indices;
+    std::vector<Vertex>  m_vertices;
+    std::vector<GLuint>  m_indices;
     std::vector<Texture> m_textures;
 };

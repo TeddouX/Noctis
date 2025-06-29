@@ -11,7 +11,7 @@
 
 
 // ONLY FOR TESTING
-std::shared_ptr<Model> model;
+std::shared_ptr<Model>  model;
 std::shared_ptr<Shader> shader;
 Entity monkey = Entity::Create();
 

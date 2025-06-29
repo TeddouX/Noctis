@@ -4,16 +4,15 @@
 FrameBuffer::FrameBuffer(int width, int height)
     : m_texture(width, height)
 {
-    this->Init(width, height, true);
+    this->Init(width, height);
 }
 
 
-void FrameBuffer::Init(int width, int height, bool firstTime)
+void FrameBuffer::Init(int width, int height)
 {
     this->width = width;
     this->height = height;
-    if (!firstTime) // No need to reinitialize the texture
-        this->m_texture = Texture(width, height);
+    this->m_texture = Texture(width, height);
 
     glGenFramebuffers(1, &this->m_id);
     glBindFramebuffer(GL_FRAMEBUFFER, this->m_id);
@@ -46,7 +45,7 @@ void FrameBuffer::Unbind() const
 void FrameBuffer::Resize(int width, int height)
 {
     this->Delete();
-    this->Init(width, height, false);
+    this->Init(width, height);
 }
 
 

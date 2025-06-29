@@ -11,7 +11,7 @@
 #define LOG_INFO(x, ...) Logger::GetInstance().Info(x,  __VA_ARGS__)
 #define LOG_WARN(x, ...) Logger::GetInstance().Warn(x,  __VA_ARGS__)
 #define LOG_ERR(x, ...)  Logger::GetInstance().Error(x, __VA_ARGS__)
-#define LOG_LINES()       Logger::GetInstance().GetLogLines()
+#define LOG_LINES()      Logger::GetInstance().GetLogLines()
 
 // ANSI Escape color codes
 #define BLACK_FG          30
@@ -71,40 +71,13 @@ public:
     static Logger& GetInstance();
 
     template <class... Args>
-    void Info(std::string_view format, Args&&... args)
-    {
-        std::string formatted = std::vformat(format, std::make_format_args(args...));
-        std::string prefix = std::format("[{} INFO]: ", this->TimeString());
-        std::string finalMess = prefix + formatted;
-
-        m_lines.push_back(LogLine(LogLevel::INFO, finalMess));
-
-        std::cout << finalMess << std::endl;
-    }
+    void Info(std::string_view format, Args &&...args);
     
     template <class... Args>
-    void Warn(std::string_view format, Args&&... args)
-    {
-        std::string formatted = std::vformat(format, std::make_format_args(args...));
-        std::string prefix = std::format("[{} WARN]: ", this->TimeString());
-        std::string finalMess = prefix + formatted;
-
-        m_lines.push_back(LogLine(LogLevel::WARN, finalMess));
-
-        std::cout << this->FormatColor(finalMess, BRIGHT_YELLOW_FG) << std::endl;
-    }
+    void Warn(std::string_view format, Args &&...args);
 
     template <class... Args>
-    void Error(std::string_view format, Args&&... args)
-    {
-        std::string formatted = std::vformat(format, std::make_format_args(args...));
-        std::string prefix = std::format("[{} ERROR]: ", this->TimeString());
-        std::string finalMess = prefix + formatted;
-
-        m_lines.push_back(LogLine(LogLevel::ERR, finalMess));
-
-        std::cout << this->FormatColor(finalMess, BRIGHT_RED_FG) << std::endl;
-    }
+    void Error(std::string_view format, Args &&...args);
 
     inline const std::vector<LogLine> &GetLogLines() const { return this->m_lines; };
 
@@ -114,3 +87,5 @@ private:
 
     std::vector<LogLine> m_lines;
 };
+
+#include "logger.inl"

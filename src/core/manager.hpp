@@ -14,7 +14,7 @@ class Manager
 public:
     Manager();
 
-    static Manager&   GetInstance();
+    static Manager&          GetInstance();
 
     inline RenderSystem&     GetRenderSystem()     { return this->m_renderSystem;     };
     inline ComponentManager& GetComponentManager() { return this->m_componentManager; };

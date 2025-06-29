@@ -33,7 +33,7 @@ glm::mat4 Camera::GetProjectionMatrix() const
 }
 
 
-void Camera::SetMatrices(Shader& shader) const
+void Camera::SetShaderMatrices(Shader& shader) const
 {
 	shader.SetMatrix("View",       this->GetViewMatrix());
 	shader.SetMatrix("Projection", this->GetProjectionMatrix());

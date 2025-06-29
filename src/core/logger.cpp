@@ -1,5 +1,6 @@
 #include "logger.hpp"
 
+
 Logger& Logger::GetInstance()
 {
     static Logger logger;

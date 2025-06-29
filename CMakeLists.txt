@@ -17,6 +17,7 @@ add_executable(UnknownEngine
     src/main.cpp
 
 	src/core/logger.hpp
+	src/core/logger.inl
 	src/core/logger.cpp
 	src/core/manager.hpp
 	src/core/manager.cpp
@@ -44,7 +45,6 @@ add_executable(UnknownEngine
 	src/editor/widgets/scene_display.cpp
 	src/editor/widgets/scene_tree.hpp
 	src/editor/widgets/scene_tree.cpp
-
 
 	src/loading/model_loader.hpp
 	src/loading/model_loader.cpp

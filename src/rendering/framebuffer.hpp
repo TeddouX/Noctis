@@ -13,7 +13,7 @@ public:
 
     FrameBuffer(int width, int height);
     
-    void Init(int width, int height, bool firstTime);
+    void Init(int width, int height);
     void Delete();
 
     void Bind() const;
@@ -24,6 +24,6 @@ public:
     GLuint GetTextureID() const;
 
 private:
-    GLuint m_id;
+    GLuint  m_id;
     Texture m_texture;
 };

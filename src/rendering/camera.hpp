@@ -15,11 +15,11 @@ public:
     glm::vec3 GetForwardVec() const;
 	glm::mat4 GetViewMatrix() const;
 	glm::mat4 GetProjectionMatrix() const;
-    void SetMatrices(Shader& shader) const;
+    void      SetShaderMatrices(Shader& shader) const;
 
 private:
     float m_near, m_far;
 	float m_fov;
 	float m_aspectRatio;
-	float m_yaw = 0.0f, m_pitch = 0.0f;
+	float m_yaw = 0.f, m_pitch = 0.f;
 };

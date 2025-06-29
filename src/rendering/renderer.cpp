@@ -18,7 +18,7 @@ void Renderer::RenderModel(const Model &model, const TransformComponent &transfo
     // Set matrices
     Renderer::activeShader->Use();
     Renderer::activeShader->SetMatrix("Model", transform.GetModelMatrix());
-    Renderer::activeCamera->SetMatrices(*Renderer::activeShader);
+    Renderer::activeCamera->SetShaderMatrices(*Renderer::activeShader);
     model.Render(*Renderer::activeShader);
 }
 
