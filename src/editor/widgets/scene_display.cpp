@@ -44,23 +44,23 @@ void SceneDisplayWidget::Render()
     ImVec2 windowSize(ImGui::GetIO().DisplaySize);
 
     // TESTING
-    ImGui::DragFloat("x", &scene.GetComponentManager().GetComponent<TransformComponent>(monkey).pos.x, 0.1f);
-    ImGui::DragFloat("y", &scene.GetComponentManager().GetComponent<TransformComponent>(monkey).pos.y, 0.1f);
-    ImGui::DragFloat("z", &scene.GetComponentManager().GetComponent<TransformComponent>(monkey).pos.z, 0.1f);
+    ImGui::DragFloat("x", &scene.GetComponentManager().GetComponent<TransformComponent>(monkey).pos.x, .1f);
+    ImGui::DragFloat("y", &scene.GetComponentManager().GetComponent<TransformComponent>(monkey).pos.y, .1f);
+    ImGui::DragFloat("z", &scene.GetComponentManager().GetComponent<TransformComponent>(monkey).pos.z, .1f);
 
     this->m_frameBuffer.Bind();
 
-    glClearColor(0.09f, 0.09f, 0.09f, 1.0f);
+    glClearColor(.09f, .09f, .09f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // ONLY FOR TESTING
     Renderer::SetActiveShader(shader);
     Renderer::SetActiveCamera(std::make_shared<Camera>(
             glm::vec3(-3, 0, 0), 
-            60.0f, 
-            static_cast<float>(windowSize.x / windowSize.y), 
-            0.01f, 
-            1000.0f
+            60.f, 
+            (float)(windowSize.x / windowSize.y), 
+            .01f, 
+            1000.f
     ));
     scene.UpdateSystem<RenderSystem>(.0f);
 
@@ -68,15 +68,15 @@ void SceneDisplayWidget::Render()
 
     ImGui::Image(
         (ImTextureID)(intptr_t) this->m_frameBuffer.GetTextureID(), 
-        ImVec2{ static_cast<float>(this->m_frameBuffer.width), static_cast<float>(this->m_frameBuffer.height) },
-        ImVec2{ 0.f, 1.f },  
-        ImVec2{ 1.f, 0.f }
+        ImVec2((float)this->m_frameBuffer.width, (float)this->m_frameBuffer.height),
+        ImVec2(0.f, 1.f),  
+        ImVec2(1.f, 0.f)
     );
 
     // Resize frame buffer if needed
-    if (this->m_frameBuffer.width != static_cast<int>(sceneDisplaySize.x) 
-     || this->m_frameBuffer.height != static_cast<int>(sceneDisplaySize.y))
-        this->m_frameBuffer.Resize(static_cast<int>(sceneDisplaySize.x), static_cast<int>(sceneDisplaySize.y));
+    if (this->m_frameBuffer.width != (int)sceneDisplaySize.x 
+     || this->m_frameBuffer.height != (int)sceneDisplaySize.y)
+        this->m_frameBuffer.Resize((int)sceneDisplaySize.x, (int)sceneDisplaySize.y);
 
  
     ImGui::End();

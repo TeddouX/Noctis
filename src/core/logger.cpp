@@ -31,6 +31,35 @@ std::string Logger::FormatColor(const std::string &str, int color)
     return fmt::format("\033[{}m{}\033[0m", color, str);
 }
 
+
+std::string Logger::FormatLogggerMesssage(std::string &mess, LogLevel level)
+{
+    std::string prefix = fmt::format(
+        "[{} {}]: ", 
+        this->TimeString(), 
+        this->LogLevelToString(level)
+    ); 
+
+    std::string finalMess = prefix + mess;
+
+    this->m_lines.push_back(LogLine(level, finalMess));
+
+    return finalMess;
+}
+
+
+std::string Logger::LogLevelToString(LogLevel level)
+{
+    switch (level)
+    {
+        case INFO: return "INFO";
+        case WARN: return "WARN";
+        case ERR:  return "ERR";
+        default:   return "";
+    }
+}
+
+
 std::string Logger::TimeString()
 {
     chrono::system_clock::time_point now = chrono::system_clock::now();
