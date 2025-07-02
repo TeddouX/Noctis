@@ -11,8 +11,9 @@ struct ModelComponent
     std::shared_ptr<Model> model;
 };
 
-struct TransformComponent
+class TransformComponent
 {
+public:
     glm::vec3 pos;
     glm::vec3 rot;
     glm::vec3 scale;

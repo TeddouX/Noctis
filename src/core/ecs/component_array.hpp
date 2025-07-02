@@ -18,28 +18,15 @@ class ComponentArray : public IComponentArray
     std::unordered_map<Entity, T> components;
 
 public:
-    void Insert(Entity entity, const T& component)
-    {
-        this->components[entity] = component;
-    }
+    void Insert(Entity entity, const T& component);
 
-    void Remove(Entity entity) override
-    {
-        this->components.erase(entity);
-    }
+    void Remove(Entity entity) override;
 
-    bool Has(Entity entity) const
-    {
-        return this->components.find(entity) != components.end();
-    }
+    bool Has(Entity entity) const;
 
-    T& Get(Entity entity)
-    {
-        return this->components.at(entity);
-    }
+    T& Get(Entity entity);
 
-    const std::unordered_map<Entity, T>& GetAll() const
-    {
-        return this->components;
-    }
+    const std::unordered_map<Entity, T>& GetAll() const;
 };
+
+#include "component_array.inl"

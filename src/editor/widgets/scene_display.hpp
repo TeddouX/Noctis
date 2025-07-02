@@ -5,7 +5,7 @@
 #include "widget.hpp"
 
 
-class SceneDisplayWidget : public Widget
+class SceneDisplayWidget : public IWidget
 {
 public:
     static constexpr std::string_view name = "Scene";

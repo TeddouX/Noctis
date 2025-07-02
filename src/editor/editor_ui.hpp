@@ -23,5 +23,5 @@ public:
 private:
     float m_imGuiScale;
 
-    std::vector<std::unique_ptr<Widget>> m_allWidgets;
+    std::vector<std::unique_ptr<IWidget>> m_allWidgets;
 };

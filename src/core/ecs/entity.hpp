@@ -1,6 +1,5 @@
 #pragma once
-#include <memory>
-// #include "../manager.hpp"
+#include <stdint.h>
 
 #define MAX_ENTITIES UINT16_MAX
 
@@ -10,21 +9,20 @@ static std::uint32_t nextEntityId;
 
 class Entity
 {
-    std::uint32_t id;
+    uint32_t id;
 
 public:
     static Entity Create() { return Entity(nextEntityId++); }
-
-    std::uint32_t GetID() const { return id; }
+    
+    uint32_t GetID() const { return id; }
 
     bool operator==(const Entity& other) const { return id == other.id; }
     bool operator!=(const Entity& other) const { return id != other.id; }
 
-    operator std::uint32_t() const { return id; }    
+    operator uint32_t() const { return id; }    
 
 private:
-    explicit Entity(std::uint32_t id = 0) : id(id) {}
-    
+    explicit Entity(uint32_t id = 0) : id(id) {}
 };
 
 

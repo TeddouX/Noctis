@@ -3,7 +3,7 @@
 
 void ConsoleWidget::Update()
 {
-    std::vector<LogLine> logLines = LOG_LINES();
+    std::vector<LogLine> logLines = LOGGER().GetLogLines();
 
     this->m_logLineBuffer.clear();
     // Insert LogLines from the last flush index to the end

@@ -9,7 +9,7 @@
 #define COL_ERR  IM_COL32(237, 51,  35,  255)
 
 
-class ConsoleWidget : public Widget
+class ConsoleWidget : public IWidget
 {
 public:
     static constexpr std::string_view name = "Console";

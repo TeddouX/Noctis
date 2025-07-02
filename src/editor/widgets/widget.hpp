@@ -4,10 +4,10 @@
 #include <imgui.h>
 
 
-class Widget
+class IWidget
 {
 public:
-    Widget() = default;
+    IWidget() = default;
 
     virtual void Render() {};
     virtual void Update() {};

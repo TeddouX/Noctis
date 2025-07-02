@@ -7,12 +7,14 @@
 #include "../../loading/model_loader.hpp"
 #include "../../core/ecs/all_components.hpp"
 #include "../../core/ecs/entity.hpp"
-#include "../../core/manager.hpp"
+#include "../../core/scene/scene.hpp"
+#include "../../core/scene/scene_manager.hpp"
 
 
 // ONLY FOR TESTING
 std::shared_ptr<Model>  model;
 std::shared_ptr<Shader> shader;
+Scene scene("HelloWorld");
 Entity monkey = Entity::Create();
 
 SceneDisplayWidget::SceneDisplayWidget()
@@ -21,8 +23,12 @@ SceneDisplayWidget::SceneDisplayWidget()
     model = ModelLoader::LoadModel("C:\\Users\\victo\\Documents\\Programming\\Unknown Engine\\monkey.obj");
     shader = std::make_shared<Shader>("C:\\Users\\victo\\Documents\\Programming\\Unknown Engine\\src\\rendering\\shaders\\default.vert", "C:\\Users\\victo\\Documents\\Programming\\Unknown Engine\\src\\rendering\\shaders\\default.frag");
 
-    COMPONENT_MANAGER().AddComponent(monkey, TransformComponent(glm::vec3(-1, 0, 0), glm::vec3(0), glm::vec3(1)));
-    COMPONENT_MANAGER().AddComponent(monkey, ModelComponent(model));
+    SCENE_MANAGER().AddScene(scene);
+    SCENE_MANAGER().SetCurrScene(scene.GetName());
+
+    scene.AddEntity(monkey);
+    scene.GetComponentManager().AddComponent(monkey, TransformComponent(glm::vec3(-1, 0, 0), glm::vec3(0), glm::vec3(1)));
+    scene.GetComponentManager().AddComponent(monkey, ModelComponent(model));
 }
 
 
@@ -38,9 +44,9 @@ void SceneDisplayWidget::Render()
     ImVec2 windowSize(ImGui::GetIO().DisplaySize);
 
     // TESTING
-    ImGui::DragFloat("x", &COMPONENT_MANAGER().GetComponent<TransformComponent>(monkey).pos.x, 0.1f);
-    ImGui::DragFloat("y", &COMPONENT_MANAGER().GetComponent<TransformComponent>(monkey).pos.y, 0.1f);
-    ImGui::DragFloat("z", &COMPONENT_MANAGER().GetComponent<TransformComponent>(monkey).pos.z, 0.1f);
+    ImGui::DragFloat("x", &scene.GetComponentManager().GetComponent<TransformComponent>(monkey).pos.x, 0.1f);
+    ImGui::DragFloat("y", &scene.GetComponentManager().GetComponent<TransformComponent>(monkey).pos.y, 0.1f);
+    ImGui::DragFloat("z", &scene.GetComponentManager().GetComponent<TransformComponent>(monkey).pos.z, 0.1f);
 
     this->m_frameBuffer.Bind();
 
@@ -56,7 +62,7 @@ void SceneDisplayWidget::Render()
             0.01f, 
             1000.0f
     ));
-    RENDER_SYSTEM().Update(COMPONENT_MANAGER(), .0f);
+    scene.UpdateSystem<RenderSystem>(.0f);
 
     this->m_frameBuffer.Unbind();
 

@@ -4,14 +4,8 @@
 #include <string>
 #include <vector>
 #include <print>
-#include <format>
 #include <stdint.h>
-
-
-#define LOG_INFO(x, ...) Logger::GetInstance().Info(x,  __VA_ARGS__)
-#define LOG_WARN(x, ...) Logger::GetInstance().Warn(x,  __VA_ARGS__)
-#define LOG_ERR(x, ...)  Logger::GetInstance().Error(x, __VA_ARGS__)
-#define LOG_LINES()      Logger::GetInstance().GetLogLines()
+#include <fmt/format.h>
 
 // ANSI Escape color codes
 #define BLACK_FG          30
@@ -48,6 +42,17 @@
 #define BRIGHT_WHITE_BG   107
 
 
+#define __FILENAME__     strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__
+
+#define LOGGER()         Logger::GetInstance()
+#define LOG_INFO(x, ...) LOGGER().Info(x,  __VA_ARGS__)
+#define LOG_WARN(x, ...) LOGGER().Warn(x,  __VA_ARGS__)
+#define LOG_ERR(x, ...)  LOGGER().Error(x, __VA_ARGS__)
+#define LOG_TODO(x)      LOGGER().Todo(x, __FILENAME__, __LINE__)
+
+
+namespace chrono = std::chrono;
+
 
 enum LogLevel
 {
@@ -71,13 +76,19 @@ public:
     static Logger& GetInstance();
 
     template <class... Args>
-    void Info(std::string_view format, Args &&...args);
+    void Info(const std::string_view format, Args &&...args);
     
     template <class... Args>
-    void Warn(std::string_view format, Args &&...args);
+    void Warn(const std::string_view format, Args &&...args);
 
     template <class... Args>
-    void Error(std::string_view format, Args &&...args);
+    void Error(const std::string_view format, Args &&...args);
+
+    void Todo(
+        const std::string_view mess, 
+        const char *filename,
+        size_t lineNumber 
+    );
 
     inline const std::vector<LogLine> &GetLogLines() const { return this->m_lines; };
 

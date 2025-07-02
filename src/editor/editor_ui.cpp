@@ -75,10 +75,10 @@ void EditorUI::Render()
 
     this->DockDisplays();
 
-    ImGui::ShowDemoWindow();
+    // ImGui::ShowDemoWindow();
 
     // Update all widgets
-    for (std::unique_ptr<Widget> &widget : this->m_allWidgets)
+    for (std::unique_ptr<IWidget> &widget : this->m_allWidgets)
     {
         widget->Update();
         widget->Render();

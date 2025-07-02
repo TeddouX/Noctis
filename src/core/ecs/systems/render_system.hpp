@@ -6,7 +6,7 @@
 #include "../../../rendering/renderer.hpp"
 
 
-class RenderSystem : public System 
+class RenderSystem : public ISystem 
 {
 public:
     void Update(const ComponentManager &cm, float dt) const override;

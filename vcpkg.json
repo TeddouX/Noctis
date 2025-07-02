@@ -12,6 +12,8 @@
       ]
     },
     "stb",
-    "glad"
+    "glad",
+    "nlohmann-json",
+    "fmt"
   ]
 }

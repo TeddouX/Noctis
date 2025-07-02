@@ -1,65 +1,40 @@
 #pragma once
 #include <unordered_map>
+#include <memory>
 #include <typeindex>
 #include <stdexcept>
 
 #include "entity.hpp"
 #include "component_array.hpp"
+#include "../logger.hpp"
 
 
 class ComponentManager 
 {
-    std::unordered_map<std::type_index, std::unique_ptr<IComponentArray>> componentArrays;
+    std::unordered_map<std::type_index, std::shared_ptr<IComponentArray>> m_componentArrays;
 
 public:
     template <typename T> 
-    void AddComponent(Entity entity, const T& component)
-    {
-        this->GetComponentArray<T>().Insert(entity, component);
-    }
+    void AddComponent(Entity entity, const T& component);
 
     template <typename T> 
-    void RemoveComponent(Entity entity)
-    {
-        this->GetComponentArray<T>().Remove(entity);
-    }
-
+    void RemoveComponent(Entity entity);
+    
     template <typename T> 
-    bool HasComponent(Entity entity) const
-    {
-        const ComponentArray<T>& array = this->GetComponentArray<T>();
-        return array.Has(entity);
-    }
+    bool HasComponent(Entity entity) const;
 
     template <typename T> T&   
-    GetComponent(Entity entity) const
-    {
-        return this->GetComponentArray<T>().Get(entity);
-    }
+    GetComponent(Entity entity) const;
 
     template <typename T> 
-    const std::unordered_map<Entity, T>& GetAllComponents() const
-    {
-        return this->GetComponentArray<T>().GetAll();
-    }
+    const std::unordered_map<Entity, T>& GetAllComponents() const;
 
     template <typename T> 
-    void RegisterComponent()
-    {
-        componentArrays.emplace(typeid(T), std::make_unique<ComponentArray<T>>());
-    }
+    void RegisterComponent();
 
 private:
     template <typename T>
-    ComponentArray<T>& GetComponentArray() const
-    {
-        std::type_index type = std::type_index(typeid(T));
-        auto it = this->componentArrays.find(type);
-        
-        if (it == this->componentArrays.end()) {
-            throw std::runtime_error("Component not registered.");
-        }
-
-        return *static_cast<ComponentArray<T>*>(it->second.get());
-    }
+    ComponentArray<T>& GetComponentArray() const;
 };
+
+#include "component_manager.inl"
