@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <unordered_map>
 
 #include "entity.hpp"
@@ -15,18 +16,18 @@ public:
 template <typename T>
 class ComponentArray : public IComponentArray 
 {
-    std::unordered_map<Entity, T> components;
+    std::unordered_map<Entity, std::shared_ptr<T>> components;
 
 public:
-    void Insert(Entity entity, const T& component);
+    void Insert(Entity entity, std::shared_ptr<T> component);
 
     void Remove(Entity entity) override;
 
     bool Has(Entity entity) const;
 
-    T& Get(Entity entity);
+    std::shared_ptr<T> Get(Entity entity);
 
-    const std::unordered_map<Entity, T>& GetAll() const;
+    const std::unordered_map<Entity, std::shared_ptr<T>> &GetAll() const;
 };
 
 #include "component_array.inl"

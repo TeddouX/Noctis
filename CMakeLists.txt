@@ -23,12 +23,15 @@ add_executable(UnknownEngine
 	src/core/scene/scene.hpp
 	src/core/scene/scene.inl
 	src/core/scene/scene_manager.hpp
-	src/core/ecs/all_components.hpp
 	src/core/ecs/component_array.hpp
 	src/core/ecs/component_array.inl
 	src/core/ecs/component_manager.hpp
 	src/core/ecs/component_manager.inl
 	src/core/ecs/entity.hpp
+	src/core/ecs/components/all_components.hpp
+	src/core/ecs/components/actor.hpp
+	src/core/ecs/components/model_component.hpp
+	src/core/ecs/components/transform.hpp
 	src/core/ecs/systems/render_system.hpp
 	src/core/ecs/systems/system.hpp
 	src/core/ecs/systems/systems_manager.hpp
@@ -38,7 +41,7 @@ add_executable(UnknownEngine
 	src/editor/widgets/widget.hpp
 	src/editor/widgets/actor_properties.hpp
 	src/editor/widgets/asset_explorer.hpp
-	src/editor/widgets/console_widget.hpp
+	src/editor/widgets/console.hpp
 	src/editor/widgets/scene_display.hpp
 	src/editor/widgets/scene_tree.hpp
 
@@ -63,13 +66,15 @@ target_sources(UnknownEngine PRIVATE
 	src/core/window.cpp
 	src/core/scene/scene.cpp
 	src/core/scene/scene_manager.cpp
+	src/core/ecs/components/actor.cpp
+	src/core/ecs/components/transform.cpp
 	src/core/ecs/systems/render_system.cpp
 	src/core/ecs/systems/systems_manager.cpp
 
     src/editor/editor_ui.cpp
 	src/editor/widgets/actor_properties.cpp
 	src/editor/widgets/asset_explorer.cpp
-	src/editor/widgets/console_widget.cpp
+	src/editor/widgets/console.cpp
 	src/editor/widgets/scene_display.cpp
 	src/editor/widgets/scene_tree.cpp
 

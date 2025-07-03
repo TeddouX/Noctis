@@ -1,8 +1,4 @@
-#include <iostream>
-#include <imgui_internal.h>
-
 #include "editor_ui.hpp"
-#include "../core/window.hpp"
 
 
 EditorUI::EditorUI(Window &window, const std::string &glslVers)
@@ -75,7 +71,7 @@ void EditorUI::Render()
 
     this->DockDisplays();
 
-    // ImGui::ShowDemoWindow();
+    ImGui::ShowDemoWindow();
 
     // Update all widgets
     for (std::unique_ptr<IWidget> &widget : this->m_allWidgets)

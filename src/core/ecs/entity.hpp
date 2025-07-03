@@ -4,7 +4,7 @@
 #define MAX_ENTITIES UINT16_MAX
 
 
-static std::uint32_t nextEntityId;
+static uint32_t nextEntityId;
 
 
 class Entity

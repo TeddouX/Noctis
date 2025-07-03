@@ -1,7 +1,7 @@
 #include "renderer.hpp"
 
 
-void Renderer::RenderModel(const Model &model, const TransformComponent &transform)
+void Renderer::RenderModel(const Model &model, const Transform &transform)
 {
     if (!activeShader)
     {

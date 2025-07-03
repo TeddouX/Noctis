@@ -11,7 +11,7 @@
 #include "../logger.hpp"
 #include "../ecs/entity.hpp"
 #include "../ecs/component_manager.hpp"
-#include "../ecs/all_components.hpp"
+#include "../ecs/components/all_components.hpp"
 #include "../ecs/systems/systems_manager.hpp"
 #include "../ecs/systems/render_system.hpp"
 
@@ -27,6 +27,8 @@ public:
 
     inline void  AddEntity(Entity &entity) { this->m_sceneEntities.push_back(entity); }
     void         RemoveEntity(Entity entity);
+
+    inline const std::vector<Entity> GetAllEntities() const { return this->m_sceneEntities; }
 
     inline std::string GetName() const { return this->m_name; };
 
@@ -46,8 +48,6 @@ private:
     SystemsManager      m_systemsManager;
     
     std::string         m_name;
-
-    Scene LoadFromJSON(const std::string &path);
 };
 
 #include "scene.inl"

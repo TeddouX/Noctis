@@ -5,7 +5,8 @@ Scene::Scene(const std::string &name)
     : m_name(name)
 {
     // Register all components
-    this->m_componentManager.RegisterComponent<TransformComponent>();
+    this->m_componentManager.RegisterComponent<Actor>();
+    this->m_componentManager.RegisterComponent<Transform>();
     this->m_componentManager.RegisterComponent<ModelComponent>();
 
     // Register all systems

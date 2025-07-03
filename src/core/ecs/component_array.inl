@@ -2,9 +2,9 @@
 
 
 template <typename T>
-void ComponentArray<T>::Insert(Entity entity, const T& component)
+void ComponentArray<T>::Insert(Entity entity, std::shared_ptr<T> component)
 {
-    this->components[entity] = component;
+    this->components.emplace(entity, component);
 }
 
 
@@ -23,14 +23,14 @@ bool ComponentArray<T>::Has(Entity entity) const
 
 
 template <typename T>
-T& ComponentArray<T>::Get(Entity entity)
+std::shared_ptr<T> ComponentArray<T>::Get(Entity entity)
 {
     return this->components.at(entity);
 }
 
 
 template <typename T>
-const std::unordered_map<Entity, T>& ComponentArray<T>::GetAll() const
+const std::unordered_map<Entity, std::shared_ptr<T>> &ComponentArray<T>::GetAll() const
 {
     return this->components;
 }

@@ -12,6 +12,8 @@ Project::Project(const std::string &rootDir)
 
 void Project::Init(const std::string &rootDir)
 {
+    LOG_INFO("Initializing project: {}", rootDir);
+
     if (m_instance)
     {
         LOG_ERR("Project instance already initialized.");

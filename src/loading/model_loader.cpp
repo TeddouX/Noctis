@@ -3,7 +3,7 @@
 
 std::shared_ptr<Model> ModelLoader::LoadModel(const std::string &path)
 {
-    LOG_INFO("Loading model {}", path);
+    LOG_INFO("Loading model: {}", path);
 
     // Import .obj file
     Assimp::Importer importer;

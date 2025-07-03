@@ -3,12 +3,13 @@
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
+#include <imgui_internal.h>
 
 #include "widgets/scene_display.hpp"
 #include "widgets/scene_tree.hpp"
 #include "widgets/asset_explorer.hpp"
 #include "widgets/actor_properties.hpp"
-#include "widgets/console_widget.hpp"
+#include "widgets/console.hpp"
 #include "../core/window.hpp"
 
 

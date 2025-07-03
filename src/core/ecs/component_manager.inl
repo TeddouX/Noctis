@@ -2,7 +2,7 @@
 
 
 template <typename T> 
-void ComponentManager::AddComponent(Entity entity, const T& component)
+void ComponentManager::AddComponent(Entity entity, std::shared_ptr<T> component)
 {
     this->GetComponentArray<T>().Insert(entity, component);
 }
@@ -23,15 +23,15 @@ bool ComponentManager::HasComponent(Entity entity) const
 }
 
 
-template <typename T> T&   
-ComponentManager::GetComponent(Entity entity) const
+template <typename T> 
+std::shared_ptr<T> ComponentManager::GetComponent(Entity entity) const
 {
     return this->GetComponentArray<T>().Get(entity);
 }
 
 
 template <typename T> 
-const std::unordered_map<Entity, T>& ComponentManager::GetAllComponents() const
+const std::unordered_map<Entity, std::shared_ptr<T>> &ComponentManager::GetAllComponents() const
 {
     return this->GetComponentArray<T>().GetAll();
 }
@@ -45,7 +45,7 @@ void ComponentManager::RegisterComponent()
 
 
 template <typename T>
-ComponentArray<T>& ComponentManager::GetComponentArray() const
+ComponentArray<T> &ComponentManager::GetComponentArray() const
 {
     std::type_index type = std::type_index(typeid(T));
     auto it = this->m_componentArrays.find(type);
