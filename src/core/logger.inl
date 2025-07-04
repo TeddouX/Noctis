@@ -1,7 +1,7 @@
 #include "logger.hpp"
 
 
-template <class... Args>
+template <typename... Args>
 void Logger::Info(const std::string_view format, Args &&...args)
 {
     std::string formatted = fmt::vformat(format, fmt::make_format_args(args...));
@@ -12,7 +12,7 @@ void Logger::Info(const std::string_view format, Args &&...args)
 }
 
 
-template <class... Args>
+template <typename... Args>
 void Logger::Warn(const std::string_view format, Args &&...args)
 {
     std::string formatted = fmt::vformat(format, fmt::make_format_args(args...));
@@ -23,7 +23,7 @@ void Logger::Warn(const std::string_view format, Args &&...args)
 }
 
 
-template <class... Args>
+template <typename... Args>
 void Logger::Error(const std::string_view format, Args &&...args)
 {
     std::string formatted = fmt::vformat(format, fmt::make_format_args(args...));

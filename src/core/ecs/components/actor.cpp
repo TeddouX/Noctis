@@ -1,10 +1,7 @@
 #include "actor.hpp"
 
 
-Actor::Actor(const std::string &name, std::shared_ptr<Actor> parent)
-    : name(name), m_parent(parent)
+Actor::Actor(const std::string &name)
+    : m_name(name)
 {
-    // Add this actor to the list of children of its parent
-    if (parent)
-        parent->AddChild(this);
 }

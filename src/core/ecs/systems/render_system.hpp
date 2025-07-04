@@ -10,11 +10,13 @@
 #include "../../../rendering/shader.hpp"
 
 
+// This system renders object to the screen
 class RenderSystem : public ISystem 
 {
 public:
     void Update(const ComponentManager &cm, float dt) const override;
 
+    // Set the camera used for drawing
     void SetCamera(Camera *camera);
 
 private:

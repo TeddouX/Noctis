@@ -12,19 +12,21 @@ void SceneTreeWidget::Render()
     {
         for (const Entity &entity : currScene->GetAllEntities())
         {
-            Actor actor = *cm.GetComponent<Actor>(entity);
+            Transform &transform = *cm.GetComponent<Transform>(entity);
 
-            if (actor.IsChild()) continue;
+            if (transform.IsChild()) 
+                continue;
 
-            if (!actor.HasChildren())
+            if (!transform.HasChildren())
             {
-                ImGui::Text(actor.name.c_str()); 
+                ImGui::Text(transform.GetActor()->GetName().c_str()); 
                 continue;
             }
 
-            if (ImGui::TreeNode(actor.name.c_str()))
+            auto a = transform.GetActor()->GetName().c_str();
+            if (ImGui::TreeNodeEx(transform.GetActor()->GetName().c_str(), ImGuiTreeNodeFlags_DefaultOpen))
             {
-                this->IterateActorChildren(actor);
+                this->IterateActorChildren(transform);
                 ImGui::TreePop();
             } 
         }   
@@ -34,19 +36,20 @@ void SceneTreeWidget::Render()
 }
 
 
-void SceneTreeWidget::IterateActorChildren(const Actor &actor)
+void SceneTreeWidget::IterateActorChildren(const Transform &transform)
 {
-    for (Actor *childActor : actor.GetChildren())
+    for (Transform *childTransform : transform.GetChildren())
     {
-        if (!childActor->HasChildren())
+        if (!childTransform->HasChildren())
         {
-            ImGui::Text(childActor->name.c_str()); 
+            ImGui::Text(childTransform->GetActor()->GetName().c_str()); 
             continue;
         }
 
-        if (ImGui::TreeNode(childActor->name.c_str()))
+
+        if (ImGui::TreeNode(childTransform->GetActor()->GetName().c_str()))
         {
-            this->IterateActorChildren(*childActor);
+            this->IterateActorChildren(*childTransform);
             ImGui::TreePop();
         }
     }

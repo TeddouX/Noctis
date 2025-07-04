@@ -4,7 +4,7 @@
 template <typename T, typename... Args>
 T &SystemsManager::RegisterSystem(Args &&...args)
 {
-    std::shared_ptr<T> system = std::make_shared<T>(args...);
+    std::shared_ptr<T> system = std::make_shared<T>(std::forward<Args>(args)...);
     T& ref = *system;
     
     m_systems.push_back(std::move(system));

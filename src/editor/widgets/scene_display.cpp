@@ -26,15 +26,18 @@ SceneDisplayWidget::SceneDisplayWidget()
     SCENE_MANAGER().SetCurrScene(scene.GetName());
 
     ComponentManager &cm = scene.GetComponentManager();
+
     std::shared_ptr<Actor> monkeyActor = std::make_shared<Actor>("Monkey Boss");
+    std::shared_ptr<Transform> monkeyTransform = std::make_shared<Transform>(glm::vec3(-1, 0, 0), glm::vec3(0), glm::vec3(1), monkeyActor);
+    cm.AddComponent(monkey, monkeyTransform);
     cm.AddComponent(monkey, monkeyActor);
     cm.AddComponent(monkey, std::make_shared<Material>("default", shader));
-    cm.AddComponent(monkey, std::make_shared<Transform>(glm::vec3(-1, 0, 0), glm::vec3(0), glm::vec3(1)));
     cm.AddComponent(monkey, std::make_shared<ModelComponent>(model));
 
-    cm.AddComponent(monkey2, std::make_shared<Actor>("Monkey Farmer", monkeyActor));
+    std::shared_ptr<Actor> monkey2Actor = std::make_shared<Actor>("Monkey Farmer");
+    cm.AddComponent(monkey2, monkey2Actor);
     cm.AddComponent(monkey2, std::make_shared<Material>("default", shader));
-    cm.AddComponent(monkey2, std::make_shared<Transform>(glm::vec3(-1, 0, 0), glm::vec3(0), glm::vec3(1)));
+    cm.AddComponent(monkey2, std::make_shared<Transform>(glm::vec3(0, 0, -2), glm::vec3(0), glm::vec3(0), monkey2Actor, monkeyTransform));
     cm.AddComponent(monkey2, std::make_shared<ModelComponent>(model));
 
     SCENE_MANAGER().GetCurrScene()->AddEntity(monkey2);
@@ -58,10 +61,10 @@ void SceneDisplayWidget::Render()
     {
         // TESTING
         ComponentManager &cm = scene.GetComponentManager();
-        ImGui::DragFloat("x", &cm.GetComponent<Transform>(monkey)->pos.x, .1f);
-        ImGui::DragFloat("y", &cm.GetComponent<Transform>(monkey)->pos.y, .1f);
-        ImGui::DragFloat("z", &cm.GetComponent<Transform>(monkey)->pos.z, .1f);
-        ImGui::InputText("name", (char*)cm.GetComponent<Actor>(monkey)->name.c_str(), 256);
+        ImGui::DragFloat("x", &cm.GetComponent<Transform>(monkey)->GetPos().x, .1f);
+        ImGui::DragFloat("y", &cm.GetComponent<Transform>(monkey)->GetPos().y, .1f);
+        ImGui::DragFloat("z", &cm.GetComponent<Transform>(monkey)->GetPos().z, .1f);
+        ImGui::InputText("name", (char*)cm.GetComponent<Actor>(monkey)->GetName().c_str(), 256);
 
         // Resize camera view size if needed
         if (this->m_camera.GetSize().x != sceneDisplaySize.x || this->m_camera.GetSize().y != sceneDisplaySize.y)

@@ -11,5 +11,5 @@ public:
     void Render() override;
 
 private:
-    void IterateActorChildren(const Actor &actor);
+    void IterateActorChildren(const Transform &transform);
 };

@@ -75,13 +75,13 @@ class Logger
 public:
     static Logger& GetInstance();
 
-    template <class... Args>
+    template <typename... Args>
     void Info(const std::string_view format, Args &&...args);
     
-    template <class... Args>
+    template <typename... Args>
     void Warn(const std::string_view format, Args &&...args);
 
-    template <class... Args>
+    template <typename... Args>
     void Error(const std::string_view format, Args &&...args);
 
     void Todo(

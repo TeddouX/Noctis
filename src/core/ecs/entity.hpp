@@ -7,6 +7,7 @@
 static uint32_t nextEntityId;
 
 
+// Basically an ID
 class Entity
 {
     uint32_t id;
