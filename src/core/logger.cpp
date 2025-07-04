@@ -32,7 +32,7 @@ std::string Logger::FormatColor(const std::string &str, int color)
 }
 
 
-std::string Logger::FormatLogggerMesssage(std::string &mess, LogLevel level)
+std::string Logger::FormatLoggerMesssage(std::string &mess, LogLevel level)
 {
     std::string prefix = fmt::format(
         "[{} {}]: ", 

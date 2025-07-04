@@ -94,7 +94,7 @@ public:
 
 private:
     std::string FormatColor(const std::string &str, int color);
-    std::string FormatLogggerMesssage(std::string &mess, LogLevel level);
+    std::string FormatLoggerMesssage(std::string &mess, LogLevel level);
     std::string LogLevelToString(LogLevel level);
     std::string TimeString();
 
