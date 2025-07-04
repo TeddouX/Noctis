@@ -1,8 +1,8 @@
 #pragma once
 #include "system.hpp"
-#include "../components/model_component.hpp"
-#include "../components/transform.hpp"
-#include "../components/material.hpp"
+#include "../component/model_component.hpp"
+#include "../component/transform.hpp"
+#include "../component/material.hpp"
 #include "../component_manager.hpp"
 #include "../entity.hpp"
 #include "../../../rendering/camera.hpp"

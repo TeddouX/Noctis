@@ -4,7 +4,7 @@
 #include "../../rendering/model.hpp"
 #include "../../rendering/shader.hpp"
 #include "../../core/ecs/entity.hpp"
-#include "../../core/ecs/components/all_components.hpp"
+#include "../../core/ecs/component/all_components.hpp"
 #include "../../core/scene/scene.hpp"
 #include "../../core/scene/scene_manager.hpp"
 

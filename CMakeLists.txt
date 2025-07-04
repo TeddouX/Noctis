@@ -28,23 +28,25 @@ add_executable(UnknownEngine
 	src/core/ecs/component_manager.hpp
 	src/core/ecs/component_manager.inl
 	src/core/ecs/entity.hpp
-	src/core/ecs/components/actor.hpp
-	src/core/ecs/components/all_components.hpp
-	src/core/ecs/components/material.hpp
-	src/core/ecs/components/model_component.hpp
-	src/core/ecs/components/transform.hpp
-	src/core/ecs/systems/render_system.hpp
-	src/core/ecs/systems/system.hpp
-	src/core/ecs/systems/systems_manager.hpp
-	src/core/ecs/systems/systems_manager.inl
+	src/core/ecs/component/actor.hpp
+	src/core/ecs/component/all_components.hpp
+	src/core/ecs/component/material.hpp
+	src/core/ecs/component/model_component.hpp
+	#src/core/ecs/component/property.hpp
+	#src/core/ecs/component/property.inl
+	src/core/ecs/component/transform.hpp
+	src/core/ecs/system/render_system.hpp
+	src/core/ecs/system/system.hpp
+	src/core/ecs/system/systems_manager.hpp
+	src/core/ecs/system/systems_manager.inl
 
     src/editor/editor_ui.hpp
-	src/editor/widgets/widget.hpp
-	src/editor/widgets/actor_properties.hpp
-	src/editor/widgets/asset_explorer.hpp
-	src/editor/widgets/console.hpp
-	src/editor/widgets/scene_display.hpp
-	src/editor/widgets/scene_tree.hpp
+	src/editor/widget/widget.hpp
+	src/editor/widget/actor_properties.hpp
+	src/editor/widget/asset_explorer.hpp
+	src/editor/widget/console.hpp
+	src/editor/widget/scene_display.hpp
+	src/editor/widget/scene_tree.hpp
 	
 	src/rendering/camera.hpp
 	src/rendering/framebuffer.hpp
@@ -64,17 +66,17 @@ target_sources(UnknownEngine PRIVATE
 	src/core/window.cpp
 	src/core/scene/scene.cpp
 	src/core/scene/scene_manager.cpp
-	src/core/ecs/components/actor.cpp
-	src/core/ecs/components/transform.cpp
-	src/core/ecs/systems/render_system.cpp
-	src/core/ecs/systems/systems_manager.cpp
+	src/core/ecs/component/actor.cpp
+	src/core/ecs/component/transform.cpp
+	src/core/ecs/system/render_system.cpp
+	src/core/ecs/system/systems_manager.cpp
 
     src/editor/editor_ui.cpp
-	src/editor/widgets/actor_properties.cpp
-	src/editor/widgets/asset_explorer.cpp
-	src/editor/widgets/console.cpp
-	src/editor/widgets/scene_display.cpp
-	src/editor/widgets/scene_tree.cpp
+	src/editor/widget/actor_properties.cpp
+	src/editor/widget/asset_explorer.cpp
+	src/editor/widget/console.cpp
+	src/editor/widget/scene_display.cpp
+	src/editor/widget/scene_tree.cpp
 
 	src/rendering/camera.cpp
 	src/rendering/framebuffer.cpp

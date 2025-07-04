@@ -11,9 +11,9 @@
 #include "../logger.hpp"
 #include "../ecs/entity.hpp"
 #include "../ecs/component_manager.hpp"
-#include "../ecs/components/all_components.hpp"
-#include "../ecs/systems/systems_manager.hpp"
-#include "../ecs/systems/render_system.hpp"
+#include "../ecs/component/all_components.hpp"
+#include "../ecs/system/systems_manager.hpp"
+#include "../ecs/system/render_system.hpp"
 
 
 namespace fs = std::filesystem;

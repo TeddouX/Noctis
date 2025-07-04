@@ -5,11 +5,11 @@
 #include <imgui_impl_opengl3.h>
 #include <imgui_internal.h>
 
-#include "widgets/scene_display.hpp"
-#include "widgets/scene_tree.hpp"
-#include "widgets/asset_explorer.hpp"
-#include "widgets/actor_properties.hpp"
-#include "widgets/console.hpp"
+#include "widget/scene_display.hpp"
+#include "widget/scene_tree.hpp"
+#include "widget/asset_explorer.hpp"
+#include "widget/actor_properties.hpp"
+#include "widget/console.hpp"
 #include "../core/window.hpp"
 
 
