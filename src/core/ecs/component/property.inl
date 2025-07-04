@@ -1,19 +1,20 @@
 #include "property.hpp"
 
-template <typename T, typename C>
-Property<T, C>::Property(const std::string &name, T C::*member)
-        : m_name(name), m_member(member) 
-{
-}
-
 
 template <typename T, typename C>
-std::any Property<T, C>::GetProperty(void *C_instance) const
+std::any MemberProperty<T, C>::GetValue(void *C_instance) const
 {
     C* obj = static_cast<C*>(C_instance);
     return std::ref(obj->*m_member);
 }
 
+
+template <typename T, typename C>
+std::any GetterProperty<T, C>::GetValue(void *C_instance) const
+{
+    C* obj = static_cast<C*>(C_instance);
+    return std::ref((obj->*m_getter)());
+}
 
 
 template <typename C>

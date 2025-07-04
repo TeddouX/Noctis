@@ -4,11 +4,14 @@
 #include <glm/gtx/quaternion.hpp>
 
 #include "actor.hpp"
+#include "property.hpp"
 
 
 class Transform
 {
 public:
+    ENABLE_REFLECTION(Transform)
+
     // A transform represent's a entity's location in the world, it has to exist on every entity.
     Transform(glm::vec3 pos, glm::vec3 rot, glm::vec3 scale, std::shared_ptr<Actor> actor, std::shared_ptr<Transform> parent = nullptr);
 
@@ -21,10 +24,13 @@ public:
 
     // Returns a reference to this transform's position, not relative to its parent 
     inline glm::vec3 &GetPos() { return this->m_pos; }
+    PROPERTY_GETTER(GetPos)
     // Returns a reference to this transform's rotation, not relative to its parent 
     inline glm::vec3 &GetRot() { return this->m_rot; }
+    PROPERTY_GETTER(GetRot)
     // Returns a reference to this transform's scale, not relative to its parent 
     inline glm::vec3 &GetScale() { return this->m_scale; }
+    PROPERTY_GETTER(GetScale)
 
     // Returns the transform's model martrix, calculated from its position, scale and rotation
     glm::mat4 GetModelMatrix() const;

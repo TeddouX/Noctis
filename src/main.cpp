@@ -1,4 +1,3 @@
-#if 0
 #include <filesystem>
 
 #include "core/window.hpp"
@@ -28,17 +27,34 @@ int main()
 
     return 0;
 }
-#endif
 
+#if 0
 #include <iostream>
 #include "core/ecs/component/property.hpp"
+#include "core/logger.hpp"
 
 
 class A
 {
 public:
+
     ENABLE_REFLECTION(A)
+
+    inline int &GetHealth() { return this->m_health; }
+    PROPERTY_GETTER(GetHealth)
+
+    inline const int GetTest() const { return this->test; }
+
+private:
     PROPERTY_D(int, test, 1000)
+    int m_health = 10;
+};
+
+
+struct B
+{
+    ENABLE_REFLECTION(B)
+    PROPERTY_D(int, a, 100)
 };
 
 
@@ -46,16 +62,17 @@ int main()
 {
     A testClass;
 
-    for (auto prop : testClass.GetProperties())
+    for (IProperty *property : testClass.GetProperties())
     {
-        std::any property = prop->GetProperty(&testClass);
-        if (property.type() == typeid(std::reference_wrapper<int>))
+        std::any value = property->GetValue(&testClass);
+        if (value.type() == typeid(std::reference_wrapper<int>))
         {
-            int &i = std::any_cast<std::reference_wrapper<int>>(property);
+            int &i = std::any_cast<std::reference_wrapper<int>>(value);
             i++;
-            std::cout << testClass.test << std::endl;
+            LOG_INFO("{} = {}", property->GetName(), testClass.GetTest());
         }
     }
 
     return 0;
 }
+#endif
