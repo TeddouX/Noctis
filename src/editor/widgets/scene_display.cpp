@@ -3,7 +3,6 @@
 // ONLY FOR TESTING
 #include "../../rendering/model.hpp"
 #include "../../rendering/shader.hpp"
-#include "../../loading/model_loader.hpp"
 #include "../../core/ecs/entity.hpp"
 #include "../../core/ecs/components/all_components.hpp"
 #include "../../core/scene/scene.hpp"
@@ -20,7 +19,7 @@ Entity monkey2 = Entity::Create();
 SceneDisplayWidget::SceneDisplayWidget()
 {
     // ONLY FOR TESTING
-    model  = ModelLoader::LoadModel("C:\\Users\\victo\\Documents\\Programming\\Unknown Engine\\monkey.obj");
+    model  = std::make_shared<Model>("./monkey.obj");
     shader = std::make_shared<Shader>("C:\\Users\\victo\\Documents\\Programming\\Unknown Engine\\src\\rendering\\shaders\\default.vert", "C:\\Users\\victo\\Documents\\Programming\\Unknown Engine\\src\\rendering\\shaders\\default.frag");
 
     SCENE_MANAGER().AddScene(scene);

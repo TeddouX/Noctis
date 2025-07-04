@@ -45,8 +45,6 @@ add_executable(UnknownEngine
 	src/editor/widgets/console.hpp
 	src/editor/widgets/scene_display.hpp
 	src/editor/widgets/scene_tree.hpp
-
-	src/loading/model_loader.hpp
 	
 	src/rendering/camera.hpp
 	src/rendering/framebuffer.hpp
@@ -77,8 +75,6 @@ target_sources(UnknownEngine PRIVATE
 	src/editor/widgets/console.cpp
 	src/editor/widgets/scene_display.cpp
 	src/editor/widgets/scene_tree.cpp
-
-	src/loading/model_loader.cpp
 
 	src/rendering/camera.cpp
 	src/rendering/framebuffer.cpp

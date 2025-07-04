@@ -3,7 +3,6 @@
 #include "core/window.hpp"
 #include "core/project.hpp"
 #include "editor/editor_ui.hpp"
-#include "loading/model_loader.hpp"
 
 
 int main() 
