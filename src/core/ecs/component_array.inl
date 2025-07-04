@@ -25,7 +25,10 @@ bool ComponentArray<T>::Has(Entity entity) const
 template <typename T>
 std::shared_ptr<T> ComponentArray<T>::Get(Entity entity)
 {
-    return this->components.at(entity);
+    if (auto search = this->components.find(entity); search != this->components.end()) 
+        return search->second;
+    else 
+        return nullptr;
 }
 
 

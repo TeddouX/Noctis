@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "../../rendering/framebuffer.hpp"
+#include "../../rendering/camera.hpp"
 #include "widget.hpp"
 
 
@@ -15,5 +16,6 @@ public:
     void Render() override;
 
 private:
-    FrameBuffer m_frameBuffer = FrameBuffer(0, 0);
+    Camera      m_camera = Camera(glm::vec3(-3, 0, 0), glm::vec2(0, 0), 60.f, .01f, 1000.f);
+    FrameBuffer m_frameBuffer;
 };

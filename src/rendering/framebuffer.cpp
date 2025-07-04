@@ -1,18 +1,24 @@
 #include "framebuffer.hpp"
 
 
-FrameBuffer::FrameBuffer(int width, int height)
-    : m_texture(width, height)
+FrameBuffer::FrameBuffer()
+    : m_texture(0, 0)
 {
-    this->Init(width, height);
+    this->Init(glm::ivec2(0));
 }
 
 
-void FrameBuffer::Init(int width, int height)
+FrameBuffer::FrameBuffer(glm::ivec2 size)
+    : m_texture(size.x, size.y)
 {
-    this->width = width;
-    this->height = height;
-    this->m_texture = Texture(width, height);
+    this->Init(size);
+}
+
+
+void FrameBuffer::Init(glm::ivec2 size)
+{
+    this->m_size = size;
+    this->m_texture = Texture(size.x, size.y);
 
     glGenFramebuffers(1, &this->m_id);
     glBindFramebuffer(GL_FRAMEBUFFER, this->m_id);
@@ -42,10 +48,10 @@ void FrameBuffer::Unbind() const
 }
 
 
-void FrameBuffer::Resize(int width, int height)
+void FrameBuffer::Resize(glm::ivec2 size)
 {
     this->Delete();
-    this->Init(width, height);
+    this->Init(size);
 }
 
 

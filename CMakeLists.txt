@@ -28,8 +28,9 @@ add_executable(UnknownEngine
 	src/core/ecs/component_manager.hpp
 	src/core/ecs/component_manager.inl
 	src/core/ecs/entity.hpp
-	src/core/ecs/components/all_components.hpp
 	src/core/ecs/components/actor.hpp
+	src/core/ecs/components/all_components.hpp
+	src/core/ecs/components/material.hpp
 	src/core/ecs/components/model_component.hpp
 	src/core/ecs/components/transform.hpp
 	src/core/ecs/systems/render_system.hpp
@@ -51,7 +52,6 @@ add_executable(UnknownEngine
 	src/rendering/framebuffer.hpp
 	src/rendering/mesh.hpp
 	src/rendering/model.hpp
-	src/rendering/renderer.hpp
 	src/rendering/shader.hpp
 	src/rendering/texture.hpp
 	src/rendering/vertex.hpp	
@@ -84,7 +84,6 @@ target_sources(UnknownEngine PRIVATE
 	src/rendering/framebuffer.cpp
 	src/rendering/mesh.cpp
 	src/rendering/model.cpp
-	src/rendering/renderer.cpp
 	src/rendering/shader.cpp
 	src/rendering/texture.cpp
 )

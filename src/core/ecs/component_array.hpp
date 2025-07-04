@@ -3,6 +3,7 @@
 #include <unordered_map>
 
 #include "entity.hpp"
+#include "../logger.hpp"
 
 
 class IComponentArray 

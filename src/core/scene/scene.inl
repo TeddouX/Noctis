@@ -9,3 +9,9 @@ void Scene::UpdateSystem(float dt)
         dt
     );
 }
+
+template <typename T>
+T *Scene::GetSystem()
+{
+    return this->m_systemsManager.GetSystem<T>();
+}

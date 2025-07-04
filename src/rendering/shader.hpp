@@ -16,7 +16,6 @@ static bool CheckUniform(int location, const std::string &uniformName);
 
 class Shader
 {
-
 public:
 	Shader(const std::string &vertexPath, const std::string &fragmentPath);
 	~Shader();

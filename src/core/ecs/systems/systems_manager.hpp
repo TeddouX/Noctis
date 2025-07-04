@@ -14,7 +14,10 @@ class SystemsManager
 
 public:
     template<typename T, typename... Args>
-    T& RegisterSystem(Args &&...args);
+    T &RegisterSystem(Args &&...args);
+    
+    template<typename T>
+    T *GetSystem();
 
     void UpdateAll(ComponentManager cm, float dt);
 

@@ -39,6 +39,9 @@ public:
     template <typename T>
     void UpdateSystem(float dt);
 
+    template <typename T>
+    T   *GetSystem();
+
     void Load();
     void Unload();
 
