@@ -33,7 +33,7 @@ void SceneManager::SetCurrScene(const std::string &name)
         this->GetCurrScene()->Load();
     }
     else
-        LOG_ERR("Scene {} doesn't exist.", name);
+        LOG_ERR("Scene {} doesn't exist.", name)
 }
 
 
@@ -41,7 +41,7 @@ Scene *SceneManager::GetCurrScene()
 {
     if (this->m_currScene.empty())
     {
-        LOG_ERR("The current scene hasn't been set.");
+        LOG_ERR("The current scene hasn't been set.")
         
         return nullptr;
     }

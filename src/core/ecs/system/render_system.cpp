@@ -5,12 +5,12 @@ void RenderSystem::Update(const ComponentManager &cm, float dt) const
 {
     if (!this->m_camera)
     {
-        LOG_ERR("The render system has no camera assigned.");
+        LOG_ERR("The render system has no camera assigned.")
         return;
     }
 
     const std::unordered_map<Entity, std::shared_ptr<Transform>> &transforms 
-        = cm.GetAllComponents<Transform>();
+        = cm.GetEntities<Transform>();
 
     for (auto &[entity, transform] : transforms) {
         if (cm.HasComponent<ModelComponent>(entity)) {
@@ -27,16 +27,16 @@ void RenderSystem::Update(const ComponentManager &cm, float dt) const
             // No material is a problem
             if (!material)
             {
-                LOG_ERR("Entity({}) has no material assigned, so it can't be rendered.", entity.GetID());
+                LOG_ERR("Entity({}) has no material assigned, so it can't be rendered.", entity.GetID())
                 continue;
             }
 
-            std::shared_ptr<Shader> shader = material->shader;
+            std::shared_ptr<Shader> shader = material->GetShader();
 
             // Just a sanity check at this point
             if (!shader)
             {
-                LOG_ERR("Material {} has no shader assigned, so it can't be rendered.", material->name);
+                LOG_ERR("Material {} has no shader assigned, so it can't be rendered.", material->GetName())
                 continue;
             }
 
@@ -44,7 +44,7 @@ void RenderSystem::Update(const ComponentManager &cm, float dt) const
             shader->Use();
             shader->SetMatrix("Model", transform->GetModelMatrix());
             this->m_camera->SetShaderMatrices(*shader);
-            modelComponent->model->Render(*shader);
+            modelComponent->GetModel()->Render(*shader);
         }
     }
 }

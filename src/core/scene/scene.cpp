@@ -48,7 +48,7 @@ void Scene::Load()
             "The JSON file ({}) for scene {} doesn't exist. Creating one now...", 
             jsonPath, 
             this->m_name
-        );
+        )
         // Empty for now
         json j({});
         std::string jsonStr = j.dump();
@@ -63,12 +63,12 @@ void Scene::Load()
         return;
     }
 
-    LOG_TODO("Continue Scene::Load() implementation.");
+    LOG_TODO("Continue Scene::Load() implementation.")
     // LOG_INFO("Loaded scene {}.", this->m_name);
 }
 
 
 void Scene::Unload()
 {
-    LOG_TODO("Scene::Unload() implementation.");
+    LOG_TODO("Scene::Unload() implementation.")
 }

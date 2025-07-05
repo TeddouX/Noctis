@@ -45,10 +45,10 @@
 #define __FILENAME__     strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__
 
 #define LOGGER()         Logger::GetInstance()
-#define LOG_INFO(x, ...) LOGGER().Info(x,  __VA_ARGS__)
-#define LOG_WARN(x, ...) LOGGER().Warn(x,  __VA_ARGS__)
-#define LOG_ERR(x, ...)  LOGGER().Error(x, __VA_ARGS__)
-#define LOG_TODO(x)      LOGGER().Todo(x, __FILENAME__, __LINE__)
+#define LOG_INFO(x, ...) LOGGER().Info(x,  __VA_ARGS__);
+#define LOG_WARN(x, ...) LOGGER().Warn(x,  __VA_ARGS__);
+#define LOG_ERR(x, ...)  LOGGER().Error(x, __VA_ARGS__);
+#define LOG_TODO(x)      LOGGER().Todo(x, __FILENAME__, __LINE__);
 
 
 namespace chrono = std::chrono;

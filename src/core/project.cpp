@@ -12,11 +12,11 @@ Project::Project(const std::string &rootDir)
 
 void Project::Init(const std::string &rootDir)
 {
-    LOG_INFO("Initializing project: {}", rootDir);
+    LOG_INFO("Initializing project: {}", rootDir)
 
     if (m_instance)
     {
-        LOG_ERR("Project instance already initialized.");
+        LOG_ERR("Project instance already initialized.")
         return;
     }
 
@@ -31,7 +31,7 @@ Project *Project::GetInstance()
 {
     if (!m_instance)
     {
-        LOG_ERR("Project instance not initialized.");
+        LOG_ERR("Project instance not initialized.")
         return nullptr;
     }
 

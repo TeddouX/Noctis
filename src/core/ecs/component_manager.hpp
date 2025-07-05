@@ -27,7 +27,9 @@ public:
     std::shared_ptr<T> GetComponent(Entity entity) const;
 
     template <typename T> 
-    const std::unordered_map<Entity, std::shared_ptr<T>> &GetAllComponents() const;
+    const std::unordered_map<Entity, std::shared_ptr<T>> &GetEntities() const;
+
+    const std::vector<std::shared_ptr<IComponent>> GetAllComponents(Entity entity) const;
 
     template <typename T> 
     void RegisterComponent();

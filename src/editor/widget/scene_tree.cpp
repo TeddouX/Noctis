@@ -6,10 +6,11 @@ void SceneTreeWidget::Render()
     ImGui::Begin(std::string(SceneTreeWidget::name).c_str());
 
     Scene *currScene = SCENE_MANAGER().GetCurrScene();
-    ComponentManager &cm = currScene->GetComponentManager();
 
     if (currScene)
     {
+        ComponentManager &cm = currScene->GetComponentManager();
+        
         for (const Entity &entity : currScene->GetAllEntities())
         {
             Transform &transform = *cm.GetComponent<Transform>(entity);

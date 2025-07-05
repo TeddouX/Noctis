@@ -3,7 +3,7 @@
 
 Window::Window(int width, int height, const std::string &title)
 {
-    LOG_INFO("Creating window.");
+    LOG_INFO("Creating window.")
 
     glfwSetErrorCallback(Window::GLFWErrorCallback);
     glfwInit();
@@ -21,7 +21,7 @@ Window::Window(int width, int height, const std::string &title)
 
     if (this->m_glfwWindow == NULL)
 	{
-		LOG_ERR("Failed to create GLFW window. Exiting now...");
+		LOG_ERR("Failed to create GLFW window. Exiting now...")
 		glfwTerminate();
 		exit(-1);
 	}
@@ -31,7 +31,7 @@ Window::Window(int width, int height, const std::string &title)
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
-		LOG_ERR("Failed to initialize GLAD. Exiting now...");
+		LOG_ERR("Failed to initialize GLAD. Exiting now...")
 		exit(-1);
 	}
 
@@ -40,7 +40,7 @@ Window::Window(int width, int height, const std::string &title)
 
 Window::~Window()
 {   
-    LOG_INFO("Destroying window.");
+    LOG_INFO("Destroying window.")
 
 	glfwTerminate();
 }
@@ -61,7 +61,7 @@ void Window::PostRender() const
 
 void Window::GLFWErrorCallback(int code, const char *desc)
 {
-    LOG_ERR("glfw error: " + std::string(desc));
+    LOG_ERR("glfw error: " + std::string(desc))
 }
 
 

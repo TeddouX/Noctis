@@ -66,6 +66,7 @@ target_sources(UnknownEngine PRIVATE
 	src/core/window.cpp
 	src/core/scene/scene.cpp
 	src/core/scene/scene_manager.cpp
+	src/core/ecs/component_manager.cpp
 	src/core/ecs/component/actor.cpp
 	src/core/ecs/component/transform.cpp
 	src/core/ecs/system/render_system.cpp

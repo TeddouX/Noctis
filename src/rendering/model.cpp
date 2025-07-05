@@ -3,7 +3,7 @@
 
 Model::Model(const std::string &path)
 {
-    LOG_INFO("Loading model: {}", path);
+    LOG_INFO("Loading model: {}", path)
 
     // Import .obj file
     Assimp::Importer importer;
@@ -11,7 +11,7 @@ Model::Model(const std::string &path)
 
     if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) 
     {
-        LOG_ERR("Couldn't load model: {}", importer.GetErrorString());
+        LOG_ERR("Couldn't load model: {}", importer.GetErrorString())
         return;
     }
 

@@ -18,7 +18,7 @@ Texture::Texture(int width, int height)
 Texture::Texture(const std::string &path, TextureType type)
     : m_type(type)
 {
-	LOG_INFO("Loading texture: {}", path);
+	LOG_INFO("Loading texture: {}", path)
 
     glGenTextures(1, &this->m_id);
 	glBindTexture(GL_TEXTURE_2D, this->m_id);
@@ -38,7 +38,7 @@ Texture::Texture(const std::string &path, TextureType type)
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else
-		LOG_ERR("Failed to load image: {}", path);
+		LOG_ERR("Failed to load image: {}", path)
 	
 
 	stbi_image_free(imageData);

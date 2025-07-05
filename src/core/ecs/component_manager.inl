@@ -31,7 +31,7 @@ std::shared_ptr<T> ComponentManager::GetComponent(Entity entity) const
 
 
 template <typename T> 
-const std::unordered_map<Entity, std::shared_ptr<T>> &ComponentManager::GetAllComponents() const
+const std::unordered_map<Entity, std::shared_ptr<T>> &ComponentManager::GetEntities() const
 {
     return this->GetComponentArray<T>().GetAll();
 }
@@ -51,7 +51,7 @@ ComponentArray<T> &ComponentManager::GetComponentArray() const
     auto it = this->m_componentArrays.find(type);
     
     if (it == this->m_componentArrays.end()) {
-        LOG_ERR("Component \"{}\" not registered.", typeid(T).name());
+        LOG_ERR("Component \"{}\" not registered.", typeid(T).name())
         exit(1);
     }
 

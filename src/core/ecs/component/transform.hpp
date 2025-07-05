@@ -3,11 +3,11 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 
+#include "component.hpp"
 #include "actor.hpp"
-#include "property.hpp"
 
 
-class Transform
+class Transform : public IComponent
 {
 public:
     ENABLE_REFLECTION(Transform)
@@ -15,20 +15,20 @@ public:
     // A transform represent's a entity's location in the world, it has to exist on every entity.
     Transform(glm::vec3 pos, glm::vec3 rot, glm::vec3 scale, std::shared_ptr<Actor> actor, std::shared_ptr<Transform> parent = nullptr);
 
-    // Returns the position relative to this transform's parent
-    const glm::vec3 GetRelativePos() const;
-    // Returns the rotation relative to this transform's parent
-    const glm::vec3 GetRelativeRot() const;
-    // Returns the scale relative to this transform's parent
-    const glm::vec3 GetRelativeScale() const;
+    // Returns the position, not relative to this transform's parent
+    const glm::vec3 GetWorldPos() const;
+    // Returns the rotation, not relative to this transform's parent
+    const glm::vec3 GetWorldRot() const;
+    // Returns the scale, not  relative to this transform's parent
+    const glm::vec3 GetWorldScale() const;
 
-    // Returns a reference to this transform's position, not relative to its parent 
+    // Returns a reference to this transform's position, relative to its parent 
     inline glm::vec3 &GetPos() { return this->m_pos; }
     PROPERTY_GETTER(GetPos)
-    // Returns a reference to this transform's rotation, not relative to its parent 
+    // Returns a reference to this transform's rotation, relative to its parent 
     inline glm::vec3 &GetRot() { return this->m_rot; }
     PROPERTY_GETTER(GetRot)
-    // Returns a reference to this transform's scale, not relative to its parent 
+    // Returns a reference to this transform's scale, relative to its parent 
     inline glm::vec3 &GetScale() { return this->m_scale; }
     PROPERTY_GETTER(GetScale)
 
