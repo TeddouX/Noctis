@@ -18,14 +18,18 @@ void SceneTreeWidget::Render()
             if (transform.IsChild()) 
                 continue;
 
+            std::string name = transform.GetActor()->GetName();
+            if (name.empty())
+                name = "Default Actor";
+
             if (!transform.HasChildren())
             {
-                ImGui::Text(transform.GetActor()->GetName().c_str()); 
+                ImGui::Text(name.c_str()); 
                 continue;
             }
 
-            auto a = transform.GetActor()->GetName().c_str();
-            if (ImGui::TreeNodeEx(transform.GetActor()->GetName().c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+            
+            if (ImGui::TreeNodeEx(name.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
             {
                 this->IterateActorChildren(transform);
                 ImGui::TreePop();

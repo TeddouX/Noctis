@@ -16,6 +16,7 @@ find_package(fmt CONFIG REQUIRED)
 add_definitions(-D GLM_ENABLE_EXPERIMENTAL)
 
 add_executable(UnknownEngine 
+	src/core/imgui_utils.hpp
 	src/core/logger.hpp
 	src/core/logger.inl
 	src/core/project.hpp
@@ -32,8 +33,8 @@ add_executable(UnknownEngine
 	src/core/ecs/component/all_components.hpp
 	src/core/ecs/component/material.hpp
 	src/core/ecs/component/model_component.hpp
-	#src/core/ecs/component/property.hpp
-	#src/core/ecs/component/property.inl
+	src/core/ecs/component/property.hpp
+	src/core/ecs/component/property.inl
 	src/core/ecs/component/transform.hpp
 	src/core/ecs/system/render_system.hpp
 	src/core/ecs/system/system.hpp
@@ -60,6 +61,7 @@ add_executable(UnknownEngine
 target_sources(UnknownEngine PRIVATE
     src/main.cpp
 
+	src/core/imgui_utils.cpp
 	src/core/logger.cpp
 	src/core/project.cpp
 	src/core/stb_image_impl.c

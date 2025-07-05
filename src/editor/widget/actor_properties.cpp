@@ -25,14 +25,40 @@ void ActorPropertiesWidget::Render()
 
 void ActorPropertiesWidget::ProcessProperty(IProperty *property, IComponent *component)
 {
-    const type_info &valueTy = property->GetValue(component).type();
+    std::any value = property->GetValue(component);
 
-    if (valueTy == typeid(std::reference_wrapper<int>))              // int 
-        1;
-    else if (valueTy == typeid(std::reference_wrapper<float>))       // float
-        1;
-    else if (valueTy == typeid(std::reference_wrapper<std::string>)) // string
-        1;
-    else if (valueTy == typeid(std::reference_wrapper<glm::vec3>))   // vector 3
+    if (value.type() == typeid(std::reference_wrapper<int>))              // int 
+    {
+        ImGui::InlinedLabel(property->GetName().c_str());
+
+        int &i = std::any_cast<std::reference_wrapper<int>>(value);
+        ImGui::DragInt(GenImGuiID("int_input", property, component).c_str(), &i);
+    }
+    else if (value.type() == typeid(std::reference_wrapper<float>))       // float
+    {
+        ImGui::InlinedLabel(property->GetName().c_str());
+
+        float &f = std::any_cast<std::reference_wrapper<float>>(value);
+        ImGui::DragFloat(GenImGuiID("float_input", property, component).c_str(), &f, .1f);
+    }
+    else if (value.type() == typeid(std::reference_wrapper<std::string>)) // string
+    {
+        ImGui::InlinedLabel(property->GetName().c_str());
+
+        std::string &s = std::any_cast<std::reference_wrapper<std::string>>(value);
+        ImGui::ResizableInputText(GenImGuiID("string_input", property, component).c_str(), s);
+    }
+    else if (value.type() == typeid(std::reference_wrapper<glm::vec3>))   // vector 3
         1;
 }   
+
+
+std::string ActorPropertiesWidget::GenImGuiID(std::string prefix, IProperty *property, IComponent *component)
+{
+    return fmt::format(
+        "##{}_{}_{}",
+        prefix,
+        component->_GetComponentName(),
+        property->GetName()
+    );;
+}

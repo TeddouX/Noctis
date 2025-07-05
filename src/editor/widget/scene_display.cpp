@@ -31,6 +31,7 @@ SceneDisplayWidget::SceneDisplayWidget()
     std::shared_ptr<Transform> monkeyTransform = std::make_shared<Transform>(glm::vec3(-1, 0, 0), glm::vec3(0), glm::vec3(1), monkeyActor);
     cm.AddComponent(monkey, monkeyTransform);
     cm.AddComponent(monkey, monkeyActor);
+    cm.AddComponent(monkey, std::make_shared<TestComponent>());
     cm.AddComponent(monkey, std::make_shared<Material>("default", shader));
     cm.AddComponent(monkey, std::make_shared<ModelComponent>(model));
 
