@@ -42,7 +42,7 @@ void InlinedLabel(const char* text)
 {
     ImGui::Text(text);
     ImGui::SameLine();
-    ImGui::SetCursorPosX(64.f);
+    ImGui::SetCursorPosX(ImGui::CalcTextSize(text).x + 48.f);
 }
 
 } // namespace ImGui

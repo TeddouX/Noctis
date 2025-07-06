@@ -5,8 +5,10 @@
 #include <memory>
 #include <any>
 #include <unordered_map>
+#include <regex>
 
 
+// This variable is used to define if a class is reflected or not
 #define REFLECTED_VARIABLE _reflected
 
 // Mandatory for the use of `PROPERTY` or `PROPERTY_D`
@@ -55,6 +57,24 @@
 #define PROPERTY_GETTER(NAME) inline static const bool _registered_##NAME = _MyClass::_RegisterGetterHelper(#NAME, &_MyClass::NAME);
 
 
+// Example: IsItABanana -> Is It A Banana
+static std::string SplitStringAtCapital(std::string &str)
+{
+    std::string output;
+
+    for (char ch : str)
+    {
+        // The char is an uppercase letter and its not the first char of the string
+        if (isupper(ch) && str[0] != ch)
+            output += std::string(" ") + ch;
+        else
+            output += ch;
+    }
+
+    return output;
+}
+
+
 // Fallback if the _Class::_reflected doesn't exist
 template <typename _Class, typename _Type = bool>
 struct IsReflected : std::false_type {};
@@ -70,6 +90,7 @@ class IProperty
 public:
 
     virtual const std::string &GetName() const = 0;
+    virtual std::string GetBeautifiedName() const = 0;
     virtual std::any GetValue(void *instance) const = 0;
 };
 
@@ -85,6 +106,7 @@ public:
         : m_name(name), m_member(member) {};
 
     inline const std::string &GetName() const override { return this->m_name; }
+    std::string GetBeautifiedName() const override;
 
     std::any GetValue(void *C_instance) const override;
 
@@ -104,6 +126,7 @@ public:
         : m_name(name), m_getter(getter) {};
 
     inline const std::string &GetName() const override { return this->m_name; }
+    std::string GetBeautifiedName() const override;
     
     std::any GetValue(void *C_instance) const override;
 

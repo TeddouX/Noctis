@@ -23,11 +23,11 @@ public:
     const glm::vec3 GetWorldScale() const;
 
     // Returns a reference to this transform's position, relative to its parent 
-    inline glm::vec3 &GetPos() { return this->m_pos; }
-    PROPERTY_GETTER(GetPos)
+    inline glm::vec3 &GetPosition() { return this->m_pos; }
+    PROPERTY_GETTER(GetPosition)
     // Returns a reference to this transform's rotation, relative to its parent 
-    inline glm::vec3 &GetRot() { return this->m_rot; }
-    PROPERTY_GETTER(GetRot)
+    inline glm::vec3 &GetRotation() { return this->m_rot; }
+    PROPERTY_GETTER(GetRotation)
     // Returns a reference to this transform's scale, relative to its parent 
     inline glm::vec3 &GetScale() { return this->m_scale; }
     PROPERTY_GETTER(GetScale)

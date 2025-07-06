@@ -19,6 +19,7 @@ private:
     int id = 0;
     Entity *m_selectedEntity = (Entity *)&id;
 
-    void ProcessProperty(IProperty *property, IComponent *component);
+    static void ActorComponent(IComponent *component);
+    static void ProcessProperty(IProperty *property, IComponent *component);
     static std::string GenImGuiID(std::string prefix, IProperty *property, IComponent *component);
 };

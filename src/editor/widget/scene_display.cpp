@@ -60,15 +60,8 @@ void SceneDisplayWidget::Render()
     // If the window is not minimized
     if (!(windowSize.x == 0 || windowSize.y == 0))
     {
-        // TESTING
-        ComponentManager &cm = scene.GetComponentManager();
-        ImGui::DragFloat("x", &cm.GetComponent<Transform>(monkey)->GetPos().x, .1f);
-        ImGui::DragFloat("y", &cm.GetComponent<Transform>(monkey)->GetPos().y, .1f);
-        ImGui::DragFloat("z", &cm.GetComponent<Transform>(monkey)->GetPos().z, .1f);
-        ImGui::InputText("name", (char*)cm.GetComponent<Actor>(monkey)->GetName().c_str(), 256);
-
         // Resize camera view size if needed
-        if (this->m_camera.GetSize().x != sceneDisplaySize.x || this->m_camera.GetSize().y != sceneDisplaySize.y)
+        if (this->m_camera.GetSize().x != windowSize.x || this->m_camera.GetSize().y != windowSize.y)
             this->m_camera.Resize(glm::vec2(
                 windowSize.x, 
                 windowSize.y
@@ -92,10 +85,10 @@ void SceneDisplayWidget::Render()
         );
 
         // Resize frame buffer if needed
-        if (this->m_frameBuffer.GetSize().x != sceneDisplaySize.x || this->m_frameBuffer.GetSize().y != sceneDisplaySize.y)
+        if (this->m_frameBuffer.GetSize().x != windowSize.x || this->m_frameBuffer.GetSize().y != windowSize.y)
             this->m_frameBuffer.Resize(glm::ivec2(
-                (int)sceneDisplaySize.x, 
-                (int)sceneDisplaySize.y
+                (int)windowSize.x, 
+                (int)windowSize.y
             ));
     }
  
