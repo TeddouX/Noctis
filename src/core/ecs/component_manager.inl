@@ -18,8 +18,7 @@ void ComponentManager::RemoveComponent(Entity entity)
 template <typename T> 
 bool ComponentManager::HasComponent(Entity entity) const
 {
-    const ComponentArray<T>& array = this->GetComponentArray<T>();
-    return array.Has(entity);
+    return this->GetComponentArray<T>().Has(entity);
 }
 
 

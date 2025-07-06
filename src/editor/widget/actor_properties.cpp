@@ -6,12 +6,13 @@ void ActorPropertiesWidget::Render()
     ImGui::Begin(std::string(ActorPropertiesWidget::name).c_str());
 
     Scene *currScene = SCENE_MANAGER().GetCurrScene();
+    const Entity *selectedEntity = currScene->GetSelectedEntity();
 
-    if (currScene && this->m_selectedEntity)
+    if (currScene && selectedEntity)
     {
         ComponentManager &cm = currScene->GetComponentManager();
         std::vector<std::shared_ptr<IComponent>> allComponents 
-            = cm.GetAllComponents(*this->m_selectedEntity);
+            = cm.GetAllComponents(*selectedEntity);
         
         for (std::shared_ptr<IComponent> &component : allComponents)
         {
@@ -98,7 +99,7 @@ void ActorPropertiesWidget::ProcessProperty(IProperty *property, IComponent *com
         ImGui::Text("z");
         ImGui::SameLine();
         ImGui::DragFloat(fmt::format("{}_z", id).c_str(), &v3.z, .1f);
-        
+
         ImGui::PopItemWidth();
     }
 }   

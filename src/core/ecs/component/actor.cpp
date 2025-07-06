@@ -1,7 +1,7 @@
 #include "actor.hpp"
 
 
-Actor::Actor(const std::string &name)
-    : m_name(name)
+Actor::Actor(const std::string &name, const Entity *entity)
+    : m_name(name), m_entity(entity)
 {
 }

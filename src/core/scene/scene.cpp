@@ -16,7 +16,7 @@ Scene::Scene(const std::string &name)
 }
 
 
-void Scene::RemoveEntity(Entity entity)
+void Scene::RemoveEntity(Entity *entity)
 {
     this->m_sceneEntities.erase(
         std::remove(

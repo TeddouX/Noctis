@@ -15,6 +15,7 @@ std::shared_ptr<Shader> shader;
 Scene scene("HelloWorld");
 Entity monkey = Entity::Create();
 Entity monkey2 = Entity::Create();
+Entity monkey3 = Entity::Create();
 
 SceneDisplayWidget::SceneDisplayWidget()
 {
@@ -22,12 +23,12 @@ SceneDisplayWidget::SceneDisplayWidget()
     model  = std::make_shared<Model>("./monkey.obj");
     shader = std::make_shared<Shader>("C:\\Users\\victo\\Documents\\Programming\\Unknown Engine\\src\\rendering\\shaders\\default.vert", "C:\\Users\\victo\\Documents\\Programming\\Unknown Engine\\src\\rendering\\shaders\\default.frag");
 
-    SCENE_MANAGER().AddScene(scene);
+    SCENE_MANAGER().AddScene(&scene);
     SCENE_MANAGER().SetCurrScene(scene.GetName());
 
     ComponentManager &cm = scene.GetComponentManager();
 
-    std::shared_ptr<Actor> monkeyActor = std::make_shared<Actor>("Monkey Boss");
+    std::shared_ptr<Actor> monkeyActor = std::make_shared<Actor>("Monkey Boss", &monkey);
     std::shared_ptr<Transform> monkeyTransform = std::make_shared<Transform>(glm::vec3(-1, 0, 0), glm::vec3(0), glm::vec3(1), monkeyActor);
     cm.AddComponent(monkey, monkeyTransform);
     cm.AddComponent(monkey, monkeyActor);
@@ -35,14 +36,21 @@ SceneDisplayWidget::SceneDisplayWidget()
     cm.AddComponent(monkey, std::make_shared<Material>("default", shader));
     cm.AddComponent(monkey, std::make_shared<ModelComponent>(model));
 
-    std::shared_ptr<Actor> monkey2Actor = std::make_shared<Actor>("Monkey Farmer");
+    std::shared_ptr<Actor> monkey2Actor = std::make_shared<Actor>("Monkey Farmer", &monkey2);
     cm.AddComponent(monkey2, monkey2Actor);
     cm.AddComponent(monkey2, std::make_shared<Material>("default", shader));
-    cm.AddComponent(monkey2, std::make_shared<Transform>(glm::vec3(0, 0, -2), glm::vec3(0), glm::vec3(0), monkey2Actor, monkeyTransform));
+    cm.AddComponent(monkey2, std::make_shared<Transform>(glm::vec3(0, 0, -2), glm::vec3(0), glm::vec3(0), monkey2Actor, monkeyTransform.get()));
     cm.AddComponent(monkey2, std::make_shared<ModelComponent>(model));
 
-    SCENE_MANAGER().GetCurrScene()->AddEntity(monkey2);
-    SCENE_MANAGER().GetCurrScene()->AddEntity(monkey);
+    std::shared_ptr<Actor> monkey3Actor = std::make_shared<Actor>("Monkey Mafia Boss", &monkey3);
+    cm.AddComponent(monkey3, monkey3Actor);
+    cm.AddComponent(monkey3, std::make_shared<Material>("default", shader));
+    cm.AddComponent(monkey3, std::make_shared<Transform>(glm::vec3(0, 10, 0), glm::vec3(0), glm::vec3(1), monkey3Actor));
+    cm.AddComponent(monkey3, std::make_shared<ModelComponent>(model));
+
+    SCENE_MANAGER().GetCurrScene()->AddEntity(&monkey3);
+    SCENE_MANAGER().GetCurrScene()->AddEntity(&monkey2);
+    SCENE_MANAGER().GetCurrScene()->AddEntity(&monkey);
 }
 
 
@@ -71,6 +79,8 @@ void SceneDisplayWidget::Render()
 
         glClearColor(.09f, .09f, .09f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        // std::cout << scene.GetSelectedEntity() << std::endl;
 
         scene.GetSystem<RenderSystem>()->SetCamera(&this->m_camera);
         scene.UpdateSystem<RenderSystem>(.0f);

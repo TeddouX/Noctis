@@ -11,5 +11,5 @@ public:
     void Render() override;
 
 private:
-    void IterateActorChildren(const Transform &transform);
+    static void IterateTransformChildren(Transform *transform, const Entity *entity);
 };

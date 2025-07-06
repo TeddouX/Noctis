@@ -8,9 +8,9 @@ SceneManager &SceneManager::GetInstance()
 }
 
 
-void SceneManager::AddScene(const Scene &scene)
+void SceneManager::AddScene(Scene *scene)
 {
-    this->m_scenes.emplace(scene.GetName(), scene);
+    this->m_scenes.emplace(scene->GetName(), scene);
 }
 
 
@@ -46,5 +46,5 @@ Scene *SceneManager::GetCurrScene()
         return nullptr;
     }
 
-    return &this->m_scenes.at(this->m_currScene);
+    return this->m_scenes.at(this->m_currScene);
 }
