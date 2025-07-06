@@ -5,37 +5,38 @@
 namespace ImGui
 {
 
-bool ResizableInputText(const char* label, std::string& str)
+void ResizableInputText(const char* label, std::string& str)
 {
     // Prevent the buffer from pointing to null
-    if (str.empty())
-        str.resize(1);
+    std::string buf = str;
+    if (buf.empty())
+        buf.resize(1);
 
-    bool changed = ImGui::InputText(
+    if (ImGui::InputText(
         label, 
-        &str[0], 
-        str.capacity(),
-        ImGuiInputTextFlags_CallbackResize,
+        &buf[0], 
+        buf.capacity(),
+        ImGuiInputTextFlags_CallbackResize | ImGuiInputTextFlags_EnterReturnsTrue,
         [](ImGuiInputTextCallbackData* data) -> int
         {
             if (data->EventFlag == ImGuiInputTextFlags_CallbackResize)
             {
                 // This is the last argument passed into ImGui::InputText
-                std::string* str = static_cast<std::string*>(data->UserData);
+                std::string* buf = static_cast<std::string*>(data->UserData);
                 // Remove the null terminator from the ImGui input
-                str->resize(data->BufSize - 1);
+                buf->resize(data->BufSize - 1);
                 // Replace buffer
-                data->Buf = &(*str)[0];
+                data->Buf = &(*buf)[0];
             }
             return 0;
         },
-        (void*)&str
-    );
-
-    // Resize to the correct visible size
-    str.resize(std::strlen(str.c_str()));
-
-    return changed;
+        (void*)&buf
+    ))
+    {
+        // Resize to the correct visible size
+        buf.resize(std::strlen(buf.c_str()));
+        str = buf;
+    }
 }
 
 void InlinedLabel(const char* text)

@@ -11,30 +11,24 @@ void SceneTreeWidget::Render()
     {
         ComponentManager &cm = currScene->GetComponentManager();
         
-        for (const Entity &entity : currScene->GetAllEntities())
+        if (ImGui::CollapsingHeader(currScene->GetName().c_str(), ImGuiTreeNodeFlags_DefaultOpen))
         {
-            Transform &transform = *cm.GetComponent<Transform>(entity);
-
-            if (transform.IsChild()) 
-                continue;
-
-            std::string name = transform.GetActor()->GetName();
-            if (name.empty())
-                name = "Default Actor";
-
-            if (!transform.HasChildren())
+            for (const Entity &entity : currScene->GetAllEntities())
             {
-                ImGui::Text(name.c_str()); 
-                continue;
-            }
+                Transform &transform = *cm.GetComponent<Transform>(entity);
 
-            
-            if (ImGui::TreeNodeEx(name.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
-            {
+                if (transform.IsChild()) 
+                    continue;
+
+                if (!transform.HasChildren())
+                {
+                    ImGui::Text(transform.GetActor()->GetName().c_str()); 
+                    continue;
+                }
+
                 this->IterateActorChildren(transform);
-                ImGui::TreePop();
-            } 
-        }   
+            }      
+        }
     }        
 
     ImGui::End();
@@ -43,7 +37,9 @@ void SceneTreeWidget::Render()
 
 void SceneTreeWidget::IterateActorChildren(const Transform &transform)
 {
-    for (Transform *childTransform : transform.GetChildren())
+    if (ImGui::TreeNodeEx(transform.GetActor()->GetName().c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+    {
+        for (Transform *childTransform : transform.GetChildren())
     {
         if (!childTransform->HasChildren())
         {
@@ -57,5 +53,9 @@ void SceneTreeWidget::IterateActorChildren(const Transform &transform)
             this->IterateActorChildren(*childTransform);
             ImGui::TreePop();
         }
+    }
+
+
+        ImGui::TreePop();
     }
 }
