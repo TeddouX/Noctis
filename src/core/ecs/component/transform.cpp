@@ -41,7 +41,7 @@ void Transform::SetParent(Transform *parent)
 
     if (parent)
     {
-        this->m_scale -= 1;
+        this->m_scale = this->GetWorldScale() - parent->GetWorldScale();
         this->m_pos = this->GetWorldPos() - parent->GetWorldPos();
         this->m_rot = this->GetWorldRot() - parent->GetWorldRot();
         parent->AddChild(this);
