@@ -21,85 +21,33 @@ add_definitions(-D GLM_ENABLE_EXPERIMENTAL)
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT UnknownEngine)
 
-add_executable(UnknownEngine 
-	src/core/asset_manager.hpp
-	src/core/imgui_utils.hpp
-	src/core/logger.hpp
-	src/core/logger.inl
-	src/core/project.hpp
-	src/core/window.hpp
-	src/core/scene/actor_creation_helper.hpp
-	src/core/scene/scene.hpp
-	src/core/scene/scene.inl
-	src/core/scene/scene_manager.hpp
-	src/core/ecs/component_array.hpp
-	src/core/ecs/component_array.inl
-	src/core/ecs/component_manager.hpp
-	src/core/ecs/component_manager.inl
-	src/core/ecs/entity.hpp
-	src/core/ecs/component/actor.hpp
-	src/core/ecs/component/all_components.hpp
-	src/core/ecs/component/material.hpp
-	src/core/ecs/component/model_component.hpp
-	src/core/ecs/component/property.hpp
-	src/core/ecs/component/property.inl
-	src/core/ecs/component/transform.hpp
-	src/core/ecs/system/render_system.hpp
-	src/core/ecs/system/system.hpp
-	src/core/ecs/system/systems_manager.hpp
-	src/core/ecs/system/systems_manager.inl
-	src/core/math/math.hpp
+file(GLOB_RECURSE MAIN "src/main.cpp")
+file(GLOB_RECURSE RENDERING "src/rendering/*.cpp" "src/rendering/*.hpp")
+file(GLOB_RECURSE EDITOR "src/editor/*.cpp" "src/enditor/*.hpp")
+file(GLOB_RECURSE EDITOR_WIDGETS "src/editor/widgets/*.cpp" "src/enditor/widgets/*.hpp")
+file(GLOB_RECURSE CORE "src/core/*.cpp" "src/core/*.c" "src/core/*.hpp" "src/core/*.inl")
+file(GLOB_RECURSE CORE_SCENE "src/core/scene/*.cpp" "src/core/scene/*.hpp" "src/core/scene/*.inl")
+file(GLOB_RECURSE CORE_MATH "src/core/math/*.cpp" "src/core/math/*.hpp")
+file(GLOB_RECURSE CORE_ECS "src/core/ecs/*.cpp" "src/core/ecs/*.hpp")
+file(GLOB_RECURSE CORE_ECS_SYSTEM "src/core/ecs/system/*.cpp" "src/core/ecs/system/*.hpp")
+file(GLOB_RECURSE CORE_ECS_COMPONENT "src/core/ecs/component/*.cpp" "src/core/ecs/component/*.hpp")
 
-    src/editor/editor_ui.hpp
-	src/editor/widget/widget.hpp
-	src/editor/widget/actor_properties.hpp
-	src/editor/widget/asset_explorer.hpp
-	src/editor/widget/console.hpp
-	src/editor/widget/scene_display.hpp
-	src/editor/widget/scene_tree.hpp
-	
-	src/rendering/camera.hpp
-	src/rendering/framebuffer.hpp
-	src/rendering/mesh.hpp
-	src/rendering/model.hpp
-	src/rendering/shader.hpp
-	src/rendering/texture.hpp
-	src/rendering/vertex.hpp	
+set(ALL_SOURCES 
+	${MAIN}
+	${RENDERING}
+	${EDITOR}
+	${EDITOR_WIDGETS}
+	${CORE}
+	${CORE_SCENE}
+	${CORE_MATH}
+	${CORE_ECS}
+	${CORE_ECS_SYSTEM}
+	${CORE_ECS_COMPONENT}
 )
 
-target_sources(UnknownEngine PRIVATE
-    src/main.cpp
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${ALL_SOURCES})
 
-	src/core/asset_manager.cpp
-	src/core/imgui_utils.cpp
-	src/core/logger.cpp
-	src/core/project.cpp
-	src/core/stb_image_impl.c
-	src/core/window.cpp
-	src/core/scene/actor_creation_helper.cpp
-	src/core/scene/scene.cpp
-	src/core/scene/scene_manager.cpp
-	src/core/ecs/component_manager.cpp
-	src/core/ecs/component/actor.cpp
-	src/core/ecs/component/transform.cpp
-	src/core/ecs/system/render_system.cpp
-	src/core/ecs/system/systems_manager.cpp
-	src/core/math/math.cpp
-
-    src/editor/editor_ui.cpp
-	src/editor/widget/actor_properties.cpp
-	src/editor/widget/asset_explorer.cpp
-	src/editor/widget/console.cpp
-	src/editor/widget/scene_display.cpp
-	src/editor/widget/scene_tree.cpp
-
-	src/rendering/camera.cpp
-	src/rendering/framebuffer.cpp
-	src/rendering/mesh.cpp
-	src/rendering/model.cpp
-	src/rendering/shader.cpp
-	src/rendering/texture.cpp
-)
+add_executable(UnknownEngine ${ALL_SOURCES})
 
 target_include_directories(UnknownEngine PRIVATE ${Stb_INCLUDE_DIR})
 
