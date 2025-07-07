@@ -4,26 +4,27 @@
 #define MAX_ENTITIES UINT16_MAX
 
 
-static uint32_t nextEntityId;
-
+// Keeping 0 for an invalid entity
+static size_t nextEntityId = 1;
 
 // Basically an ID
 class Entity
 {
-    uint32_t id;
+    size_t m_id;
 
 public:
+    Entity() : m_id(0) {};
+    Entity(size_t id) : m_id(id) {};
+
     static Entity Create() { return Entity(nextEntityId++); }
     
-    uint32_t GetID() const { return id; }
+    size_t      GetID() const { return m_id; }
+    inline bool IsValid() { return this->m_id > 0; }
 
-    bool operator==(const Entity& other) const { return id == other.id; }
-    bool operator!=(const Entity& other) const { return id != other.id; }
+    bool operator==(const Entity& other) const { return m_id == other.m_id; }
+    bool operator!=(const Entity& other) const { return m_id != other.m_id; }
 
-    operator uint32_t() const { return id; }    
-
-private:
-    explicit Entity(uint32_t id = 0) : id(id) {}
+    operator size_t() const { return m_id; }    
 };
 
 
@@ -31,7 +32,7 @@ namespace std {
     template<>
     struct hash<Entity> {
         size_t operator()(const Entity& entity) const noexcept {
-            return std::hash<uint32_t>()(entity.GetID());
+            return std::hash<size_t>()(entity.GetID());
         }
     };
 }

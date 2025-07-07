@@ -4,18 +4,18 @@
 FrameBuffer::FrameBuffer()
     : m_texture(0, 0)
 {
-    this->Init(glm::ivec2(0));
+    this->Init(IVec2(0));
 }
 
 
-FrameBuffer::FrameBuffer(glm::ivec2 size)
+FrameBuffer::FrameBuffer(IVec2 size)
     : m_texture(size.x, size.y)
 {
     this->Init(size);
 }
 
 
-void FrameBuffer::Init(glm::ivec2 size)
+void FrameBuffer::Init(IVec2 size)
 {
     this->m_size = size;
     this->m_texture = Texture(size.x, size.y);
@@ -48,7 +48,7 @@ void FrameBuffer::Unbind() const
 }
 
 
-void FrameBuffer::Resize(glm::ivec2 size)
+void FrameBuffer::Resize(IVec2 size)
 {
     this->Delete();
     this->Init(size);

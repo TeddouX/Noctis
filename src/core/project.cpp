@@ -6,7 +6,7 @@ Project *Project::m_instance = nullptr;
 
 Project::Project(const std::string &rootDir)
     : m_rootDir(rootDir)
-{   
+{
 }
 
 
@@ -22,8 +22,8 @@ void Project::Init(const std::string &rootDir)
 
     m_instance = new Project(rootDir);
 
-    if (!fs::exists(SCENE_FOLDER())) 
-        fs::create_directories(SCENE_FOLDER());
+    if (!fs::exists(m_instance->GetScenesFolder())) 
+        fs::create_directories(m_instance->GetScenesFolder());
 } 
 
 

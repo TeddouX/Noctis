@@ -16,7 +16,7 @@ Scene::Scene(const std::string &name)
 }
 
 
-void Scene::RemoveEntity(Entity *entity)
+void Scene::RemoveEntity(Entity entity)
 {
     this->m_sceneEntities.erase(
         std::remove(
@@ -39,7 +39,7 @@ void Scene::Load()
 {
     std::string jsonPath = fmt::format(
         "{}\\{}.json", 
-        SCENE_FOLDER(), 
+        PROJECT()->GetScenesFolder(), 
         this->m_name
     );
 

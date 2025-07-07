@@ -1,5 +1,4 @@
-#include "Shader.hpp"
-#include <iostream>
+#include "shader.hpp"
 
 
 static bool CheckUniform(int location, const std::string& uniformName)
@@ -14,7 +13,8 @@ static bool CheckUniform(int location, const std::string& uniformName)
 }
 
 
-Shader::Shader(const std::string &vertexPath, const std::string &fragmentPath)
+Shader::Shader(const std::string &name, const std::string &vertexPath, const std::string &fragmentPath)
+	: m_name(name)
 {
 	LOG_INFO("Loading shaders: {}, {}", vertexPath, fragmentPath)
 
@@ -46,9 +46,25 @@ Shader::Shader(const std::string &vertexPath, const std::string &fragmentPath)
 	}
 
 
-	const char* vertexCode = vertexString.c_str();
-	const char* fragmentCode = fragmentString.c_str();
+	this->CreateProgram(vertexString.c_str(), fragmentString.c_str());
+}
 
+
+Shader::Shader(const std::string &name, const char *vertexCode, const char *fragmentCode)
+	: m_name(name)
+{
+	this->CreateProgram(vertexCode, fragmentCode);
+}
+
+
+Shader::~Shader()
+{
+	glDeleteProgram(this->m_shaderProgramID);
+}
+
+
+void Shader::CreateProgram(const char *vertexCode, const char *fragmentCode)
+{
 	int success;
 	char infoLog[1024];
 
@@ -97,11 +113,6 @@ Shader::Shader(const std::string &vertexPath, const std::string &fragmentPath)
 }
 
 
-Shader::~Shader()
-{
-	glDeleteProgram(this->m_shaderProgramID);
-}
-
 
 void Shader::Use() const
 {
@@ -137,16 +148,16 @@ void Shader::SetFloat(const std::string& name, float x, float y, float z) const
 	glUniform3f(location, x, y, z);
 }
 
-void Shader::SetVector(const std::string& name, glm::vec3 value) const
+void Shader::SetVector(const std::string& name, Vec3 value) const
 {
 	int location = glGetUniformLocation(this->m_shaderProgramID, name.c_str());
 	if (!CheckUniform(location, name)) return;
 	glUniform3fv(location, 1, &value[0]);
 }
 
-void Shader::SetMatrix(const std::string& name, glm::mat4 value) const
+void Shader::SetMatrix(const std::string& name, Mat4 value) const
 {
 	int location = glGetUniformLocation(this->m_shaderProgramID, name.c_str());
     if (!CheckUniform(location, name)) return;
-	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+	glUniformMatrix4fv(location, 1, GL_FALSE, UnE::Math::GetPtr(value));
 }

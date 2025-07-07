@@ -16,6 +16,6 @@ public:
     void Render() override;
 
 private:
-    Camera      m_camera = Camera(glm::vec3(-3, 0, 0), glm::vec2(0, 0), 60.f, .01f, 1000.f);
+    Camera      m_camera = Camera(glm::vec3(-3, 0, 0), glm::vec2(0, 0), 70.f, .01f, 1000.f);
     FrameBuffer m_frameBuffer;
 };

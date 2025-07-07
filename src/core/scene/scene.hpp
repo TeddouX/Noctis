@@ -25,13 +25,13 @@ class Scene
 public:
     Scene(const std::string &name);
 
-    inline void  AddEntity(const Entity *entity) { this->m_sceneEntities.push_back(entity); }
-    void         RemoveEntity(Entity *entity);
+    inline void AddEntity(Entity entity) { this->m_sceneEntities.push_back(entity); }
+    void        RemoveEntity(Entity entity);
 
-    inline const std::vector<const Entity*> GetAllEntities() const { return this->m_sceneEntities; }
+    inline const std::vector<Entity> &GetAllEntities() const { return this->m_sceneEntities; }
 
-    inline const Entity *GetSelectedEntity() { return this->m_selectedEntity; }
-    inline void          SetSelectedEntity(const Entity *entity) { this->m_selectedEntity = entity; }
+    inline Entity GetSelectedEntity() { return this->m_selectedEntity; }
+    inline void   SetSelectedEntity(Entity entity) { this->m_selectedEntity = entity; }
 
     inline std::string GetName() const { return this->m_name; };
 
@@ -49,8 +49,8 @@ public:
     void Unload();
 
 private:
-    std::vector<const Entity*> m_sceneEntities;
-    const Entity        *m_selectedEntity;
+    std::vector<Entity>  m_sceneEntities;
+    Entity               m_selectedEntity;
     ComponentManager     m_componentManager;
     SystemsManager       m_systemsManager;
     

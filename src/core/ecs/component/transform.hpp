@@ -1,10 +1,9 @@
 #pragma once
 #include <vector>
-#include <glm/glm.hpp>
-#include <glm/gtx/quaternion.hpp>
 
 #include "component.hpp"
 #include "actor.hpp"
+#include "../../math/math.hpp"
 
 
 class Transform : public IComponent
@@ -13,27 +12,27 @@ public:
     ENABLE_REFLECTION(Transform)
 
     // A transform represent's a entity's location in the world, it has to exist on every entity.
-    Transform(glm::vec3 pos, glm::vec3 rot, glm::vec3 scale, std::shared_ptr<Actor> actor, Transform *parent = nullptr);
+    Transform(Vec3 pos, Vec3 rot, Vec3 scale, std::shared_ptr<Actor> actor, Transform *parent = nullptr);
 
     // Returns the position, not relative to this transform's parent
-    const glm::vec3 GetWorldPos() const;
+    const Vec3 GetWorldPos() const;
     // Returns the rotation, not relative to this transform's parent
-    const glm::vec3 GetWorldRot() const;
+    const Vec3 GetWorldRot() const;
     // Returns the scale, not  relative to this transform's parent
-    const glm::vec3 GetWorldScale() const;
+    const Vec3 GetWorldScale() const;
 
     // Returns a reference to this transform's position, relative to its parent 
-    inline glm::vec3 &GetPosition() { return this->m_pos; }
+    inline Vec3 &GetPosition() { return this->m_pos; }
     PROPERTY_GETTER(GetPosition)
     // Returns a reference to this transform's rotation, relative to its parent 
-    inline glm::vec3 &GetRotation() { return this->m_rot; }
+    inline Vec3 &GetRotation() { return this->m_rot; }
     PROPERTY_GETTER(GetRotation)
     // Returns a reference to this transform's scale, relative to its parent 
-    inline glm::vec3 &GetScale() { return this->m_scale; }
+    inline Vec3 &GetScale() { return this->m_scale; }
     PROPERTY_GETTER(GetScale)
 
     // Returns the transform's model martrix, calculated from its position, scale and rotation
-    glm::mat4 GetModelMatrix() const;
+    Mat4 GetModelMatrix() const;
 
     // Returns this transform's parent, or `nullptr` if its parent isn't set
     inline Transform *GetParent() { return this->m_parent; }
@@ -60,5 +59,5 @@ private:
     Transform               *m_parent;
     std::shared_ptr<Actor>   m_actor;
 
-    glm::vec3 m_pos, m_rot, m_scale;
+    Vec3 m_pos, m_rot, m_scale;
 };

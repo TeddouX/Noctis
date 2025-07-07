@@ -14,7 +14,7 @@ public:
     void Render() override;
 
 private:
-    static void ActorComponent(IComponent *component);
+    static void ActorComponent(IComponent *component, Entity entity);
     static void ProcessProperty(IProperty *property, IComponent *component);
     static std::string GenImGuiID(std::string prefix, IProperty *property, IComponent *component);
 };

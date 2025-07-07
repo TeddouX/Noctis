@@ -1,6 +1,7 @@
 #pragma once
 #include "widget.hpp"
 #include "../../core/scene/scene_manager.hpp"
+#include "../../core/scene/actor_creation_helper.hpp"
 
 
 class SceneTreeWidget : public IWidget
@@ -11,5 +12,7 @@ public:
     void Render() override;
 
 private:
-    static void IterateTransformChildren(Transform *transform, const Entity *entity);
+    static void IterateTransformChildren(Transform *transform, const Entity &entity);
+    static void HandleActorCreationMenu(Transform *parent);
+    static void HandleDragDrop(Transform *parent);
 };

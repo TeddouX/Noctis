@@ -15,7 +15,30 @@ Model::Model(const std::string &path)
         return;
     }
 
+    this->m_name = std::string(scene->mName.C_Str());
     this->m_meshes = this->ProcessNode(scene->mRootNode, scene);
+}
+
+
+Model::Model(const std::string &name, const std::string &objData)
+    : m_name(name)
+{
+    Assimp::Importer importer;
+    const aiScene *scene = importer.ReadFileFromMemory(
+        objData.c_str(),
+        objData.size(),
+        aiProcess_Triangulate | aiProcess_FlipUVs,
+        "obj"
+    );
+
+    if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) 
+    {
+        LOG_ERR("Couldn't load model: {}", importer.GetErrorString())
+        return;
+    }
+
+    this->m_meshes = this->ProcessNode(scene->mRootNode, scene);
+    LOG_INFO("")
 }
 
 

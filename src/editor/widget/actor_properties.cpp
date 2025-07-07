@@ -6,13 +6,13 @@ void ActorPropertiesWidget::Render()
     ImGui::Begin(std::string(ActorPropertiesWidget::name).c_str());
 
     Scene *currScene = SCENE_MANAGER().GetCurrScene();
-    const Entity *selectedEntity = currScene->GetSelectedEntity();
+    Entity selectedEntity = currScene->GetSelectedEntity();
 
-    if (currScene && selectedEntity)
+    if (currScene && selectedEntity.IsValid())
     {
         ComponentManager &cm = currScene->GetComponentManager();
         std::vector<std::shared_ptr<IComponent>> allComponents 
-            = cm.GetAllComponents(*selectedEntity);
+            = cm.GetAllComponents(selectedEntity);
         
         for (std::shared_ptr<IComponent> &component : allComponents)
         {
@@ -20,7 +20,7 @@ void ActorPropertiesWidget::Render()
             // It shouldn't be rendered as a collapsing header
             if (component->_GetComponentName() == "Actor")
             {
-                ActorComponent(component.get());
+                ActorComponent(component.get(), selectedEntity);
                 continue;
             }
 
@@ -34,20 +34,24 @@ void ActorPropertiesWidget::Render()
 }
 
 
-void ActorPropertiesWidget::ActorComponent(IComponent *component)
+void ActorPropertiesWidget::ActorComponent(IComponent *component, Entity entity)
 {
     ImGui::SeparatorText("Actor");
+
     for (IProperty *prop : component->_GetComponentProperties())
     {
         std::any value = prop->GetValue(component);
+        std::shared_ptr<Transform> actorTransform = 
+            SCENE_MANAGER().GetCurrScene()->GetComponentManager().GetComponent<Transform>(entity);
 
-        // The actor's names
+        // The actor's name
         if (value.type() == typeid(std::reference_wrapper<std::string>)) 
         {
             std::string &actorName = std::any_cast<std::reference_wrapper<std::string>>(value);
             ImGui::ResizableInputText(GenImGuiID("string_input", prop, component).c_str(), actorName);
         }
     }
+
     ImGui::SeparatorText("Components");
 }
 
@@ -101,6 +105,13 @@ void ActorPropertiesWidget::ProcessProperty(IProperty *property, IComponent *com
         ImGui::DragFloat(fmt::format("{}_z", id).c_str(), &v3.z, .1f);
 
         ImGui::PopItemWidth();
+    }
+    else if (value.type() == typeid(std::reference_wrapper<Model>))      // Model (temporary)
+    {
+        ImGui::InlinedLabel(property->GetBeautifiedName().c_str());
+        
+        Model &m = std::any_cast<std::reference_wrapper<Model>>(value);
+        ImGui::Text(m.GetName().c_str());
     }
 }   
 

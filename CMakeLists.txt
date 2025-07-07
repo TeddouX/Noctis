@@ -15,12 +15,20 @@ find_package(fmt CONFIG REQUIRED)
 
 add_definitions(-D GLM_ENABLE_EXPERIMENTAL)
 
+# if(MSVC)
+#     add_compile_options(/showIncludes)
+# endif()
+
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT UnknownEngine)
+
 add_executable(UnknownEngine 
+	src/core/asset_manager.hpp
 	src/core/imgui_utils.hpp
 	src/core/logger.hpp
 	src/core/logger.inl
 	src/core/project.hpp
 	src/core/window.hpp
+	src/core/scene/actor_creation_helper.hpp
 	src/core/scene/scene.hpp
 	src/core/scene/scene.inl
 	src/core/scene/scene_manager.hpp
@@ -40,6 +48,7 @@ add_executable(UnknownEngine
 	src/core/ecs/system/system.hpp
 	src/core/ecs/system/systems_manager.hpp
 	src/core/ecs/system/systems_manager.inl
+	src/core/math/math.hpp
 
     src/editor/editor_ui.hpp
 	src/editor/widget/widget.hpp
@@ -61,11 +70,13 @@ add_executable(UnknownEngine
 target_sources(UnknownEngine PRIVATE
     src/main.cpp
 
+	src/core/asset_manager.cpp
 	src/core/imgui_utils.cpp
 	src/core/logger.cpp
 	src/core/project.cpp
 	src/core/stb_image_impl.c
 	src/core/window.cpp
+	src/core/scene/actor_creation_helper.cpp
 	src/core/scene/scene.cpp
 	src/core/scene/scene_manager.cpp
 	src/core/ecs/component_manager.cpp
@@ -73,6 +84,7 @@ target_sources(UnknownEngine PRIVATE
 	src/core/ecs/component/transform.cpp
 	src/core/ecs/system/render_system.cpp
 	src/core/ecs/system/systems_manager.cpp
+	src/core/math/math.cpp
 
     src/editor/editor_ui.cpp
 	src/editor/widget/actor_properties.cpp

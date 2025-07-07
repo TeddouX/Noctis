@@ -1,14 +1,14 @@
 #pragma once
-#include <glm/glm.hpp>
+#include "../core/math/math.hpp"
 
 
 struct Vertex
 {
-    glm::vec3 position;
-    glm::vec3 normal;
-    glm::vec2 texCoords;
+    Vec3 position;
+    Vec3 normal;
+    Vec2 texCoords;
 
     Vertex() {}
-    Vertex(glm::vec3 position, glm::vec3 normal, glm::vec2 texCoords)
+    Vertex(Vec3 position, Vec3 normal, Vec2 texCoords)
         : position(position), normal(normal), texCoords(texCoords) {}
 };

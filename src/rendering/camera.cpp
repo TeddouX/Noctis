@@ -7,43 +7,43 @@ Camera::Camera()
 }
 
 
-Camera::Camera(glm::vec3 pos, glm::vec2 viewSize, float fov, float near, float far)
+Camera::Camera(Vec3 pos, Vec2 viewSize, float fov, float near, float far)
 	: m_position(pos), m_size(viewSize),  m_fov(glm::radians(fov)), m_near(near), m_far(far)
 {
 }
 
 
-void Camera::Resize(glm::vec2 viewSize)
+void Camera::Resize(Vec2 viewSize)
 {
 	this->m_size = viewSize;
 }
 
 
-glm::vec3 Camera::GetForwardVec() const
+Vec3 Camera::GetForwardVec() const
 {
-	glm::vec3 front(0.f);
+	Vec3 front(0.f);
 
-	front.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
-	front.y = sin(glm::radians(m_pitch));
-	front.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+	front.x = cos(Math::Radians(m_yaw)) * cos(Math::Radians(m_pitch));
+	front.y = sin(Math::Radians(m_pitch));
+	front.z = sin(Math::Radians(m_yaw)) * cos(Math::Radians(m_pitch));
 
 	return front;
 }
 
 
-glm::mat4 Camera::GetViewMatrix() const
+Mat4 Camera::GetViewMatrix() const
 {
-	glm::vec3 cameraFront = glm::normalize(this->GetForwardVec());
+	Vec3 cameraFront = Math::Normalize(this->GetForwardVec());
 
-	return glm::lookAt(this->m_position, this->m_position + cameraFront, glm::vec3(0, 1, 0));
+	return Math::ViewMatrix(this->m_position, cameraFront);
 }
 
 
-glm::mat4 Camera::GetProjectionMatrix() const
+Mat4 Camera::GetProjectionMatrix() const
 {
-	return glm::perspective(
+	return Math::PerspectiveProjMatrix(
 		this->m_fov, 
-		this->m_size.x / this->m_size.y, 
+		this->m_size, 
 		this->m_near, 
 		this->m_far
 	);

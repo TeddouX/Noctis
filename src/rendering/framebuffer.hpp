@@ -2,9 +2,9 @@
 #include <iostream>
 #include <Windows.h>
 #include <glad/glad.h>
-#include <glm/glm.hpp>
 
 #include "texture.hpp"
+#include "../core/math/math.hpp"
 
 
 class FrameBuffer
@@ -12,21 +12,21 @@ class FrameBuffer
 public:
 
     FrameBuffer();
-    FrameBuffer(glm::ivec2 size);
+    FrameBuffer(IVec2 size);
     
-    void Init(glm::ivec2 size);
+    void Init(IVec2 size);
     void Delete();
 
     void Bind() const;
     void Unbind() const;
 
-    void Resize(glm::ivec2 size);
-    inline const glm::ivec2 &GetSize() const { return this->m_size; }
+    void Resize(IVec2 size);
+    inline const IVec2 &GetSize() const { return this->m_size; }
 
     GLuint GetTextureID() const;
 
 private:
-    glm::ivec2 m_size;
+    IVec2     m_size;
     GLuint    m_id;
     Texture   m_texture;
 };

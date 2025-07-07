@@ -1,9 +1,6 @@
-#include <filesystem>
-
 #include "core/window.hpp"
 #include "core/project.hpp"
 #include "editor/editor_ui.hpp"
-#include "core/ecs/component/property.hpp"
 
 
 int main() 

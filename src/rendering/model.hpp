@@ -16,9 +16,13 @@ class Model
 {
 public:
     Model(const std::string &path);
+    Model(const std::string &name, const std::string &objData);
+
+    inline const std::string &GetName() { return this->m_name; }
 
     void Render(Shader &Shader) const;
 private:
+    std::string m_name;
     std::vector<Mesh> m_meshes;
 
     std::vector<Mesh>    ProcessNode(aiNode *node, const aiScene *scene);

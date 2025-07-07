@@ -4,9 +4,10 @@
 #include <fmt/format.h>
 
 #include "logger.hpp"
+#include "asset_manager.hpp"
 
 
-#define SCENE_FOLDER() Project::GetInstance()->GetScenesFolder()
+#define PROJECT() Project::GetInstance()
 
 
 namespace fs = std::filesystem;
@@ -18,14 +19,16 @@ public:
     static void       Init(const std::string &rootDir);
     static Project   *GetInstance();
 
-    const std::string GetScenesFolder();
-    const std::string GetAssetsFolder();
+    const std::string   GetScenesFolder();
+    const std::string   GetAssetsFolder();
+    inline AssetManager &GetAssetManager() { return this->m_assetManager; };
 
 private:
     Project(const std::string &rootDir);
 
-    std::string     m_rootDir;
     static Project *m_instance;
+    std::string     m_rootDir;
+    AssetManager    m_assetManager;
 };
 
 

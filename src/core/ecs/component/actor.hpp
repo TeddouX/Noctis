@@ -12,9 +12,9 @@ class Actor : public IComponent
 public:
     ENABLE_REFLECTION(Actor)
     
-    Actor(const std::string &name, const Entity *entity);
+    Actor(const std::string &name, Entity entity);
 
-    inline const Entity *GetEntity() const { return this->m_entity; }
+    inline Entity GetEntity() const { return this->m_entity; }
 
     // Returns a reference to this actor's name
     inline std::string &GetName() { return this->m_name; }
@@ -22,5 +22,5 @@ public:
     
 private:
     std::string m_name;
-    const Entity *m_entity;
+    Entity m_entity;
 };

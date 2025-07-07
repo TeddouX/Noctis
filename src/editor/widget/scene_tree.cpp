@@ -3,6 +3,7 @@
 
 void SceneTreeWidget::Render()
 {
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
     ImGui::Begin(std::string(SceneTreeWidget::name).c_str());
 
     Scene *currScene = SCENE_MANAGER().GetCurrScene();
@@ -11,8 +12,17 @@ void SceneTreeWidget::Render()
     {
         ComponentManager &cm = currScene->GetComponentManager();
         
-        if (ImGui::CollapsingHeader(currScene->GetName().c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+        ImGuiTreeNodeFlags headerFlags = ImGuiTreeNodeFlags_DefaultOpen
+            | ImGuiTreeNodeFlags_OpenOnArrow;
+
+        if (ImGui::CollapsingHeader(currScene->GetName().c_str(), headerFlags))
         {
+            if (ImGui::IsItemClicked())
+                // Remove currently selected entity
+                currScene->SetSelectedEntity(0); 
+
+            HandleActorCreationMenu(nullptr); // Parent is the root
+
             // Set parent to the scene root
             if (ImGui::BeginDragDropTarget()) 
             {
@@ -31,9 +41,12 @@ void SceneTreeWidget::Render()
                 ImGui::EndDragDropTarget();
             }
 
-            for (const Entity *entity : currScene->GetAllEntities())
+            // Avoid undefined due vector reallocation
+            const std::vector<Entity> &allEntities = currScene->GetAllEntities();
+            // Iterate through all the scene's entities to add them to the tree
+            for (const Entity &entity : allEntities)
             {
-                std::shared_ptr<Transform> transform = cm.GetComponent<Transform>(*entity);
+                std::shared_ptr<Transform> transform = cm.GetComponent<Transform>(entity);
 
                 if (transform->IsChild()) 
                     continue;
@@ -44,10 +57,11 @@ void SceneTreeWidget::Render()
     }        
 
     ImGui::End();
+    ImGui::PopStyleVar();
 }
 
 
-void SceneTreeWidget::IterateTransformChildren(Transform *transform, const Entity *entity)
+void SceneTreeWidget::IterateTransformChildren(Transform *transform, const Entity &entity)
 {
     Scene *currScene = SCENE_MANAGER().GetCurrScene();
 
@@ -56,15 +70,59 @@ void SceneTreeWidget::IterateTransformChildren(Transform *transform, const Entit
         | (transform->HasChildren() ? 0 : ImGuiTreeNodeFlags_Leaf) 
         | (entity == currScene->GetSelectedEntity() ? ImGuiTreeNodeFlags_Selected : 0);
 
+    ImGui::PushID((int)entity.GetID());
     bool open = ImGui::TreeNodeEx(transform->GetActor()->GetName().c_str(), treeFlags);
 
+    // Actor selection
     if (ImGui::IsItemClicked())
         currScene->SetSelectedEntity(entity);
 
+    HandleActorCreationMenu(transform);
+    HandleDragDrop(transform);
 
+    if (open)
+    {
+        // Recursively iterate through all the transform's children
+        for (Transform *child : transform->GetChildren())
+            IterateTransformChildren(child, child->GetActor()->GetEntity());
+        
+        ImGui::TreePop();
+    }
+
+    ImGui::PopID();
+}
+
+
+void SceneTreeWidget::HandleActorCreationMenu(Transform *parent)
+{
+    if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
+        ImGui::OpenPopup("SCENE_TREE_CREATE_ACTOR");
+
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8.f, 8.f));
+    if (ImGui::BeginPopup("SCENE_TREE_CREATE_ACTOR")) 
+    {
+        if (ImGui::MenuItem("Empty"))
+            ActorCreationHelper::CreateEmpty(parent);
+
+        if (ImGui::BeginMenu("Shapes")) 
+        {
+            if (ImGui::MenuItem("Cube")) 
+                ActorCreationHelper::CreateSimpleShape(EmbeddedModel::CUBE, parent);
+                
+            ImGui::EndMenu();    
+        }
+
+        ImGui::EndPopup();
+    }
+    ImGui::PopStyleVar();
+}
+
+
+void SceneTreeWidget::HandleDragDrop(Transform *parent)
+{
     if (ImGui::BeginDragDropSource()) 
     {
-        ImGui::SetDragDropPayload("SCENE_TREE", &transform, sizeof(Transform *));
+        ImGui::SetDragDropPayload("SCENE_TREE", &parent, sizeof(Transform *));
         ImGui::EndDragDropSource();
     }
     
@@ -79,17 +137,9 @@ void SceneTreeWidget::IterateTransformChildren(Transform *transform, const Entit
             }
 
             Transform *payloadTransform = *(Transform **)payload->Data;
-            payloadTransform->SetParent(transform);
+            payloadTransform->SetParent(parent);
         }
 
         ImGui::EndDragDropTarget();
-    }  
-
-    if (open)
-    {
-        for (Transform *child : transform->GetChildren())
-            IterateTransformChildren(child, child->GetActor()->GetEntity());
-        
-        ImGui::TreePop();
-    }
+    } 
 }
