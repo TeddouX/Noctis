@@ -50,6 +50,9 @@ void FrameBuffer::Unbind() const
 
 void FrameBuffer::Resize(IVec2 size)
 {
+    if (size == this->m_size)
+        return;
+
     this->Delete();
     this->Init(size);
 }

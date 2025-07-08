@@ -16,6 +16,12 @@ public:
     void Render() override;
 
 private:
-    Camera      m_camera = Camera(glm::vec3(-3, 0, 0), glm::vec2(0, 0), 70.f, .01f, 1000.f);
+    float       m_aspectRatio = 16.f / 9.f;
+    Camera      m_camera = Camera(glm::vec3(-3, 0, 0), m_aspectRatio, 70.f, .01f, 1000.f);
     FrameBuffer m_frameBuffer;
+
+    int m_viewportWidth, m_viewportHeight;
+    int m_viewportX, m_viewportY;
+
+    void UpdateViewport(int windowWidth, int windowHeight);
 };

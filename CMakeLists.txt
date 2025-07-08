@@ -15,16 +15,12 @@ find_package(fmt CONFIG REQUIRED)
 
 add_definitions(-D GLM_ENABLE_EXPERIMENTAL)
 
-# if(MSVC)
-#     add_compile_options(/showIncludes)
-# endif()
-
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT UnknownEngine)
 
 file(GLOB_RECURSE MAIN "src/main.cpp")
 file(GLOB_RECURSE RENDERING "src/rendering/*.cpp" "src/rendering/*.hpp")
-file(GLOB_RECURSE EDITOR "src/editor/*.cpp" "src/enditor/*.hpp")
-file(GLOB_RECURSE EDITOR_WIDGETS "src/editor/widgets/*.cpp" "src/enditor/widgets/*.hpp")
+file(GLOB_RECURSE EDITOR "src/editor/*.cpp" "src/editor/*.hpp")
+file(GLOB_RECURSE EDITOR_WIDGETS "src/editor/widget/*.cpp" "src/editor/widget/*.hpp")
 file(GLOB_RECURSE CORE "src/core/*.cpp" "src/core/*.c" "src/core/*.hpp" "src/core/*.inl")
 file(GLOB_RECURSE CORE_SCENE "src/core/scene/*.cpp" "src/core/scene/*.hpp" "src/core/scene/*.inl")
 file(GLOB_RECURSE CORE_MATH "src/core/math/*.cpp" "src/core/math/*.hpp")

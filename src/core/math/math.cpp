@@ -30,9 +30,9 @@ namespace UnE::Math
         return glm::lookAt(pos, pos + front, up);
     }
 
-    Mat4 PerspectiveProjMatrix(float fov, Vec2 size, float near, float far)
+    Mat4 PerspectiveProjMatrix(float fov, float aspect, float near, float far)
     {
-        return glm::perspective(fov, size.x / size.y, near, far);
+        return glm::perspective(fov, aspect, near, far);
     }
     
     Vec3 Normalize(Vec3 vec) { return glm::normalize(vec); }

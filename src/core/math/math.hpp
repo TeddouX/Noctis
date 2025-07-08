@@ -17,7 +17,7 @@ namespace UnE::Math
     Mat4 ModelMatrix(Vec3 pos, Vec3 rot, Vec3 scale);
     Mat4 ViewMatrix(Vec3 pos, Vec3 front);
     Mat4 ViewMatrix(Vec3 pos, Vec3 front, Vec3 up);
-    Mat4 PerspectiveProjMatrix(float fov, Vec2 size, float near, float far);
+    Mat4 PerspectiveProjMatrix(float fov, float aspect, float near, float far);
 
     Vec3 Normalize(Vec3 vec);
 

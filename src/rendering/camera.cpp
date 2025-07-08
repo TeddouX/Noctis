@@ -2,20 +2,20 @@
 
 
 Camera::Camera()
-	: m_position(0, 0, 0), m_size(0, 0), m_fov(0.f), m_near(0.f), m_far(0.f)
+	: m_position(0, 0, 0), m_aspectRatio(0.f), m_fov(0.f), m_near(0.f), m_far(0.f)
 {
 }
 
 
-Camera::Camera(Vec3 pos, Vec2 viewSize, float fov, float near, float far)
-	: m_position(pos), m_size(viewSize),  m_fov(glm::radians(fov)), m_near(near), m_far(far)
+Camera::Camera(Vec3 pos, float aspectRatio, float fov, float near, float far)
+	: m_position(pos), m_aspectRatio(aspectRatio),  m_fov(glm::radians(fov)), m_near(near), m_far(far)
 {
 }
 
 
-void Camera::Resize(Vec2 viewSize)
+void Camera::Resize(float aspectRatio)
 {
-	this->m_size = viewSize;
+	this->m_aspectRatio = aspectRatio;
 }
 
 
@@ -43,7 +43,7 @@ Mat4 Camera::GetProjectionMatrix() const
 {
 	return Math::PerspectiveProjMatrix(
 		this->m_fov, 
-		this->m_size, 
+		this->m_aspectRatio, 
 		this->m_near, 
 		this->m_far
 	);

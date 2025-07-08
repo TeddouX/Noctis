@@ -38,7 +38,6 @@ Model::Model(const std::string &name, const std::string &objData)
     }
 
     this->m_meshes = this->ProcessNode(scene->mRootNode, scene);
-    LOG_INFO("")
 }
 
 
