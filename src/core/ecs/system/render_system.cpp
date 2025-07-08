@@ -45,8 +45,7 @@ void RenderSystem::Update(const ComponentManager &cm, float dt) const
 
             // Actually render the model
             shader->Use();
-            shader->SetMatrix("Model", transform->GetModelMatrix());
-            this->m_camera->SetShaderMatrices(*shader);
+            this->m_camera->SetShaderMatrices(*shader, transform->GetModelMatrix());
             modelComponent->GetModel().Render(*shader);
         }
     }

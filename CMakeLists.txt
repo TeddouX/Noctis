@@ -18,7 +18,7 @@ add_definitions(-D GLM_ENABLE_EXPERIMENTAL)
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT UnknownEngine)
 
 file(GLOB_RECURSE MAIN "src/main.cpp")
-file(GLOB_RECURSE RENDERING "src/rendering/*.cpp" "src/rendering/*.hpp")
+file(GLOB_RECURSE RENDERING "src/rendering/*.cpp" "src/rendering/*.hpp" "src/rendering/*.inl")
 file(GLOB_RECURSE EDITOR "src/editor/*.cpp" "src/editor/*.hpp")
 file(GLOB_RECURSE EDITOR_WIDGETS "src/editor/widget/*.cpp" "src/editor/widget/*.hpp")
 file(GLOB_RECURSE CORE "src/core/*.cpp" "src/core/*.c" "src/core/*.hpp" "src/core/*.inl")

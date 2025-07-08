@@ -50,8 +50,16 @@ Mat4 Camera::GetProjectionMatrix() const
 }
 
 
-void Camera::SetShaderMatrices(Shader& shader) const
+void Camera::SetShaderMatrices(Shader& shader, Mat4 modelMatrix)
 {
-	shader.SetMatrix("View",       this->GetViewMatrix());
-	shader.SetMatrix("Projection", this->GetProjectionMatrix());
+	CameraData data;
+	data.modelMatrix = modelMatrix;
+	data.viewMatrix = this->GetViewMatrix();
+	data.projectionMatrix = this->GetProjectionMatrix();
+
+	this->m_cameraSSBO.UploadData(data);
+	this->m_cameraSSBO.BindToPoint(0);
+
+	test.UploadData(.5f);
+	test.BindToPoint(1);
 }

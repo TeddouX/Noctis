@@ -10,7 +10,7 @@ int main()
     std::string projPath = std::filesystem::absolute("test_project").string();
     Project::Init(projPath);
 
-    EditorUI ui(window, "#version 330 core");
+    EditorUI ui(window, "#version 430 core");
 
     // LOG_WARN("This is a warning.");
     // LOG_ERR("This is an error.");

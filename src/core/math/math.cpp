@@ -3,41 +3,43 @@
 
 namespace UnE::Math
 {
-    Mat4 ModelMatrix(Vec3 pos, Vec3 rot, Vec3 scale)
-    {
-        // Identity
-        Mat4 model(1);
 
-        // Translation
-        model = glm::translate(model, pos);
-        // Rotation
-        Quaternion quaternion(glm::radians(rot));
-        Mat4 rotationMatrix = glm::toMat4(quaternion);
-        model *= rotationMatrix;
-        // Scale
-        model = glm::scale(model, scale);
+Mat4 ModelMatrix(Vec3 pos, Vec3 rot, Vec3 scale)
+{
+    // Identity
+    Mat4 model(1);
 
-        return model;
-    }
+    // Translation
+    model = glm::translate(model, pos);
+    // Rotation
+    Quaternion quaternion(glm::radians(rot));
+    Mat4 rotationMatrix = glm::toMat4(quaternion);
+    model *= rotationMatrix;
+    // Scale
+    model = glm::scale(model, scale);
 
-    Mat4 ViewMatrix(Vec3 pos, Vec3 front)
-    {
-        return ViewMatrix(pos, front, Vec3(0, 1, 0));
-    }
+    return model;
+}
 
-    Mat4 ViewMatrix(Vec3 pos, Vec3 front, Vec3 up)
-    {
-        return glm::lookAt(pos, pos + front, up);
-    }
+Mat4 ViewMatrix(Vec3 pos, Vec3 front)
+{
+    return ViewMatrix(pos, front, Vec3(0, 1, 0));
+}
 
-    Mat4 PerspectiveProjMatrix(float fov, float aspect, float near, float far)
-    {
-        return glm::perspective(fov, aspect, near, far);
-    }
-    
-    Vec3 Normalize(Vec3 vec) { return glm::normalize(vec); }
+Mat4 ViewMatrix(Vec3 pos, Vec3 front, Vec3 up)
+{
+    return glm::lookAt(pos, pos + front, up);
+}
 
-    float *GetPtr(Mat4 mat) { return glm::value_ptr(mat); }
+Mat4 PerspectiveProjMatrix(float fov, float aspect, float near, float far)
+{
+    return glm::perspective(fov, aspect, near, far);
+}
 
-    float Radians(float degrees) { return glm::radians(degrees); }
+Vec3 Normalize(Vec3 vec) { return glm::normalize(vec); }
+
+float *GetPtr(Mat4 mat) { return glm::value_ptr(mat); }
+
+float Radians(float degrees) { return glm::radians(degrees); }
+
 }

@@ -13,12 +13,14 @@ enum EmbeddedModel
     CUBE,
     CYLINDER,
     MONKEY,
-    SPHERE
+    SPHERE,
+    _EMBEDDED_MODELS_ALL
 };
 
 enum EmbeddedShader
 {
-    DEFAULT // Basically no logic
+    DEFAULT, // Basically no logic
+    _EMBEDDED_SHADERS_ALL // Basically no logic
 };
 
 
@@ -36,9 +38,9 @@ public:
 private:
     // name -> model
     std::unordered_map<std::string, std::shared_ptr<Model>> m_allModels;
-    std::unordered_map<EmbeddedModel, std::shared_ptr<Model>> m_embeddedModels;
 
-    std::unordered_map<EmbeddedShader, std::shared_ptr<Shader>> m_embeddedShaders;
+    std::vector<std::shared_ptr<Model>> m_embeddedModels;
+    std::vector<std::shared_ptr<Shader>> m_embeddedShaders;
 
     void InitializeEmbeddedModels();
     void InitializeEmbeddedShaders();
