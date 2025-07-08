@@ -1,4 +1,3 @@
-#include <imgui.h>
 #include "imgui_utils.hpp"
 
 
@@ -43,7 +42,19 @@ void InlinedLabel(const char* text)
 {
     ImGui::Text(text);
     ImGui::SameLine();
-    ImGui::SetCursorPosX(ImGui::CalcTextSize(text).x + 48.f);
+    ImGui::SetCursorPosX(ImGui::CalcTextSize(text).x + 64.f);
+}
+
+void ColorEditEx(const char* label, Color &color, ImGuiColorEditFlags flags)
+{
+    ImVec4 colorVec = ImVec4(color.GetRed() / 255.f, color.GetGreen() / 255.f, color.GetBlue() / 255.f, 0.f);
+
+    if (ImGui::ColorEdit3(label, (float *)&colorVec, flags))
+    {
+        color.SetRed((uint8_t)(colorVec.x * 255));
+        color.SetGreen((uint8_t)(colorVec.y * 255));
+        color.SetBlue((uint8_t)(colorVec.z * 255));
+    }
 }
 
 } // namespace ImGui

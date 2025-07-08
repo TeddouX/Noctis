@@ -2,13 +2,14 @@
 #include "../asset_manager.hpp"
 
 
-void ActorCreationHelper::CreateEmpty(Transform *parent)
+void ActorCreationHelper::AddDefaultComponents(
+    ComponentManager &cm, 
+    Entity entity, 
+    Transform *parent, 
+    const std::string &name
+)
 {
-    Scene *currScene = SCENE_MANAGER().GetCurrScene();
-    ComponentManager &cm = currScene->GetComponentManager();
-    
-    Entity entity = Entity::Create();
-    std::shared_ptr<Actor> actor = std::make_shared<Actor>("Empty Actor", entity);
+    std::shared_ptr<Actor> actor = std::make_shared<Actor>(name, entity);
     cm.AddComponent(entity, actor);
     cm.AddComponent(entity, std::make_shared<Transform>(
         glm::vec3(0), // 0, 0, 0
@@ -17,6 +18,17 @@ void ActorCreationHelper::CreateEmpty(Transform *parent)
         actor, 
         parent
     ));
+}
+
+
+void ActorCreationHelper::CreateEmpty(Transform *parent)
+{
+    Scene *currScene = SCENE_MANAGER().GetCurrScene();
+    ComponentManager &cm = currScene->GetComponentManager();
+    
+    Entity entity = Entity::Create();
+    
+    AddDefaultComponents(cm, entity, parent, "Empty Actor");
 
     currScene->AddEntity(entity);
     currScene->SetSelectedEntity(entity);
@@ -33,16 +45,9 @@ void ActorCreationHelper::CreateSimpleShape(EmbeddedModel modelType, Transform *
     
     Entity entity = Entity::Create();
     std::shared_ptr<Model> model = am.GetEmbeddedModel(modelType);
+    
+    AddDefaultComponents(cm, entity, parent, model->GetBeautifiedName());
 
-    std::shared_ptr<Actor> actor = std::make_shared<Actor>(model->GetBeautifiedName(), entity);
-    cm.AddComponent(entity, actor);
-    cm.AddComponent(entity, std::make_shared<Transform>(
-        glm::vec3(0),
-        glm::vec3(0),
-        parent ? glm::vec3(0) : glm::vec3(1),
-        actor, 
-        parent
-    ));
     cm.AddComponent(entity, std::make_shared<ModelComponent>(*model));
 
     std::shared_ptr<Shader> shader = am.GetEmbeddedShader(EmbeddedShader::DEFAULT);
@@ -52,4 +57,27 @@ void ActorCreationHelper::CreateSimpleShape(EmbeddedModel modelType, Transform *
     currScene->SetSelectedEntity(entity);
 
     LOG_INFO("Created an actor with model ({})", model->GetBeautifiedName())
+}
+
+
+void ActorCreationHelper::CreateDirectionalLight(Transform *parent)
+{
+    Scene *currScene = SCENE_MANAGER().GetCurrScene();
+    ComponentManager &cm = currScene->GetComponentManager();
+
+    Entity entity = Entity::Create();
+
+    AddDefaultComponents(cm, entity, parent, "Directional Light");
+
+    cm.AddComponent(entity, std::make_shared<DirectionalLight>(
+        Vec3(0, -1, 0), // Downwards, normally 
+        Color::White(), 
+        Color::White(), 
+        Color::White()
+    ));
+    
+    currScene->AddEntity(entity);    
+    currScene->SetSelectedEntity(entity);
+    
+    LOG_INFO("Created a directional light")
 }

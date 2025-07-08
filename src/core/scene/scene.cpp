@@ -9,7 +9,7 @@ Scene::Scene(const std::string &name)
     this->m_componentManager.RegisterComponent<Transform>();
     this->m_componentManager.RegisterComponent<ModelComponent>();
     this->m_componentManager.RegisterComponent<Material>();
-    this->m_componentManager.RegisterComponent<TestComponent>();
+    this->m_componentManager.RegisterComponent<DirectionalLight>();
 
     // Register all systems
     this->m_systemsManager.RegisterSystem<RenderSystem>();

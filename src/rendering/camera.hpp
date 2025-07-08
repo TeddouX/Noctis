@@ -12,6 +12,7 @@ struct CameraData
     Mat4 projectionMatrix;
     Mat4 viewMatrix;
     Mat4 modelMatrix;
+    Vec3 pos;
 };
 
 

@@ -11,22 +11,23 @@ void ActorPropertiesWidget::Render()
     if (currScene && selectedEntity.IsValid())
     {
         ComponentManager &cm = currScene->GetComponentManager();
-        std::vector<std::shared_ptr<IComponent>> allComponents 
-            = cm.GetAllComponents(selectedEntity);
+        std::vector<std::shared_ptr<IComponent>> allComponents = cm.GetAllComponents(selectedEntity);
+
+        // The actor component is handled differently from the others
+        // It shouldn't be rendered as a collapsing header
+        HandleActor(cm.GetComponent<Actor>(selectedEntity).get());
         
+        // Transform is processed individually here because it should be inserted at the top of everything
+        IterateComponentProperties(cm.GetComponent<Transform>(selectedEntity));
+
         for (std::shared_ptr<IComponent> &component : allComponents)
         {
-            // The actor component is handled differently from the others
-            // It shouldn't be rendered as a collapsing header
-            if (component->_GetComponentName() == "Actor")
-            {
-                ActorComponent(component.get(), selectedEntity);
-                continue;
-            }
+            // Actor and transform are already handled
+            if (std::dynamic_pointer_cast<Actor>(component) || 
+                std::dynamic_pointer_cast<Transform>(component))
+                continue; 
 
-            if (ImGui::CollapsingHeader(component->_GetComponentName().c_str(), ImGuiTreeNodeFlags_DefaultOpen))
-                for (IProperty *prop : component->_GetComponentProperties())
-                    ProcessProperty(prop, component.get());
+            IterateComponentProperties(component);
         }  
     }
 
@@ -34,15 +35,24 @@ void ActorPropertiesWidget::Render()
 }
 
 
-void ActorPropertiesWidget::ActorComponent(IComponent *component, Entity entity)
+void ActorPropertiesWidget::IterateComponentProperties(std::shared_ptr<IComponent> component)
+{
+    std::string componentName = component->_GetComponentName();
+    std::string headerTitle = SplitStringAtCapital(componentName);
+
+    if (ImGui::CollapsingHeader(headerTitle.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+        for (IProperty *prop : component->_GetComponentProperties())
+            ProcessProperty(prop, component.get());
+}
+
+
+void ActorPropertiesWidget::HandleActor(IComponent *component)
 {
     ImGui::SeparatorText("Actor");
 
     for (IProperty *prop : component->_GetComponentProperties())
     {
         std::any value = prop->GetValue(component);
-        std::shared_ptr<Transform> actorTransform = 
-            SCENE_MANAGER().GetCurrScene()->GetComponentManager().GetComponent<Transform>(entity);
 
         // The actor's name
         if (value.type() == typeid(std::reference_wrapper<std::string>)) 
@@ -81,11 +91,11 @@ void ActorPropertiesWidget::ProcessProperty(IProperty *property, IComponent *com
         std::string &s = std::any_cast<std::reference_wrapper<std::string>>(value);
         ImGui::ResizableInputText(GenImGuiID("string_input", property, component).c_str(), s);
     }
-    else if (value.type() == typeid(std::reference_wrapper<glm::vec3>))   // vector 3
+    else if (value.type() == typeid(std::reference_wrapper<Vec3>))        // vector 3
     {
         ImGui::InlinedLabel(property->GetBeautifiedName().c_str());
 
-        glm::vec3 &v3 = std::any_cast<std::reference_wrapper<glm::vec3>>(value);
+        Vec3 &v3 = std::any_cast<std::reference_wrapper<Vec3>>(value);
         std::string id = GenImGuiID("vec3_input", property, component);
 
         ImGui::PushItemWidth(100.f);
@@ -106,12 +116,20 @@ void ActorPropertiesWidget::ProcessProperty(IProperty *property, IComponent *com
 
         ImGui::PopItemWidth();
     }
-    else if (value.type() == typeid(std::reference_wrapper<Model>))      // Model (temporary)
+    else if (value.type() == typeid(std::reference_wrapper<Model>))       // Model (temporary)
     {
         ImGui::InlinedLabel(property->GetBeautifiedName().c_str());
         
         Model &m = std::any_cast<std::reference_wrapper<Model>>(value);
         ImGui::Text(m.GetBeautifiedName().c_str());
+    }
+    else if (value.type() == typeid(std::reference_wrapper<Color>))       // Color
+    {
+        ImGui::InlinedLabel(property->GetBeautifiedName().c_str());
+
+        Color &c = std::any_cast<std::reference_wrapper<Color>>(value);
+        std::string id = GenImGuiID("color_input", property, component);
+        ImGui::ColorEditEx(id.c_str(), c, ImGuiColorEditFlags_NoInputs);
     }
 }   
 

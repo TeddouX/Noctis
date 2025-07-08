@@ -121,6 +121,14 @@ void SceneTreeWidget::HandleActorCreationMenu(Transform *parent)
             ImGui::EndMenu();    
         }
 
+        if (ImGui::BeginMenu("Lights"))
+        {
+            if (ImGui::MenuItem("Directional Light"))
+                ActorCreationHelper::CreateDirectionalLight(parent);
+            
+            ImGui::EndMenu();    
+        }
+
         ImGui::EndPopup();
     }
     ImGui::PopStyleVar();

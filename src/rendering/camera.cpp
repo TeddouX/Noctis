@@ -63,6 +63,7 @@ void Camera::SetShaderMatrices(Shader& shader, Mat4 modelMatrix)
 	data.modelMatrix = modelMatrix;
 	data.viewMatrix = this->GetViewMatrix();
 	data.projectionMatrix = this->GetProjectionMatrix();
+	data.pos = this->m_position;
 
 	this->m_cameraSSBO.UploadData(data);
 }
