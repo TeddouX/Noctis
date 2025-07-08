@@ -40,6 +40,9 @@ void RenderSystem::Update(const ComponentManager &cm, float dt) const
                 continue;
             }
 
+            glClearColor(.09f, .09f, .09f, 1.f);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
             // Actually render the model
             shader->Use();
             shader->SetMatrix("Model", transform->GetModelMatrix());

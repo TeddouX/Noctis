@@ -27,8 +27,6 @@ void SceneDisplayWidget::Render()
     ImVec2 windowSize = ImGui::GetIO().DisplaySize;
     ImVec2 availableSpace = ImGui::GetContentRegionAvail();
 
-    LOG_INFO("{}, {}", ImGui::GetStyle().DisplayWindowPadding.x, ImGui::GetStyle().DisplayWindowPadding.y)
-
     static ImVec2 lastSize = availableSpace;
 
     // If the window is not minimized
@@ -45,9 +43,6 @@ void SceneDisplayWidget::Render()
         if (availableSpace.x != lastSize.x || availableSpace.y != lastSize.y)
             this->UpdateViewport((int)availableSpace.x, (int)availableSpace.y);
 
-        glClearColor(.09f, .09f, .09f, 1.f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
         scene.GetSystem<RenderSystem>()->SetCamera(&this->m_camera);
         scene.UpdateSystem<RenderSystem>(.0f);
 
@@ -57,7 +52,7 @@ void SceneDisplayWidget::Render()
             (float)this->m_viewportX, 
             (float)this->m_viewportY + ImGui::GetStyle().DisplayWindowPadding.y
         ));
-        
+
         ImGui::Image(
             (ImTextureID)(intptr_t) this->m_frameBuffer.GetTextureID(), 
             ImVec2((float)this->m_viewportWidth, (float)this->m_viewportHeight),
