@@ -39,6 +39,7 @@ private:
 	float m_fov;
 	float m_yaw = 0.f, m_pitch = 0.f;
 
-	SSBO<float> test;
+    void Init();
+
     SSBO<CameraData> m_cameraSSBO;
 };

@@ -4,12 +4,19 @@
 Camera::Camera()
 	: m_position(0, 0, 0), m_aspectRatio(0.f), m_fov(0.f), m_near(0.f), m_far(0.f)
 {
+	this->Init();
 }
 
 
 Camera::Camera(Vec3 pos, float aspectRatio, float fov, float near, float far)
 	: m_position(pos), m_aspectRatio(aspectRatio),  m_fov(glm::radians(fov)), m_near(near), m_far(far)
 {
+	this->Init();
+}
+
+void Camera::Init()
+{
+	this->m_cameraSSBO.BindToPoint(0);
 }
 
 
@@ -58,8 +65,4 @@ void Camera::SetShaderMatrices(Shader& shader, Mat4 modelMatrix)
 	data.projectionMatrix = this->GetProjectionMatrix();
 
 	this->m_cameraSSBO.UploadData(data);
-	this->m_cameraSSBO.BindToPoint(0);
-
-	test.UploadData(.5f);
-	test.BindToPoint(1);
 }

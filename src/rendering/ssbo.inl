@@ -3,7 +3,7 @@
 
 template <typename T>
 SSBO<T>::SSBO(GLuint bindPoint, GLenum usage)
-    : m_bindPoint(bindPoint)
+    : m_bindPoint(bindPoint), m_usage(usage)
 {
     glGenBuffers(1, &this->m_id);
 }
@@ -24,9 +24,10 @@ void SSBO<T>::UploadData(std::vector<T> data)
 
 
 template <typename T>
-void SSBO<T>::UploadData(const T& data)
+void SSBO<T>::UploadData(T data)
 {
     this->Bind();
+
     glBufferData(
         GL_SHADER_STORAGE_BUFFER, 
         sizeof(T), 
@@ -54,7 +55,7 @@ void SSBO<T>::BindToPoint(GLuint point)
 template <typename T>
 void SSBO<T>::BindToPoint()
 {
-    glBindBufferBase(this->m_usage, this->m_bindPoint, this->m_id);
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, this->m_bindPoint, this->m_id);
 }
 
 

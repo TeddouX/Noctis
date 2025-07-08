@@ -12,7 +12,7 @@ public:
     // Upload data to this SSBO
     void UploadData(std::vector<T> data);
     // Upload data to this SSBO
-    void UploadData(const T& data);
+    void UploadData(T data);
 
     // Bind this SSBO
     void Bind();
