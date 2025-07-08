@@ -10,7 +10,10 @@
 
 enum EmbeddedModel
 {
-    CUBE  
+    CUBE,
+    CYLINDER,
+    MONKEY,
+    SPHERE
 };
 
 enum EmbeddedShader

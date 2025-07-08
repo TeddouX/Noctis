@@ -111,7 +111,7 @@ void ActorPropertiesWidget::ProcessProperty(IProperty *property, IComponent *com
         ImGui::InlinedLabel(property->GetBeautifiedName().c_str());
         
         Model &m = std::any_cast<std::reference_wrapper<Model>>(value);
-        ImGui::Text(m.GetName().c_str());
+        ImGui::Text(m.GetBeautifiedName().c_str());
     }
 }   
 

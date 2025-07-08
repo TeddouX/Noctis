@@ -50,13 +50,6 @@ Shader::Shader(const std::string &name, const std::string &vertexPath, const std
 }
 
 
-Shader::Shader(const std::string &name, const char *vertexCode, const char *fragmentCode)
-	: m_name(name)
-{
-	this->CreateProgram(vertexCode, fragmentCode);
-}
-
-
 Shader::~Shader()
 {
 	glDeleteProgram(this->m_shaderProgramID);

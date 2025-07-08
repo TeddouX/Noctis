@@ -108,6 +108,15 @@ void SceneTreeWidget::HandleActorCreationMenu(Transform *parent)
         {
             if (ImGui::MenuItem("Cube")) 
                 ActorCreationHelper::CreateSimpleShape(EmbeddedModel::CUBE, parent);
+            
+            if (ImGui::MenuItem("Cylindre")) 
+                ActorCreationHelper::CreateSimpleShape(EmbeddedModel::CYLINDER, parent);
+            
+            if (ImGui::MenuItem("Monkey")) 
+                ActorCreationHelper::CreateSimpleShape(EmbeddedModel::MONKEY, parent);
+            
+            if (ImGui::MenuItem("Sphere")) 
+                ActorCreationHelper::CreateSimpleShape(EmbeddedModel::SPHERE, parent);
                 
             ImGui::EndMenu();    
         }

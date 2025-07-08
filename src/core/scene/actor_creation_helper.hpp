@@ -1,4 +1,6 @@
 #pragma once
+#include <regex>
+
 #include "scene_manager.hpp"
 
 #include "../project.hpp"

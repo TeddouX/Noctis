@@ -16,7 +16,6 @@ class Shader
 {
 public:
 	Shader(const std::string &name, const std::string &vertexPath, const std::string &fragmentPath);
-	Shader(const std::string &name, const char *vertexCode, const char *fragmentCode);
 	~Shader();
 
 	const std::string &GetName() const { return this->m_name; }

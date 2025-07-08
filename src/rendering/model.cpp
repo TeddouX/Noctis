@@ -15,29 +15,20 @@ Model::Model(const std::string &path)
         return;
     }
 
-    this->m_name = std::string(scene->mName.C_Str());
+    this->m_name = std::string(scene->mRootNode->mName.C_Str());
     this->m_meshes = this->ProcessNode(scene->mRootNode, scene);
 }
 
 
-Model::Model(const std::string &name, const std::string &objData)
-    : m_name(name)
+std::string Model::GetBeautifiedName() const
 {
-    Assimp::Importer importer;
-    const aiScene *scene = importer.ReadFileFromMemory(
-        objData.c_str(),
-        objData.size(),
-        aiProcess_Triangulate | aiProcess_FlipUVs,
-        "obj"
-    );
+    std::string beautifiedName = this->m_name;
+    beautifiedName[0] = toupper(beautifiedName[0]);
 
-    if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) 
-    {
-        LOG_ERR("Couldn't load model: {}", importer.GetErrorString())
-        return;
-    }
-
-    this->m_meshes = this->ProcessNode(scene->mRootNode, scene);
+    std::regex pattern(".obj", std::regex_constants::icase);
+    beautifiedName = std::regex_replace(beautifiedName, pattern, "");
+    
+    return beautifiedName;
 }
 
 

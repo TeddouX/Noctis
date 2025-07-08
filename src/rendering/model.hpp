@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <regex>
 #include <string>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -16,9 +17,10 @@ class Model
 {
 public:
     Model(const std::string &path);
-    Model(const std::string &name, const std::string &objData);
 
     inline const std::string &GetName() { return this->m_name; }
+    std::string GetBeautifiedName() const;
+
 
     void Render(Shader &Shader) const;
 private:

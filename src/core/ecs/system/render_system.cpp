@@ -12,6 +12,9 @@ void RenderSystem::Update(const ComponentManager &cm, float dt) const
     const std::unordered_map<Entity, std::shared_ptr<Transform>> &transforms 
         = cm.GetEntities<Transform>();
 
+    glClearColor(.09f, .09f, .09f, 1.f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     for (auto &[entity, transform] : transforms) {
         if (cm.HasComponent<ModelComponent>(entity)) {
             std::shared_ptr<ModelComponent> modelComponent 
@@ -39,9 +42,6 @@ void RenderSystem::Update(const ComponentManager &cm, float dt) const
                 LOG_ERR("Material {} has no shader assigned, so it can't be rendered.", material->GetName())
                 continue;
             }
-
-            glClearColor(.09f, .09f, .09f, 1.f);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             // Actually render the model
             shader->Use();

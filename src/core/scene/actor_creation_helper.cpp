@@ -19,6 +19,7 @@ void ActorCreationHelper::CreateEmpty(Transform *parent)
     ));
 
     currScene->AddEntity(entity);
+    currScene->SetSelectedEntity(entity);
 
     LOG_INFO("Created empty actor.")
 }
@@ -32,12 +33,13 @@ void ActorCreationHelper::CreateSimpleShape(EmbeddedModel modelType, Transform *
     
     Entity entity = Entity::Create();
     std::shared_ptr<Model> model = am.GetEmbeddedModel(modelType);
-    std::shared_ptr<Actor> actor = std::make_shared<Actor>(model->GetName(), entity);
+
+    std::shared_ptr<Actor> actor = std::make_shared<Actor>(model->GetBeautifiedName(), entity);
     cm.AddComponent(entity, actor);
     cm.AddComponent(entity, std::make_shared<Transform>(
-        glm::vec3(0), // 0, 0, 0
-        glm::vec3(0), // No rotation 
-        parent ? glm::vec3(0) : glm::vec3(1), // Because scale is also relative to the parent 
+        glm::vec3(0),
+        glm::vec3(0),
+        parent ? glm::vec3(0) : glm::vec3(1),
         actor, 
         parent
     ));
@@ -47,6 +49,7 @@ void ActorCreationHelper::CreateSimpleShape(EmbeddedModel modelType, Transform *
     cm.AddComponent(entity, std::make_shared<Material>("default", shader));
 
     currScene->AddEntity(entity);
+    currScene->SetSelectedEntity(entity);
 
-    LOG_INFO("Created an actor with model ({})", model->GetName())
+    LOG_INFO("Created an actor with model ({})", model->GetBeautifiedName())
 }
