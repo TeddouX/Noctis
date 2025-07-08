@@ -1,6 +1,7 @@
 
 # Unknown Engine: a simplistic game engine  
-/!\ In developement
+/!\ In developement  
+Trying to reach a ratio of at least 1 comment for 10 lines of code (currently 1/22).
 
 ### Build locally
 
