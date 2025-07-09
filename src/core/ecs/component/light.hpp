@@ -1,3 +1,4 @@
+#pragma once
 #include "component.hpp"
 #include "../../math/color.hpp"
 
@@ -6,22 +7,26 @@ class DirectionalLight : public IComponent
 {
 public:
     ENABLE_REFLECTION(DirectionalLight)
+    
+    struct Data
+    {
+        Vec4 rotation;
+        Vec4 ambient;
+        Vec4 diffuse;
+        Vec4 specular;
+    };
 
-    DirectionalLight(Vec3 direction, Color ambient, Color diffuse, Color specular)
-        : m_dir(direction), m_ambient(ambient), m_diffuse(diffuse), m_specular(specular) {};
+    // The rotation doesn't need to be displayed in the editor
+    Vec3 rotation; 
+    PROPERTY(Color, ambient)
+    PROPERTY(Color, diffuse)
+    PROPERTY(Color, specular)
 
-    Vec3 &GetDirection() { return this->m_dir; }
-    PROPERTY_GETTER(GetDirection)
-    Color &GetAmbientColor() { return this->m_ambient; }
-    PROPERTY_GETTER(GetAmbientColor)
-    Color &GetDiffuseColor() { return this->m_diffuse; }
-    PROPERTY_GETTER(GetDiffuseColor)
-    Color &GetSpecularColor() { return this->m_specular; }
-    PROPERTY_GETTER(GetSpecularColor)
+    DirectionalLight()
+        : ambient(Color::White()), diffuse(Color::White()), specular(Color::White()) {};
+    
+    DirectionalLight(Color ambient, Color diffuse, Color specular)
+        : ambient(ambient), diffuse(diffuse), specular(specular) {};
 
-private:
-    Vec3 m_dir;
-    Color m_ambient;
-    Color m_diffuse;
-    Color m_specular;
+    Data GetData();
 };

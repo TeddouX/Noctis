@@ -2,17 +2,18 @@
 
 // ONLY FOR TESTING
 #include "../../core/scene/scene.hpp"
-#include "../../core/scene/scene_manager.hpp"
 
 
 // ONLY FOR TESTING
-Scene scene("HelloWorld");
+Scene *scene;
 
 SceneDisplayWidget::SceneDisplayWidget()
 {
     // TESTING
-    SCENE_MANAGER().AddScene(&scene);
-    SCENE_MANAGER().SetCurrScene(scene.GetName());
+    scene = new Scene("HelloWorld");
+
+    SCENE_MANAGER().AddScene(scene);
+    SCENE_MANAGER().SetCurrScene(scene->GetName());
 }
 
 
@@ -43,8 +44,10 @@ void SceneDisplayWidget::Render()
         if (availableSpace.x != lastSize.x || availableSpace.y != lastSize.y)
             this->UpdateViewport((int)availableSpace.x, (int)availableSpace.y);
 
-        scene.GetSystem<RenderSystem>()->SetCamera(&this->m_camera);
-        scene.UpdateSystem<RenderSystem>(.0f);
+        Scene *currScene = SCENE_MANAGER().GetCurrScene();
+        currScene->GetSystem<RenderSystem>()->SetCamera(&this->m_camera);
+        currScene->UpdateSystem<LightingSystem>(.0f);
+        currScene->UpdateSystem<RenderSystem>(.0f);
 
         this->m_frameBuffer.Unbind();
 

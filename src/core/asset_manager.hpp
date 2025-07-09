@@ -20,7 +20,8 @@ enum EmbeddedModel
 enum EmbeddedShader
 {
     DEFAULT, // Basically no logic
-    _EMBEDDED_SHADERS_ALL // Basically no logic
+    LIT, 
+    _EMBEDDED_SHADERS_ALL 
 };
 
 

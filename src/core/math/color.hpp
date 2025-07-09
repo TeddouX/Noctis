@@ -12,7 +12,8 @@ public:
 
     static inline Color White() { return Color(255, 255, 255); }
 
-    U8Vec3   ToFloats();
+    Vec3     ToFloats();
+    Vec4     ToPaddedFloats();
     uint32_t ToNumber();
 
     inline uint8_t GetRed() { return this->m_red; }

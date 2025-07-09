@@ -8,7 +8,7 @@
 
 enum TextureType
 {
-    DIFFUSE, // Only one that is currently supported
+    DIFFUSE,
     SPECULAR,
     NORMAL,
     HEIGHT
@@ -18,12 +18,14 @@ enum TextureType
 class Texture
 {
 public:
-    Texture(int width, int height);
+    Texture(int width, int height, int internalFormat = GL_RGB, int format = GL_RGB);
     Texture(const std::string &path, TextureType type);
+
 
     GLuint GetID() const;
 
     void Bind() const;
+    void Delete();
 
 private:
     GLuint      m_id;

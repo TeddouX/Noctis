@@ -1,7 +1,7 @@
 #include "render_system.hpp"
 
 
-void RenderSystem::Update(const ComponentManager &cm, float dt) const
+void RenderSystem::Update(const ComponentManager &cm, float dt)
 {
     if (!this->m_camera)
     {
@@ -45,6 +45,7 @@ void RenderSystem::Update(const ComponentManager &cm, float dt) const
 
             // Actually render the model
             shader->Use();
+            material->UploadData();
             this->m_camera->UploadData(transform->GetModelMatrix());
             modelComponent->GetModel().Render(*shader);
         }

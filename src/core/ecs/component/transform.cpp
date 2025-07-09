@@ -72,7 +72,7 @@ void Transform::RemoveChild(Transform *child)
 
 Mat4 Transform::GetModelMatrix() const
 {
-    return UnE::Math::ModelMatrix(
+    return ModelMatrix(
         this->GetWorldPos(), 
         this->GetWorldRot(),
         this->GetWorldScale()

@@ -6,6 +6,7 @@ Scene::Scene(const std::string &name)
 {
     // Register all systems
     this->m_systemsManager.RegisterSystem<RenderSystem>();
+    this->m_systemsManager.RegisterSystem<LightingSystem>();
 }
 
 

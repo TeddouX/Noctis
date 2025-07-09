@@ -1,9 +1,6 @@
 #include "math.hpp"
 
 
-namespace UnE::Math
-{
-
 Mat4 ModelMatrix(Vec3 pos, Vec3 rot, Vec3 scale)
 {
     // Identity
@@ -38,8 +35,6 @@ Mat4 PerspectiveProjMatrix(float fov, float aspect, float near, float far)
 
 Vec3 Normalize(Vec3 vec) { return glm::normalize(vec); }
 
-float *GetPtr(Mat4 mat) { return glm::value_ptr(mat); }
+float *GetPtr(Mat4 mat) { return &(mat[0].x); }
 
 float Radians(float degrees) { return glm::radians(degrees); }
-
-}

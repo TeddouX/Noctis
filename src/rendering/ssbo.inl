@@ -20,6 +20,23 @@ void SSBO<T>::UploadData(std::vector<T> data)
         data.data(), 
         this->m_usage
     );
+    
+    this->BindToPoint();
+}
+
+template <typename T>
+void SSBO<T>::UploadRaw(const void *data, size_t dataSize)
+{
+    this->Bind();
+
+    glBufferData(
+        GL_SHADER_STORAGE_BUFFER, 
+        dataSize, 
+        data, 
+        this->m_usage
+    );
+
+    this->BindToPoint();
 }
 
 
@@ -34,6 +51,8 @@ void SSBO<T>::UploadData(T data)
         &data, 
         this->m_usage
     );
+
+    this->BindToPoint();
 }
 
 

@@ -35,6 +35,7 @@ Window::Window(int width, int height, const std::string &title)
 		exit(-1);
 	}
 
+    glEnable(GL_DEPTH_TEST);
 }
 
 

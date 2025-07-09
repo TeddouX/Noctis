@@ -1,12 +1,22 @@
 #include "color.hpp"
 
 
-U8Vec3 Color::ToFloats()
+Vec3 Color::ToFloats()
 {
-    return U8Vec3(
-        this->m_red   / 255,
-        this->m_green / 255,
-        this->m_blue  / 255
+    return Vec3(
+        (float)this->m_red   / 255.f,
+        (float)this->m_green / 255.f,
+        (float)this->m_blue  / 255.f
+    );
+}
+
+Vec4 Color::ToPaddedFloats()
+{
+    return Vec4(
+        (float)this->m_red   / 255.f,
+        (float)this->m_green / 255.f,
+        (float)this->m_blue  / 255.f,
+        0
     );
 }
 

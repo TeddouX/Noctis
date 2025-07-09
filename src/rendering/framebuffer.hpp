@@ -28,5 +28,5 @@ public:
 private:
     IVec2     m_size;
     GLuint    m_id;
-    Texture   m_texture;
+    Texture   m_texture, m_depthTexture;
 };

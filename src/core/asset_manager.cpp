@@ -33,4 +33,9 @@ void AssetManager::InitializeEmbeddedShaders()
         "./assets/shaders/default.vert",
         "./assets/shaders/default.frag"
     );
+    this->m_embeddedShaders[EmbeddedShader::LIT] = std::make_shared<Shader>(
+        "default",
+        "./assets/shaders/default.vert",
+        "./assets/shaders/lit.frag"
+    );
 }

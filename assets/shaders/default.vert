@@ -22,7 +22,10 @@ void main()
     gl_Position = camera.projectionMatrix * camera.viewMatrix * camera.modelMatrix * vec4(aPos, 1.0);
 
     TexCoord = vec2(aTexCoord.x, 1 - aTexCoord.y);
-    Normal = aNormal;
+    
+    mat3 normalMatrix = transpose(inverse(mat3(camera.modelMatrix)));
+    Normal = normalize(normalMatrix * aNormal);
+    
     FragPos = vec3(camera.modelMatrix * vec4(aPos, 1.0));
     CameraPos = camera.pos;
 }

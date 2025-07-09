@@ -4,9 +4,6 @@
 #include "../core/math/math.hpp"
 
 
-namespace Math = UnE::Math;
-
-
 struct CameraData
 {
     Mat4 projectionMatrix;

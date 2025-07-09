@@ -18,6 +18,11 @@ public:
     /// @brief Upload a single object to this SSBO
     /// @param data The object sent through this SSBO
     void UploadData(T data);
+
+    /// @brief Upload raw data to the SSBO
+    /// @param data Pointer to the data to upload.
+    /// @param dataSize Size of the data in bytes.
+    void UploadRaw(const void *data, size_t dataSize);  
     
     /// @brief Bind this SSBO to a binding point to later use it in a shader
     /// @param point The binding point

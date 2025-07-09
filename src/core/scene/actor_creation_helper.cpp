@@ -50,7 +50,7 @@ void ActorCreationHelper::CreateSimpleShape(EmbeddedModel modelType, Transform *
 
     cm.AddComponent(entity, std::make_shared<ModelComponent>(*model));
 
-    std::shared_ptr<Shader> shader = am.GetEmbeddedShader(EmbeddedShader::DEFAULT);
+    std::shared_ptr<Shader> shader = am.GetEmbeddedShader(EmbeddedShader::LIT);
     cm.AddComponent(entity, std::make_shared<Material>("default", shader));
 
     currScene->AddEntity(entity);
@@ -70,7 +70,6 @@ void ActorCreationHelper::CreateDirectionalLight(Transform *parent)
     AddDefaultComponents(cm, entity, parent, "Directional Light");
 
     cm.AddComponent(entity, std::make_shared<DirectionalLight>(
-        Vec3(0, -1, 0), // Downwards, normally 
         Color::White(), 
         Color::White(), 
         Color::White()

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 
+#include "../../core/scene/scene_manager.hpp"
 #include "../../rendering/framebuffer.hpp"
 #include "../../rendering/camera.hpp"
 #include "widget.hpp"

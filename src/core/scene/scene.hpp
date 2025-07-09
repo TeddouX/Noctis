@@ -14,6 +14,7 @@
 #include "../ecs/component/all_components.hpp"
 #include "../ecs/system/systems_manager.hpp"
 #include "../ecs/system/render_system.hpp"
+#include "../ecs/system/lighting_system.hpp"
 
 
 namespace fs = std::filesystem;

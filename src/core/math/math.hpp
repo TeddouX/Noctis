@@ -5,16 +5,13 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 
-using U8Vec3 = glm::u8vec3;
-using Vec3 = glm::vec3;
 using Vec2 = glm::vec2;
 using IVec2 = glm::ivec2;
+using Vec3 = glm::vec3;
+using Vec4 = glm::vec4;
 using Mat4 = glm::mat4;
 using Quaternion = glm::quat;
 
-
-namespace UnE::Math
-{
     
 Mat4 ModelMatrix(Vec3 pos, Vec3 rot, Vec3 scale);
 Mat4 ViewMatrix(Vec3 pos, Vec3 front);
@@ -26,5 +23,3 @@ Vec3 Normalize(Vec3 vec);
 float *GetPtr(Mat4 mat);
 
 float Radians(float degrees);
-
-}

@@ -15,37 +15,53 @@ struct DirectionalLight
     vec3 specular;
 };
 
+
 layout (std430, binding = 1) buffer ColoredMaterial
 {
-    vec3 ambientReflectance;
-    vec3 diffuseReflectance; // Color
-    vec3 specularReflectance; // Color
+    vec3 diffuse;
+    vec3 specular;
+    float shininess;
 } material;
 
-
-void main()
+layout (std430, binding = 2) buffer DirectionalLights
 {
-
-}
+    uint dirLightCount;
+    DirectionalLight dirLights[];
+};
 
 
 vec3 DirectionalLighting(DirectionalLight light)
 {
-    float specularSize = 32;
+    float ambientStrength = 0.1; // ?
 
     // Ambient
-    vec3 ambient = material.ambientReflectance * light.ambient;
+    vec3 ambient = light.ambient * material.diffuse * ambientStrength;
 
     // Diffuse
-    vec3 lightDirection = normalize(-light.direction);
-    float difference = max(0, dot(lightDirection, Normal));
-    vec3 diffuse = material.diffuseReflectance * light.diffuse * difference;
-
-    // Specular (Blinn Phong)
+    vec3 norm = normalize(Normal);
+    vec3 lightDir = normalize(-light.direction);  
+    float diff = max(dot(norm, lightDir), 0.0);
+    vec3 diffuse = light.diffuse * material.diffuse * diff;  
+    
+    // Specular
     vec3 viewDir = normalize(CameraPos - FragPos);
-    vec3 halfwayDir = normalize(lightDirection + CameraPos);
-    float spec = pow(max(dot(Normal, halfwayDir), 0), specularSize);
-    vec3 specular = material.specularReflectance * light.specular * spec;
+    vec3 reflectDir = reflect(-lightDir, norm);  
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    vec3 specular = light.specular * spec * material.specular;
 
     return ambient + diffuse + specular;
+}
+
+
+void main()
+{
+    vec3 final = DirectionalLighting(dirLights[0]);
+    // vec3 final = vec3(0);
+
+    // for (int i = 0; i < dirLightCount; i++)
+    // {
+    //     final += DirectionalLighting(dirLights[i]);
+    // }
+
+    FragColor = vec4(final, 1.0);
 }

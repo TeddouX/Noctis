@@ -30,9 +30,9 @@ Vec3 Camera::GetForwardVec() const
 {
 	Vec3 front(0.f);
 
-	front.x = cos(Math::Radians(m_yaw)) * cos(Math::Radians(m_pitch));
-	front.y = sin(Math::Radians(m_pitch));
-	front.z = sin(Math::Radians(m_yaw)) * cos(Math::Radians(m_pitch));
+	front.x = cos(Radians(m_yaw)) * cos(Radians(m_pitch));
+	front.y = sin(Radians(m_pitch));
+	front.z = sin(Radians(m_yaw)) * cos(Radians(m_pitch));
 
 	return front;
 }
@@ -40,15 +40,15 @@ Vec3 Camera::GetForwardVec() const
 
 Mat4 Camera::GetViewMatrix() const
 {
-	Vec3 cameraFront = Math::Normalize(this->GetForwardVec());
+	Vec3 cameraFront = Normalize(this->GetForwardVec());
 
-	return Math::ViewMatrix(this->m_position, cameraFront);
+	return ViewMatrix(this->m_position, cameraFront);
 }
 
 
 Mat4 Camera::GetProjectionMatrix() const
 {
-	return Math::PerspectiveProjMatrix(
+	return PerspectiveProjMatrix(
 		this->m_fov, 
 		this->m_aspectRatio, 
 		this->m_near, 
