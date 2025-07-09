@@ -57,7 +57,7 @@ Mat4 Camera::GetProjectionMatrix() const
 }
 
 
-void Camera::SetShaderMatrices(Shader& shader, Mat4 modelMatrix)
+void Camera::UploadData(Mat4 modelMatrix)
 {
 	CameraData data;
 	data.modelMatrix = modelMatrix;

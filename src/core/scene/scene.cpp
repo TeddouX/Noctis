@@ -4,13 +4,6 @@
 Scene::Scene(const std::string &name)
     : m_name(name)
 {
-    // Register all components
-    this->m_componentManager.RegisterComponent<Actor>();
-    this->m_componentManager.RegisterComponent<Transform>();
-    this->m_componentManager.RegisterComponent<ModelComponent>();
-    this->m_componentManager.RegisterComponent<Material>();
-    this->m_componentManager.RegisterComponent<DirectionalLight>();
-
     // Register all systems
     this->m_systemsManager.RegisterSystem<RenderSystem>();
 }

@@ -31,10 +31,10 @@ public:
 
     const std::vector<std::shared_ptr<IComponent>> GetAllComponents(Entity entity) const;
 
+private:
     template <typename T> 
     void RegisterComponent();
 
-private:
     template <typename T>
     ComponentArray<T> &GetComponentArray() const;
 };

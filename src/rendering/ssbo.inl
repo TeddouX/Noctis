@@ -63,5 +63,5 @@ template <typename T>
 void SSBO<T>::Resize(size_t newSize)
 {
     this->Bind();
-    glBufferData(GL_SHADER_STORAGE_BUFFER, newSize, nullptr, this->m_usage);
+    glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(T) * newSize, nullptr, this->m_usage);
 }

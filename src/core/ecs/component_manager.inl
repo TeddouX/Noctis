@@ -46,13 +46,15 @@ void ComponentManager::RegisterComponent()
 template <typename T>
 ComponentArray<T> &ComponentManager::GetComponentArray() const
 {
-    std::type_index type = std::type_index(typeid(T));
-    auto it = this->m_componentArrays.find(type);
+    std::type_index type(typeid(T));
     
-    if (it == this->m_componentArrays.end()) {
-        LOG_ERR("Component \"{}\" not registered.", typeid(T).name())
-        exit(1);
+    auto it = this->m_componentArrays.find(type);
+    if (it == this->m_componentArrays.end()) 
+    {
+        ComponentManager *nonConstThis = const_cast<ComponentManager *>(this);
+        nonConstThis->RegisterComponent<T>();
+        it = m_componentArrays.find(type);
     }
 
-    return *static_cast<ComponentArray<T>*>(it->second.get());
+    return *std::static_pointer_cast<ComponentArray<T>>(it->second);
 }

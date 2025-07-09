@@ -17,25 +17,25 @@
     using _MyClass = CLASSNAME;                                                                                               \
     inline static const bool REFLECTED_VARIABLE = true;                                                                       \
     template <typename T>                                                                                                     \
-    static bool _RegisterPropertyHelper(const std::string& name, T _MyClass::*memberPtr)                                       \
+    static bool _RegisterPropertyHelper(const std::string& name, T _MyClass::*memberPtr)                                      \
     {                                                                                                                         \
         PropertyRegistry<CLASSNAME>::RegisterProperty(name, std::make_unique<MemberProperty<T, CLASSNAME>>(name, memberPtr)); \
         return true;                                                                                                          \
     }                                                                                                                         \
     template <typename T>                                                                                                     \
-    static bool _RegisterGetterHelper(const std::string& name, T (_MyClass::*getterPtr)())                                     \
+    static bool _RegisterGetterHelper(const std::string& name, T (_MyClass::*getterPtr)())                                    \
     {                                                                                                                         \
         PropertyRegistry<CLASSNAME>::RegisterProperty(name, std::make_unique<GetterProperty<T, CLASSNAME>>(name, getterPtr)); \
         return true;                                                                                                          \
     }                                                                                                                         \
-    std::vector<IProperty*> _GetComponentProperties() const override                                                                    \
+    std::vector<IProperty*> _GetComponentProperties() const override                                                          \
     {                                                                                                                         \
         std::vector<IProperty*> result;                                                                                       \
         for (std::shared_ptr<IProperty> &prop : PropertyRegistry<CLASSNAME>::GetPropertyList())                               \
             result.push_back(prop.get());                                                                                     \
         return result;                                                                                                        \
     }                                                                                                                         \
-    const std::string _GetComponentName() const override                                                                     \
+    const std::string _GetComponentName() const override                                                                      \
     {                                                                                                                         \
         return #CLASSNAME;                                                                                                    \
     } 

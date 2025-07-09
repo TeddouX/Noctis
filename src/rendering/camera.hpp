@@ -28,7 +28,7 @@ public:
     Vec3 GetForwardVec() const;
 	Mat4 GetViewMatrix() const;
 	Mat4 GetProjectionMatrix() const;
-    void SetShaderMatrices(Shader& shader, Mat4 modelMatrix);
+    void UploadData(Mat4 modelMatrix);
 
     inline const Vec3 &GetPosition() const { return this->m_position; }
     inline const void  SetPosition(const Vec3 &pos) { this->m_position = pos; }
