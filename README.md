@@ -1,7 +1,7 @@
 
 # Unknown Engine: a simplistic game engine  
 /!\ In developement  
-Trying to reach a ratio of at least 1 comment for 10 lines of code (currently 1/22).
+Trying to reach a ratio of at least 1 comment for 10 lines of code (currently 1/19.2).
 
 ### Build locally
 
