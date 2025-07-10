@@ -25,12 +25,6 @@ json ComponentSerializer::Serialize(std::shared_ptr<IComponent> component)
 }
 
 
-std::shared_ptr<IComponent> ComponentSerializer::Deserialize(const json &data)
-{
-    return nullptr;
-}
-
-
 json ComponentSerializer::SerializeValue(const std::any &value)
 {
     if (Is<int>(value.type()))
@@ -49,7 +43,7 @@ json ComponentSerializer::SerializeValue(const std::any &value)
     {
         auto &actor = Unwrap<std::shared_ptr<Actor>>(value);
         return json{
-            {"type", "actor"},
+            {"type", "actor_shared_ptr"},
             {"value", boost::uuids::to_string(actor->GetUUID())}
         };
     }
@@ -57,14 +51,51 @@ json ComponentSerializer::SerializeValue(const std::any &value)
     {
         Transform *&t = Unwrap<Transform *>(value);
         return json{
-            {"type", "transform"},
-            // Sadly this is the only to identify a transform for now
-            // Maybe add a unique identifier for each component but that looks 
-            // annoying to implement.
+            {"type", "transform_ptr"},
+            // Sadly, this is the only to identify a transform for now
+            // Maybe add a unique identifier for each component, but that looks 
+            // annoying to implement and use.
             {"value", t ? boost::uuids::to_string(t->GetActor()->GetUUID()) : ""}
         };
     }
     
     LOG_ERR("Unsupported type for serialization: {}", value.type().name())
     return json{};
+}
+
+
+void ComponentSerializer::DeserializeProperty(const json &propJson, IProperty *property, std::shared_ptr<IComponent> component)
+{
+    std::string propType = propJson["type"];
+    std::any value = property->GetValue(component.get());
+
+    if (propType == "int" && propJson["value"].is_number_integer())
+        Unwrap<int>(value) = propJson["value"];
+    else if (propType == "float" && propJson["value"].is_number_float())
+        Unwrap<float>(value) = propJson["value"];
+    else if (propType == "vec3" && propJson["value"].is_array())
+        Unwrap<Vec3>(value) = Vec3(
+            propJson["value"][0], 
+            propJson["value"][1], 
+            propJson["value"][2]
+        ); 
+    else if (propType == "actor_shared_ptr" && propJson["value"].is_string())
+    {
+        auto actor = std::make_shared<Actor>(
+            boost::uuids::string_generator()(propJson["value"].get<std::string>())
+        );
+        Unwrap<std::shared_ptr<Actor>>(value) = actor;
+    }
+    else if (propType == "transform_ptr" && propJson["value"].is_string())
+    {
+        std::string uuid = propJson["value"].get<std::string>();
+        std::shared_ptr<Actor> actor;
+
+        if (!uuid.empty())
+            actor = std::make_shared<Actor>(
+                boost::uuids::string_generator()(uuid)
+            );
+
+        Unwrap<Transform *>(value) = nullptr;
+    }
 }

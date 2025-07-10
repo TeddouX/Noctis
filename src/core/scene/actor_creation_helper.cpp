@@ -48,7 +48,7 @@ void ActorCreationHelper::CreateSimpleShape(EmbeddedModel modelType, Transform *
     
     AddDefaultComponents(cm, entity, parent, model->GetBeautifiedName());
 
-    cm.AddComponent(entity, std::make_shared<ModelComponent>(*model));
+    cm.AddComponent(entity, std::make_shared<ModelComponent>(model));
 
     std::shared_ptr<Shader> shader = am.GetEmbeddedShader(EmbeddedShader::LIT);
     cm.AddComponent(entity, std::make_shared<Material>("default", shader));

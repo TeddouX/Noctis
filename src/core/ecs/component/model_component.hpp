@@ -11,12 +11,13 @@ class ModelComponent : public IComponent
 public:
     ENABLE_REFLECTION(ModelComponent)
 
-    ModelComponent(Model &model)
+    ModelComponent() = default;
+    ModelComponent(std::shared_ptr<Model> model)
         : m_model(model) {};
 
-    Model &GetModel() { return this->m_model; }
+    std::shared_ptr<Model> &GetModel() { return this->m_model; }
     PROPERTY_GETTER(GetModel)
 
 private:
-    Model &m_model;
+    std::shared_ptr<Model> &m_model;
 };

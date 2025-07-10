@@ -25,6 +25,7 @@ public:
     PROPERTY_D(Color, specularReflectance, Color::White())
     PROPERTY_D(float, specularDefinition, 32.f)
 
+    Material() = default;
     Material(const std::string &name, std::shared_ptr<Shader> shader)
         : m_name(name), m_shader(shader) {};
 

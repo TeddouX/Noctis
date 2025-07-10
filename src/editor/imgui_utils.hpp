@@ -1,6 +1,7 @@
 #include <string>
 #include <imgui.h>
-#include "math/color.hpp"
+
+#include "../core/math/color.hpp"
 
 
 namespace ImGui

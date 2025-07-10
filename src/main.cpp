@@ -32,6 +32,8 @@ int main()
     );
 
     json a = ComponentSerializer::Serialize(transform);
-    LOG_INFO("{}", a.dump())
+
+    auto b = ComponentSerializer::Deserialize<Transform>(a);
+    LOG_ERR("{} {} {}", b->GetWorldPos().x, b->GetWorldPos().y, b->GetWorldPos().z)
 }
 

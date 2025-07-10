@@ -119,12 +119,14 @@ void ActorPropertiesWidget::ProcessProperty(IProperty *property, IComponent *com
 
         ImGui::PopItemWidth();
     }
-    else if (value.type() == typeid(std::reference_wrapper<Model>))       // Model (temporary)
+    else if (value.type() == typeid(std::reference_wrapper<std::shared_ptr<Model>>))       // Model (temporary)
     {
         ImGui::InlinedLabel(property->GetBeautifiedName().c_str());
         
-        Model &m = std::any_cast<std::reference_wrapper<Model>>(value);
-        ImGui::Text(m.GetBeautifiedName().c_str());
+        const std::shared_ptr<Model> &m = 
+            std::any_cast<std::reference_wrapper<std::shared_ptr<Model>>>(value);
+            
+        ImGui::Text(m->GetBeautifiedName().c_str());
     }
     else if (value.type() == typeid(std::reference_wrapper<Color>))       // Color
     {

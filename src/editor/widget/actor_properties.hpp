@@ -1,6 +1,6 @@
 #pragma once
 #include "widget.hpp"
-#include "../../core/imgui_utils.hpp"
+#include "../imgui_utils.hpp"
 #include "../../core/ecs/entity.hpp"
 #include "../../core/ecs/component/property.hpp"
 #include "../../core/ecs/component/actor.hpp"

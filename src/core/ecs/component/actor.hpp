@@ -13,6 +13,10 @@ class Actor : public IComponent
 public:
     ENABLE_REFLECTION(Actor)
     
+    Actor() = default;
+    // This constructor is used as a temporary placeholder
+    // when deserializing components. 
+    Actor(boost::uuids::uuid uuid) : m_uuid(uuid) {};
     Actor(const std::string &name, Entity entity)
         : m_name(name), m_entity(entity), m_uuid(boost::uuids::random_generator()()) {};
 

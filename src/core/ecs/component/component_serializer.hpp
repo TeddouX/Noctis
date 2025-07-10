@@ -16,10 +16,13 @@ class ComponentSerializer
 {
 public:
     static json Serialize(std::shared_ptr<IComponent> component);
-    static std::shared_ptr<IComponent> Deserialize(const json &data);
+
+    template <typename T>
+    static std::shared_ptr<T> Deserialize(const json &data);
 
 private:
     static json SerializeValue(const std::any &value);
+    static void DeserializeProperty(const json &propJson, IProperty *property, std::shared_ptr<IComponent> component);
 
     template <typename T>
     static inline json ScalarJSON(const std::any &value, const std::string &typeName)
@@ -42,3 +45,5 @@ private:
         return ti == typeid(std::reference_wrapper<T>);
     }
 };
+
+#include "component_serializer.inl"

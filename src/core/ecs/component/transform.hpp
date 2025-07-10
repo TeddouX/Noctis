@@ -12,6 +12,10 @@ class Transform : public IComponent
 public:
     ENABLE_REFLECTION(Transform)
 
+    Transform() = default;
+    // This constructor is used as a temporary placeholder
+    // when deserializing components. 
+    Transform(std::shared_ptr<Actor> actor) : m_actor(actor) {};
     Transform(Vec3 pos, Vec3 rot, Vec3 scale, std::shared_ptr<Actor> actor, Transform *parent = nullptr);
 
     /// @returns The position, not relative to this transform's parent
