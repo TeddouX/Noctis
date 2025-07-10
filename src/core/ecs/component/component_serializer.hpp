@@ -29,20 +29,8 @@ private:
     {
         return json{
             {"type", typeName}, 
-            {"value", std::any_cast<std::reference_wrapper<T>>(value).get()}
+            {"value", Unwrap<T>(value)}
         };
-    }
-
-    template <typename T>
-    static inline T &Unwrap(const std::any& value) 
-    { 
-        return std::any_cast<std::reference_wrapper<T>>(value).get(); 
-    }
-
-    template <typename T>
-    static bool Is(const type_info &ti)
-    {
-        return ti == typeid(std::reference_wrapper<T>);
     }
 };
 

@@ -55,9 +55,9 @@ void ActorPropertiesWidget::HandleActor(IComponent *component)
         std::any value = prop->GetValue(component);
 
         // The actor's name
-        if (value.type() == typeid(std::reference_wrapper<std::string>)) 
+        if (Is<std::string>(value.type())) 
         {
-            std::string &actorName = std::any_cast<std::reference_wrapper<std::string>>(value);
+            std::string &actorName = Unwrap<std::string>(value);
             ImGui::ResizableInputText(GenImGuiID("string_input", prop, component).c_str(), actorName);
         }
     }
@@ -73,32 +73,32 @@ void ActorPropertiesWidget::ProcessProperty(IProperty *property, IComponent *com
 
     std::any value = property->GetValue(component);
 
-    if (value.type() == typeid(std::reference_wrapper<int>))              // int 
+    if (Is<int>(value.type()))              // int 
     {
         ImGui::InlinedLabel(property->GetBeautifiedName().c_str());
 
-        int &i = std::any_cast<std::reference_wrapper<int>>(value);
+        int &i = Unwrap<int>(value);
         ImGui::DragInt(GenImGuiID("int_input", property, component).c_str(), &i);
     }
-    else if (value.type() == typeid(std::reference_wrapper<float>))       // float
+    else if (Is<float>(value.type()))       // float
     {
         ImGui::InlinedLabel(property->GetBeautifiedName().c_str());
 
-        float &f = std::any_cast<std::reference_wrapper<float>>(value);
+        float &f = Unwrap<float>(value);
         ImGui::DragFloat(GenImGuiID("float_input", property, component).c_str(), &f, .1f);
     }
-    else if (value.type() == typeid(std::reference_wrapper<std::string>)) // string
+    else if (Is<std::string>(value.type())) // string
     {
         ImGui::InlinedLabel(property->GetBeautifiedName().c_str());
 
-        std::string &s = std::any_cast<std::reference_wrapper<std::string>>(value);
+        std::string &s = Unwrap<std::string>(value);
         ImGui::ResizableInputText(GenImGuiID("string_input", property, component).c_str(), s);
     }
-    else if (value.type() == typeid(std::reference_wrapper<Vec3>))        // vector 3
+    else if (Is<Vec3>(value.type()))        // vector 3
     {
         ImGui::InlinedLabel(property->GetBeautifiedName().c_str());
 
-        Vec3 &v3 = std::any_cast<std::reference_wrapper<Vec3>>(value);
+        Vec3 &v3 = Unwrap<Vec3>(value);
         std::string id = GenImGuiID("vec3_input", property, component);
 
         ImGui::PushItemWidth(64.f);
@@ -119,20 +119,19 @@ void ActorPropertiesWidget::ProcessProperty(IProperty *property, IComponent *com
 
         ImGui::PopItemWidth();
     }
-    else if (value.type() == typeid(std::reference_wrapper<std::shared_ptr<Model>>))       // Model (temporary)
+    else if (Is<std::shared_ptr<Model>>(value.type()))       // Model (temporary)
     {
         ImGui::InlinedLabel(property->GetBeautifiedName().c_str());
         
-        const std::shared_ptr<Model> &m = 
-            std::any_cast<std::reference_wrapper<std::shared_ptr<Model>>>(value);
-            
+        auto &m = Unwrap<std::shared_ptr<Model>>(value);
+
         ImGui::Text(m->GetBeautifiedName().c_str());
     }
-    else if (value.type() == typeid(std::reference_wrapper<Color>))       // Color
+    else if (Is<Color>(value.type()))       // Color
     {
         ImGui::InlinedLabel(property->GetBeautifiedName().c_str());
 
-        Color &c = std::any_cast<std::reference_wrapper<Color>>(value);
+        Color &c = Unwrap<Color>(value);
         std::string id = GenImGuiID("color_input", property, component);
         ImGui::ColorEditEx(id.c_str(), c, ImGuiColorEditFlags_NoInputs);
     }

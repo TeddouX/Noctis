@@ -38,7 +38,7 @@ public:
     void UploadData();
 
 private:
-    SSBO<Data>              m_ssbo = SSBO<Data>(1);
+    SSBO<Material::Data>    m_ssbo = SSBO<Material::Data>(1);
     std::string             m_name;
     std::shared_ptr<Shader> m_shader;
 };

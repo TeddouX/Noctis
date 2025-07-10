@@ -32,8 +32,8 @@ public:
 
     void AddModel(const std::string &modelPath);
     inline std::shared_ptr<Model> GetModel(const std::string &name) { return this->m_allModels.at(name); }
+    
     inline std::shared_ptr<Model> GetEmbeddedModel(EmbeddedModel model) { return this->m_embeddedModels.at(model); }
-
     inline std::shared_ptr<Shader> GetEmbeddedShader(EmbeddedShader shader) { return this->m_embeddedShaders.at(shader); }
 
 private:

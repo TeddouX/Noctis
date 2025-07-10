@@ -14,5 +14,5 @@ public:
 private:
     static void IterateTransformChildren(Transform *transform, const Entity &entity);
     static void HandleActorCreationMenu(Transform *parent);
-    static void HandleDragDrop(Transform *parent);
+    static void HandleDragDropTarget(Transform *parent);
 };

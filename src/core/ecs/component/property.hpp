@@ -28,12 +28,12 @@
         return #CLASSNAME;                                                                                                    \
     } 
 
-    
+
 template <typename _PropTy, typename _ClassTy>
 inline bool _RegisterPropertyHelper(const std::string& name, bool hidden, _PropTy _ClassTy::*memberPtr);
 
 template <typename _PropTy, typename _ClassTy>
-inline bool _RegisterGetterHelper(const std::string& name, bool hidden, _PropTy (_ClassTy::*getterPtr)());
+inline bool _RegisterGetterHelper(const std::string& name, bool hidden, _PropTy &(_ClassTy::*getterPtr)());
 
 
 // A property is a member variable that will be shown in the editor, even if declared as private
@@ -64,6 +64,13 @@ inline bool _RegisterGetterHelper(const std::string& name, bool hidden, _PropTy 
 extern std::string SplitStringAtCapital(std::string &str);
 
 
+template <typename T>
+inline T &Unwrap(const std::any& value);
+
+template <typename T>
+inline bool Is(const type_info &ti);
+
+
 // Fallback if the _Class::_reflected doesn't exist
 template <typename _Class, typename _Type = bool>
 struct IsReflected : std::false_type {};
@@ -85,11 +92,11 @@ public:
 
 
 // Reprensents a member variable in a class C
-template <typename T, typename C>
+template <typename _MemberTy, typename _ClassTy>
 class MemberProperty : public IProperty
 {
 public:
-    using _MemberVar = T C::*;
+    using _MemberVar = _MemberTy _ClassTy::*;
 
     MemberProperty(const std::string &name, bool hidden, _MemberVar member)
         : m_name(name), m_member(member), m_hidden(hidden) {};
@@ -108,11 +115,11 @@ private:
 };
 
 
-template <typename T, typename C>
+template <typename _GetterTy, typename _ClassTy>
 class GetterProperty : public IProperty
 {
 public:
-    using _GetterFun = T &(C::*)();
+    using _GetterFun = _GetterTy &(_ClassTy::*)();
 
     GetterProperty(const std::string &name, bool hidden, _GetterFun getter)
         : m_name(name), m_getter(getter), m_hidden(hidden) {};
@@ -132,7 +139,7 @@ private:
 
 
 // Used to store properties outside the class
-template <typename C>
+template <typename _ClassTy>
 class PropertyRegistry
 {
 public:

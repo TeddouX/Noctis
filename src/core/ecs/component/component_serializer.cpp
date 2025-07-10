@@ -69,24 +69,24 @@ void ComponentSerializer::DeserializeProperty(const json &propJson, IProperty *p
     std::string propType = propJson["type"];
     std::any value = property->GetValue(component.get());
 
-    if (propType == "int" && propJson["value"].is_number_integer())
+    if (propType == "int")
         Unwrap<int>(value) = propJson["value"];
-    else if (propType == "float" && propJson["value"].is_number_float())
+    else if (propType == "float")
         Unwrap<float>(value) = propJson["value"];
-    else if (propType == "vec3" && propJson["value"].is_array())
+    else if (propType == "vec3")
         Unwrap<Vec3>(value) = Vec3(
             propJson["value"][0], 
             propJson["value"][1], 
             propJson["value"][2]
         ); 
-    else if (propType == "actor_shared_ptr" && propJson["value"].is_string())
+    else if (propType == "actor_shared_ptr")
     {
         auto actor = std::make_shared<Actor>(
             boost::uuids::string_generator()(propJson["value"].get<std::string>())
         );
         Unwrap<std::shared_ptr<Actor>>(value) = actor;
     }
-    else if (propType == "transform_ptr" && propJson["value"].is_string())
+    else if (propType == "transform_ptr")
     {
         std::string uuid = propJson["value"].get<std::string>();
         std::shared_ptr<Actor> actor;

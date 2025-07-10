@@ -3,8 +3,7 @@
 
 void LightingSystem::Update(const ComponentManager &cm, float dt)
 {
-    const std::unordered_map<Entity, std::shared_ptr<DirectionalLight>> dirLightsMap
-        = cm.GetEntities<DirectionalLight>();
+    const auto dirLightsMap = cm.GetEntities<DirectionalLight>();
 
     for (auto &[entity, dirLight] : dirLightsMap)
         dirLight->rotation = cm.GetComponent<Transform>(entity)->GetWorldRot();

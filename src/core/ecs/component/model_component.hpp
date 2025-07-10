@@ -19,5 +19,5 @@ public:
     PROPERTY_GETTER(GetModel)
 
 private:
-    std::shared_ptr<Model> &m_model;
+    std::shared_ptr<Model> m_model;
 };

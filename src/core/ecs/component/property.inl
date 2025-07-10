@@ -12,13 +12,26 @@ bool _RegisterPropertyHelper(const std::string& name, bool hidden, _PropTy _Clas
 }
 
 template <typename _PropTy, typename _ClassTy>
-bool _RegisterGetterHelper(const std::string& name, bool hidden, _PropTy (_ClassTy::*getterPtr)())
+bool _RegisterGetterHelper(const std::string& name, bool hidden, _PropTy &(_ClassTy::*getterPtr)())
 {
     PropertyRegistry<_ClassTy>::RegisterProperty(
         name,
         std::make_shared<GetterProperty<_PropTy, _ClassTy>>(name, hidden, getterPtr)
     );
     return true;
+}
+
+
+template <typename T>
+T &Unwrap(const std::any& value) 
+{ 
+    return std::any_cast<std::reference_wrapper<T>>(value).get(); 
+}
+
+template <typename T>
+bool Is(const type_info &ti)
+{
+    return ti == typeid(std::reference_wrapper<T>);
 }
 
 

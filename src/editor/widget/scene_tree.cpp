@@ -22,24 +22,7 @@ void SceneTreeWidget::Render()
                 currScene->SetSelectedEntity(0); 
 
             HandleActorCreationMenu(nullptr); // Parent is the root
-
-            // Set parent to the scene root
-            if (ImGui::BeginDragDropTarget()) 
-            {
-                if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("SCENE_TREE"))
-                {
-                    if (payload->DataSize != sizeof(Transform *))
-                    {
-                        LOG_ERR("Drop payload is not valid.")
-                        return;
-                    }
-
-                    Transform *payloadTransform = *(Transform **)payload->Data;
-                    payloadTransform->SetParent(nullptr);
-                }
-
-                ImGui::EndDragDropTarget();
-            }
+            HandleDragDropTarget(nullptr);
 
             // Avoid undefined due vector reallocation
             const std::vector<Entity> &allEntities = currScene->GetAllEntities();
@@ -78,7 +61,14 @@ void SceneTreeWidget::IterateTransformChildren(Transform *transform, const Entit
         currScene->SetSelectedEntity(entity);
 
     HandleActorCreationMenu(transform);
-    HandleDragDrop(transform);
+
+    if (ImGui::BeginDragDropSource()) 
+    {
+        ImGui::SetDragDropPayload("SCENE_TREE", &transform, sizeof(Transform *));
+        ImGui::EndDragDropSource();
+    }
+
+    HandleDragDropTarget(transform);
 
     if (open)
     {
@@ -135,14 +125,8 @@ void SceneTreeWidget::HandleActorCreationMenu(Transform *parent)
 }
 
 
-void SceneTreeWidget::HandleDragDrop(Transform *parent)
-{
-    if (ImGui::BeginDragDropSource()) 
-    {
-        ImGui::SetDragDropPayload("SCENE_TREE", &parent, sizeof(Transform *));
-        ImGui::EndDragDropSource();
-    }
-    
+void SceneTreeWidget::HandleDragDropTarget(Transform *parent)
+{    
     if (ImGui::BeginDragDropTarget()) 
     {
         if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("SCENE_TREE"))
