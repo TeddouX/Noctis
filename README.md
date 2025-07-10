@@ -14,7 +14,8 @@ Trying to reach a ratio of at least 1 comment for 10 lines of code (currently 1/
 - [Boost-UUID](https://github.com/boostorg/uuid) - Boost.org uuid module
 
 ### Editor
-The editor's UI is made using [ImGui](https://github.com/ocornut/imgui).  
+The editor's UI is made using [Dear ImGui](https://github.com/ocornut/imgui).  
+  
 <img width="1920" height="1080" alt="Screenshot of Uknown Engine's editor's UI" src="https://github.com/user-attachments/assets/0673b0fa-722e-4579-9e54-8539cd8fa626" />
 
 ### Build locally
