@@ -13,7 +13,7 @@ void ResizableInputText(const char* label, std::string& str)
 
     if (ImGui::InputText(
         label, 
-        &buf[0], 
+        (char *)str.c_str(), 
         buf.capacity(),
         ImGuiInputTextFlags_CallbackResize | ImGuiInputTextFlags_EnterReturnsTrue,
         [](ImGuiInputTextCallbackData* data) -> int

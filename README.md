@@ -11,6 +11,7 @@ Trying to reach a ratio of at least 1 comment for 10 lines of code (currently 1/
 - [Glad](https://github.com/Dav1dde/glad) - Multi-Language Vulkan/GL/GLES/EGL/GLX/WGL Loader-Generator based on the official specs. Use [this](https://gen.glad.sh/) to generate a loader.
 - [Nlohmann-json](https://github.com/nlohmann/json) - JSON for Modern C++
 - [Fmt](https://github.com/fmtlib/fmt) - A modern formatting library
+- [Boost-UUID](https://github.com/boostorg/uuid) - Boost.org uuid module
 
 ### Editor
 The editor's UI is made using [ImGui](https://github.com/ocornut/imgui).  

@@ -1,0 +1,37 @@
+{
+    "componentName": "Transform",
+    "properties": [
+        {
+            "type": "vec3",
+            "value": [
+                10.0,
+                20.0,
+                30.0
+            ]
+        },
+        {
+            "type": "vec3",
+            "value": [
+                100.0,
+                200.0,
+                300.0
+            ]
+        },
+        {
+            "type": "vec3",
+            "value": [
+                1000.0,
+                2000.0,
+                3000.0
+            ]
+        },
+        {
+            "type": "transform",
+            "value": ""
+        },
+        {
+            "type": "actor",
+            "value": "f43d4911-9dd1-45c6-9d10-bfd06ab3e4fc"
+        }
+    ]
+}

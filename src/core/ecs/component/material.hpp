@@ -23,7 +23,7 @@ public:
 
     PROPERTY_D(Color, color, Color(179, 175, 174))
     PROPERTY_D(Color, specularReflectance, Color::White())
-    PROPERTY_D(float, shininess, 32.f)
+    PROPERTY_D(float, specularDefinition, 32.f)
 
     Material(const std::string &name, std::shared_ptr<Shader> shader)
         : m_name(name), m_shader(shader) {};

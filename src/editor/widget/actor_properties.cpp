@@ -68,6 +68,9 @@ void ActorPropertiesWidget::HandleActor(IComponent *component)
 
 void ActorPropertiesWidget::ProcessProperty(IProperty *property, IComponent *component)
 {
+    if (property->IsHidden())
+        return;
+
     std::any value = property->GetValue(component);
 
     if (value.type() == typeid(std::reference_wrapper<int>))              // int 
@@ -98,7 +101,7 @@ void ActorPropertiesWidget::ProcessProperty(IProperty *property, IComponent *com
         Vec3 &v3 = std::any_cast<std::reference_wrapper<Vec3>>(value);
         std::string id = GenImGuiID("vec3_input", property, component);
 
-        ImGui::PushItemWidth(100.f);
+        ImGui::PushItemWidth(64.f);
 
         ImGui::Text("x");
         ImGui::SameLine();

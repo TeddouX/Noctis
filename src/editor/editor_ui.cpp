@@ -71,7 +71,7 @@ void EditorUI::Render()
 
     this->DockDisplays();
 
-    ImGui::ShowDemoWindow();
+    // ImGui::ShowDemoWindow();
 
     // Update all widgets
     for (std::unique_ptr<IWidget> &widget : this->m_allWidgets)

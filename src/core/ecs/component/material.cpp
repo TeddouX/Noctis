@@ -3,16 +3,16 @@
 
 void Material::UploadData()
 {
-    // Color       + 16 bytes
-    // SpecReflect + 12 bytes
-    // Shininess   + 4 bytes
-    // Total       = 32 bytes
+    // Color          + 16 bytes
+    // SpecReflect    + 12 bytes
+    // SpecDefinition + 4 bytes
+    // Total          = 32 bytes
     // CCCCCCCCCCCC----
-    // RRRRRRRRRRRRSSSS
+    // RRRRRRRRRRRRDDDD
     Material::Data data {
         this->color.ToPaddedFloats(),
         this->specularReflectance.ToFloats(),
-        this->shininess
+        this->specularDefinition
     };
 
     this->m_ssbo.UploadData(data);

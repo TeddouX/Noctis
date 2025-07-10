@@ -34,8 +34,8 @@ private:
     Vec3  m_position;
     float m_aspectRatio;
     float m_near, m_far;
-	float m_fov;
-	float m_yaw = 0.f, m_pitch = 0.f;
+    float m_fov;
+    float m_yaw = 0.f, m_pitch = 0.f;
 
     void Init();
 

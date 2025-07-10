@@ -55,13 +55,12 @@ vec3 DirectionalLighting(DirectionalLight light)
 
 void main()
 {
-    vec3 final = DirectionalLighting(dirLights[0]);
-    // vec3 final = vec3(0);
+    vec3 final = vec3(0);
 
-    // for (int i = 0; i < dirLightCount; i++)
-    // {
-    //     final += DirectionalLighting(dirLights[i]);
-    // }
+    for (int i = 0; i < dirLightCount; i++)
+    {
+        final += DirectionalLighting(dirLights[i]);
+    }
 
     FragColor = vec4(final, 1.0);
 }

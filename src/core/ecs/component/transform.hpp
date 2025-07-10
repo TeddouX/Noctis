@@ -35,7 +35,8 @@ public:
     Mat4 GetModelMatrix() const;
 
     /// @returns This transform's parent, or `nullptr` if its parent isn't set
-    inline Transform *GetParent() { return this->m_parent; }
+    inline Transform *&GetParent() { return this->m_parent; }
+    PROPERTY_GETTER_HIDDEN(GetParent)
     /// @brief Set this transform's parent, overriding the previous one
     /// @param parent The parent
     void SetParent(Transform *parent);
@@ -56,7 +57,8 @@ public:
     inline bool HasChildren() const { return !this->m_children.empty(); } 
 
     /// @returns The actor this transform is associated with
-    inline std::shared_ptr<Actor> GetActor() const { return this->m_actor; } 
+    inline std::shared_ptr<Actor> &GetActor() { return this->m_actor; } 
+    PROPERTY_GETTER_HIDDEN(GetActor)
 
 private:
     std::vector<Transform *> m_children;
