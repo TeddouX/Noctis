@@ -7,7 +7,9 @@ class DirectionalLight : public IComponent
 {
 public:
     ENABLE_REFLECTION(DirectionalLight)
-    
+
+    // This is the data that will be sent to the GPU for rendering
+    // 16 bytes aligned for std430 compliance
     struct Data
     {
         Vec4 rotation;
@@ -16,8 +18,9 @@ public:
         Vec4 specular;
     };
 
-    // The rotation doesn't need to be displayed in the editor
-    Vec3 rotation; 
+    // As rotation is controlled by the light's transform, 
+    // it doesn't need to be rendered in the editor
+    PROPERTY_HIDDEN(Vec3, rotation, Vec3(0))
     PROPERTY_D(Color, ambient, Color::White())
     PROPERTY_D(Color, diffuse, Color::White())
     PROPERTY_D(Color, specular, Color::White())

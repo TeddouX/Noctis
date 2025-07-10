@@ -1,6 +1,27 @@
 #include "property.hpp"
 
 
+template <typename _PropTy, typename _ClassTy>
+bool _RegisterPropertyHelper(const std::string& name, bool hidden, _PropTy _ClassTy::*memberPtr)  
+{
+    PropertyRegistry<_ClassTy>::RegisterProperty(
+        name,
+        std::make_shared<MemberProperty<_PropTy, _ClassTy>>(name, hidden, memberPtr)
+    );
+    return true;
+}
+
+template <typename _PropTy, typename _ClassTy>
+bool _RegisterGetterHelper(const std::string& name, bool hidden, _PropTy (_ClassTy::*getterPtr)())
+{
+    PropertyRegistry<_ClassTy>::RegisterProperty(
+        name,
+        std::make_shared<GetterProperty<_PropTy, _ClassTy>>(name, hidden, getterPtr)
+    );
+    return true;
+}
+
+
 template <typename T, typename C>
 std::string MemberProperty<T, C>::GetBeautifiedName() const
 {
