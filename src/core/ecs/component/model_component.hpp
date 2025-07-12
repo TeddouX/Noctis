@@ -6,7 +6,7 @@
 
 
 // A ModelComponent stores a pointer to a model that can be rendered
-class ModelComponent : public IComponent
+class ModelComponent : public IComponent, public ISerializable
 {
 public:
     ENABLE_REFLECTION(ModelComponent)
@@ -17,6 +17,9 @@ public:
 
     std::shared_ptr<Model> &GetModel() { return this->m_model; }
     PROPERTY_GETTER(GetModel)
+
+    void Serialize(json &j) const override;
+    void Deserialize(const json &j) override;
 
 private:
     std::shared_ptr<Model> m_model;

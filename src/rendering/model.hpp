@@ -11,21 +11,27 @@
 #include "../rendering/texture.hpp"
 #include "../rendering/model.hpp"
 #include "../core/logger.hpp"
+#include "../core/filesystem.hpp"
 
 
 class Model
 {
 public:
-    Model(const std::string &path);
+    Model() = default;
+    Model(const fs::path &path);
 
-    inline const std::string &GetName() { return this->m_name; }
     std::string GetBeautifiedName() const;
-
+    inline const std::string &GetName() const { return this->m_name; }
+    inline const fs::path    &GetPath() const { return fs::absolute(this->m_path); }
 
     void Render(Shader &Shader) const;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(Model, m_name)
+
 private:
-    std::string m_name;
     std::vector<Mesh> m_meshes;
+    std::string m_name;
+    fs::path    m_path;
 
     std::vector<Mesh>    ProcessNode(aiNode *node, const aiScene *scene);
     Mesh                 ProcessMesh(aiMesh *mesh, const aiScene *scene);

@@ -8,9 +8,23 @@ SceneManager &SceneManager::GetInstance()
 }
 
 
-void SceneManager::AddScene(Scene *scene)
+void SceneManager::AddScene(const std::string &name)
 {
-    this->m_scenes.emplace(scene->GetName(), scene);
+    if (this->m_scenesFolder.empty())
+    {
+        LOG_ERR("Scenes folder hasn't been set. Exiting now...")
+        exit(1);
+    }
+
+    Scene scene(name, this->m_scenesFolder);
+    this->m_scenes.emplace(name, scene);
+}
+
+
+void SceneManager::AddSceneFromPath(const fs::path &path)
+{
+    Scene scene(path);
+    this->m_scenes.emplace(scene.GetName(), scene);
 }
 
 
@@ -30,7 +44,10 @@ void SceneManager::SetCurrScene(const std::string &name)
     if (this->m_scenes.count(name) > 0)
     {
         this->m_currScene = name;
-        this->GetCurrScene()->Load();
+
+        Scene *currScene = this->GetCurrScene();
+        if (currScene)
+            currScene->Load();
     }
     else
         LOG_ERR("Scene {} doesn't exist.", name)
@@ -42,9 +59,15 @@ Scene *SceneManager::GetCurrScene()
     if (this->m_currScene.empty())
     {
         LOG_ERR("The current scene hasn't been set.")
-        
         return nullptr;
     }
 
-    return this->m_scenes.at(this->m_currScene);
+    auto it = this->m_scenes.find(this->m_currScene);
+    if (it == this->m_scenes.end())
+    {
+        LOG_ERR("Scene {} doesn't exist.", this->m_currScene)
+        return nullptr;
+    }
+
+    return &it->second;
 }

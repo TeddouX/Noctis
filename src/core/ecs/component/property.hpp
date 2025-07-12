@@ -1,4 +1,5 @@
 #pragma once
+#include <nlohmann/json.hpp>
 #include <type_traits>
 #include <string>
 #include <vector>
@@ -8,14 +9,15 @@
 #include <regex>
 
 
-// This variable is used to define if a class is reflected or not
+using json = nlohmann::json;
+
+
+/// @brief This variable is used to define if a class is reflected or not
 #define REFLECTED_VARIABLE _reflected
 
-// Mandatory for the use of `PROPERTY` or `PROPERTY_D`
-// Any class using this should extend from `IComponent`
-#define ENABLE_REFLECTION(CLASSNAME)                                                                                          \
-    using _MyClass = CLASSNAME;                                                                                               \
-    inline static const bool REFLECTED_VARIABLE = true;                                                                       \
+
+/// @brief All the functions needed for a reflected class
+#define REFLECTED_CLASS_FUNCTIONS(CLASSNAME)                                                                                  \
     std::vector<IProperty*> _GetComponentProperties() const override                                                          \
     {                                                                                                                         \
         std::vector<IProperty*> result;                                                                                       \
@@ -29,58 +31,110 @@
     } 
 
 
-template <typename _PropTy, typename _ClassTy>
-inline bool _RegisterPropertyHelper(const std::string& name, bool hidden, _PropTy _ClassTy::*memberPtr);
+
+/// @brief Mandatory for the use of `PROPERTY` or `PROPERTY_D`
+/// Any class using this should extend from `IComponent`
+/// This implies that the class is serializable
+#define ENABLE_REFLECTION(CLASSNAME)                                                                                          \
+    using _MyClass = CLASSNAME;                                                                                               \
+    inline static const bool REFLECTED_VARIABLE = RegisterComponentDeserializer<CLASSNAME>(#CLASSNAME);                       \
+    REFLECTED_CLASS_FUNCTIONS(CLASSNAME)
+
+
+/// @brief Mandatory for the use of `PROPERTY` or `PROPERTY_D`
+/// Any class using this should extend from `IComponent`
+/// Use this for classes that don't need to be serialized
+#define ENABLE_REFLECTION_NSERIALIZABLE(CLASSNAME)                                                                            \
+    using _MyClass = CLASSNAME;                                                                                               \
+    inline static const bool REFLECTED_VARIABLE = true;                                                                       \
+    REFLECTED_CLASS_FUNCTIONS(CLASSNAME)
+
+
 
 template <typename _PropTy, typename _ClassTy>
-inline bool _RegisterGetterHelper(const std::string& name, bool hidden, _PropTy &(_ClassTy::*getterPtr)());
+bool _RegisterPropertyHelper(const std::string& name, bool hidden, _PropTy _ClassTy::*memberPtr);
 
 
-// A property is a member variable that will be shown in the editor, even if declared as private
+template <typename _PropTy, typename _ClassTy>
+bool _RegisterGetterHelper(const std::string& name, bool hidden, _PropTy &(_ClassTy::*getterPtr)());
+
+
+
+/// @brief A property is a member variable that will be shown in the editor, even if declared as private
 #define PROPERTY(TYPE, NAME) \
     TYPE NAME;               \
-    inline static const bool _registered_##NAME = _RegisterPropertyHelper(#NAME, false, &_MyClass::NAME);
+    inline static const bool _registered_##NAME = ::_RegisterPropertyHelper(#NAME, false, &_MyClass::NAME);
 
-// A property with a default value
+
+/// @brief A property with a default value
 #define PROPERTY_D(TYPE, NAME, DEFAULT_VALUE) \
     TYPE NAME = DEFAULT_VALUE;                \
-    inline static const bool _registered_##NAME = _RegisterPropertyHelper(#NAME, false, &_MyClass::NAME);
+    inline static const bool _registered_##NAME = ::_RegisterPropertyHelper(#NAME, false, &_MyClass::NAME);
 
-// A property that is hidden in the editor
+
+/// @brief A property that is hidden in the editor
 #define PROPERTY_HIDDEN(TYPE, NAME, DEFAULT_VALUE) \
-    TYPE NAME = DEFAULT_VALUE;                \
-    inline static const bool _registered_##NAME = _RegisterPropertyHelper(#NAME, true, &_MyClass::NAME);
+    TYPE NAME = DEFAULT_VALUE;                     \
+    inline static const bool _registered_##NAME = ::_RegisterPropertyHelper(#NAME, true, &_MyClass::NAME);
 
 
-// The getter function must return a non const reference to the member variable
-#define PROPERTY_GETTER(NAME) inline static const bool _registered_##NAME = _RegisterGetterHelper(#NAME, false, &_MyClass::NAME);
 
-// A property that is hidden in the editor
-// The getter function must return a non const reference to the member variable
-#define PROPERTY_GETTER_HIDDEN(NAME) inline static const bool _registered_##NAME = _RegisterGetterHelper(#NAME, true, &_MyClass::NAME);
+/// @brief The getter function must return a non const reference to the member variable
+#define PROPERTY_GETTER(NAME) \
+    inline static const bool _registered_##NAME = ::_RegisterGetterHelper(#NAME, false, &_MyClass::NAME);
 
 
-// Example: IsItABanana -> Is It A Banana
+/// @brief A property that is hidden in the editor
+/// The getter function must return a non const reference to the member variable
+#define PROPERTY_GETTER_HIDDEN(NAME) \
+    inline static const bool _registered_##NAME = ::_RegisterGetterHelper(#NAME, true, &_MyClass::NAME);
+
+
+
+// Regex used to replace "this->" in PROP_TO_JSON and PROP_FROM_JSON
+const inline std::regex thisRe("this->"); 
+
+
+#define START_SERIALIZATION(JSON) JSON = json {
+#define END_SERIALIZATION() };
+
+/// @brief Helper macro for serializing a member variable
+#define PROP_TO_JSON(PROPERTY) {std::regex_replace(#PROPERTY, thisRe, ""), PROPERTY}
+
+
+/// @brief Helper macro for getting a member
+/// variable from a json object
+#define PROP_FROM_JSON(JSON, PROPERTY) JSON.at(std::regex_replace(#PROPERTY, thisRe, "")).get_to(PROPERTY);
+
+
+/// @brief Helper macro to serialize a component
+#define COMPONENT_TO_JSON(COMPONENT) {"type", #COMPONENT} 
+
+
+/// @brief Example: IsItABanana -> Is It A Banana
 extern std::string SplitStringAtCapital(std::string &str);
 
 
 template <typename T>
 inline T &Unwrap(const std::any& value);
 
+
 template <typename T>
 inline bool Is(const type_info &ti);
 
 
-// Fallback if the _Class::_reflected doesn't exist
+
+/// @brief Fallback if the _Class::_reflected doesn't exist
 template <typename _Class, typename _Type = bool>
 struct IsReflected : std::false_type {};
 
-// Undefined behaviour if _Class::_reflected doesn't exist so it falls back to the first one (SFINAE)
+/// @brief Undefined behaviour if _Class::_reflected doesn't exist so it falls back to the first one (SFINAE)
 template <typename _Class>
 struct IsReflected<_Class, decltype((void) _Class::REFLECTED_VARIABLE, true)> : std::true_type {};
 
 
-// Interface that holds functionality for a property
+
+/// @brief Interface that holds functionality for a property
 class IProperty
 {
 public:
@@ -91,7 +145,8 @@ public:
 };
 
 
-// Reprensents a member variable in a class C
+
+/// @brief Reprensents a member variable in a class C
 template <typename _MemberTy, typename _ClassTy>
 class MemberProperty : public IProperty
 {
@@ -113,6 +168,7 @@ private:
     std::string m_name;
     _MemberVar m_member;
 };
+
 
 
 template <typename _GetterTy, typename _ClassTy>
@@ -138,7 +194,8 @@ private:
 };
 
 
-// Used to store properties outside the class
+
+/// @brief Used to store properties outside the class
 template <typename _ClassTy>
 class PropertyRegistry
 {

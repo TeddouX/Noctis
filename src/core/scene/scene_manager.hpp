@@ -13,13 +13,17 @@ class SceneManager
 public:
     static SceneManager &GetInstance();
 
-    void   AddScene(Scene *scene);
+    inline void SetScenesFolder(const fs::path &path) { this->m_scenesFolder = path; }
+
+    void   AddScene(const std::string &name);
+    void   AddSceneFromPath(const fs::path &path);
     void   RemoveScene(const std::string &name);
 
     void   SetCurrScene(const std::string &name);
-    Scene  *GetCurrScene();
+    Scene *GetCurrScene();
 
 private:
-    std::unordered_map<std::string, Scene *> m_scenes;
+    std::unordered_map<std::string, Scene> m_scenes;
+    fs::path    m_scenesFolder;
     std::string m_currScene;
 };

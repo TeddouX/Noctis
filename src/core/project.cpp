@@ -4,15 +4,15 @@
 Project *Project::m_instance = nullptr;
 
 
-Project::Project(const std::string &rootDir)
+Project::Project(const fs::path &rootDir)
     : m_rootDir(rootDir)
 {
 }
 
 
-void Project::Init(const std::string &rootDir)
+void Project::Init(const fs::path &rootDir)
 {
-    LOG_INFO("Initializing project: {}", rootDir)
+    LOG_INFO("Initializing project: {}", rootDir.string())
 
     if (m_instance)
     {
@@ -22,9 +22,44 @@ void Project::Init(const std::string &rootDir)
 
     m_instance = new Project(rootDir);
 
-    if (!fs::exists(m_instance->GetScenesFolder())) 
-        fs::create_directories(m_instance->GetScenesFolder());
+    // Temporary
+    Filesystem::CreateDirs(m_instance->GetAssetsFolder());
+
+    m_instance->LoadScenes();
 } 
+
+
+void Project::LoadScenes()
+{
+    LOG_INFO(
+        "Loading scenes from folder {}", 
+        this->GetScenesFolder().string()
+    )
+
+    SCENE_MANAGER().SetScenesFolder(this->GetScenesFolder());
+
+    if (!fs::exists(this->GetScenesFolder()))
+    {
+        LOG_WARN(
+            "The scene folder ({}) doesn't exist, creating one now...",
+            this->GetScenesFolder().string()
+        )
+        Filesystem::CreateDirs(this->GetScenesFolder());
+        return;  
+    }
+
+    for (const auto &entry : fs::directory_iterator(this->GetScenesFolder()))
+    {
+        fs::path path = entry.path();
+        // Is the entry is a json file ?
+        if (entry.is_regular_file() && path.extension() == ".json")
+        {
+            // Create a scene with the file's name
+            // The scene class handles loading when necessary
+            SCENE_MANAGER().AddSceneFromPath(path);
+        }
+    }
+}
 
 
 Project *Project::GetInstance()
@@ -39,13 +74,13 @@ Project *Project::GetInstance()
 }
 
 
-const std::string Project::GetScenesFolder()
+const fs::path Project::GetScenesFolder()
 {
-    return fmt::format("{}\\Scenes", this->m_rootDir);
+    return fmt::format("{}\\Scenes", this->m_rootDir.string());
 }
 
 
-const std::string Project::GetAssetsFolder()
+const fs::path Project::GetAssetsFolder()
 {
-    return fmt::format("{}\\Assets", this->m_rootDir);
+    return fmt::format("{}\\Assets", this->m_rootDir.string());
 }

@@ -1,10 +1,10 @@
 #pragma once
 #include "system.hpp"
+#include "../entity.hpp"
 #include "../component/model_component.hpp"
 #include "../component/transform.hpp"
 #include "../component/material.hpp"
 #include "../component_manager.hpp"
-#include "../entity.hpp"
 #include "../../../rendering/camera.hpp"
 #include "../../../rendering/model.hpp"
 #include "../../../rendering/shader.hpp"

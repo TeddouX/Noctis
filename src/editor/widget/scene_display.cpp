@@ -1,19 +1,10 @@
 #include "scene_display.hpp"
 
-// ONLY FOR TESTING
-#include "../../core/scene/scene.hpp"
-
-
-// ONLY FOR TESTING
-Scene *scene;
-
 SceneDisplayWidget::SceneDisplayWidget()
 {
     // TESTING
-    scene = new Scene("HelloWorld");
-
-    SCENE_MANAGER().AddScene(scene);
-    SCENE_MANAGER().SetCurrScene(scene->GetName());
+    SCENE_MANAGER().AddScene("HelloWorld");
+    SCENE_MANAGER().SetCurrScene("HelloWorld");
 }
 
 
@@ -48,6 +39,9 @@ void SceneDisplayWidget::Render()
         currScene->GetSystem<RenderSystem>()->SetCamera(&this->m_camera);
         currScene->UpdateSystem<LightingSystem>(.0f);
         currScene->UpdateSystem<RenderSystem>(.0f);
+
+        // TESTING
+        currScene->Unload();
 
         this->m_frameBuffer.Unbind();
 

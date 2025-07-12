@@ -3,7 +3,7 @@
 #include "../../math/color.hpp"
 
 
-class DirectionalLight : public IComponent
+class DirectionalLight : public IComponent, public ISerializable
 {
 public:
     ENABLE_REFLECTION(DirectionalLight)
@@ -30,4 +30,7 @@ public:
         : ambient(ambient), diffuse(diffuse), specular(specular) {};
 
     Data GetData();
+
+    void Serialize(json &j) const override;
+    void Deserialize(const json &j) override;
 };

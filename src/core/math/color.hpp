@@ -1,4 +1,6 @@
 #pragma once
+#include <nlohmann/json.hpp>
+
 #include "math.hpp"
 
 
@@ -24,6 +26,10 @@ public:
     inline void SetGreen(uint8_t green) { this->m_green = green; }
     inline void SetBlue(uint8_t blue) { this->m_blue = blue; }
 
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(Color, m_red, m_green, m_blue)
+
 private:
     uint8_t m_red, m_green, m_blue;
 };
+
+

@@ -14,37 +14,15 @@ static bool CheckUniform(int location, const std::string& uniformName)
 
 
 Shader::Shader(const std::string &name, const std::string &vertexPath, const std::string &fragmentPath)
-	: m_name(name)
+	: m_name(name), m_vrPath(vertexPath), m_frPath(fragmentPath)
 {
 	LOG_INFO("Loading shaders: {}, {}", vertexPath, fragmentPath)
 
-	std::string vertexString, fragmentString;
-	std::ifstream vertexFile, fragmentFile;
-
-	vertexFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-	fragmentFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-
-	try 
-	{
-		vertexFile.open(vertexPath);
-		fragmentFile.open(fragmentPath);
-
-		std::stringstream vertexBuffer, fragmentBuffer;
-		vertexBuffer << vertexFile.rdbuf();
-		fragmentBuffer << fragmentFile.rdbuf();
-
-		vertexFile.close();
-		fragmentFile.close();
-
-		vertexString = vertexBuffer.str();
-		fragmentString = fragmentBuffer.str();
-	}
-	catch (const std::ios_base::failure& e) 
-	{
-		LOG_ERR("Failed opening file: {}", e.what())
+	std::string vertexString = Filesystem::GetFileContents(vertexPath);
+	std::string fragmentString = Filesystem::GetFileContents(fragmentPath);
+	
+	if (vertexString.empty() || fragmentString.empty())
 		return;
-	}
-
 
 	this->CreateProgram(vertexString.c_str(), fragmentString.c_str());
 }

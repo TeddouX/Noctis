@@ -38,3 +38,25 @@ Vec3 Normalize(Vec3 vec) { return glm::normalize(vec); }
 float *GetPtr(Mat4 mat) { return &(mat[0].x); }
 
 float Radians(float degrees) { return glm::radians(degrees); }
+
+
+namespace glm
+{
+  
+void from_json(const json &j, Vec3 &vec3)
+{
+    j.at("x").get_to(vec3.x);
+    j.at("y").get_to(vec3.y);
+    j.at("z").get_to(vec3.z);
+}
+
+void to_json(json &j, const Vec3 &vec3)
+{
+    j = json{
+        {"x", vec3.x},
+        {"y", vec3.y},
+        {"z", vec3.z}
+    };
+}
+
+}

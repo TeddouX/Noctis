@@ -9,7 +9,7 @@
 #include "../../math/color.hpp"
 
 
-class Material : public IComponent
+class Material : public IComponent, public ISerializable
 {
 public:
     ENABLE_REFLECTION(Material)
@@ -37,6 +37,9 @@ public:
 
     void UploadData();
 
+    void Serialize(json &j) const override;
+    void Deserialize(const json &j) override;
+    
 private:
     SSBO<Material::Data>    m_ssbo = SSBO<Material::Data>(1);
     std::string             m_name;

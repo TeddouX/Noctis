@@ -6,8 +6,11 @@
 #include "../../math/math.hpp"
 
 
+namespace uuid = boost::uuids;
+
+
 /// @brief A transform represent's a entity's location in the world, it has to exist on every entity.
-class Transform : public IComponent
+class Transform : public IComponent, public ISerializable
 {
 public:
     ENABLE_REFLECTION(Transform)
@@ -15,7 +18,7 @@ public:
     Transform() = default;
     // This constructor is used as a temporary placeholder
     // when deserializing components. 
-    Transform(std::shared_ptr<Actor> actor) : m_actor(actor) {};
+    Transform(std::shared_ptr<Actor> actor) : m_actor(actor), m_temp(true) {};
     Transform(Vec3 pos, Vec3 rot, Vec3 scale, std::shared_ptr<Actor> actor, Transform *parent = nullptr);
 
     /// @returns The position, not relative to this transform's parent
@@ -64,10 +67,18 @@ public:
     inline std::shared_ptr<Actor> &GetActor() { return this->m_actor; } 
     PROPERTY_GETTER_HIDDEN(GetActor)
 
+    /// @returns `true` if this transform was created at loading time
+    /// as a placeholder
+    bool IsTemporary() const { return m_temp; }
+
+    void Serialize(json &j) const override;
+    void Deserialize(const json &j) override;
+   
 private:
     std::vector<Transform *> m_children;
     Transform               *m_parent;
     std::shared_ptr<Actor>   m_actor;
+    bool                     m_temp = false;
 
     Vec3 m_pos, m_rot, m_scale;
 };

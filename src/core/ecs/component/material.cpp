@@ -17,3 +17,26 @@ void Material::UploadData()
 
     this->m_ssbo.UploadData(data);
 }
+
+
+void Material::Serialize(json &j) const
+{
+    START_SERIALIZATION(j)
+        COMPONENT_TO_JSON(Material),
+        PROP_TO_JSON(color),
+        PROP_TO_JSON(specularReflectance),
+        PROP_TO_JSON(specularDefinition),
+        PROP_TO_JSON(m_name),
+        PROP_TO_JSON(m_shader)
+    END_SERIALIZATION()
+}
+
+
+void Material::Deserialize(const json &j)
+{
+    PROP_FROM_JSON(j, color)
+    PROP_FROM_JSON(j, specularReflectance)
+    PROP_FROM_JSON(j, specularDefinition)
+    PROP_FROM_JSON(j, m_name)
+    PROP_FROM_JSON(j, m_shader)
+}

@@ -1,13 +1,14 @@
 #include "model.hpp"
 
 
-Model::Model(const std::string &path)
+Model::Model(const fs::path &path)
+    : m_path(path)
 {
-    LOG_INFO("Loading model: {}", path)
+    LOG_INFO("Loading model: {}", path.string())
 
     // Import .obj file
     Assimp::Importer importer;
-    const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+    const aiScene *scene = importer.ReadFile(path.string(), aiProcess_Triangulate | aiProcess_FlipUVs);
 
     if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) 
     {
