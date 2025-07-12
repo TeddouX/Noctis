@@ -16,9 +16,15 @@ public:
     /// @returns The contents of the file as a string
     static std::string GetFileContents(const fs::path &path);
 
+    /// @brief Writes cbor data to a file
+    static void WriteCBOR(const fs::path &path, std::vector<uint8_t> cborData);
+    
+    /// @returns The cbor data that is stored in this file, if any
+    static std::vector<uint8_t> ReadCBOR(const fs::path &path);
+
     /// @brief Sets the contents of the file at the end of the path.
     /// If it doesn't exist, it will be created.
-    static void SetFileContents(const fs::path &path, const std::string &contents);
+    static void WriteFile(const fs::path &path, const std::string &contents);
 
     /// @brief If non existant, create all directories from the path
     static void CreateDirs(const fs::path &path);

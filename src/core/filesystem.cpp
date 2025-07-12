@@ -29,9 +29,58 @@ std::string Filesystem::GetFileContents(const fs::path &path)
 }
 
 
-void Filesystem::SetFileContents(const fs::path &path, const std::string &contents)
+void Filesystem::WriteCBOR(const fs::path &filePath, std::vector<uint8_t> cborData)
+{
+    std::ofstream file(filePath, std::ios::binary);
+
+    if (!file)
+    {
+        LOG_ERR("Failed to open file {} for writing.", filePath.string())
+        return;
+    }
+
+    file.write(reinterpret_cast<const char*>(cborData.data()), cborData.size());
+}    
+
+
+std::vector<uint8_t> Filesystem::ReadCBOR(const fs::path &filePath)
+{
+    std::ifstream file(filePath, std::ios::binary | std::ios::ate);
+
+    if (!file) 
+    {
+        LOG_ERR("Failed to open file {} for reading.", filePath.string())
+        return {};
+    }
+
+    // Get the current position of the read cursor.
+    // Because the file was opened using "std::ios::ate"
+    // the cursor is at the end.
+    std::streamsize fileSize = file.tellg();
+    // Move back the read cursor to the begining
+    file.seekg(0, std::ios::beg);
+
+    std::vector<uint8_t> buffer(fileSize);
+    // Read the file contents and put them in the buffer
+    if (!file.read(reinterpret_cast<char*>(buffer.data()), fileSize)) 
+    {
+        LOG_ERR("Failed to read file contents ({}).", filePath.string())
+        return {};
+    }
+
+    return buffer;
+}
+
+
+void Filesystem::WriteFile(const fs::path &path, const std::string &contents)
 {
     std::ofstream file(path);
+
+    if (!file)
+    {
+        LOG_ERR("Failed to open file {} for writing.", path.string())
+        return;
+    }
 
     file << contents;
 

@@ -10,9 +10,9 @@ Scene::Scene(const fs::path &path)
         return;
     }
     
-    if (path.extension() != ".json")
+    if (path.extension() != ".scene")
     {
-        LOG_ERR("File {} is not a JSON file.", path.string())
+        LOG_ERR("File {} is not a scene file.", path.string())
         return;
     }
 
@@ -24,7 +24,7 @@ Scene::Scene(const fs::path &path)
 Scene::Scene(const std::string &name, const fs::path &scenesRoot)
     : m_name(name)
 {
-    this->m_jsonPath = fmt::format("{}\\{}.json", scenesRoot.string(), name);
+    this->m_jsonPath = fmt::format("{}\\{}.scene", scenesRoot.string(), name);
     this->RegisterSystems();
 }
 
@@ -58,27 +58,48 @@ void Scene::UpdateAllSystems(float dt)
 void Scene::Load()
 {
     LOG_INFO(
-        "Loading scene {} from JSON file ({})", 
+        "Loading scene {} from scene file ({})", 
         this->m_name, this->m_jsonPath.string()
     )
 
     if (!fs::exists(this->m_jsonPath))
     {
         LOG_WARN(
-            "JSON file ({}) for scene {} doesn't exist. Creating one now...", 
+            "Scene file ({}) for scene {} doesn't exist. Creating one now...", 
             this->m_jsonPath.string(), 
             this->m_name
         )
 
         // Fill the file with an empty json object
         json empty = json::object();
-        Filesystem::SetFileContents(this->m_jsonPath, empty.dump());
+        Filesystem::WriteFile(this->m_jsonPath, empty.dump());
 
         return;
     }
 
+#if COMPRESS_SCENE_DATA
+    std::vector<uint8_t> cborData = Filesystem::ReadCBOR(this->m_jsonPath);
+#else
     std::string jsonFileContents = Filesystem::GetFileContents(this->m_jsonPath); 
-    json sceneJson = json::parse(jsonFileContents);
+#endif
+
+    json sceneJson;
+
+    try
+    {
+#if COMPRESS_SCENE_DATA
+        sceneJson = json::from_cbor(cborData);
+#else
+        sceneJson = json::parse(jsonFileContents);
+#endif
+    }
+    catch (const json::parse_error&)
+    {
+        LOG_ERR("Scene file is corrupted, clearing it...")
+        Filesystem::WriteFile(this->m_jsonPath, "");
+
+        return;
+    }
 
     if (sceneJson.empty())
         return;
@@ -87,7 +108,7 @@ void Scene::Load()
     if (nameInJson != this->m_name)
     {
         LOG_ERR(
-            "Name mismatch in JSON file {} (expected {}, got {})",
+            "Name mismatch in scene file {} (expected {}, got {})",
             this->m_jsonPath.string(),
             this->m_name,
             nameInJson
@@ -101,7 +122,7 @@ void Scene::Load()
 void Scene::Unload()
 {
     LOG_INFO(
-        "Unloading scene {} to JSON file ({})", 
+        "Unloading scene {} to scene file ({})", 
         this->m_name, this->m_jsonPath.string()
     )
 
@@ -138,7 +159,15 @@ void Scene::Unload()
     }
 
     sceneJson["actors"] = allActorsJson;
-    Filesystem::SetFileContents(this->m_jsonPath, sceneJson.dump());
+
+    // 536 bytes -> 413 bytes for a scene with only one cube
+    // May be subject to change
+#if COMPRESS_SCENE_DATA
+    std::vector<uint8_t> compressed = json::to_cbor(sceneJson);
+    Filesystem::WriteCBOR(this->m_jsonPath, compressed);
+#else
+    Filesystem::WriteFile(this->m_jsonPath, sceneJson.dump());
+#endif
 
     LOG_INFO("Unloaded scene {}", this->m_name)
 }

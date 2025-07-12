@@ -16,6 +16,9 @@
 #include "../ecs/system/lighting_system.hpp"
 
 
+#define COMPRESS_SCENE_DATA 1
+
+
 namespace fs = std::filesystem;
 using json = nlohmann::json;
 

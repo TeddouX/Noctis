@@ -52,7 +52,7 @@ void Project::LoadScenes()
     {
         fs::path path = entry.path();
         // Is the entry is a json file ?
-        if (entry.is_regular_file() && path.extension() == ".json")
+        if (entry.is_regular_file() && path.extension() == ".scene")
         {
             // Create a scene with the file's name
             // The scene class handles loading when necessary
