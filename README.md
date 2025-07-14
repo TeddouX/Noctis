@@ -1,6 +1,6 @@
 # Unknown Engine: a simplistic game engine  
 /!\ In developement  
-Trying to reach a ratio of at least 1 comment for 10 lines of code (currently 1/16.5, 204 comments for 3364 lines).
+Trying to reach a ratio of at least 1 comment for 10 lines of code (currently 1/15.3, 227 comments for 3480 loc).
 
 ### Credits
 - [Assimp](https://github.com/assimp/assimp) - The official Open-Asset-Importer-Library
