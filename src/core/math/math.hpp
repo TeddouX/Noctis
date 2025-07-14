@@ -31,7 +31,7 @@ float Radians(float degrees);
 namespace glm
 {
 
-extern inline void from_json(const json &j, Vec3 &vec3);
-extern inline void to_json(json &j, const Vec3 &vec3);
+void from_json(const json &j, Vec3 &vec3);
+void to_json(json &j, const Vec3 &vec3);
 
 }

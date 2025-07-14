@@ -4,7 +4,7 @@
 void ModelComponent::Serialize(json &j) const
 {
     START_SERIALIZATION(j)
-        COMPONENT_TO_JSON(Model),
+        COMPONENT_TO_JSON(ModelComponent),
         PROP_TO_JSON(m_model)
     END_SERIALIZATION()
 }

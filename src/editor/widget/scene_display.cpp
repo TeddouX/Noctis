@@ -41,7 +41,7 @@ void SceneDisplayWidget::Render()
         currScene->UpdateSystem<RenderSystem>(.0f);
 
         // TESTING
-        currScene->Unload();
+        // currScene->Unload();
 
         this->m_frameBuffer.Unbind();
 

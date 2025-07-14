@@ -88,6 +88,10 @@ void Transform::Serialize(json &j) const
         PROP_TO_JSON(m_rot),
         PROP_TO_JSON(m_scale),
         {
+            "actor",
+            std::dynamic_pointer_cast<ISerializable>(this->m_actor)
+        },
+        {
             "parent", 
             this->m_parent 
             ? std::dynamic_pointer_cast<ISerializable>(this->m_parent->GetActor()) 
@@ -102,9 +106,8 @@ void Transform::Deserialize(const json &j)
     PROP_FROM_JSON(j, m_pos)
     PROP_FROM_JSON(j, m_rot)
     PROP_FROM_JSON(j, m_scale)
-    uuid::uuid actorUuid = uuid::string_generator()(j.at("actor").get<std::string>());
-    this->m_actor = std::make_shared<Actor>(actorUuid);
-
-    uuid::uuid parentUuid = uuid::string_generator()(j.at("parent").get<std::string>());
-    this->m_parent = new Transform(std::make_shared<Actor>(parentUuid));
+    this->m_actor = std::dynamic_pointer_cast<Actor>(j.at("actor").get<std::shared_ptr<ISerializable>>());
+    
+    auto parentActor = std::dynamic_pointer_cast<Actor>(j.at("aparent").get<std::shared_ptr<ISerializable>>());
+    this->m_parent = new Transform(parentActor);
 }

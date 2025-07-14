@@ -33,7 +33,7 @@ void ActorCreationHelper::CreateEmpty(Transform *parent)
     currScene->AddEntity(entity);
     currScene->SetSelectedEntity(entity);
 
-    LOG_INFO("Created empty actor.")
+    LOG_INFO("Created an empty actor")
 }
 
 

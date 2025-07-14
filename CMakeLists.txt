@@ -15,6 +15,8 @@ find_package(fmt CONFIG REQUIRED)
 
 add_definitions(-D GLM_ENABLE_EXPERIMENTAL)
 
+# add_compile_options(/showIncludes)
+
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT UnknownEngine)
 
 file(GLOB_RECURSE MAIN               "src/main.cpp")

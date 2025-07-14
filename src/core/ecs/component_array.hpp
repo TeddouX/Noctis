@@ -3,8 +3,12 @@
 #include <unordered_map>
 
 #include "entity.hpp"
-#include "component/component.hpp"
 #include "../logger.hpp"
+
+
+// As this class doesn't do any direct operations on the
+// component, forward declaration is possible.
+class IComponent;
 
 
 class IComponentArray 

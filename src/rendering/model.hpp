@@ -22,7 +22,7 @@ public:
 
     std::string GetBeautifiedName() const;
     inline const std::string &GetName() const { return this->m_name; }
-    inline const fs::path    &GetPath() const { return fs::absolute(this->m_path); }
+    inline const fs::path     GetPath() const { return fs::absolute(this->m_path); }
 
     void Render(Shader &Shader) const;
 

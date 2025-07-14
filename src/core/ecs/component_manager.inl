@@ -39,6 +39,9 @@ const std::unordered_map<Entity, std::shared_ptr<T>> &ComponentManager::GetEntit
 template <typename T> 
 void ComponentManager::RegisterComponent()
 {
+    if constexpr (!std::is_base_of_v<IComponent, T> || !std::is_default_constructible_v<T>)
+        return;
+
     this->m_componentArrays.emplace(typeid(T), std::make_shared<ComponentArray<T>>());
 }
 

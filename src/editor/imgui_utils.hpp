@@ -7,8 +7,8 @@
 namespace ImGui
 {
 
-extern void ResizableInputText(const char* label, std::string& str);
-extern void InlinedLabel(const char* text);
-extern void ColorEditEx(const char* label, Color &color, ImGuiColorEditFlags flags = 0);
+void ResizableInputText(const char* label, std::string& str);
+void InlinedLabel(const char* text);
+void ColorEditEx(const char* label, Color &color, ImGuiColorEditFlags flags = 0);
 
 }

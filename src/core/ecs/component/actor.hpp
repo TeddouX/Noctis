@@ -14,7 +14,7 @@ namespace uuid = boost::uuids;
 class Actor : public IComponent, public ISerializable
 {
 public:
-    ENABLE_REFLECTION_NSERIALIZABLE(Actor)
+    ENABLE_REFLECTION(Actor)
     
     Actor() = default;
     /// @brief This constructor is used as a temporary placeholder
@@ -23,6 +23,7 @@ public:
     Actor(const std::string &name, Entity entity)
         : m_name(name), m_entity(entity), m_uuid(uuid::random_generator()()) {};
 
+    inline void SetEntity(Entity e) { this->m_entity = e; }
     inline Entity GetEntity() const { return this->m_entity; }
 
     /// @returns a reference to this actor's name
@@ -32,7 +33,7 @@ public:
     inline uuid::uuid GetUUID() const { return this->m_uuid; }
 
     void Serialize(json &j) const override;
-    inline void Deserialize(const json &j) override {}
+    void Deserialize(const json &j) override;
     
 private:
     uuid::uuid  m_uuid;

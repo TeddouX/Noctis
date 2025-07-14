@@ -17,17 +17,17 @@ using json = nlohmann::json;
 
 
 /// @brief All the functions needed for a reflected class
-#define REFLECTED_CLASS_FUNCTIONS(CLASSNAME)                                                                                  \
-    std::vector<IProperty*> _GetComponentProperties() const override                                                          \
-    {                                                                                                                         \
-        std::vector<IProperty*> result;                                                                                       \
-        for (std::shared_ptr<IProperty> &prop : PropertyRegistry<CLASSNAME>::GetPropertyList())                               \
-            result.push_back(prop.get());                                                                                     \
-        return result;                                                                                                        \
-    }                                                                                                                         \
-    const std::string _GetComponentName() const override                                                                      \
-    {                                                                                                                         \
-        return #CLASSNAME;                                                                                                    \
+#define REFLECTED_CLASS_FUNCTIONS(CLASSNAME)                                                    \
+    std::vector<IProperty*> _GetComponentProperties() const override                            \
+    {                                                                                           \
+        std::vector<IProperty*> result;                                                         \
+        for (std::shared_ptr<IProperty> &prop : PropertyRegistry<CLASSNAME>::GetPropertyList()) \
+            result.push_back(prop.get());                                                       \
+        return result;                                                                          \
+    }                                                                                           \
+    const std::string _GetComponentName() const override                                        \
+    {                                                                                           \
+        return #CLASSNAME;                                                                      \
     } 
 
 
@@ -35,18 +35,20 @@ using json = nlohmann::json;
 /// @brief Mandatory for the use of `PROPERTY` or `PROPERTY_D`
 /// Any class using this should extend from `IComponent`
 /// This implies that the class is serializable
-#define ENABLE_REFLECTION(CLASSNAME)                                                                                          \
-    using _MyClass = CLASSNAME;                                                                                               \
-    inline static const bool REFLECTED_VARIABLE = RegisterComponentDeserializer<CLASSNAME>(#CLASSNAME);                       \
-    REFLECTED_CLASS_FUNCTIONS(CLASSNAME)
+#define ENABLE_REFLECTION(CLASSNAME)                                                           \
+    using _MyClass = CLASSNAME;                                                                \
+    inline static const bool REFLECTED_VARIABLE =                                              \
+        ComponentRegistry::GetInstance().RegisterComponentDeserializer<CLASSNAME>(#CLASSNAME); \
+    REFLECTED_CLASS_FUNCTIONS(CLASSNAME) 
 
 
 /// @brief Mandatory for the use of `PROPERTY` or `PROPERTY_D`
 /// Any class using this should extend from `IComponent`
 /// Use this for classes that don't need to be serialized
-#define ENABLE_REFLECTION_NSERIALIZABLE(CLASSNAME)                                                                            \
-    using _MyClass = CLASSNAME;                                                                                               \
-    inline static const bool REFLECTED_VARIABLE = true;                                                                       \
+#define ENABLE_REFLECTION_NSERIALIZABLE(CLASSNAME)                                 \
+    using _MyClass = CLASSNAME;                                                    \
+    inline static const bool REFLECTED_VARIABLE =                                  \
+        ComponentRegistry::GetInstance().RegisterComponent<CLASSNAME>(#CLASSNAME); \
     REFLECTED_CLASS_FUNCTIONS(CLASSNAME)
 
 
@@ -99,20 +101,21 @@ const inline std::regex thisRe("this->");
 #define END_SERIALIZATION() };
 
 /// @brief Helper macro for serializing a member variable
-#define PROP_TO_JSON(PROPERTY) {std::regex_replace(#PROPERTY, thisRe, ""), PROPERTY}
+#define PROP_TO_JSON(PROPERTY) {std::regex_replace(#PROPERTY, ::thisRe, ""), PROPERTY}
 
 
 /// @brief Helper macro for getting a member
 /// variable from a json object
-#define PROP_FROM_JSON(JSON, PROPERTY) JSON.at(std::regex_replace(#PROPERTY, thisRe, "")).get_to(PROPERTY);
+#define PROP_FROM_JSON(JSON, PROPERTY) JSON.at(std::regex_replace(#PROPERTY, ::thisRe, "")).get_to(PROPERTY);
 
 
 /// @brief Helper macro to serialize a component
 #define COMPONENT_TO_JSON(COMPONENT) {"type", #COMPONENT} 
 
 
+
 /// @brief Example: IsItABanana -> Is It A Banana
-extern std::string SplitStringAtCapital(std::string &str);
+std::string SplitStringAtCapital(std::string &str);
 
 
 template <typename T>

@@ -19,10 +19,12 @@ public:
     EditorUI(Window &window, const std::string &glslVers);
 
     void Render();
+    void HandleInput();
     void DockDisplays() const;
 
 private:
-    float m_imGuiScale;
+    Window &m_mainWindow;
+    float   m_imGuiScale;
 
     std::vector<std::unique_ptr<IWidget>> m_allWidgets;
 };

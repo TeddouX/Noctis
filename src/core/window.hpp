@@ -15,11 +15,11 @@ public:
     bool ShouldClose() const;
     void PostRender() const;
 
-    inline GLFWwindow* GetWindow() const { return this->m_glfwWindow; };
+    inline GLFWwindow *GetWindow() const { return this->m_glfwWindow; };
 
 private:
-    GLFWwindow* m_glfwWindow;
+    GLFWwindow *m_glfwWindow;
 
     static void GLFWErrorCallback(int code, const char *desc);
-    static void GLFWWindowResizeCallback(GLFWwindow* window, int width, int height);
+    static void GLFWWindowResizeCallback(GLFWwindow *window, int width, int height);
 };

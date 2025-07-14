@@ -4,9 +4,17 @@
 void Actor::Serialize(json &j) const
 {
     START_SERIALIZATION(j)
+        COMPONENT_TO_JSON(Actor),
         PROP_TO_JSON(m_name),
-        {"id", this->m_uuid}
+        PROP_TO_JSON(m_uuid)
     END_SERIALIZATION()
+}
+
+
+void Actor::Deserialize(const json &j)
+{
+    PROP_FROM_JSON(j, m_name)
+    PROP_FROM_JSON(j, m_uuid)
 }
 
 

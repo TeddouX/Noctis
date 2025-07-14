@@ -2,6 +2,7 @@
 
 
 EditorUI::EditorUI(Window &window, const std::string &glslVers)
+    : m_mainWindow(window)
 {
     LOG_INFO("Initializing editor UI.")
 

@@ -72,11 +72,17 @@ void Scene::Load()
 
         // Fill the file with an empty json object
         json empty = json::object();
+
+#if COMPRESS_SCENE_DATA
+        Filesystem::WriteCBOR(this->m_jsonPath, json::to_cbor(empty));
+#else
         Filesystem::WriteFile(this->m_jsonPath, empty.dump());
+#endif
 
         return;
     }
 
+    // Read data from this scene's file
 #if COMPRESS_SCENE_DATA
     std::vector<uint8_t> cborData = Filesystem::ReadCBOR(this->m_jsonPath);
 #else
@@ -115,6 +121,41 @@ void Scene::Load()
         )
 
         return;
+    }
+
+    // Get all the scene's actors from json
+    json allActorsJson = sceneJson["actors"];
+    for (const json &actorJson : allActorsJson)
+    {
+        std::shared_ptr<ISerializable> actorUntyped = actorJson["actor"];
+        auto actor = std::dynamic_pointer_cast<Actor>(actorUntyped);
+
+        // This means the actor was not deserialized correctly
+        if (!actor)
+        {
+            LOG_ERR("Invalid actor json: {}", actorJson["actor"].dump())
+            continue;
+        }
+        
+        Entity entity = Entity::Create();
+        actor->SetEntity(entity);
+
+        json allComponentsJson = actorJson["components"];
+        for (const json &componentJson : allComponentsJson)
+        {
+            std::shared_ptr<ISerializable> serializableComponent = componentJson;
+
+            ComponentRegistry::GetInstance().AddComponentFromName(
+                // The component's name
+                componentJson["type"],
+                // The entity it will be added to
+                entity,
+                // This scene's component manager 
+                &this->m_componentManager,
+                // Pointer to the actual component
+                std::dynamic_pointer_cast<IComponent>(serializableComponent)
+            );
+        }
     }
 }
 
@@ -169,5 +210,5 @@ void Scene::Unload()
     Filesystem::WriteFile(this->m_jsonPath, sceneJson.dump());
 #endif
 
-    LOG_INFO("Unloaded scene {}", this->m_name)
+    LOG_INFO("Unloaded and saved scene {}", this->m_name)
 }
