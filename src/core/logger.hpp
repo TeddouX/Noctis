@@ -54,7 +54,7 @@
 namespace chrono = std::chrono;
 
 
-enum LogLevel
+enum class LogLevel
 {
     INFO,
     WARN,

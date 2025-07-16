@@ -101,8 +101,8 @@ void Scene::Load()
     }
     catch (const json::parse_error&)
     {
-        LOG_ERR("Scene file is corrupted, clearing it...")
-        Filesystem::WriteFile(this->m_jsonPath, "");
+        LOG_ERR("Scene file is corrupted so it couldn't be loaded...")
+        // Filesystem::WriteFile(this->m_jsonPath, "");
 
         return;
     }
@@ -110,6 +110,7 @@ void Scene::Load()
     if (sceneJson.empty())
         return;
 
+    // Eventual serialization errors
     std::string nameInJson = sceneJson["name"].get<std::string>();
     if (nameInJson != this->m_name)
     {
@@ -124,6 +125,7 @@ void Scene::Load()
     }
 
     // Get all the scene's actors from json
+    std::unordered_map<uuid::uuid, std::shared_ptr<Transform>> transformsMap;
     json allActorsJson = sceneJson["actors"];
     for (const json &actorJson : allActorsJson)
     {
@@ -136,14 +138,26 @@ void Scene::Load()
             LOG_ERR("Invalid actor json: {}", actorJson["actor"].dump())
             continue;
         }
+
         
         Entity entity = Entity::Create();
         actor->SetEntity(entity);
+
+        // Add the entity to this scene's entity list
+        this->AddEntity(entity);
+
+        // Add the actor component to the entity
+        this->m_componentManager.AddComponent<Actor>(entity, actor);
 
         json allComponentsJson = actorJson["components"];
         for (const json &componentJson : allComponentsJson)
         {
             std::shared_ptr<ISerializable> serializableComponent = componentJson;
+
+            // If the component is a transform, add it to the map for 
+            // later referencing
+            if (auto transform = std::dynamic_pointer_cast<Transform>(serializableComponent))
+                transformsMap.emplace(actor->GetUUID(), transform);
 
             ComponentRegistry::GetInstance().AddComponentFromName(
                 // The component's name
@@ -151,11 +165,34 @@ void Scene::Load()
                 // The entity it will be added to
                 entity,
                 // This scene's component manager 
-                &this->m_componentManager,
+                this->m_componentManager,
                 // Pointer to the actual component
                 std::dynamic_pointer_cast<IComponent>(serializableComponent)
             );
         }
+    }
+
+    // Correctly parent all the transforms
+    // using the transform map built during
+    // deserialization
+    auto allTransforms = this->m_componentManager.GetEntitiesWith<Transform>();
+    for (auto &[entity, transform] : allTransforms)
+    {
+        // Is the transform parented to any 
+        // other transform ?
+        if (!transform->IsChild())
+            continue;
+
+        auto parent = transform->GetParent();
+
+        // Was its parent built during deserialization ?
+        if (!parent->IsTemporary())
+            continue;
+
+        // Because the parent needs to be set
+        // to an existing transform ptr in the scene
+        auto correctParent = transformsMap.at(parent->GetActor()->GetUUID());
+        transform->SetParent(correctParent.get());
     }
 }
 

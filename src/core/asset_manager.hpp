@@ -8,40 +8,33 @@
 #include "../rendering/model.hpp"
 
 
-enum EmbeddedModel
-{
-    CUBE,
-    CYLINDER,
-    MONKEY,
-    SPHERE,
-    _EMBEDDED_MODELS_ALL
-};
+inline constexpr std::string_view CUBE_MODEL_NAME = "Cube";
+inline constexpr std::string_view CYLINDER_MODEL_NAME = "Cylinder";
+inline constexpr std::string_view MONKEY_MODEL_NAME = "Monkey";
+inline constexpr std::string_view SPHERE_MODEL_NAME = "Sphere";
 
-enum EmbeddedShader
-{
-    DEFAULT, // Basically no logic
-    LIT, 
-    _EMBEDDED_SHADERS_ALL 
-};
+inline constexpr std::string_view DEFAULT_SHADER_NAME = "Default";
+inline constexpr std::string_view LIT_SHADER_NAME = "Lit";
 
 
 class AssetManager
 {
 public:
-    AssetManager();
+    static AssetManager &GetInstance();
 
     void AddModel(const std::string &modelPath);
+    void AddModel(const std::string &name, const std::string &modelPath);
+
+    void AddShader(const std::string &name, const std::string &vrPath, const std::string &frPath);
+
     inline std::shared_ptr<Model> GetModel(const std::string &name) { return this->m_allModels.at(name); }
-    
-    inline std::shared_ptr<Model> GetEmbeddedModel(EmbeddedModel model) { return this->m_embeddedModels.at(model); }
-    inline std::shared_ptr<Shader> GetEmbeddedShader(EmbeddedShader shader) { return this->m_embeddedShaders.at(shader); }
+    inline std::shared_ptr<Shader> GetShader(const std::string &name) { return this->m_allShaders.at(name); }
 
 private:
-    // name -> model
     std::unordered_map<std::string, std::shared_ptr<Model>> m_allModels;
-
-    std::vector<std::shared_ptr<Model>> m_embeddedModels;
-    std::vector<std::shared_ptr<Shader>> m_embeddedShaders;
+    std::unordered_map<std::string, std::shared_ptr<Shader>> m_allShaders;
+    
+    AssetManager();
 
     void InitializeEmbeddedModels();
     void InitializeEmbeddedShaders();

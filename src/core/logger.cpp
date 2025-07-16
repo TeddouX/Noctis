@@ -21,7 +21,7 @@ void Logger::Todo(
     );
     std::string finalMess = prefix + std::string(mess);
 
-    std::cout << this->FormatColor(finalMess, BRIGHT_BLUE_FG) << std::endl;
+    std::cout << this->FormatColor(finalMess, BRIGHT_BLUE_FG) << std::endl << std::flush;
 }
 
 
@@ -52,9 +52,9 @@ std::string Logger::LogLevelToString(LogLevel level)
 {
     switch (level)
     {
-        case INFO: return "INFO";
-        case WARN: return "WARN";
-        case ERR:  return "ERR";
+        case LogLevel::INFO: return "INFO";
+        case LogLevel::WARN: return "WARN";
+        case LogLevel::ERR:  return "ERR";
         default:   return "";
     }
 }

@@ -11,12 +11,19 @@ void ActorPropertiesWidget::Render()
     if (currScene && selectedEntity.IsValid())
     {
         ComponentManager &cm = currScene->GetComponentManager();
-        std::vector<std::shared_ptr<IComponent>> allComponents = cm.GetAllComponents(selectedEntity);
+        auto allComponents = cm.GetAllComponents(selectedEntity);
 
+        auto actor = cm.GetComponent<Actor>(selectedEntity).get();
         // The actor component is handled differently from the others
         // It shouldn't be rendered as a collapsing header
-        HandleActor(cm.GetComponent<Actor>(selectedEntity).get());
-        
+        if (actor)
+            HandleActor(actor);
+        else
+        {
+            LOG_ERR("Currently selected entity has no actor associated with it, so it can't be used...")
+            return;
+        }
+
         // Transform is processed individually here because it should be inserted at the top of everything
         IterateComponentProperties(cm.GetComponent<Transform>(selectedEntity));
 

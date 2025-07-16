@@ -27,7 +27,7 @@ void Material::Serialize(json &j) const
         PROP_TO_JSON(specularReflectance),
         PROP_TO_JSON(specularDefinition),
         PROP_TO_JSON(m_name),
-        PROP_TO_JSON(m_shader)
+        {"shader", this->m_shader->GetName()}
     END_SERIALIZATION()
 }
 
@@ -38,5 +38,5 @@ void Material::Deserialize(const json &j)
     PROP_FROM_JSON(j, specularReflectance)
     PROP_FROM_JSON(j, specularDefinition)
     PROP_FROM_JSON(j, m_name)
-    PROP_FROM_JSON(j, m_shader)
+    this->m_shader = AssetManager::GetInstance().GetShader(j["shader"]);
 }

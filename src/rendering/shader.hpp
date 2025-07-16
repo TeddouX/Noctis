@@ -31,8 +31,6 @@ public:
 	void SetVector(const std::string &name, Vec3 value) const;
 	void SetMatrix(const std::string &name, Mat4 value) const;
 
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(Shader, m_name)
-
 private:
 	GLuint m_shaderProgramID;
 	std::string m_name;

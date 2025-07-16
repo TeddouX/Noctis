@@ -6,7 +6,7 @@
 #include "../core/logger.hpp"
 
 
-enum TextureType
+enum class TextureType
 {
     DIFFUSE,
     SPECULAR,

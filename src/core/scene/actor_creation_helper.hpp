@@ -12,7 +12,7 @@ public:
     ActorCreationHelper() = delete;
 
     static void CreateEmpty(Transform *parent);
-    static void CreateSimpleShape(EmbeddedModel model, Transform *parent);
+    static void CreateSimpleShape(std::string_view modelName, Transform *parent);
     static void CreateDirectionalLight(Transform *parent);
 
 private:

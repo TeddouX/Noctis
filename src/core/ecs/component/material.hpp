@@ -3,10 +3,11 @@
 #include <memory>
 
 #include "component.hpp"
-#include "../../../rendering/shader.hpp"
-#include "../../../rendering/ssbo.hpp"
+#include "../../asset_manager.hpp"
 #include "../../math/math.hpp"
 #include "../../math/color.hpp"
+#include "../../../rendering/shader.hpp"
+#include "../../../rendering/ssbo.hpp"
 
 
 class Material : public IComponent, public ISerializable

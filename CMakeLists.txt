@@ -15,6 +15,14 @@ find_package(fmt CONFIG REQUIRED)
 
 add_definitions(-D GLM_ENABLE_EXPERIMENTAL)
 
+include(CheckCXXCompilerFlag)
+find_program(CCACHE_FOUND ccache)
+
+if(CCACHE_FOUND)
+    set(CMAKE_C_COMPILER_LAUNCHER ccache)
+    set(CMAKE_CXX_COMPILER_LAUNCHER ccache)
+endif()
+
 # add_compile_options(/showIncludes)
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT UnknownEngine)

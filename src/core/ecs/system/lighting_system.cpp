@@ -3,7 +3,7 @@
 
 void LightingSystem::Update(const ComponentManager &cm, float dt)
 {
-    const auto &dirLightsMap = cm.GetEntities<DirectionalLight>();
+    const auto &dirLightsMap = cm.GetEntitiesWith<DirectionalLight>();
 
     for (auto &[entity, dirLight] : dirLightsMap)
         dirLight->rotation = cm.GetComponent<Transform>(entity)->GetWorldRot();

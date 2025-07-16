@@ -1,8 +1,8 @@
 #include "model.hpp"
 
 
-Model::Model(const fs::path &path)
-    : m_path(path)
+Model::Model(const fs::path &path, const std::string &name)
+    : m_path(path), m_name(name)
 {
     LOG_INFO("Loading model: {}", path.string())
 
@@ -16,7 +16,10 @@ Model::Model(const fs::path &path)
         return;
     }
 
-    this->m_name = std::string(scene->mRootNode->mName.C_Str());
+    // Is the name already set ?
+    if (this->m_name.empty())
+        this->m_name = std::string(scene->mRootNode->mName.C_Str());
+    
     this->m_meshes = this->ProcessNode(scene->mRootNode, scene);
 }
 

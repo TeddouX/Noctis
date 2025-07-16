@@ -8,7 +8,7 @@ void Logger::Info(const std::string_view format, Args &&...args)
     std::string finalMess = this->FormatLoggerMesssage(formatted, LogLevel::INFO);
 
     if (!finalMess.empty())
-        std::cout << finalMess << std::endl;
+        std::cout << finalMess << std::endl << std::flush;
 }
 
 
@@ -19,7 +19,7 @@ void Logger::Warn(const std::string_view format, Args &&...args)
     std::string finalMess = this->FormatLoggerMesssage(formatted, LogLevel::WARN);
 
     if (!finalMess.empty())
-        std::cout << this->FormatColor(finalMess, BRIGHT_YELLOW_FG) << std::endl;
+        std::cout << this->FormatColor(finalMess, BRIGHT_YELLOW_FG) << std::endl << std::flush;
 }
 
 
@@ -30,5 +30,5 @@ void Logger::Error(const std::string_view format, Args &&...args)
     std::string finalMess = this->FormatLoggerMesssage(formatted, LogLevel::ERR);
 
     if (!finalMess.empty())
-        std::cout << this->FormatColor(finalMess, BRIGHT_RED_FG) << std::endl;
+        std::cout << this->FormatColor(finalMess, BRIGHT_RED_FG) << std::endl << std::flush;
 }

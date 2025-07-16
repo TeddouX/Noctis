@@ -9,6 +9,8 @@ bool ComponentRegistry::RegisterComponent(const std::string &name)
         {
             cm.AddComponent<T>(e, std::static_pointer_cast<T>(comp));
         };
+
+    return true;
 }
 
 
@@ -23,7 +25,7 @@ bool ComponentRegistry::RegisterComponentDeserializer(const std::string &name)
         );
     };
     
-    this->RegisterComponent(name);
+    this->RegisterComponent<T>(name);
 
     return true;
 }

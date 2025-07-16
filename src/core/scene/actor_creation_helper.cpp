@@ -37,20 +37,20 @@ void ActorCreationHelper::CreateEmpty(Transform *parent)
 }
 
 
-void ActorCreationHelper::CreateSimpleShape(EmbeddedModel modelType, Transform *parent)
+void ActorCreationHelper::CreateSimpleShape(std::string_view modelName, Transform *parent)
 {
     Scene *currScene = SCENE_MANAGER().GetCurrScene();
     ComponentManager &cm = currScene->GetComponentManager();
-    AssetManager &am = PROJECT()->GetAssetManager();
+    AssetManager &am = AssetManager::GetInstance();
     
     Entity entity = Entity::Create();
-    std::shared_ptr<Model> model = am.GetEmbeddedModel(modelType);
+    std::shared_ptr<Model> model = am.GetModel(std::string(modelName));
     
     AddDefaultComponents(cm, entity, parent, model->GetBeautifiedName());
 
     cm.AddComponent(entity, std::make_shared<ModelComponent>(model));
 
-    std::shared_ptr<Shader> shader = am.GetEmbeddedShader(EmbeddedShader::LIT);
+    std::shared_ptr<Shader> shader = am.GetShader(std::string(LIT_SHADER_NAME));
     cm.AddComponent(entity, std::make_shared<Material>("default", shader));
 
     currScene->AddEntity(entity);

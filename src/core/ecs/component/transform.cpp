@@ -108,6 +108,10 @@ void Transform::Deserialize(const json &j)
     PROP_FROM_JSON(j, m_scale)
     this->m_actor = std::dynamic_pointer_cast<Actor>(j.at("actor").get<std::shared_ptr<ISerializable>>());
     
-    auto parentActor = std::dynamic_pointer_cast<Actor>(j.at("aparent").get<std::shared_ptr<ISerializable>>());
-    this->m_parent = new Transform(parentActor);
+    // Was the transform serialized as having a parent ?
+    if (!j["parent"].is_null())
+    {
+        auto parentActor = std::dynamic_pointer_cast<Actor>(j.at("parent").get<std::shared_ptr<ISerializable>>());
+        this->m_parent = new Transform(parentActor);
+    }
 }

@@ -3,6 +3,7 @@
 
 #include "component.hpp"
 #include "../../../rendering/model.hpp"
+#include "../../asset_manager.hpp"
 
 
 // A ModelComponent stores a pointer to a model that can be rendered

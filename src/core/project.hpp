@@ -5,7 +5,6 @@
 
 #include "logger.hpp"
 #include "filesystem.hpp"
-#include "asset_manager.hpp"
 #include "scene/scene_manager.hpp"
 
 
@@ -20,14 +19,12 @@ public:
 
     const fs::path       GetScenesFolder();
     const fs::path       GetAssetsFolder();
-    inline AssetManager &GetAssetManager() { return this->m_assetManager; };
 
 private:
     Project(const fs::path &rootDir);
 
     static Project *m_instance;
     fs::path        m_rootDir;
-    AssetManager    m_assetManager;
 
     void LoadScenes();
 };

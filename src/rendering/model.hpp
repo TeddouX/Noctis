@@ -18,15 +18,13 @@ class Model
 {
 public:
     Model() = default;
-    Model(const fs::path &path);
+    Model(const fs::path &path, const std::string &name = "");
 
     std::string GetBeautifiedName() const;
     inline const std::string &GetName() const { return this->m_name; }
     inline const fs::path     GetPath() const { return fs::absolute(this->m_path); }
 
     void Render(Shader &Shader) const;
-
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(Model, m_name)
 
 private:
     std::vector<Mesh> m_meshes;

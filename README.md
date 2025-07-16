@@ -1,6 +1,7 @@
 # Unknown Engine: a simplistic game engine  
 /!\ In developement  
-Trying to reach a ratio of at least 1 comment for 10 lines of code (currently 1/15.3, 227 comments for 3480 loc).
+Trying to reach a ratio of at least 1 comment for 10 lines of code (currently 1/15.3, 227 comments for 3480 loc).  
+Linux support will not come for a long moment.  
 
 ### Credits
 - [Assimp](https://github.com/assimp/assimp) - The official Open-Asset-Importer-Library
@@ -11,7 +12,7 @@ Trying to reach a ratio of at least 1 comment for 10 lines of code (currently 1/
 - [Glad](https://github.com/Dav1dde/glad) - Multi-Language Vulkan/GL/GLES/EGL/GLX/WGL Loader-Generator based on the official specs. Use [this](https://gen.glad.sh/) to generate a loader.
 - [Nlohmann-json](https://github.com/nlohmann/json) - JSON for Modern C++
 - [Fmt](https://github.com/fmtlib/fmt) - A modern formatting library
-- [Boost-UUID](https://github.com/boostorg/uuid) - Boost.org uuid module
+- [Boost-UUID](https://github.com/boostorg/uuid) - Boost.org uuid module (*this will, at some point, be replaced by a custom UUID engine*)
 
 ### Editor
 The editor's UI is made using [Dear ImGui](https://github.com/ocornut/imgui).  
@@ -24,7 +25,7 @@ __[vcpkg](https://vcpkg.io/en/) and [Cmake](https://cmake.org/) are required.__
 For __vcpkg__, follow the installation guide on: [Microsoft Learn](https://learn.microsoft.com/en-us/vcpkg/get_started/get-started?pivots=shell-powershell#1---set-up-vcpkg).  
 After installation, add the `vcpkg/bin` folder to __PATH__.   
 
-After building the project, you will need to create a __`CMakeUserPresets.json`__ in the root, containing this (*replace `"PATH/TO/VCPKG"` with the actual path*): 
+After installing the required software the project, you will need to create a __`CMakeUserPresets.json`__ in the root of the repo, containing this: (*replace `"PATH/TO/VCPKG"` with the actual path*)  
 ```json
 {
   "version": 2,
@@ -43,12 +44,12 @@ Then run:
 ```cmd
 cmake --preset default
 ```
-to build the CMake __cache__.  
+to build the CMake cache and install required __vcpkg__ libraries.  
 
 And finally:
 ```cmd
 mkdir build
 cmake --build .\build\
 ```
-to __build__ the project. The *.exe* file can be found in `build/Debug/UnknownEngine.exe`.
+to __build__ the project. The *.exe* file can be found in `build/Debug/`, if built using MSVC.
 

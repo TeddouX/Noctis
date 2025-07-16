@@ -30,7 +30,7 @@ std::shared_ptr<T> ComponentManager::GetComponent(Entity entity) const
 
 
 template <typename T> 
-const std::unordered_map<Entity, std::shared_ptr<T>> &ComponentManager::GetEntities() const
+const std::unordered_map<Entity, std::shared_ptr<T>> &ComponentManager::GetEntitiesWith() const
 {
     return this->GetComponentArray<T>().GetAll();
 }
