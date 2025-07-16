@@ -6,6 +6,9 @@
 
 int main() 
 {
+    // This will need to be moved to some kind of 
+    // editor_application.cpp
+
     Window window(800, 600, "Unknown Engine");
 
     fs::path projPath = fs::absolute("test_project");
@@ -18,6 +21,8 @@ int main()
 
     while (!window.ShouldClose())
     {
+        window.PollEvents();
+
         ui.Render();
         
         window.PostRender();

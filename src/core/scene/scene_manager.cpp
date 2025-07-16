@@ -34,11 +34,23 @@ void SceneManager::RemoveScene(const std::string &name)
 }
 
 
+void SceneManager::SaveCurrScene()
+{
+    if (this->m_currScene.empty())
+    {
+        LOG_ERR("No scene is selected.")
+        return;
+    }
+
+    this->GetCurrScene()->Save();
+}
+
+
 void SceneManager::SetCurrScene(const std::string &name)
 {
     // If the current scene is set, unload it
     if (!this->m_currScene.empty())
-        this->GetCurrScene()->Unload();
+        this->GetCurrScene()->Save();
 
     // If the scene exists
     if (this->m_scenes.count(name) > 0)

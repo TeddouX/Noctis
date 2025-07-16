@@ -11,6 +11,7 @@
 #include "widget/actor_properties.hpp"
 #include "widget/console.hpp"
 #include "../core/window.hpp"
+#include "../core/scene/scene_manager.hpp"
 
 
 class EditorUI
@@ -19,12 +20,14 @@ public:
     EditorUI(Window &window, const std::string &glslVers);
 
     void Render();
-    void HandleInput();
-    void DockDisplays() const;
 
 private:
     Window &m_mainWindow;
     float   m_imGuiScale;
 
     std::vector<std::unique_ptr<IWidget>> m_allWidgets;
+
+    void DockDisplays() const;
+    void ShowMenuBar();
+    void HandleInput();
 };

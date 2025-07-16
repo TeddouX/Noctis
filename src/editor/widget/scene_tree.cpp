@@ -24,8 +24,8 @@ void SceneTreeWidget::Render()
             HandleActorCreationMenu(nullptr); // Parent is the root
             HandleDragDropTarget(nullptr);
 
-            // Avoid undefined due vector reallocation
-            const std::vector<Entity> &allEntities = currScene->GetAllEntities();
+            // Avoid undefined behaviour due vector reallocation
+            std::vector<Entity> allEntities = currScene->GetAllEntities();
             // Iterate through all the scene's entities to add them to the tree
             for (const Entity &entity : allEntities)
             {

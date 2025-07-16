@@ -19,6 +19,8 @@ public:
     void   AddSceneFromPath(const fs::path &path);
     void   RemoveScene(const std::string &name);
 
+    /// @brief Saves the current scene, if set
+    void   SaveCurrScene();
     void   SetCurrScene(const std::string &name);
     Scene *GetCurrScene();
 

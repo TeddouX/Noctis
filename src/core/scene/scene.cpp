@@ -197,10 +197,10 @@ void Scene::Load()
 }
 
 
-void Scene::Unload()
+void Scene::Save()
 {
     LOG_INFO(
-        "Unloading scene {} to scene file ({})", 
+        "Saving scene {} to scene file ({})", 
         this->m_name, this->m_jsonPath.string()
     )
 
@@ -247,5 +247,5 @@ void Scene::Unload()
     Filesystem::WriteFile(this->m_jsonPath, sceneJson.dump());
 #endif
 
-    LOG_INFO("Unloaded and saved scene {}", this->m_name)
+    LOG_INFO("Saved and saved scene {}", this->m_name)
 }

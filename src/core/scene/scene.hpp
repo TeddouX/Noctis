@@ -67,7 +67,7 @@ public:
     void Load();
 
     /// @brief Unloads this scene and saves all its data to its json file
-    void Unload();
+    void Save();
 
 private:
     std::vector<Entity>  m_entities;

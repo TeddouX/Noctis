@@ -64,6 +64,40 @@ void EditorUI::DockDisplays() const
 }
 
 
+void EditorUI::ShowMenuBar()
+{
+    if (ImGui::BeginMainMenuBar()) 
+    {
+        if (ImGui::BeginMenu("Scene")) 
+        {
+            // Do nothing for now
+            if (ImGui::MenuItem("Create Scene")) true;
+            if (ImGui::MenuItem("Save Scene", "Ctrl+S")) true;
+
+            ImGui::EndMenu();
+        }
+
+        ImGui::EndMainMenuBar();
+    }
+}
+
+
+// Input from the glfw window
+void EditorUI::HandleInput()
+{
+    std::optional<KeyCombo> optCombo = this->m_mainWindow.GetLastCombo(); 
+    if (!optCombo.has_value())
+        return;
+
+    KeyCombo combo = optCombo.value();
+
+    // Ctrl+S
+    if (combo.Is(GLFW_KEY_S, { GLFW_MOD_CONTROL }))
+        SCENE_MANAGER().SaveCurrScene();
+}
+
+
+
 void EditorUI::Render()
 {
     ImGui_ImplOpenGL3_NewFrame();
@@ -73,6 +107,9 @@ void EditorUI::Render()
     this->DockDisplays();
 
     // ImGui::ShowDemoWindow();
+
+    this->ShowMenuBar();
+    this->HandleInput();
 
     // Update all widgets
     for (std::unique_ptr<IWidget> &widget : this->m_allWidgets)
