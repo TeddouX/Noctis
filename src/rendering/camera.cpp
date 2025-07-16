@@ -25,6 +25,17 @@ void Camera::Resize(float aspectRatio)
 	this->m_aspectRatio = aspectRatio;
 }
 
+void Camera::RotateBy(float yaw, float pitch)
+{
+	this->m_yaw += yaw;
+	this->m_pitch += pitch;
+
+	if (this->m_pitch > 89.0f)
+		this->m_pitch = 89.0f;
+	if (this->m_pitch < -89.0f)
+		this->m_pitch = -89.0f;
+} 
+
 
 Vec3 Camera::GetForwardVec() const
 {

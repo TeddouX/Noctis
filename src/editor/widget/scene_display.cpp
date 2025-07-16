@@ -1,6 +1,7 @@
 #include "scene_display.hpp"
 
-SceneDisplayWidget::SceneDisplayWidget()
+SceneDisplayWidget::SceneDisplayWidget(const Window &window)
+    : m_window(window)
 {
     // TESTING
     SCENE_MANAGER().AddScene("HelloWorld");
@@ -21,6 +22,29 @@ void SceneDisplayWidget::Render()
 
     static ImVec2 lastSize = availableSpace;
 
+    // Handle mouse movement
+    if (ImGui::IsWindowFocused())
+    {
+        // Is rmb pressed ?
+        const auto &mouseButtons = this->m_window.GetMouseButtonsDown();
+        if (mouseButtons.contains(GLFW_MOUSE_BUTTON_RIGHT))
+        {
+            // Hide the cursor and lock it
+            this->m_window.SetCursorEnabled(false);
+
+            Vec2 mouseDelta = this->m_window.GetMouseDelta() * (1 / this->m_mouseSensitivity);
+            // Needs to be negative else vertical mouse input is inversed
+            this->m_camera.RotateBy(mouseDelta.x, -mouseDelta.y);
+        }
+        else
+            // Reenable cursor if rmb was released
+            this->m_window.SetCursorEnabled(true);
+    }
+    // Reenable cursor if the window lost focus
+    else
+        this->m_window.SetCursorEnabled(true);
+
+
     // If the window is not minimized
     if (!(windowSize.x == 0 || windowSize.y == 0))
     {
@@ -32,24 +56,27 @@ void SceneDisplayWidget::Render()
 
         this->m_frameBuffer.Bind();
 
+        // Update the opengl viewport if needed
         if (availableSpace.x != lastSize.x || availableSpace.y != lastSize.y)
             this->UpdateViewport((int)availableSpace.x, (int)availableSpace.y);
 
+        // Update all the scene's systems that 
+        // are related to rendering
         Scene *currScene = SCENE_MANAGER().GetCurrScene();
         currScene->GetSystem<RenderSystem>()->SetCamera(&this->m_camera);
         currScene->UpdateSystem<LightingSystem>(.0f);
         currScene->UpdateSystem<RenderSystem>(.0f);
 
-        // TESTING
-        // currScene->Unload();
-
+        // Not really needed here but why not
         this->m_frameBuffer.Unbind();
 
+        // Set the position for the image
         ImGui::SetCursorPos(ImVec2(
             (float)this->m_viewportX, 
             (float)this->m_viewportY + ImGui::GetStyle().DisplayWindowPadding.y
         ));
 
+        // Create an image with the framebuffer's color texture
         ImGui::Image(
             (ImTextureID)(intptr_t) this->m_frameBuffer.GetTextureID(), 
             ImVec2((float)this->m_viewportWidth, (float)this->m_viewportHeight),

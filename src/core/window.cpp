@@ -39,10 +39,15 @@ Window::Window(int width, int height, const std::string &title)
 		exit(-1);
 	}
 
+    // All the glfw callbacks
     glfwSetFramebufferSizeCallback(this->m_glfwWindow, Window::GLFWWindowResizeCallback);
     glfwSetKeyCallback(this->m_glfwWindow, Window::GLFWInputCallback);
+    glfwSetCursorPosCallback(this->m_glfwWindow, Window::GLFWCursorPosCallback);
+    glfwSetMouseButtonCallback(this->m_glfwWindow, Window::GLFWMouseButtonCallback);
+
     // Make this window usable in static callback functions
     glfwSetWindowUserPointer(this->m_glfwWindow, this);
+
     glfwMakeContextCurrent(this->m_glfwWindow);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -64,24 +69,22 @@ Window::~Window()
 }
 
 
-bool Window::ShouldClose() const
-{
-    return glfwWindowShouldClose(this->m_glfwWindow);
-}
-
-
-void Window::PollEvents() const
-{
-    glfwPollEvents();
-}
-
-
 void Window::PostRender()
 {
     glfwSwapBuffers(this->m_glfwWindow);
 
     // Clear last combo
     this->m_lastCombo.reset();
+    this->m_mouseDelta = Vec2(0);
+}
+
+
+void Window::SetCursorEnabled(bool enabled) const
+{
+    if (enabled)
+        glfwSetInputMode(this->m_glfwWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    else
+        glfwSetInputMode(this->m_glfwWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 
@@ -91,7 +94,7 @@ void Window::GLFWErrorCallback(int code, const char *desc)
 }
 
 
-void Window::GLFWWindowResizeCallback(GLFWwindow* window, int width, int height)
+void Window::GLFWWindowResizeCallback(GLFWwindow* glfwWindow, int width, int height)
 {
     glViewport(0, 0, width, height);
 }
@@ -112,4 +115,27 @@ void Window::GLFWInputCallback(GLFWwindow* glfwWindow, int key, int scancode, in
     }
     else if (action == GLFW_RELEASE)
         window->m_keysDown.erase(key);
+}
+
+
+void Window::GLFWCursorPosCallback(GLFWwindow* glfwWindow, double xpos, double ypos)
+{
+    Window *window = (Window *)glfwGetWindowUserPointer(glfwWindow);
+    
+    Vec2 mousePos = Vec2((float)xpos, (float)ypos);
+    window->m_mousePos = mousePos;
+    window->m_mouseDelta = window->m_mousePos - window->m_lastMousePos;
+
+    window->m_lastMousePos = mousePos; 
+}
+
+
+void Window::GLFWMouseButtonCallback(GLFWwindow* glfwWindow, int button, int action, int mods)
+{
+    Window *window = (Window *)glfwGetWindowUserPointer(glfwWindow);
+    
+    if (action == GLFW_PRESS)
+        window->m_mouseButtonsDown.insert(button);
+    else if (action == GLFW_RELEASE)
+        window->m_mouseButtonsDown.erase(button);
 }

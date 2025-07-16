@@ -22,6 +22,8 @@ public:
     inline float GetAspect() const { return this->m_aspectRatio; }
     void         Resize(float aspectRatio);
 
+    void RotateBy(float yaw, float pitch);
+
     Vec3 GetForwardVec() const;
 	Mat4 GetViewMatrix() const;
 	Mat4 GetProjectionMatrix() const;

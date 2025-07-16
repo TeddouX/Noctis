@@ -26,10 +26,10 @@ EditorUI::EditorUI(Window &window, const std::string &glslVers)
     io.IniFilename = NULL;
 
     // Add all widgets
+    m_allWidgets.push_back(std::make_unique<SceneDisplayWidget>(this->m_mainWindow));
     m_allWidgets.push_back(std::make_unique<ActorPropertiesWidget>());
     m_allWidgets.push_back(std::make_unique<AssetExplorerWidget>());
     m_allWidgets.push_back(std::make_unique<ConsoleWidget>());
-    m_allWidgets.push_back(std::make_unique<SceneDisplayWidget>());
     m_allWidgets.push_back(std::make_unique<SceneTreeWidget>());
 }
 
@@ -85,17 +85,26 @@ void EditorUI::ShowMenuBar()
 // Input from the glfw window
 void EditorUI::HandleInput()
 {
+    ImGuiIO& io = ImGui::GetIO();
+
+    // Prevent ImGui from capturing mouse 
+    // input when the cursor is disabled
+    if (this->m_mainWindow.IsCursorEnabled()) 
+        io.ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
+    else 
+        io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
+
+        
     std::optional<KeyCombo> optCombo = this->m_mainWindow.GetLastCombo(); 
-    if (!optCombo.has_value())
-        return;
-
-    KeyCombo combo = optCombo.value();
-
-    // Ctrl+S
-    if (combo.Is(GLFW_KEY_S, { GLFW_MOD_CONTROL }))
-        SCENE_MANAGER().SaveCurrScene();
+    if (optCombo.has_value())
+    {
+        KeyCombo combo = optCombo.value();
+        
+        // Ctrl+S
+        if (combo.Is(GLFW_KEY_S, { GLFW_MOD_CONTROL }))
+            SCENE_MANAGER().SaveCurrScene();
+    }
 }
-
 
 
 void EditorUI::Render()
