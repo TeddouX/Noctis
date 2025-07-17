@@ -10,60 +10,70 @@ void SceneDisplayWidget::Render()
         ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse
     );
     ImVec2 windowSize = ImGui::GetIO().DisplaySize;
-    ImVec2 availableSpace = ImGui::GetContentRegionAvail();
 
-    static ImVec2 lastSize = availableSpace;
 
     this->HandleMouseInput();
     this->HandleKeyboardInput();
 
-    // If the window is not minimized
+    // Is the window not minimized ?
     if (!(windowSize.x == 0 || windowSize.y == 0))
-    {
-        // Resize frame buffer if needed
-        this->m_frameBuffer.Resize(IVec2(
-            this->m_viewportWidth, 
-            this->m_viewportHeight
-        ));
-
-        this->m_frameBuffer.Bind();
-
-        // Update the opengl viewport if needed
-        if (availableSpace.x != lastSize.x || availableSpace.y != lastSize.y)
-            this->UpdateViewport((int)availableSpace.x, (int)availableSpace.y);
-
-        // Update all the scene's systems that 
-        // are related to rendering
-        Scene *currScene = SCENE_MANAGER().GetCurrScene();
-        if (currScene)
-        {
-            currScene->GetSystem<RenderSystem>()->SetCamera(&this->m_camera);
-            currScene->UpdateSystem<LightingSystem>(.0f);
-            currScene->UpdateSystem<RenderSystem>(.0f);
-        }
-
-        // Not really needed here but why not
-        this->m_frameBuffer.Unbind();
-
-        // Set the position for the image
-        ImGui::SetCursorPos(ImVec2(
-            (float)this->m_viewportX, 
-            (float)this->m_viewportY + ImGui::GetStyle().DisplayWindowPadding.y
-        ));
-
-        // Create an image with the framebuffer's color texture
-        ImGui::Image(
-            (ImTextureID)(intptr_t) this->m_frameBuffer.GetTextureID(), 
-            ImVec2((float)this->m_viewportWidth, (float)this->m_viewportHeight),
-            ImVec2(0.f, 1.f),  
-            ImVec2(1.f, 0.f)
-        );
-    }
-
-    lastSize = availableSpace;
+        this->RenderCurrScene();
 
     ImGui::End();
     ImGui::PopStyleVar();
+}  
+
+
+void SceneDisplayWidget::RenderCurrScene()
+{
+    ImVec2 availableSpace = ImGui::GetContentRegionAvail();
+    static ImVec2 lastSize = availableSpace;
+
+    // Resize frame buffer if needed
+    this->m_frameBuffer.Resize(IVec2(
+        this->m_viewportWidth, 
+        this->m_viewportHeight
+    ));
+
+    Scene *currScene = SCENE_MANAGER().GetCurrScene();
+    if (!currScene)
+    {
+        ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 0, 0, 255));
+        ImGui::Text("No scene is selected.\nPlease create one or select an existing scene.");
+        ImGui::PopStyleColor();
+
+        return;
+    }
+
+    this->m_frameBuffer.Bind();
+
+    // Update the opengl viewport if needed
+    if (availableSpace.x != lastSize.x || availableSpace.y != lastSize.y)
+        this->UpdateViewport((int)availableSpace.x, (int)availableSpace.y);
+
+    // Update all the scene's systems that 
+    // are related to rendering
+    currScene->GetSystem<RenderSystem>()->SetCamera(&this->m_camera);
+    currScene->UpdateSystem<LightingSystem>(.0f);
+    currScene->UpdateSystem<RenderSystem>(.0f);
+
+    this->m_frameBuffer.Unbind();
+
+    // Set the position for the image
+    ImGui::SetCursorPos(ImVec2(
+        (float)this->m_viewportX, 
+        (float)this->m_viewportY + ImGui::GetStyle().DisplayWindowPadding.y
+    ));
+
+    // Create an image with the framebuffer's color texture
+    ImGui::Image(
+        (ImTextureID)(intptr_t) this->m_frameBuffer.GetTextureID(), 
+        ImVec2((float)this->m_viewportWidth, (float)this->m_viewportHeight),
+        ImVec2(0.f, 1.f),  
+        ImVec2(1.f, 0.f)
+    );
+
+    lastSize = availableSpace;
 }
 
 

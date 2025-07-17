@@ -46,7 +46,7 @@ void FrameBuffer::Init(IVec2 size)
         this->m_texture.GetID(), 
         0
     );
-
+    
     // Check for errors in the creation of the frambuffer
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) 
     {
@@ -54,6 +54,9 @@ void FrameBuffer::Init(IVec2 size)
         if (status != GL_FRAMEBUFFER_COMPLETE)
             LOG_ERR("Framebuffer incomplete: {0:#x}", (int)status);
     }
+
+    // Unbind the frame buffer
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 

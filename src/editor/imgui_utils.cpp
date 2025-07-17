@@ -4,18 +4,21 @@
 namespace ImGui
 {
 
-void ResizableInputText(const char* label, std::string& str)
+void ResizableInputText(const char* label, std::string& str, bool needsEnter)
 {
     // Prevent the buffer from pointing to null
     std::string buf = str;
     if (buf.empty())
-        buf.resize(1);
+    buf.resize(1);
+
+    ImGuiInputFlags flags = ImGuiInputTextFlags_CallbackResize
+        | (needsEnter ? ImGuiInputTextFlags_EnterReturnsTrue : 0);
 
     if (ImGui::InputText(
         label, 
         (char *)str.c_str(), 
-        buf.capacity(),
-        ImGuiInputTextFlags_CallbackResize | ImGuiInputTextFlags_EnterReturnsTrue,
+        buf.capacity(), 
+        flags,
         [](ImGuiInputTextCallbackData* data) -> int
         {
             if (data->EventFlag == ImGuiInputTextFlags_CallbackResize)

@@ -7,7 +7,7 @@ EditorUI::EditorUI(Window &window, const std::string &glslVers)
     LOG_INFO("Initializing editor UI.")
 
     GLFWwindow* glfwWindow = window.GetWindow();
-    this->m_imGuiScale = 1;
+    this->m_imGuiScale = 2;
 
     // Init ImGui
     IMGUI_CHECKVERSION();
@@ -153,7 +153,7 @@ void EditorUI::ShowCreateSceneModal()
         static std::string sceneName;
 
         ImGui::Separator();
-        ImGui::ResizableInputText("Scene name", sceneName);
+        ImGui::ResizableInputText("Scene name", sceneName, false);
 
         if (ImGui::Button("OK", ImVec2(120, 0))) 
         { 

@@ -29,6 +29,7 @@ private:
     int m_viewportWidth, m_viewportHeight;
     int m_viewportX,     m_viewportY;
 
+    void RenderCurrScene();
     void HandleMouseInput();
     void HandleKeyboardInput();
     void UpdateViewport(int windowWidth, int windowHeight);

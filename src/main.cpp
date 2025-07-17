@@ -23,7 +23,7 @@ int main()
     while (!window.ShouldClose())
     {
         glfwPollEvents();
-
+        
         ui.Render();
         
         window.PostRender();

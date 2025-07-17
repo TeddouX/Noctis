@@ -72,7 +72,7 @@ void ActorPropertiesWidget::HandleActor(IComponent *component)
         if (Is<std::string>(value.type())) 
         {
             std::string &actorName = Unwrap<std::string>(value);
-            ImGui::ResizableInputText(GenImGuiID("string_input", prop, component).c_str(), actorName);
+            ImGui::ResizableInputText(GenImGuiID("string_input", prop, component).c_str(), actorName, true);
         }
     }
 
@@ -106,7 +106,7 @@ void ActorPropertiesWidget::ProcessProperty(IProperty *property, IComponent *com
         ImGui::InlinedLabel(property->GetBeautifiedName().c_str());
 
         std::string &s = Unwrap<std::string>(value);
-        ImGui::ResizableInputText(GenImGuiID("string_input", property, component).c_str(), s);
+        ImGui::ResizableInputText(GenImGuiID("string_input", property, component).c_str(), s, true);
     }
     else if (Is<Vec3>(value.type()))        // vector 3
     {

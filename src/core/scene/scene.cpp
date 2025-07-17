@@ -247,5 +247,5 @@ void Scene::Save()
     Filesystem::WriteFile(this->m_jsonPath, sceneJson.dump());
 #endif
 
-    LOG_INFO("Saved and saved scene {}", this->m_name)
+    LOG_INFO("Saved scene {}", this->m_name)
 }
