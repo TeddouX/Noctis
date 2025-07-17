@@ -8,7 +8,7 @@ AssetManager &AssetManager::GetInstance()
 }
 
 
-AssetManager::AssetManager()
+void AssetManager::LoadEmbedded()
 {
     this->InitializeEmbeddedModels();
     this->InitializeEmbeddedShaders();
@@ -41,6 +41,8 @@ void AssetManager::AddShader(const std::string &name, const std::string &vrPath,
 
 void AssetManager::InitializeEmbeddedModels()
 {
+    LOG_INFO("Loading embedded models.")
+    
     this->AddModel(std::string(CUBE_MODEL_NAME),     ".\\assets\\models\\cube.obj"); 
     this->AddModel(std::string(CYLINDER_MODEL_NAME), ".\\assets\\models\\cylinder.obj"); 
     this->AddModel(std::string(MONKEY_MODEL_NAME),   ".\\assets\\models\\monkey.obj"); 
@@ -49,6 +51,8 @@ void AssetManager::InitializeEmbeddedModels()
 
 void AssetManager::InitializeEmbeddedShaders()
 {
+    LOG_INFO("Loading embedded shaders.")
+    
     this->AddShader(std::string(DEFAULT_SHADER_NAME), ".\\assets\\shaders\\default.vert", ".\\assets\\shaders\\default.frag");
     this->AddShader(std::string(LIT_SHADER_NAME),     ".\\assets\\shaders\\default.vert", ".\\assets\\shaders\\lit.frag");
 }

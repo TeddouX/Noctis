@@ -124,8 +124,8 @@ void Scene::Load()
         return;
     }
 
-    // Get all the scene's actors from json
     std::unordered_map<uuid::uuid, std::shared_ptr<Transform>> transformsMap;
+    // Get all the scene's actors from json
     json allActorsJson = sceneJson["actors"];
     for (const json &actorJson : allActorsJson)
     {
@@ -158,6 +158,7 @@ void Scene::Load()
             // later referencing
             if (auto transform = std::dynamic_pointer_cast<Transform>(serializableComponent))
                 transformsMap.emplace(actor->GetUUID(), transform);
+
 
             ComponentRegistry::GetInstance().AddComponentFromName(
                 // The component's name

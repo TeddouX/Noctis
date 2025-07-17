@@ -22,6 +22,8 @@ class AssetManager
 public:
     static AssetManager &GetInstance();
 
+    void LoadEmbedded();
+
     void AddModel(const std::string &modelPath);
     void AddModel(const std::string &name, const std::string &modelPath);
 
@@ -34,7 +36,7 @@ private:
     std::unordered_map<std::string, std::shared_ptr<Model>> m_allModels;
     std::unordered_map<std::string, std::shared_ptr<Shader>> m_allShaders;
     
-    AssetManager();
+    AssetManager() = default;
 
     void InitializeEmbeddedModels();
     void InitializeEmbeddedShaders();

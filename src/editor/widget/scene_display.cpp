@@ -22,28 +22,8 @@ void SceneDisplayWidget::Render()
 
     static ImVec2 lastSize = availableSpace;
 
-    // Handle mouse movement
-    if (ImGui::IsWindowFocused())
-    {
-        // Is rmb pressed ?
-        const auto &mouseButtons = this->m_window.GetMouseButtonsDown();
-        if (mouseButtons.contains(GLFW_MOUSE_BUTTON_RIGHT))
-        {
-            // Hide the cursor and lock it
-            this->m_window.SetCursorEnabled(false);
-
-            Vec2 mouseDelta = this->m_window.GetMouseDelta() * (1 / this->m_mouseSensitivity);
-            // Needs to be negative else vertical mouse input is inversed
-            this->m_camera.RotateBy(mouseDelta.x, -mouseDelta.y);
-        }
-        else
-            // Reenable cursor if rmb was released
-            this->m_window.SetCursorEnabled(true);
-    }
-    // Reenable cursor if the window lost focus
-    else
-        this->m_window.SetCursorEnabled(true);
-
+    this->HandleMouseInput();
+    this->HandleKeyboardInput();
 
     // If the window is not minimized
     if (!(windowSize.x == 0 || windowSize.y == 0))
@@ -90,6 +70,59 @@ void SceneDisplayWidget::Render()
     ImGui::End();
     ImGui::PopStyleVar();
 }
+
+
+void SceneDisplayWidget::HandleMouseInput()
+{
+    if (!ImGui::IsWindowFocused())
+        return;
+    
+    const auto &mouseButtons = this->m_window.GetMouseButtonsDown();
+    
+    // Is rmb pressed ?
+    if (mouseButtons.contains(GLFW_MOUSE_BUTTON_RIGHT))
+    {
+        // Hide the cursor and lock it
+        this->m_window.SetCursorEnabled(false);
+
+        Vec2 mouseDelta = this->m_window.GetMouseDelta() * (1 / this->m_mouseSensitivity);
+        // Needs to be negative else vertical mouse input is inversed
+        this->m_camera.RotateBy(mouseDelta.x, -mouseDelta.y);
+    }
+    else
+        // Reenable cursor if rmb was released
+        this->m_window.SetCursorEnabled(true);
+}
+
+
+void SceneDisplayWidget::HandleKeyboardInput()
+{
+    if (!ImGui::IsWindowFocused())
+        return;
+
+    const auto &keys = this->m_window.GetKeysDown();
+
+    // Camera speed constant across all framerates
+    float cameraSpeed = this->m_cameraSpeed * (float)this->m_window.GetDeltaTime();
+    // Make the camera move forward according to its rotation
+    Vec3 forwardMovement = this->m_camera.GetForwardVec() * cameraSpeed;
+    // This vector points to the right of the camera
+    Vec3 rightMovement = glm::normalize(glm::cross(glm::vec3(0, 1, 0), this->m_camera.GetForwardVec())) * cameraSpeed;
+    Vec3 cameraPosition = this->m_camera.GetPosition();
+
+    // Update camera position according to keyboard input
+    if (keys.contains(GLFW_KEY_W)) // Forwards
+        cameraPosition += forwardMovement;
+    if (keys.contains(GLFW_KEY_S)) // Backwards
+        cameraPosition -= forwardMovement;
+    if (keys.contains(GLFW_KEY_A)) // Left
+        cameraPosition += rightMovement;
+    if (keys.contains(GLFW_KEY_D)) // Right
+        cameraPosition -= rightMovement; 
+
+    // Update the camera's position
+    this->m_camera.SetPosition(cameraPosition);
+}   
 
 
 void SceneDisplayWidget::UpdateViewport(int windowWidth, int windowHeight)

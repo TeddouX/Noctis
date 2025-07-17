@@ -4,7 +4,7 @@
 template <typename T>
 void LightingSystem::UploadLights(const std::vector<T> &lights, SSBO<T> ssbo)
 {
-    uint32_t count = static_cast<uint32_t>(lights.size());
+    uint32_t count = (uint32_t)lights.size();
     size_t padding = 16 - sizeof(uint32_t);
 
     // uint32   - 4 bytes

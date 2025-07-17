@@ -30,8 +30,9 @@ public:
     ~Window();
 
     inline bool ShouldClose() const { return glfwWindowShouldClose(this->m_glfwWindow); }
-    void PollEvents() const { glfwPollEvents(); }
     void PostRender();
+
+    double GetDeltaTime() const { return this->m_deltaTime; }
 
     const std::unordered_set<int> &GetKeysDown() const { return this->m_keysDown; } 
     const std::optional<KeyCombo> &GetLastCombo() const { return this->m_lastCombo; } 
@@ -55,6 +56,9 @@ private:
     Vec2 m_lastMousePos;
     Vec2 m_mouseDelta;
     std::unordered_set<int> m_mouseButtonsDown;
+
+    double m_deltaTime;
+    double m_lastFrameTime;
     
     static void GLFWErrorCallback(int code, const char *desc);
     static void GLFWWindowResizeCallback(GLFWwindow *glfwWindow, int width, int height);

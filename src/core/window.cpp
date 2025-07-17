@@ -58,6 +58,7 @@ Window::Window(int width, int height, const std::string &title)
 	}
 
     glEnable(GL_DEPTH_TEST);
+    // glEnable(GL_CULL_FACE);
 }
 
 
@@ -76,6 +77,11 @@ void Window::PostRender()
     // Clear last combo
     this->m_lastCombo.reset();
     this->m_mouseDelta = Vec2(0);
+
+    // Upate delta time
+    double currentFrameTime = glfwGetTime();
+	this->m_deltaTime = currentFrameTime - this->m_lastFrameTime;
+	this->m_lastFrameTime = currentFrameTime;
 }
 
 

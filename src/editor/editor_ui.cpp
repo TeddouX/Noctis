@@ -72,7 +72,9 @@ void EditorUI::ShowMenuBar()
         {
             // Do nothing for now
             if (ImGui::MenuItem("Create Scene")) true;
-            if (ImGui::MenuItem("Save Scene", "Ctrl+S")) true;
+            
+            if (ImGui::MenuItem("Save Scene", "Ctrl+S"))
+                SCENE_MANAGER().SaveCurrScene();
 
             ImGui::EndMenu();
         }

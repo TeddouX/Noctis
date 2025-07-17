@@ -1,7 +1,7 @@
 #include "core/window.hpp"
 #include "core/project.hpp"
-#include "editor/editor_ui.hpp"
 #include "core/filesystem.hpp"
+#include "editor/editor_ui.hpp"
 
 
 int main() 
@@ -11,6 +11,7 @@ int main()
 
     Window window(800, 600, "Unknown Engine");
 
+    // TESTING
     fs::path projPath = fs::absolute("test_project");
     Project::Init(projPath);
 
@@ -21,7 +22,7 @@ int main()
 
     while (!window.ShouldClose())
     {
-        window.PollEvents();
+        glfwPollEvents();
 
         ui.Render();
         

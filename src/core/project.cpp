@@ -24,6 +24,9 @@ void Project::Init(const fs::path &rootDir)
 
     // Temporary
     Filesystem::CreateDirs(m_instance->GetAssetsFolder());
+    
+    // Load all embedded assets
+    AssetManager::GetInstance().LoadEmbedded();
 
     m_instance->LoadScenes();
 } 
@@ -54,6 +57,8 @@ void Project::LoadScenes()
         // Is the entry is a json file ?
         if (entry.is_regular_file() && path.extension() == ".scene")
         {
+            LOG_INFO("Found scene: {}", path.string())
+            
             // Create a scene with the file's name
             // The scene class handles loading when necessary
             SCENE_MANAGER().AddSceneFromPath(path);
