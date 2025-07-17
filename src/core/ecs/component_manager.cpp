@@ -15,3 +15,10 @@ const std::vector<std::shared_ptr<IComponent>> ComponentManager::GetAllComponent
 
     return allComponents;
 }
+
+
+void ComponentManager::Clear()
+{
+    for (auto &[type, compArray] : this->m_componentArrays)
+        compArray->Clear();
+}

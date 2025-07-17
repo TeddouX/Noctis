@@ -4,8 +4,6 @@
 #define MAX_ENTITIES UINT16_MAX
 
 
-// Keeping 0 for an invalid entity
-static size_t nextEntityId = 1;
 
 // Basically an ID
 class Entity
@@ -16,7 +14,8 @@ public:
     Entity() : m_id(0) {};
     Entity(size_t id) : m_id(id) {};
 
-    static Entity Create() { return Entity(nextEntityId++); }
+    inline static Entity Create() { return Entity(nextEntityID++); }
+    inline static void ResetCount() { nextEntityID = 1; }
     
     size_t      GetID() const { return m_id; }
     inline bool IsValid() { return this->m_id > 0; }
@@ -25,6 +24,10 @@ public:
     bool operator!=(const Entity& other) const { return m_id != other.m_id; }
 
     operator size_t() const { return m_id; }    
+
+private:
+    // Keeping 0 for an invalid entity
+    inline static size_t nextEntityID = 1;
 };
 
 

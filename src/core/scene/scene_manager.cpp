@@ -49,8 +49,11 @@ void SceneManager::SaveCurrScene()
 void SceneManager::SetCurrScene(const std::string &name)
 {
     // If the current scene is set, unload it
+    if (this->m_currScene == name)
+        return;
+
     if (!this->m_currScene.empty())
-        this->GetCurrScene()->Save();
+        this->GetCurrScene()->Unload();
 
     // If the scene exists
     if (this->m_scenes.contains(name))

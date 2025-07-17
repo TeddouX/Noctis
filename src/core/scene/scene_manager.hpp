@@ -15,6 +15,8 @@ public:
 
     inline void SetScenesFolder(const fs::path &path) { this->m_scenesFolder = path; }
 
+    inline const std::unordered_map<std::string, Scene> &GetAllScenes() const { return this->m_scenes; }
+
     void   AddScene(const std::string &name);
     void   AddSceneFromPath(const fs::path &path);
     void   RemoveScene(const std::string &name);

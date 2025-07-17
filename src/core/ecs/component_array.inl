@@ -2,6 +2,13 @@
 
 
 template <typename T>
+void ComponentArray<T>::Clear()
+{
+    this->m_components.clear();
+}
+
+
+template <typename T>
 void ComponentArray<T>::Insert(Entity entity, std::shared_ptr<T> component)
 {
     this->m_components.emplace(entity, component);

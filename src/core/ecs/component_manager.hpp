@@ -31,7 +31,9 @@ public:
 
     const std::vector<std::shared_ptr<IComponent>> GetAllComponents(Entity entity) const;
 
-private:
+    void Clear();
+
+    private:
     template <typename T> 
     void RegisterComponent();
 

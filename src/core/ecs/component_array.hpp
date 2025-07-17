@@ -15,9 +15,10 @@ class IComponentArray
 {
 public:
     virtual ~IComponentArray() = default;
+    virtual void Clear() = 0;
     virtual void Remove(Entity entity) = 0;
-    virtual std::shared_ptr<IComponent> GetUntyped(Entity entity) const = 0;
     virtual bool Has(Entity entity) const = 0;
+    virtual std::shared_ptr<IComponent> GetUntyped(Entity entity) const = 0;
 };
 
 
@@ -27,6 +28,8 @@ class ComponentArray : public IComponentArray
     std::unordered_map<Entity, std::shared_ptr<T>> m_components;
 
 public:
+    void Clear() override;
+
     void Insert(Entity entity, std::shared_ptr<T> component);
 
     void Remove(Entity entity) override;

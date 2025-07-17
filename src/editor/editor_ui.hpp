@@ -15,6 +15,12 @@
 #include "../core/scene/scene_manager.hpp"
 
 
+struct EditorUIState
+{
+    bool showCreateScenePopup = false;
+};
+
+
 class EditorUI
 {
 public:
@@ -23,6 +29,7 @@ public:
     void Render();
 
 private:
+    EditorUIState m_state;
     Window &m_mainWindow;
     float   m_imGuiScale;
 
@@ -30,6 +37,8 @@ private:
 
     void DockDisplays() const;
     void ShowCreateSceneModal();
+    void ShowLoadSceneMenu();
     void ShowMenuBar();
     void HandleInput();
+    void HandleState();
 };

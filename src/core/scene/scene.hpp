@@ -66,7 +66,10 @@ public:
     /// @brief Loads all this scene's data from its associated JSON file
     void Load();
 
-    /// @brief Unloads this scene and saves all its data to its json file
+    /// @brief Unload this scene and saves all its data to its json file
+    void Unload();
+
+    /// @brief Save this scene and saves all its data to its json file
     void Save();
 
 private:

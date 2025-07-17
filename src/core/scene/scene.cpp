@@ -197,6 +197,16 @@ void Scene::Load()
 }
 
 
+void Scene::Unload()
+{
+    this->Save();
+
+    Entity::ResetCount();
+    this->m_componentManager.Clear();
+    this->m_entities.clear();
+}
+
+
 void Scene::Save()
 {
     LOG_INFO(

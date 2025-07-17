@@ -39,13 +39,19 @@ void EditorUI::Render()
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
+    
+    // ImGui::ShowDemoWindow();
 
     this->DockDisplays();
 
-    ImGui::ShowDemoWindow();
-
+    // Show the menu on top of the window
     this->ShowMenuBar();
+
+    // Handle input from the window
     this->HandleInput();
+
+    // Show popups etc...
+    this->HandleState();
 
     // Update all widgets
     for (std::unique_ptr<IWidget> &widget : this->m_allWidgets)
@@ -91,15 +97,24 @@ void EditorUI::DockDisplays() const
 
 void EditorUI::ShowMenuBar()
 {
-    bool openCreateScene = false;
-
     if (ImGui::BeginMainMenuBar()) 
     {
         if (ImGui::BeginMenu("Scene")) 
         {
-            // Do nothing for now
-            if (ImGui::MenuItem("Create Scene"))
-                openCreateScene = true;
+            if (ImGui::MenuItem("Create Scene", "Ctrl+Shift+N"))
+                this->m_state.showCreateScenePopup = true;
+
+            if (ImGui::BeginMenu("Load Scene"))
+            {
+                auto &allScenes = SCENE_MANAGER().GetAllScenes();
+                // Iterate through all the scenes to create a 
+                // menu item for each one
+                for (auto &[name, scenePtr] : allScenes)
+                    if (ImGui::MenuItem(name.c_str()))
+                        SCENE_MANAGER().SetCurrScene(name);
+                
+                ImGui::EndMenu();
+            }
 
             if (ImGui::MenuItem("Save Scene", "Ctrl+S"))
                 SCENE_MANAGER().SaveCurrScene();
@@ -109,9 +124,16 @@ void EditorUI::ShowMenuBar()
 
         ImGui::EndMainMenuBar();
     }
+}
 
-    if (openCreateScene) 
-        ImGui::OpenPopup("Create Scene##EDITOR_MODAL");
+
+void EditorUI::HandleState()
+{
+    if (this->m_state.showCreateScenePopup)
+    {
+        ImGui::OpenPopup("Create Scene##EDITOR_POPUP");
+        this->m_state.showCreateScenePopup = false;
+    }
 
     this->ShowCreateSceneModal();
 }
@@ -137,7 +159,11 @@ void EditorUI::HandleInput()
         
         // Ctrl+S
         if (combo.Is(GLFW_KEY_S, { GLFW_MOD_CONTROL }))
-        SCENE_MANAGER().SaveCurrScene();
+            SCENE_MANAGER().SaveCurrScene();
+
+        // Ctrl+Shift+N
+        if (combo.Is(GLFW_KEY_N, { GLFW_MOD_CONTROL, GLFW_MOD_SHIFT }))
+            this->m_state.showCreateScenePopup = true;
     }
 }
 
@@ -148,7 +174,7 @@ void EditorUI::ShowCreateSceneModal()
     ImVec2 center = ImGui::GetMainViewport()->GetCenter();
     ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 
-    if (ImGui::BeginPopupModal("Create Scene##EDITOR_MODAL", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+    if (ImGui::BeginPopupModal("Create Scene##EDITOR_POPUP", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
     {
         static std::string sceneName;
 
@@ -171,3 +197,10 @@ void EditorUI::ShowCreateSceneModal()
         ImGui::EndPopup();
     }
 }
+
+
+void EditorUI::ShowLoadSceneMenu()
+{
+    
+}
+
