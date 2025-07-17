@@ -2,10 +2,16 @@
 
 
 void ActorPropertiesWidget::Render()
-{
+{   
     ImGui::Begin(std::string(ActorPropertiesWidget::name).c_str());
 
     Scene *currScene = SCENE_MANAGER().GetCurrScene();
+    if (!currScene)
+    {
+        ImGui::End();
+        return;
+    }
+
     Entity selectedEntity = currScene->GetSelectedEntity();
 
     if (currScene && selectedEntity.IsValid())
@@ -20,7 +26,8 @@ void ActorPropertiesWidget::Render()
             HandleActor(actor);
         else
         {
-            LOG_ERR("Currently selected entity has no actor associated with it, so it can't be used...")
+            LOG_ERR("Currently selected entity has no actor associated with it, so it can't be used.")
+            ImGui::End();
             return;
         }
 

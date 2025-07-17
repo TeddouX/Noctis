@@ -58,7 +58,7 @@ Window::Window(int width, int height, const std::string &title)
 	}
 
     glEnable(GL_DEPTH_TEST);
-    // glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
 }
 
 
@@ -96,7 +96,7 @@ void Window::SetCursorEnabled(bool enabled) const
 
 void Window::GLFWErrorCallback(int code, const char *desc)
 {
-    LOG_ERR("glfw error: " + std::string(desc))
+    LOG_ERR("glfw error: {}", desc)
 }
 
 
@@ -113,11 +113,7 @@ void Window::GLFWInputCallback(GLFWwindow* glfwWindow, int key, int scancode, in
     if (action == GLFW_PRESS || action == GLFW_REPEAT)
     {
         window->m_keysDown.insert(key);
-        
-        if (mods)
-        {
-            window->m_lastCombo = { key, mods };
-        }
+        window->m_lastCombo = { key, mods };
     }
     else if (action == GLFW_RELEASE)
         window->m_keysDown.erase(key);

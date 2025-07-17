@@ -13,7 +13,8 @@ class SceneDisplayWidget : public IWidget
 public:
     static constexpr std::string_view name = "Scene";
 
-    SceneDisplayWidget(const Window &window);
+    SceneDisplayWidget(const Window &window)
+        : m_window(window) {};
 
     void Render() override;
 

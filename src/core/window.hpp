@@ -49,6 +49,8 @@ public:
 private:
     GLFWwindow *m_glfwWindow;
     
+    // Input handling could be moved to some kind of input system
+    // but that's for later.
     std::unordered_set<int> m_keysDown;
     std::optional<KeyCombo> m_lastCombo;
     

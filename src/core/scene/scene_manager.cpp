@@ -53,26 +53,29 @@ void SceneManager::SetCurrScene(const std::string &name)
         this->GetCurrScene()->Save();
 
     // If the scene exists
-    if (this->m_scenes.count(name) > 0)
+    if (this->m_scenes.contains(name))
     {
         this->m_currScene = name;
 
         Scene *currScene = this->GetCurrScene();
-        if (currScene)
+
+        if (!currScene)
+        {
+            LOG_ERR("Current scene couldn't be found in the scene manager's registry.")
+            return;
+        }
+        else
             currScene->Load();
     }
     else
-        LOG_ERR("Scene {} doesn't exist.", name)
+        LOG_ERR("Scene {} couldn't be set as current scene because it doesn't exist.", name)
 }
 
 
 Scene *SceneManager::GetCurrScene()
 {
     if (this->m_currScene.empty())
-    {
-        LOG_ERR("The current scene hasn't been set.")
         return nullptr;
-    }
 
     auto it = this->m_scenes.find(this->m_currScene);
     if (it == this->m_scenes.end())

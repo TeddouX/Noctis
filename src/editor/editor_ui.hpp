@@ -5,6 +5,7 @@
 #include <imgui_impl_opengl3.h>
 #include <imgui_internal.h>
 
+#include "imgui_utils.hpp"
 #include "widget/scene_display.hpp"
 #include "widget/scene_tree.hpp"
 #include "widget/asset_explorer.hpp"
@@ -28,6 +29,7 @@ private:
     std::vector<std::unique_ptr<IWidget>> m_allWidgets;
 
     void DockDisplays() const;
+    void ShowCreateSceneModal();
     void ShowMenuBar();
     void HandleInput();
 };

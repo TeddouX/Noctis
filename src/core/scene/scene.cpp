@@ -54,7 +54,6 @@ void Scene::UpdateAllSystems(float dt)
     this->m_systemsManager.UpdateAll(this->m_componentManager, dt); 
 }
 
-
 void Scene::Load()
 {
     LOG_INFO(

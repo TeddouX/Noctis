@@ -21,6 +21,7 @@ public:
 
     /// @brief Saves the current scene, if set
     void   SaveCurrScene();
+    /// @brief Sets the current scene
     void   SetCurrScene(const std::string &name);
     Scene *GetCurrScene();
 

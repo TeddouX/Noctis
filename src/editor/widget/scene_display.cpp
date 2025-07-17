@@ -1,13 +1,5 @@
 #include "scene_display.hpp"
 
-SceneDisplayWidget::SceneDisplayWidget(const Window &window)
-    : m_window(window)
-{
-    // TESTING
-    SCENE_MANAGER().AddScene("HelloWorld");
-    SCENE_MANAGER().SetCurrScene("HelloWorld");
-}
-
 
 void SceneDisplayWidget::Render()
 {
@@ -43,9 +35,12 @@ void SceneDisplayWidget::Render()
         // Update all the scene's systems that 
         // are related to rendering
         Scene *currScene = SCENE_MANAGER().GetCurrScene();
-        currScene->GetSystem<RenderSystem>()->SetCamera(&this->m_camera);
-        currScene->UpdateSystem<LightingSystem>(.0f);
-        currScene->UpdateSystem<RenderSystem>(.0f);
+        if (currScene)
+        {
+            currScene->GetSystem<RenderSystem>()->SetCamera(&this->m_camera);
+            currScene->UpdateSystem<LightingSystem>(.0f);
+            currScene->UpdateSystem<RenderSystem>(.0f);
+        }
 
         // Not really needed here but why not
         this->m_frameBuffer.Unbind();
@@ -75,10 +70,13 @@ void SceneDisplayWidget::Render()
 void SceneDisplayWidget::HandleMouseInput()
 {
     if (!ImGui::IsWindowFocused())
+    {
+        this->m_window.SetCursorEnabled(true);
         return;
+    }
     
     const auto &mouseButtons = this->m_window.GetMouseButtonsDown();
-    
+
     // Is rmb pressed ?
     if (mouseButtons.contains(GLFW_MOUSE_BUTTON_RIGHT))
     {
