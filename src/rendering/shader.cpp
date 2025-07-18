@@ -5,7 +5,7 @@ static bool CheckUniform(int location, const std::string& uniformName)
 {
 	if (location == -1)
 	{
-		LOG_WARN("Uniform {} couldn't be foud.", uniformName)
+		LOG_WARN("Uniform {} couldn't be found.", uniformName)
         return false;
 	}
 

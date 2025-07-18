@@ -68,10 +68,9 @@ Mat4 Camera::GetProjectionMatrix() const
 }
 
 
-void Camera::UploadData(Mat4 modelMatrix)
+void Camera::UploadData()
 {
 	CameraData data;
-	data.modelMatrix = modelMatrix;
 	data.viewMatrix = this->GetViewMatrix();
 	data.projectionMatrix = this->GetProjectionMatrix();
 	data.pos = this->m_position;

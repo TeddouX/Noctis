@@ -1,6 +1,30 @@
 #include "model.hpp"
 
 
+TextureType TexTypeFromAssimp(aiTextureType assimp)
+{
+    switch (assimp)
+    {
+    case aiTextureType_DIFFUSE:  return TextureType::DIFFUSE;
+    case aiTextureType_SPECULAR: return TextureType::SPECULAR;
+    case aiTextureType_NORMALS:  return TextureType::NORMAL;
+    case aiTextureType_HEIGHT:   return TextureType::HEIGHT;
+    default:                     return TextureType::INVALID;
+    }
+}
+
+glm::mat4 AssimpToGlm(const aiMatrix4x4 &from)
+{
+    glm::mat4 to;
+    to[0][0] = from.a1; to[1][0] = from.a2; to[2][0] = from.a3; to[3][0] = from.a4;
+    to[0][1] = from.b1; to[1][1] = from.b2; to[2][1] = from.b3; to[3][1] = from.b4;
+    to[0][2] = from.c1; to[1][2] = from.c2; to[2][2] = from.c3; to[3][2] = from.c4;
+    to[0][3] = from.d1; to[1][3] = from.d2; to[2][3] = from.d3; to[3][3] = from.d4;
+    return to;
+}
+
+
+
 Model::Model(const fs::path &path, const std::string &name)
     : m_path(path), m_name(name)
 {
@@ -12,7 +36,10 @@ Model::Model(const fs::path &path, const std::string &name)
 
     // Import .obj file
     Assimp::Importer importer;
-    const aiScene *scene = importer.ReadFile(path.string(), aiProcess_Triangulate | aiProcess_FlipUVs);
+    const aiScene *scene = importer.ReadFile(path.string(), aiProcess_Triangulate 
+        | aiProcess_FlipUVs 
+        | aiProcess_CalcTangentSpace
+    );
 
     if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) 
     {
@@ -20,17 +47,21 @@ Model::Model(const fs::path &path, const std::string &name)
         return;
     }
 
-    this->m_meshes = this->ProcessNode(scene->mRootNode, scene);
+    this->m_meshes = this->ProcessNode(scene->mRootNode, scene, Mat4(1.f));
+    
+    // The texture cache is not needed 
+    // anymore so we can safely clear it
+    this->m_textureCache.clear();
 
     LOG_INFO("Loaded model {}", this->m_name)
 }
 
 
-void Model::Render(Shader &shader) const
+void Model::Render(Shader &shader, const Mat4 &modelMatrix) const
 {
     // Render every mesh from this model
     for (Mesh mesh : this->m_meshes)
-        mesh.Render(shader);
+        mesh.Render(shader, modelMatrix);
 }
 
 
@@ -41,26 +72,33 @@ std::string Model::GetBeautifiedName() const
 
     std::regex pattern(".obj", std::regex_constants::icase);
     beautifiedName = std::regex_replace(beautifiedName, pattern, "");
+    // Replace underscores with spaces
+    beautifiedName = std::regex_replace(beautifiedName, std::regex("_"), " ");
     
     return beautifiedName;
 }
 
 
-std::vector<Mesh> Model::ProcessNode(aiNode *node, const aiScene *scene)
+std::vector<Mesh> Model::ProcessNode(aiNode *node, const aiScene *scene, Mat4 parentMatrix)
 {
     std::vector<Mesh> meshes;
+
+    Mat4 nodeTransform = parentMatrix * AssimpToGlm(node->mTransformation);
 
     // Process the node's meshes
     for(uint32_t i = 0; i < node->mNumMeshes; i++)
     {
-        aiMesh *mesh = scene->mMeshes[node->mMeshes[i]]; 
-        meshes.push_back(this->ProcessMesh(mesh, scene));
+        aiMesh *assimpMesh = scene->mMeshes[node->mMeshes[i]];
+        Mesh mesh = this->ProcessMesh(assimpMesh, scene);
+        mesh.SetTransformMatrix(nodeTransform);
+
+        meshes.push_back(mesh);
     }
 
     // Do the same for each of its children
     for(uint32_t i = 0; i < node->mNumChildren; i++)
     {
-        std::vector<Mesh> childMeshes = this->ProcessNode(node->mChildren[i], scene);
+        std::vector<Mesh> childMeshes = this->ProcessNode(node->mChildren[i], scene, nodeTransform);
         meshes.insert(meshes.end(), childMeshes.begin(), childMeshes.end());
     }
 
@@ -118,37 +156,44 @@ Mesh Model::ProcessMesh(aiMesh *mesh, const aiScene *scene)
     {
         aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
         
-        texture = this->LoadAllTextures(material, scene);
+        this->LoadAllTextures(material, scene);
     }
 
-    return Mesh(vertices, indices, texture);
+    return Mesh(vertices, indices);
 }
 
 
-std::shared_ptr<ITexture> Model::LoadAllTextures(aiMaterial *material, const aiScene *scene)
+void Model::LoadAllTextures(aiMaterial *material, const aiScene *scene)
 {
     // "Simple" texture (only a diffuse map)
     if (this->IsSimpleTexture(material))
-        return this->LoadTexture(material, scene, aiTextureType_DIFFUSE);
+    {
+        std::shared_ptr<BasicTexture> basicTexture  = this->LoadTexture(material, scene, aiTextureType_DIFFUSE);
+        
+        this->m_textures.push_back(basicTexture);
+    }
     // PBR
     else
     {
         // Load all texture maps from the assimp material
         std::shared_ptr<BasicTexture> diffuseMap  = this->LoadTexture(material, scene, aiTextureType_DIFFUSE);
-        std::shared_ptr<BasicTexture> specularMap = this->LoadTexture(material, scene, aiTextureType_SPECULAR);
+        auto specularMap = this->LoadTexture(material, scene, aiTextureType_SPECULAR);
         // Fallback if there is no specular map in the material
         if (!specularMap)
             specularMap = this->LoadTexture(material, scene, aiTextureType_METALNESS);
         
-        std::shared_ptr<BasicTexture> normalMap = this->LoadTexture(material, scene, aiTextureType_NORMALS);
-        std::shared_ptr<BasicTexture> heightMap = this->LoadTexture(material, scene, aiTextureType_HEIGHT);
-
-        return std::make_shared<PBRTexture>(
+        auto normalMap = this->LoadTexture(material, scene, aiTextureType_NORMALS);
+        auto heightMap = this->LoadTexture(material, scene, aiTextureType_HEIGHT);
+        
+        auto pbrTexture = std::make_shared<PBRTexture>(
+            this->m_name,
             diffuseMap,
             specularMap,
             normalMap,
             heightMap
         );
+
+        this->m_textures.push_back(pbrTexture);
     }
 }
 
@@ -176,14 +221,14 @@ std::shared_ptr<BasicTexture> Model::LoadTexture(aiMaterial *material, const aiS
         texture = std::make_shared<BasicTexture>(
             reinterpret_cast<unsigned char*>(aiTex->pcData),
             aiTex->mWidth, 
-            this->TexTypeFromAssimp(aiTexType),
+            TexTypeFromAssimp(aiTexType),
             this->m_name
         );
     else
         // Raw data
         texture = std::make_shared<BasicTexture>(
             reinterpret_cast<unsigned char*>(aiTex->pcData),
-            this->TexTypeFromAssimp(aiTexType),
+            TexTypeFromAssimp(aiTexType),
             this->m_name
         );
 
@@ -207,17 +252,3 @@ bool Model::IsSimpleTexture(aiMaterial *material)
 
     return true;
 }
-
-TextureType Model::TexTypeFromAssimp(aiTextureType assimp)
-{
-    switch (assimp)
-    {
-    case aiTextureType_DIFFUSE:   return TextureType::DIFFUSE;
-    case aiTextureType_SPECULAR:  return TextureType::SPECULAR;
-    case aiTextureType_METALNESS: return TextureType::SPECULAR;
-    case aiTextureType_NORMALS:   return TextureType::NORMAL;
-    case aiTextureType_HEIGHT:    return TextureType::HEIGHT;
-    default:                      return TextureType::INVALID;
-    }
-}
-

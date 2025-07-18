@@ -18,7 +18,7 @@ void Material::UploadData(Shader &shader)
     }
 
     // Set the material type uniform
-    shader.SetInt("materialType", materialType);
+    shader.SetInt("materialType", 1);
 
     // Color          + 16 bytes
     // SpecReflect    + 12 bytes
@@ -44,7 +44,8 @@ void Material::Serialize(json &j) const
         PROP_TO_JSON(specularReflectance),
         PROP_TO_JSON(specularDefinition),
         PROP_TO_JSON(m_name),
-        {"shader", this->m_shader->GetName()}
+        {"shader", this->m_shader->GetName()},
+        {"texture", this->m_texture->GetName()}
     END_SERIALIZATION()
 }
 
@@ -56,4 +57,5 @@ void Material::Deserialize(const json &j)
     PROP_FROM_JSON(j, specularDefinition)
     PROP_FROM_JSON(j, m_name)
     this->m_shader = AssetManager::GetInstance().GetShader(j["shader"]);
+    this->m_texture = AssetManager::GetInstance().GetTexture(j["texture"]);
 }

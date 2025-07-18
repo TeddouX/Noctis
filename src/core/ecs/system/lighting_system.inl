@@ -17,7 +17,7 @@ void LightingSystem::UploadLights(const std::vector<T> &lights, SSBO<T> ssbo)
     std::vector<uint8_t> buffer(totalSize);
 
     // Write the count at the begining of the buf
-    std::memcpy(buffer.data(), &count, sizeof(uint32_t) * 4);
+    std::memcpy(buffer.data(), &count, sizeof(uint32_t));
 
     // Padding because objects are 16 bytes aligned in std430
     std::memset(buffer.data() + sizeof(uint32_t), 0, padding);

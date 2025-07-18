@@ -40,7 +40,7 @@ layout (std430, binding = 2) buffer DirectionalLights
 
 vec3 GetDiffuse()
 {
-    if (materialType == 0 || materialType == 1)
+    if (materialType == 0 || materialType == 2)
         return material.diffuse;
     else if (materialType == 1)
         return vec3(texture(diffuseMap, TexCoord));
@@ -51,10 +51,12 @@ vec3 GetDiffuse()
 
 vec3 GetSpecular()
 {
-    if (materialType == 0 || materialType == 1)
+    if (materialType == 0 || materialType == 2)
         return material.specular;
     else if (materialType == 1)
+    {
         return vec3(texture(specularMap, TexCoord));
+    }
     else
         return vec3(255, 0, 255);
 }

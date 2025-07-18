@@ -36,20 +36,15 @@ void AssetManager::AddModel(const std::string &name, const std::string &modelPat
 void AssetManager::AddAllTexturesFromModel(std::shared_ptr<Model> model)
 {
     // Get the texture cache from the model
-    const auto &modelTextures = model->GetTextureCache();
+    const auto &modelTextures = model->GetTextures();
 
     // Add all textures from the model to the registries
-    for (auto &[texName, texPtr] : modelTextures)
-    {
-        if (auto basicTex = std::dynamic_pointer_cast<BasicTexture>(texPtr))
-            this->AddBasicTexture(texName, basicTex);
-        else if (auto pbrTex = std::dynamic_pointer_cast<PBRTexture>(texPtr))
-            this->AddPBRTexture(texName, pbrTex);
-    }
+    for (auto texture : modelTextures)
+        this->AddTexture(model->GetName(), texture);
 
     // Clear the model's cache because 
     // it is not needed anymore
-    model->ClearTextureCache();
+    model->ClearTextures();
 }
 
 

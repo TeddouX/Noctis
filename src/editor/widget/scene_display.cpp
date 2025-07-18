@@ -11,7 +11,6 @@ void SceneDisplayWidget::Render()
     );
     ImVec2 windowSize = ImGui::GetIO().DisplaySize;
 
-
     this->HandleMouseInput();
     this->HandleKeyboardInput();
 

@@ -28,10 +28,7 @@ public:
     PROPERTY_D(float, specularDefinition, 32.f)
 
     Material() = default;
-    Material(const std::string &name, std::shared_ptr<Shader> shader)
-        : m_name(name), m_shader(shader) {};
-
-    Material(const std::string &name, std::shared_ptr<Shader> shader, std::shared_ptr<ITexture> texture)
+    Material(const std::string &name, std::shared_ptr<Shader> shader, std::shared_ptr<ITexture> texture = nullptr)
         : m_name(name), m_shader(shader), m_texture(texture) {};
 
     inline std::string &GetName() { return this->m_name; }

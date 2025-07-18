@@ -15,7 +15,7 @@ using Vec4 = glm::vec4;
 using Mat4 = glm::mat4;
 using Quaternion = glm::quat;
 
-    
+
 Mat4 ModelMatrix(Vec3 pos, Vec3 rot, Vec3 scale);
 Mat4 ViewMatrix(Vec3 pos, Vec3 front);
 Mat4 ViewMatrix(Vec3 pos, Vec3 front, Vec3 up);

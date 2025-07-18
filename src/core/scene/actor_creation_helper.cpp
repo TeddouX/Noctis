@@ -44,14 +44,16 @@ void ActorCreationHelper::CreateSimpleShape(std::string_view modelName, Transfor
     AssetManager &am = AssetManager::GetInstance();
     
     Entity entity = Entity::Create();
-    std::shared_ptr<Model> model = am.GetModel(std::string(modelName));
+    // std::shared_ptr<Model> model = am.GetModel(std::string(modelName));
+    std::shared_ptr<Model> model = am.GetModel("survival_guitar_backpack");
     
     AddDefaultComponents(cm, entity, parent, model->GetBeautifiedName());
 
     cm.AddComponent(entity, std::make_shared<ModelComponent>(model));
 
     std::shared_ptr<Shader> shader = am.GetShader(std::string(LIT_SHADER_NAME));
-    cm.AddComponent(entity, std::make_shared<Material>("default", shader, am.GetPBRTexture("survival_guitar_backpack")));
+    auto tex = am.GetTexture("survival_guitar_backpack");
+    cm.AddComponent(entity, std::make_shared<Material>("default", shader, tex));
 
     currScene->AddEntity(entity);
     currScene->SetSelectedEntity(entity);

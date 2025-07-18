@@ -23,6 +23,7 @@ public:
     virtual ~ITexture() {}; 
     virtual void Bind() = 0;
     virtual void Delete() = 0;
+    virtual const std::string &GetName() const = 0; 
 };
 
 
@@ -42,6 +43,7 @@ public:
     BasicTexture(unsigned char *data, TextureType type, std::string name);
 
     GLuint GetID() const;
+    inline const std::string &GetName() const override { return this->m_name; }
     inline TextureType GetTexType() const { return this->m_type; }
 
     void Bind() override;
@@ -56,7 +58,7 @@ private:
     int m_width, m_height; 
     int m_nrChannels;
 
-    void Generate();
+    void Generate(bool mipmaps);
     bool LoadFromStbi(unsigned char *data);
 };
 
@@ -66,6 +68,7 @@ class PBRTexture : public ITexture
 {
 public:
     PBRTexture(
+        const std::string &name,
         std::shared_ptr<BasicTexture> diffuseMap,
         std::shared_ptr<BasicTexture> specularMap = nullptr,
         std::shared_ptr<BasicTexture> normalMap = nullptr,
@@ -79,7 +82,10 @@ public:
     void Bind() override;
     void Delete() override;
 
+    inline const std::string &GetName() const override { return this->m_name; }
+
 private:
+    std::string m_name;
     std::shared_ptr<BasicTexture> m_diffuseMap;
     std::shared_ptr<BasicTexture> m_specularMap;
     std::shared_ptr<BasicTexture> m_normalMap;
