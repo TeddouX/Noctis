@@ -178,10 +178,6 @@ void Model::LoadAllTextures(aiMaterial *material, const aiScene *scene)
         // Load all texture maps from the assimp material
         std::shared_ptr<BasicTexture> diffuseMap  = this->LoadTexture(material, scene, aiTextureType_DIFFUSE);
         auto specularMap = this->LoadTexture(material, scene, aiTextureType_SPECULAR);
-        // Fallback if there is no specular map in the material
-        if (!specularMap)
-            specularMap = this->LoadTexture(material, scene, aiTextureType_METALNESS);
-        
         auto normalMap = this->LoadTexture(material, scene, aiTextureType_NORMALS);
         auto heightMap = this->LoadTexture(material, scene, aiTextureType_HEIGHT);
         
