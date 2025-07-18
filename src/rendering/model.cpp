@@ -6,6 +6,10 @@ Model::Model(const fs::path &path, const std::string &name)
 {
     LOG_INFO("Loading model: {}", path.string())
 
+    // Is the name already set ?
+    if (this->m_name.empty())
+        this->m_name = Filesystem::GetFileName(path);
+
     // Import .obj file
     Assimp::Importer importer;
     const aiScene *scene = importer.ReadFile(path.string(), aiProcess_Triangulate | aiProcess_FlipUVs);
@@ -16,11 +20,17 @@ Model::Model(const fs::path &path, const std::string &name)
         return;
     }
 
-    // Is the name already set ?
-    if (this->m_name.empty())
-        this->m_name = std::string(scene->mRootNode->mName.C_Str());
-    
     this->m_meshes = this->ProcessNode(scene->mRootNode, scene);
+
+    LOG_INFO("Loaded model {}", this->m_name)
+}
+
+
+void Model::Render(Shader &shader) const
+{
+    // Render every mesh from this model
+    for (Mesh mesh : this->m_meshes)
+        mesh.Render(shader);
 }
 
 
@@ -33,13 +43,6 @@ std::string Model::GetBeautifiedName() const
     beautifiedName = std::regex_replace(beautifiedName, pattern, "");
     
     return beautifiedName;
-}
-
-
-void Model::Render(Shader &shader) const
-{
-    for (Mesh mesh : this->m_meshes)
-        mesh.Render(shader);
 }
 
 
@@ -67,9 +70,9 @@ std::vector<Mesh> Model::ProcessNode(aiNode *node, const aiScene *scene)
 
 Mesh Model::ProcessMesh(aiMesh *mesh, const aiScene *scene)
 {
-    std::vector<Vertex> vertices;
-    std::vector<uint32_t> indices;
-    std::vector<Texture> textures;
+    std::shared_ptr<ITexture> texture;
+    std::vector<uint32_t>     indices;
+    std::vector<Vertex>       vertices;
 
     // Process vertices
     for(uint32_t i = 0; i < mesh->mNumVertices; i++)
@@ -114,26 +117,107 @@ Mesh Model::ProcessMesh(aiMesh *mesh, const aiScene *scene)
     if(mesh->mMaterialIndex >= 0)
     {
         aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-        std::vector<Texture> diffuseMaps = this->LoadTexturesFromMaterial(material, aiTextureType_DIFFUSE, TextureType::DIFFUSE);
         
-        textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+        texture = this->LoadAllTextures(material, scene);
     }
 
-    return Mesh(vertices, indices, textures);
+    return Mesh(vertices, indices, texture);
 }
 
 
-std::vector<Texture> Model::LoadTexturesFromMaterial(aiMaterial *material, aiTextureType type, TextureType texType)
+std::shared_ptr<ITexture> Model::LoadAllTextures(aiMaterial *material, const aiScene *scene)
 {
-    std::vector<Texture> textures;
-    for(unsigned int i = 0; i < material->GetTextureCount(type); i++)
+    // "Simple" texture (only a diffuse map)
+    if (this->IsSimpleTexture(material))
+        return this->LoadTexture(material, scene, aiTextureType_DIFFUSE);
+    // PBR
+    else
     {
-        aiString str;
-        material->GetTexture(type, i, &str);
+        // Load all texture maps from the assimp material
+        std::shared_ptr<BasicTexture> diffuseMap  = this->LoadTexture(material, scene, aiTextureType_DIFFUSE);
+        std::shared_ptr<BasicTexture> specularMap = this->LoadTexture(material, scene, aiTextureType_SPECULAR);
+        // Fallback if there is no specular map in the material
+        if (!specularMap)
+            specularMap = this->LoadTexture(material, scene, aiTextureType_METALNESS);
+        
+        std::shared_ptr<BasicTexture> normalMap = this->LoadTexture(material, scene, aiTextureType_NORMALS);
+        std::shared_ptr<BasicTexture> heightMap = this->LoadTexture(material, scene, aiTextureType_HEIGHT);
+
+        return std::make_shared<PBRTexture>(
+            diffuseMap,
+            specularMap,
+            normalMap,
+            heightMap
+        );
+    }
+}
+
+
+std::shared_ptr<BasicTexture> Model::LoadTexture(aiMaterial *material, const aiScene *scene, aiTextureType aiTexType)
+{
+    if (!(material->GetTextureCount(aiTexType) > 0))
+        return nullptr;
+
+    aiString str;
+    if (material->GetTexture(aiTexType, 0, &str) != AI_SUCCESS)
+        return nullptr;
     
-        Texture texture(std::string(str.C_Str()), texType);
-        textures.push_back(texture);
+
+    std::string texPath = str.C_Str();
+    // Check in the cache if the texture already exists
+    if (this->m_textureCache.contains(texPath))
+        return this->m_textureCache.at(texPath);
+    
+    const aiTexture *aiTex = scene->GetEmbeddedTexture(texPath.c_str());
+
+    std::shared_ptr<BasicTexture> texture;
+    if (aiTex->mHeight == 0) 
+        // Compressed image data (PNG, JPEG...) 
+        texture = std::make_shared<BasicTexture>(
+            reinterpret_cast<unsigned char*>(aiTex->pcData),
+            aiTex->mWidth, 
+            this->TexTypeFromAssimp(aiTexType),
+            this->m_name
+        );
+    else
+        // Raw data
+        texture = std::make_shared<BasicTexture>(
+            reinterpret_cast<unsigned char*>(aiTex->pcData),
+            this->TexTypeFromAssimp(aiTexType),
+            this->m_name
+        );
+
+    // Add the texture to the cache 
+    // so it can be reused later
+    this->m_textureCache.emplace(texPath, texture);
+
+    return texture;
+}
+
+
+
+bool Model::IsSimpleTexture(aiMaterial *material)
+{
+    for (aiTextureType type : this->m_supportedTextureTypes) {
+        unsigned int texCount = material->GetTextureCount(type);
+
+        if (type != aiTextureType_DIFFUSE && texCount > 0)
+            return false;
     }
 
-    return textures;
+    return true;
 }
+
+TextureType Model::TexTypeFromAssimp(aiTextureType assimp)
+{
+    switch (assimp)
+    {
+    case aiTextureType_DIFFUSE:   return TextureType::DIFFUSE;
+    case aiTextureType_SPECULAR:  return TextureType::SPECULAR;
+    case aiTextureType_METALNESS: return TextureType::SPECULAR;
+    case aiTextureType_NORMALS:   return TextureType::NORMAL;
+    case aiTextureType_HEIGHT:    return TextureType::HEIGHT;
+    default:                      return TextureType::INVALID;
+    }
+}
+

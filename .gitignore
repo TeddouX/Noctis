@@ -3,3 +3,4 @@ build/
 .vs/
 test_project/
 CMakeUserPresets.json
+survival_guitar_backpack.glb

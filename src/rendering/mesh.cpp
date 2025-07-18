@@ -1,8 +1,8 @@
 #include "mesh.hpp"
 
 
-Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<GLuint> &indices, std::vector<Texture> &textures)
-    : m_vertices(vertices), m_indices(indices), m_textures(textures)
+Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<GLuint> &indices, std::shared_ptr<ITexture> texture)
+    : m_vertices(vertices), m_indices(indices), m_texture(texture)
 {
     // Generate buffers
     glGenVertexArrays(1, &this->m_VAO);
@@ -36,6 +36,14 @@ Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<GLuint> &indices, std::vec
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
     glEnableVertexAttribArray(2);	
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoords));
+}
+
+
+Mesh::~Mesh()
+{
+    glDeleteBuffers(1, &this->m_VBO);
+    glDeleteBuffers(1, &this->m_EBO);
+    glDeleteVertexArrays(1, &this->m_VAO);
 }
 
 

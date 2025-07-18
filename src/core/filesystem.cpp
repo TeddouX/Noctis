@@ -29,6 +29,12 @@ std::string Filesystem::GetFileContents(const fs::path &path)
 }
 
 
+std::string Filesystem::GetFileName(const fs::path &path)
+{
+    return std::filesystem::path(path).stem().string();
+}
+
+
 void Filesystem::WriteCBOR(const fs::path &filePath, std::vector<uint8_t> cborData)
 {
     std::ofstream file(filePath, std::ios::binary);

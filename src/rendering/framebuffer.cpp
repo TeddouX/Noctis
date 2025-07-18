@@ -15,11 +15,19 @@ FrameBuffer::FrameBuffer(IVec2 size)
 }
 
 
+FrameBuffer::~FrameBuffer()
+{
+    glDeleteFramebuffers(1, &this->m_id);
+    this->m_texture.Delete();
+    this->m_depthTexture.Delete();
+}
+
+
 void FrameBuffer::Init(IVec2 size)
 {
     this->m_size = size;
-    this->m_texture = Texture(size.x, size.y);
-    this->m_depthTexture = Texture(
+    this->m_texture = BasicTexture(size.x, size.y);
+    this->m_depthTexture = BasicTexture(
         size.x, 
         size.y, 
         GL_DEPTH_COMPONENT24, 

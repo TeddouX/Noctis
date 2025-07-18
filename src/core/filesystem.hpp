@@ -16,6 +16,9 @@ public:
     /// @returns The contents of the file as a string
     static std::string GetFileContents(const fs::path &path);
 
+    /// @returns The name of the file at the end of the path
+    static std::string GetFileName(const fs::path &path);
+
     /// @brief Writes cbor data to a file
     static void WriteCBOR(const fs::path &path, std::vector<uint8_t> cborData);
     

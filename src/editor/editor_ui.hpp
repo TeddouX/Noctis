@@ -37,7 +37,6 @@ private:
 
     void DockDisplays() const;
     void ShowCreateSceneModal();
-    void ShowLoadSceneMenu();
     void ShowMenuBar();
     void HandleInput();
     void HandleState();

@@ -17,6 +17,8 @@ int main()
 
     EditorUI ui(window, "#version 430 core");
 
+    AssetManager::GetInstance().AddModel("./survival_guitar_backpack.glb");
+
     // LOG_WARN("This is a warning.");
     // LOG_ERR("This is an error.");
 

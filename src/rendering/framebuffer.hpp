@@ -10,10 +10,10 @@
 class FrameBuffer
 {
 public:
-
     FrameBuffer();
     FrameBuffer(IVec2 size);
-    
+    ~FrameBuffer();
+
     void Init(IVec2 size);
     void Delete();
 
@@ -26,7 +26,7 @@ public:
     GLuint GetTextureID() const;
 
 private:
+    BasicTexture m_texture, m_depthTexture;
     IVec2     m_size;
     GLuint    m_id;
-    Texture   m_texture, m_depthTexture;
 };

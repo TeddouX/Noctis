@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <print>
+#include <assert.h>
 #include <stdint.h>
 #include <fmt/format.h>
 
@@ -49,6 +50,7 @@
 #define LOG_WARN(x, ...) LOGGER().Warn(x,  __VA_ARGS__);
 #define LOG_ERR(x, ...)  LOGGER().Error(x, __VA_ARGS__);
 #define LOG_TODO(x)      LOGGER().Todo(x, __FILENAME__, __LINE__);
+#define ASSERT(_expr)    assert(_expr);
 
 
 namespace chrono = std::chrono;

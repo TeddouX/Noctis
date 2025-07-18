@@ -1,8 +1,25 @@
 #include "material.hpp"
 
 
-void Material::UploadData()
+void Material::UploadData(Shader &shader)
 {
+    // 0 - Colored
+    // 1 - Basic Textured
+    // 2 - PBR Textured
+    int materialType = 0;
+    if (this->m_texture)
+    {
+        if (std::dynamic_pointer_cast<BasicTexture>(this->m_texture))
+            materialType = 1;
+        if (std::dynamic_pointer_cast<PBRTexture>(this->m_texture))
+            materialType = 2;
+
+        this->m_texture->Bind();
+    }
+
+    // Set the material type uniform
+    shader.SetInt("materialType", materialType);
+
     // Color          + 16 bytes
     // SpecReflect    + 12 bytes
     // SpecDefinition + 4 bytes
@@ -14,7 +31,7 @@ void Material::UploadData()
         this->specularReflectance.ToFloats(),
         this->specularDefinition
     };
-
+    
     this->m_ssbo.UploadData(data);
 }
 

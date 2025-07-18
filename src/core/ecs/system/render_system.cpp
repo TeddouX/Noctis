@@ -36,7 +36,7 @@ void RenderSystem::Update(const ComponentManager &cm, float dt)
 
         // Actually render the model
         shader->Use();
-        material->UploadData();
+        material->UploadData(*shader);
         this->m_camera->UploadData(transform->GetModelMatrix());
         model->GetModel()->Render(*shader);
     }

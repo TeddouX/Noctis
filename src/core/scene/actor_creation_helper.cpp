@@ -51,7 +51,7 @@ void ActorCreationHelper::CreateSimpleShape(std::string_view modelName, Transfor
     cm.AddComponent(entity, std::make_shared<ModelComponent>(model));
 
     std::shared_ptr<Shader> shader = am.GetShader(std::string(LIT_SHADER_NAME));
-    cm.AddComponent(entity, std::make_shared<Material>("default", shader));
+    cm.AddComponent(entity, std::make_shared<Material>("default", shader, am.GetPBRTexture("survival_guitar_backpack")));
 
     currScene->AddEntity(entity);
     currScene->SetSelectedEntity(entity);

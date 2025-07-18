@@ -17,8 +17,9 @@ void AssetManager::LoadEmbedded()
 
 void AssetManager::AddModel(const std::string &modelPath)
 {
-    std::shared_ptr<Model> model = std::make_shared<Model>(modelPath);
-
+    auto model = std::make_shared<Model>(modelPath);
+    
+    this->AddAllTexturesFromModel(model);
     this->m_allModels.emplace(model->GetName(), model);
 }
 
@@ -27,7 +28,28 @@ void AssetManager::AddModel(const std::string &name, const std::string &modelPat
 {
     std::shared_ptr<Model> model = std::make_shared<Model>(modelPath, name);
 
+    this->AddAllTexturesFromModel(model);
     this->m_allModels.emplace(name, model);
+}
+
+
+void AssetManager::AddAllTexturesFromModel(std::shared_ptr<Model> model)
+{
+    // Get the texture cache from the model
+    const auto &modelTextures = model->GetTextureCache();
+
+    // Add all textures from the model to the registries
+    for (auto &[texName, texPtr] : modelTextures)
+    {
+        if (auto basicTex = std::dynamic_pointer_cast<BasicTexture>(texPtr))
+            this->AddBasicTexture(texName, basicTex);
+        else if (auto pbrTex = std::dynamic_pointer_cast<PBRTexture>(texPtr))
+            this->AddPBRTexture(texName, pbrTex);
+    }
+
+    // Clear the model's cache because 
+    // it is not needed anymore
+    model->ClearTextureCache();
 }
 
 

@@ -1,6 +1,7 @@
 #include "editor_ui.hpp"
 
 
+
 EditorUI::EditorUI(Window &window, const std::string &glslVers)
     : m_mainWindow(window)
 {
@@ -41,7 +42,7 @@ void EditorUI::Render()
     ImGui::NewFrame();
     
     // ImGui::ShowDemoWindow();
-
+    
     this->DockDisplays();
 
     // Show the menu on top of the window
@@ -197,10 +198,3 @@ void EditorUI::ShowCreateSceneModal()
         ImGui::EndPopup();
     }
 }
-
-
-void EditorUI::ShowLoadSceneMenu()
-{
-    
-}
-
