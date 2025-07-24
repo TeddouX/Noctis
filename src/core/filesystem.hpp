@@ -31,4 +31,7 @@ public:
 
     /// @brief If non existant, create all directories from the path
     static void CreateDirs(const fs::path &path);
+
+    /// @returns `true` if the directory has a child directory
+    static bool HasChildDirectory(const fs::path &path);
 };

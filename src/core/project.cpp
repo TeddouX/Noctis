@@ -1,8 +1,6 @@
 #include "project.hpp"
 
 
-Project *Project::m_instance = nullptr;
-
 
 Project::Project(const fs::path &rootDir)
     : m_rootDir(rootDir)
@@ -55,7 +53,7 @@ void Project::LoadScenes()
     {
         fs::path path = entry.path();
         // Is the entry is a json file ?
-        if (entry.is_regular_file() && path.extension() == ".scene")
+        if (path.extension() == ".scene")
         {
             LOG_INFO("Found scene: {}", path.string())
             

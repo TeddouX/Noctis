@@ -14,6 +14,7 @@ layout (location = 0) out vec4 FragColor;
 uniform int materialType;
 layout (binding = 0) uniform sampler2D diffuseMap;
 layout (binding = 1) uniform sampler2D specularMap;
+layout (binding = 2) uniform sampler2D normalMap;
 
 layout (std430, binding = 1) buffer ColoredMaterial
 {
@@ -55,7 +56,7 @@ vec3 GetSpecular()
         return material.specular;
     else if (materialType == 1)
     {
-        return vec3(texture(specularMap, TexCoord));
+        return texture(specularMap, TexCoord).rgb;
     }
     else
         return vec3(255, 0, 255);
@@ -70,7 +71,7 @@ vec3 DirectionalLighting(DirectionalLight light)
     vec3 ambient = light.ambient * GetDiffuse() * ambientStrength;
 
     // Diffuse
-    vec3 norm = normalize(Normal);
+    vec3 norm = normalize(Normal + (texture(normalMap, TexCoord).rgb * 2.0 - 1.0));
     vec3 lightDir = normalize(-light.direction);  
     float diff = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = light.diffuse * GetDiffuse() * diff;  

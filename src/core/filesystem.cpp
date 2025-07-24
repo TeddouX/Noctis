@@ -99,3 +99,12 @@ void Filesystem::CreateDirs(const fs::path &path)
     if (!fs::exists(path))
         fs::create_directories(path);
 }
+
+bool Filesystem::HasChildDirectory(const fs::path &path)
+{
+    for (const auto& entry : fs::directory_iterator(path))
+        if (entry.is_directory())
+            return true;
+
+    return false;
+}

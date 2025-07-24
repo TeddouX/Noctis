@@ -19,12 +19,12 @@ public:
 
 
 /// @brief Support for serializing shared pointers
-template<typename T>
+template <typename T>
 inline void to_json(json &j, const std::shared_ptr<T> &ptr);
 
 
 /// @brief Support for deserializing shared pointers
-template<typename T>
+template <typename T>
 inline void from_json(const json &j, std::shared_ptr<T> &ptr);
 
 

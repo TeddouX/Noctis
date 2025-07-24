@@ -23,7 +23,7 @@ public:
 private:
     Project(const fs::path &rootDir);
 
-    static Project *m_instance;
+    inline static Project *m_instance = nullptr;
     fs::path        m_rootDir;
 
     void LoadScenes();
