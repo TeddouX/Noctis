@@ -2,7 +2,7 @@
 #include <engine/scene/scene_manager.hpp>
 
 #include "widget.hpp"
-#include "../actor_creation_helper.hpp"
+#include "../../actor_creation_helper.hpp"
 
 
 class SceneTreeWidget : public IWidget

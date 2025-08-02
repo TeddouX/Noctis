@@ -4,10 +4,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(imgui CONFIG REQUIRED)
 
-file(GLOB EDITOR_MAIN   "src/*.cpp" "include/editor/*.hpp")
-file(GLOB EDITOR_WIDGET "src/widget/*.cpp" "include/editor/widget/*.hpp")
+file(GLOB EDITOR_MAIN      "src/*.cpp" "include/editor/*.hpp")
+file(GLOB EDITOR_UI        "src/ui/*.cpp" "include/editor/ui/*.hpp")
+file(GLOB EDITOR_UI_WIDGET "src/ui/widget/*.cpp" "include/editor/ui/widget/*.hpp")
 
-set(EDITOR_SOURCES ${EDITOR_MAIN} ${EDITOR_WIDGET})
+set(EDITOR_SOURCES 
+    ${EDITOR_MAIN} 
+    ${EDITOR_UI} 
+    ${EDITOR_UI_WIDGET}
+)
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${EDITOR_SOURCES})
 

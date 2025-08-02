@@ -1,4 +1,4 @@
-#include "widget/scene_display.hpp"
+#include "ui/widget/scene_display.hpp"
 
 
 void SceneDisplayWidget::Render()

@@ -1,4 +1,4 @@
-#include "widget/console.hpp"
+#include "ui/widget/console.hpp"
 
 
 void ConsoleWidget::Update()

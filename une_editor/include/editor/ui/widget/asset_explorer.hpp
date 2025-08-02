@@ -1,14 +1,17 @@
 #pragma once
 #include <imgui_internal.h>
 
-#include <engine/project.hpp>
+#include <engine/filesystem.hpp>
 
 #include "widget.hpp"
 
+class Editor;
 
 class AssetExplorerWidget : public IWidget
 {
 public:
+    AssetExplorerWidget() = default;
+
     static constexpr std::string_view name = "Asset Explorer";
 
     void Render() override;

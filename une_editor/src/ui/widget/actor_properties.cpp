@@ -1,4 +1,4 @@
-#include "widget/actor_properties.hpp"
+#include "ui/widget/actor_properties.hpp"
 
 
 void ActorPropertiesWidget::Render()

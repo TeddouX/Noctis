@@ -1,32 +1,18 @@
 #include "project.hpp"
 
 
-
 Project::Project(const fs::path &rootDir)
     : m_rootDir(rootDir)
 {
-}
-
-
-void Project::Init(const fs::path &rootDir)
-{
     LOG_INFO("Initializing project: {}", rootDir.string())
 
-    if (m_instance)
-    {
-        LOG_ERR("Project instance already initialized.")
-        return;
-    }
-
-    m_instance = new Project(rootDir);
-
     // Temporary
-    Filesystem::CreateDirs(m_instance->GetAssetsFolder());
+    Filesystem::CreateDirs(this->GetAssetsFolder());
     
     // Load all embedded assets
     AssetManager::GetInstance().LoadEmbedded();
 
-    m_instance->LoadScenes();
+    this->LoadScenes();
 } 
 
 
@@ -62,18 +48,6 @@ void Project::LoadScenes()
             SCENE_MANAGER().AddSceneFromPath(path);
         }
     }
-}
-
-
-Project *Project::GetInstance()
-{
-    if (!m_instance)
-    {
-        LOG_ERR("Project instance not initialized.")
-        return nullptr;
-    }
-
-    return m_instance;
 }
 
 

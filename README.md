@@ -1,6 +1,6 @@
 # Unknown Engine: a simplistic game engine  
 /!\ In developement  
-Trying to reach a ratio of at least 1 comment for 10 lines of code (currently 1/12.7, 320 comments for 4050 loc).  
+Trying to reach a ratio of at least 1 comment for 10 lines of code (currently 1/12.8, 324 comments for 4160 loc).  
 Linux support is not planned.  
 
 ### Credits

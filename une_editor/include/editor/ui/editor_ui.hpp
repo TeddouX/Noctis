@@ -15,7 +15,7 @@
 #include "widget/actor_properties.hpp"
 #include "widget/console.hpp"
 
-
+class Editor;
 
 struct EditorUIState
 {
@@ -35,7 +35,7 @@ private:
     Window &m_mainWindow;
     float   m_imGuiScale;
 
-    std::vector<std::unique_ptr<IWidget>> m_allWidgets;
+    std::vector<std::shared_ptr<IWidget>> m_allWidgets;
 
     void DockDisplays() const;
     void ShowCreateSceneModal();

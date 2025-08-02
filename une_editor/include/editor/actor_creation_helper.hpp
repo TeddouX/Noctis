@@ -1,7 +1,6 @@
 #pragma once
 #include <regex>
 
-#include <engine/project.hpp>
 #include <engine/asset_manager.hpp>
 #include <engine/scene/scene_manager.hpp>
 #include <engine/ecs/component/all_components.hpp>

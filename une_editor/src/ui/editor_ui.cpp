@@ -1,4 +1,5 @@
-#include "editor_ui.hpp"
+#include "ui/editor_ui.hpp"
+#include "editor.hpp"
 
 
 EditorUI::EditorUI(Window &window, const std::string &glslVers)
@@ -26,11 +27,11 @@ EditorUI::EditorUI(Window &window, const std::string &glslVers)
     io.IniFilename = NULL;
 
     // Add all widgets
-    m_allWidgets.push_back(std::make_unique<SceneDisplayWidget>(this->m_mainWindow));
-    m_allWidgets.push_back(std::make_unique<ActorPropertiesWidget>());
-    m_allWidgets.push_back(std::make_unique<AssetExplorerWidget>());
-    m_allWidgets.push_back(std::make_unique<ConsoleWidget>());
-    m_allWidgets.push_back(std::make_unique<SceneTreeWidget>());
+    m_allWidgets.push_back(std::make_shared<SceneDisplayWidget>(this->m_mainWindow));
+    m_allWidgets.push_back(std::make_shared<ActorPropertiesWidget>());
+    m_allWidgets.push_back(std::make_shared<AssetExplorerWidget>());
+    m_allWidgets.push_back(std::make_shared<ConsoleWidget>());
+    m_allWidgets.push_back(std::make_shared<SceneTreeWidget>());
 }
 
 
@@ -53,13 +54,21 @@ void EditorUI::Render()
     // Show popups etc...
     this->HandleState();
 
-    // Update all widgets
-    for (std::unique_ptr<IWidget> &widget : this->m_allWidgets)
+    EditorState state = EDITOR()->GetState();
+    if (state == EditorState::PROJECT_SELECTION)
     {
-        widget->Update();
-        widget->Render();
+        // blablabla
     }
-
+    else if (state == EditorState::IN_EDITOR)
+    {
+        // Update all widgets
+        for (std::shared_ptr<IWidget> &widget : this->m_allWidgets)
+        {
+            widget->Update();
+            widget->Render();
+        }
+    }
+    
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }

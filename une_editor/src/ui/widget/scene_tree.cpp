@@ -1,4 +1,4 @@
-#include "editor/widget/scene_tree.hpp"
+#include "ui/widget/scene_tree.hpp"
 
 
 void SceneTreeWidget::Render()

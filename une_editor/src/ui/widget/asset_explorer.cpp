@@ -1,4 +1,5 @@
-#include "widget/asset_explorer.hpp"
+#include "ui/widget/asset_explorer.hpp"
+#include "editor.hpp"
 
 
 void AssetExplorerWidget::Render()
@@ -48,9 +49,14 @@ void AssetExplorerWidget::RenderFolderView() const
 {
     ImGui::Begin("Folder View", nullptr, ImGuiWindowFlags_NoMove);
 
-    // Iterate through all directories in the assets folder
-    for (const auto &entry : fs::directory_iterator(PROJECT()->GetAssetsFolder()))
-        this->IterateDirectory(entry);
+    Project *currProject = EDITOR()->GetCurrProject();
+    if (currProject)
+    {
+        // Iterate through all directories in the assets folder
+        for (const auto &entry : fs::directory_iterator(currProject->GetAssetsFolder()))
+            this->IterateDirectory(entry);
+    }
+        
 
     ImGui::End();
 }
