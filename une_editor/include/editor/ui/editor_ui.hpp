@@ -26,7 +26,7 @@ struct EditorUIState
 class EditorUI
 {
 public:
-    EditorUI(Window &window, const std::string &glslVers);
+    EditorUI(Window &window, const char *glslVers);
 
     void Render();
 

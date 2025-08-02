@@ -2,7 +2,7 @@
 #include "editor.hpp"
 
 
-EditorUI::EditorUI(Window &window, const std::string &glslVers)
+EditorUI::EditorUI(Window &window, const char *glslVers)
     : m_mainWindow(window)
 {
     LOG_INFO("Initializing editor UI.")
@@ -14,7 +14,7 @@ EditorUI::EditorUI(Window &window, const std::string &glslVers)
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGui_ImplGlfw_InitForOpenGL(glfwWindow, true);
-    ImGui_ImplOpenGL3_Init(glslVers.c_str());
+    ImGui_ImplOpenGL3_Init(glslVers);
 
     // Set the scale for all objects
     ImGuiStyle style = ImGui::GetStyle();
@@ -45,9 +45,6 @@ void EditorUI::Render()
     
     this->DockDisplays();
 
-    // Show the menu on top of the window
-    this->ShowMenuBar();
-
     // Handle input from the window
     this->HandleInput();
 
@@ -61,6 +58,9 @@ void EditorUI::Render()
     }
     else if (state == EditorState::IN_EDITOR)
     {
+        // Show the menu on top of the window
+        this->ShowMenuBar();
+
         // Update all widgets
         for (std::shared_ptr<IWidget> &widget : this->m_allWidgets)
         {

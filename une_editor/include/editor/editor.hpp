@@ -39,8 +39,8 @@ private:
 
     Project    *m_currProject = nullptr;
     EditorState m_state;
-    EditorUI    m_ui;
     Window      m_window;
+    EditorUI    m_ui;
 
     Editor();
 };
