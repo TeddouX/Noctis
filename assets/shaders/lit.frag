@@ -44,7 +44,7 @@ vec3 GetDiffuse()
     if (materialType == 0 || materialType == 2)
         return material.diffuse;
     else if (materialType == 1)
-        return vec3(texture(diffuseMap, TexCoord));
+        return texture(diffuseMap, TexCoord).rgb;
     else
         return vec3(255, 0, 255);
 }

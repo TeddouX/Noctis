@@ -1,7 +1,7 @@
 # Unknown Engine: a simplistic game engine  
 /!\ In developement  
 Trying to reach a ratio of at least 1 comment for 10 lines of code (currently 1/12.7, 320 comments for 4050 loc).  
-Linux support will not come for a long moment.  
+Linux support is not planned.  
 
 ### Credits
 - [Assimp](https://github.com/assimp/assimp) - The official Open-Asset-Importer-Library
@@ -51,5 +51,5 @@ And finally:
 mkdir build
 cmake --build .\build\
 ```
-to __build__ the project. The *.exe* file can be found in `build/Debug/`, if built using MSVC.
+to __build__ the project. The *.exe* file can be found under `build/une_editor/Debug/`, if built using MSVC.
 
