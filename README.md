@@ -1,7 +1,7 @@
 # Unknown Engine: a simplistic game engine  
 /!\ In developement  
-Trying to reach a ratio of at least 1 comment for 10 lines of code (currently 1/12.8, 324 comments for 4160 loc).  
-Linux support is not planned.  
+Trying to reach a ratio of at least 1 comment for 10 lines of code (currently 1/12.6, 364 comments for 4598 loc).  
+Linux and MacOS support are not planned.  
 
 ### Credits
 - [Assimp](https://github.com/assimp/assimp) - The official Open-Asset-Importer-Library
@@ -12,7 +12,6 @@ Linux support is not planned.
 - [Glad](https://github.com/Dav1dde/glad) - Multi-Language Vulkan/GL/GLES/EGL/GLX/WGL Loader-Generator based on the official specs. Use [this](https://gen.glad.sh/) to generate a loader.
 - [Nlohmann-json](https://github.com/nlohmann/json) - JSON for Modern C++
 - [Fmt](https://github.com/fmtlib/fmt) - A modern formatting library
-- [Boost-UUID](https://github.com/boostorg/uuid) - Boost.org uuid module (*this will, at some point, be replaced by a custom UUID engine*)
 
 ### Editor
 The editor's UI is made using [Dear ImGui](https://github.com/ocornut/imgui).  
