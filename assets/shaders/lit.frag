@@ -15,6 +15,7 @@ uniform int materialType;
 layout (binding = 0) uniform sampler2D diffuseMap;
 layout (binding = 1) uniform sampler2D specularMap;
 layout (binding = 2) uniform sampler2D normalMap;
+layout (binding = 2) uniform sampler2D heightMap;
 
 layout (std430, binding = 1) buffer ColoredMaterial
 {
@@ -55,11 +56,18 @@ vec3 GetSpecular()
     if (materialType == 0 || materialType == 2)
         return material.specular;
     else if (materialType == 1)
-    {
         return texture(specularMap, TexCoord).rgb;
-    }
     else
         return vec3(255, 0, 255);
+}
+
+
+vec3 GetNormal()
+{
+    if (materialType == 0)
+        return Normal;
+    else
+        return Normal + (texture(normalMap, TexCoord).rgb * 2.0 - 1.0);
 }
 
 
@@ -70,8 +78,8 @@ vec3 DirectionalLighting(DirectionalLight light)
     // Ambient
     vec3 ambient = light.ambient * GetDiffuse() * ambientStrength;
 
-    // Diffuse
-    vec3 norm = normalize(Normal + (texture(normalMap, TexCoord).rgb * 2.0 - 1.0));
+    // Diffuse  
+    vec3 norm = normalize(GetNormal());
     vec3 lightDir = normalize(-light.direction);  
     float diff = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = light.diffuse * GetDiffuse() * diff;  

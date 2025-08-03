@@ -4,6 +4,7 @@
 #include <stb_image.h>
 
 #include "../logger.hpp"
+#include "../math/math.hpp"
 #include "../filesystem.hpp"
 
 
@@ -23,6 +24,7 @@ public:
     virtual ~ITexture() {}; 
     virtual void Bind() = 0;
     virtual void Delete() = 0;
+    virtual bool IsEmpty() const = 0;
     virtual const std::string &GetName() const = 0; 
 };
 
@@ -30,6 +32,8 @@ public:
 class BasicTexture : public ITexture
 {
 public:
+    BasicTexture() = default;
+
     /// @brief Create an empty texture of size
     BasicTexture(int width, int height, int internalFormat = GL_RGB, int format = GL_RGB);
 
@@ -37,23 +41,31 @@ public:
     BasicTexture(const fs::path &path, TextureType type);
 
     /// @brief Load compressed data from memory
-    BasicTexture(unsigned char *data, int width, TextureType type, std::string name);
+    BasicTexture(uint8_t *data, int width, TextureType type, std::string name);
 
     /// @brief Load raw data from memory
-    BasicTexture(unsigned char *data, TextureType type, std::string name);
+    BasicTexture(uint8_t *data, IVec2 size, TextureType type, std::string name);
+
+    /// @returns A 1x1 white texture 
+    static std::shared_ptr<BasicTexture> Get1x1WTex(TextureType type);
 
     GLuint GetID() const;
-    inline const std::string &GetName() const override { return this->m_name; }
-    inline TextureType GetTexType() const { return this->m_type; }
+    const std::string &GetName() const override { return this->m_name; }
+    TextureType        GetTexType() const { return this->m_type; }
 
     void Bind() override;
-    void BindToPoint(int bindPoint);
+    void BindToPoint(int bindPoint) const;
     void Delete() override;
 
+    bool IsEmpty() const override { return this->m_name == emptyTexName; }
+
 private:
-    GLuint      m_id;
-    TextureType m_type;
+    // Stands for 1x1 White Texture
+    inline static std::string emptyTexName = "1x1WTex";
+
+    TextureType m_type = TextureType::INVALID;
     std::string m_name;
+    GLuint      m_id;
 
     int m_width, m_height; 
     int m_nrChannels;
@@ -69,7 +81,7 @@ class PBRTexture : public ITexture
 public:
     PBRTexture(
         const std::string &name,
-        std::shared_ptr<BasicTexture> diffuseMap,
+        std::shared_ptr<BasicTexture> diffuseMap = nullptr,
         std::shared_ptr<BasicTexture> specularMap = nullptr,
         std::shared_ptr<BasicTexture> normalMap = nullptr,
         std::shared_ptr<BasicTexture> heightMap = nullptr
@@ -82,7 +94,9 @@ public:
     void Bind() override;
     void Delete() override;
 
-    inline const std::string &GetName() const override { return this->m_name; }
+    bool IsEmpty() const override;
+
+    const std::string &GetName() const override { return this->m_name; }
 
 private:
     std::string m_name;

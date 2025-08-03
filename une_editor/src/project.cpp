@@ -1,19 +1,65 @@
 #include "project.hpp"
 
 
+Project::Project(const fs::path &rootDir, const std::string &name)
+    : m_rootDir(rootDir), m_name(name)
+{
+} 
+
+
 Project::Project(const fs::path &rootDir)
     : m_rootDir(rootDir)
 {
-    LOG_INFO("Initializing project: {}", rootDir.string())
-
-    // Temporary
-    Filesystem::CreateDirs(this->GetAssetsFolder());
-    
-    // Load all embedded assets
-    AssetManager::GetInstance().LoadEmbedded();
-
-    this->LoadScenes();
 } 
+
+
+bool Project::Load(bool firstTime)
+{
+    fs::path projFilePath = this->m_rootDir / fmt::format("{}.uneproj", this->m_name);
+
+    if (firstTime)
+    {
+        LOG_INFO("Creating project: {}", this->m_rootDir.string())
+        
+        // Create all directories
+        fs::create_directories(this->GetAssetsFolder());
+        fs::create_directories(this->GetScenesFolder());
+    
+        json j{
+            {"name", this->m_name}
+        };
+
+        Filesystem::WriteCBOR(projFilePath, json::to_cbor(j));
+    }
+    else
+    {
+        LOG_INFO("Loading project: {}", this->m_rootDir.string())
+
+        // Get name from the first projectect file that is found
+        for (const auto &entry : fs::directory_iterator(this->m_rootDir))
+        {
+            if (entry.is_regular_file() && entry.path().extension() == ".uneproj")
+            {
+                auto cborData = Filesystem::ReadCBOR(entry.path());
+                json j = json::from_cbor(cborData);
+
+                this->m_name = j["name"];
+            }
+        }
+
+        // Temporary
+        fs::create_directories(this->GetAssetsFolder());
+    
+        // Load all embedded assets
+        AssetManager::GetInstance().LoadEmbedded();
+
+        this->LoadScenes();
+    }
+
+    SCENE_MANAGER().SetScenesFolder(this->GetScenesFolder());
+    
+    return true;
+}
 
 
 void Project::LoadScenes()
@@ -31,7 +77,7 @@ void Project::LoadScenes()
             "The scene folder ({}) doesn't exist, creating one now...",
             this->GetScenesFolder().string()
         )
-        Filesystem::CreateDirs(this->GetScenesFolder());
+        fs::create_directories(this->GetScenesFolder());
         return;  
     }
 
@@ -61,3 +107,20 @@ const fs::path Project::GetAssetsFolder()
 {
     return fmt::format("{}\\Assets", this->m_rootDir.string());
 }
+
+
+bool Project::IsValidProjectFolder(const fs::path &path)
+{
+    if (!fs::is_directory(path))
+        return false;
+
+    // check if there is a ".proj" file in the directory
+    for (const auto &entry : fs::directory_iterator(path))
+    {
+        if (entry.is_regular_file() && entry.path().extension() == ".uneproj")
+            return true;
+    }
+
+    return false;
+}
+

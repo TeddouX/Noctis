@@ -9,6 +9,9 @@
 #include "math/math.hpp"
 
 
+#define OPENGL_DBG_LOW_ENABLE 1
+
+
 /// @brief Used to describe key combos like Ctrl+S
 class KeyCombo
 {
@@ -29,10 +32,15 @@ public:
     Window(int width, int height, const std::string &title);
     ~Window();
 
-    inline bool ShouldClose() const { return glfwWindowShouldClose(this->m_glfwWindow); }
+    bool ShouldClose() const { return glfwWindowShouldClose(this->m_glfwWindow); }
     void PostRender();
 
     double GetDeltaTime() const { return this->m_deltaTime; }
+
+    void SetResizable(bool val) { glfwSetWindowAttrib(this->m_glfwWindow, GLFW_RESIZABLE, val); }
+
+    int GetWidth() const { return this->m_width; }
+    int GetHeight() const { return this->m_height; }
 
     const std::unordered_set<int> &GetKeysDown() const { return this->m_keysDown; } 
     const std::optional<KeyCombo> &GetLastCombo() const { return this->m_lastCombo; } 
@@ -62,6 +70,19 @@ private:
     double m_deltaTime;
     double m_lastFrameTime;
     
+    int m_width;
+    int m_height;
+    
+    static void OpenGLDbgMessCallback(
+        GLenum source, 
+        GLenum type, 
+        GLuint id, 
+        GLenum severity,
+        GLsizei length, 
+        const GLchar* message, 
+        const void* userParam
+    );
+
     static void GLFWErrorCallback(int code, const char *desc);
     static void GLFWWindowResizeCallback(GLFWwindow *glfwWindow, int width, int height);
     static void GLFWInputCallback(GLFWwindow* glfwWindow, int key, int scancode, int action, int mods);

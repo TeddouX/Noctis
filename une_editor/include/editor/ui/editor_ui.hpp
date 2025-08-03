@@ -9,13 +9,13 @@
 #include <engine/scene/scene_manager.hpp>
 
 #include "imgui_utils.hpp"
+#include "project_selection.hpp"
 #include "widget/scene_display.hpp"
 #include "widget/scene_tree.hpp"
 #include "widget/asset_explorer.hpp"
 #include "widget/actor_properties.hpp"
 #include "widget/console.hpp"
 
-class Editor;
 
 struct EditorUIState
 {
@@ -31,9 +31,12 @@ public:
     void Render();
 
 private:
+    ProjectSelectionUI m_psUI;
     EditorUIState m_state;
     Window &m_mainWindow;
-    float   m_imGuiScale;
+    float m_imGuiScale;
+
+    ImFont *m_font;
 
     std::vector<std::shared_ptr<IWidget>> m_allWidgets;
 

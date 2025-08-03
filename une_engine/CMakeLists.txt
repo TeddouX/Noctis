@@ -19,6 +19,7 @@ file(GLOB ENGINE_ECS_SYSTEM    "src/ecs/system/*.cpp" "include/engine/ecs/system
 file(GLOB ENGINE_MATH          "src/math/*.cpp" "include/engine/math/*.hpp")
 file(GLOB ENGINE_RENDERING     "src/rendering/*.cpp" "include/engine/rendering/*.hpp")
 file(GLOB ENGINE_SCENE         "src/scene/*.cpp" "include/engine/scene/*.hpp")
+file(GLOB ENGINE_UTILS         "src/utils/*.cpp" "src/*.c" "include/engine/utils/*.hpp")
 
 
 set(ENGINE_SOURCES 
@@ -29,6 +30,7 @@ set(ENGINE_SOURCES
     ${ENGINE_MATH}
     ${ENGINE_RENDERING}
     ${ENGINE_SCENE}
+    ${ENGINE_UTILS}
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${ENGINE_SOURCES})

@@ -2,14 +2,12 @@
 
 
 FrameBuffer::FrameBuffer()
-    : m_texture(0, 0), m_depthTexture(0, 0)
 {
     this->Init(IVec2(0));
 }
 
 
 FrameBuffer::FrameBuffer(IVec2 size)
-    : m_texture(size.x, size.y), m_depthTexture(size.x, size.y)
 {
     this->Init(size);
 }
@@ -26,17 +24,22 @@ FrameBuffer::~FrameBuffer()
 void FrameBuffer::Init(IVec2 size)
 {
     this->m_size = size;
-    this->m_texture = BasicTexture(size.x, size.y);
+
+    this->m_texture = BasicTexture(
+        std::max(1, size.x), 
+        std::max(1, size.y)
+    );
+
     this->m_depthTexture = BasicTexture(
-        size.x, 
-        size.y, 
+        std::max(1, size.x), 
+        std::max(1, size.y), 
         GL_DEPTH_COMPONENT24, 
         GL_DEPTH_COMPONENT
     );
-
+    
     glGenFramebuffers(1, &this->m_id);
     glBindFramebuffer(GL_FRAMEBUFFER, this->m_id);
-    
+
     // The depth texture is required for depth testing
     glFramebufferTexture2D(
         GL_FRAMEBUFFER, 
@@ -56,11 +59,11 @@ void FrameBuffer::Init(IVec2 size)
     );
     
     // Check for errors in the creation of the frambuffer
-    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) 
+    GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+    if (status != GL_FRAMEBUFFER_COMPLETE) 
     {
-        GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
         if (status != GL_FRAMEBUFFER_COMPLETE)
-            LOG_ERR("Framebuffer incomplete: {0:#x}", (int)status);
+            LOG_ERR("Framebuffer incomplete: {:#x}", (int)status);
     }
 
     // Unbind the frame buffer

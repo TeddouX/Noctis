@@ -4,20 +4,18 @@
 #include "../math/math.hpp"
 
 
-struct CameraData
-{
-    Mat4 projectionMatrix;
-    Mat4 viewMatrix;
-    Mat4 modelMatrix;
-    Vec3 pos;
-};
-
-
 class Camera 
 {
 public:
-    Camera();
-    Camera(Vec3 pos, float aspectRatio, float fov, float near, float far);
+    struct Data
+    {
+        Mat4 projectionMatrix;
+        Mat4 viewMatrix;
+        Mat4 modelMatrix;
+        Vec3 pos;
+    };
+
+    Camera(Vec3 pos, float aspectRatio, float fov, float nearDst, float farDst);
 
     inline float GetAspect() const { return this->m_aspectRatio; }
     void         Resize(float aspectRatio);
@@ -39,7 +37,5 @@ private:
     float m_fov;
     float m_yaw = 0.f, m_pitch = 0.f;
 
-    void Init();
-
-    SSBO<CameraData> m_cameraSSBO;
+    SSBO<Camera::Data> m_cameraSSBO = SSBO<Camera::Data>(0);
 };

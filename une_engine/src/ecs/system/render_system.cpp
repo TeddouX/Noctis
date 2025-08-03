@@ -14,7 +14,8 @@ void RenderSystem::Update(const ComponentManager &cm, float dt)
     glClearColor(.09f, .09f, .09f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    for (auto &[entity, model] : models) {
+    for (auto &[entity, model] : models) 
+    {
         auto transform = cm.GetComponent<Transform>(entity);
         auto material = cm.GetComponent<Material>(entity);
         

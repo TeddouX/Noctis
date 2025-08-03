@@ -57,8 +57,9 @@ void Scene::UpdateAllSystems(float dt)
 void Scene::Load()
 {
     LOG_INFO(
-        "Loading scene {} from scene file ({})", 
-        this->m_name, this->m_jsonPath.string()
+        "Loading scene {} from scene file {}", 
+        this->m_name, 
+        this->m_jsonPath.string()
     )
 
     if (!fs::exists(this->m_jsonPath))
@@ -123,7 +124,7 @@ void Scene::Load()
         return;
     }
 
-    std::unordered_map<uuid::uuid, std::shared_ptr<Transform>> transformsMap;
+    std::unordered_map<UUIDv4, std::shared_ptr<Transform>> transformsMap;
     // Get all the scene's actors from json
     json allActorsJson = sceneJson["actors"];
     for (const json &actorJson : allActorsJson)
@@ -194,6 +195,8 @@ void Scene::Load()
         auto correctParent = transformsMap.at(parent->GetActor()->GetUUID());
         transform->SetParent(correctParent.get());
     }
+
+    LOG_INFO("Loaded scene {}", this->m_name)
 }
 
 

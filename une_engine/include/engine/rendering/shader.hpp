@@ -18,7 +18,7 @@ class Shader
 public:
 	Shader() = default;
 	Shader(const std::string &name, const std::string &vertexPath, const std::string &fragmentPath);
-	~Shader();
+	~Shader() = default;
 
 	const std::string &GetName() const { return this->m_name; }
 
@@ -32,7 +32,7 @@ public:
 	void SetMatrix(const std::string &name, Mat4 value) const;
 
 private:
-	GLuint m_shaderProgramID;
+	GLuint m_shaderProgramID = 0;
 	std::string m_name;
 	std::string m_vrPath, m_frPath;
 

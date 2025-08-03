@@ -14,6 +14,7 @@ bool KeyCombo::Is(int key, std::initializer_list<int> modifiers)
 
 
 Window::Window(int width, int height, const std::string &title)
+    : m_width(width), m_height(height)
 {
     LOG_INFO("Creating window.")
 
@@ -23,6 +24,7 @@ Window::Window(int width, int height, const std::string &title)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
     this->m_glfwWindow = glfwCreateWindow(
         width, 
@@ -47,7 +49,6 @@ Window::Window(int width, int height, const std::string &title)
 
     // Make this window usable in static callback functions
     glfwSetWindowUserPointer(this->m_glfwWindow, this);
-
     glfwMakeContextCurrent(this->m_glfwWindow);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -59,6 +60,11 @@ Window::Window(int width, int height, const std::string &title)
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
+
+    glEnable(GL_DEBUG_OUTPUT);
+    glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+
+    glDebugMessageCallback(OpenGLDbgMessCallback, nullptr);
 }
 
 
@@ -67,6 +73,30 @@ Window::~Window()
     LOG_INFO("Destroying window.")
 
 	glfwTerminate();
+}
+
+
+void Window::OpenGLDbgMessCallback(
+    GLenum source, 
+    GLenum type, 
+    GLuint id, 
+    GLenum severity,
+    GLsizei length, 
+    const GLchar* message, 
+    const void* userParam
+) 
+{
+    if (severity == GL_DEBUG_SEVERITY_LOW)
+    {
+#if OPENGL_DBG_LOW_ENABLE
+        LOG_INFO("[GL Debug] {}", message)
+        return;
+#endif
+    }
+    else if (severity == GL_DEBUG_SEVERITY_MEDIUM)
+        LOG_WARN("[GL Debug] {}", message)
+    else if (severity == GL_DEBUG_SEVERITY_HIGH)
+        LOG_ERR("[GL Debug] {}", message)
 }
 
 
@@ -102,6 +132,11 @@ void Window::GLFWErrorCallback(int code, const char *desc)
 
 void Window::GLFWWindowResizeCallback(GLFWwindow* glfwWindow, int width, int height)
 {
+    Window *window = (Window *)glfwGetWindowUserPointer(glfwWindow);
+
+    window->m_width = width;
+    window->m_height = height;
+
     glViewport(0, 0, width, height);
 }
 

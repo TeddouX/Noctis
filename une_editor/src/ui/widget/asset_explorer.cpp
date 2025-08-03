@@ -4,14 +4,15 @@
 
 void AssetExplorerWidget::Render()
 {
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+    
+    // ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
     ImGui::Begin(std::string(AssetExplorerWidget::name).c_str());
-
+    
     this->DockFolderViewWindow();
     this->RenderFolderView();
     
     ImGui::End();
-    ImGui::PopStyleVar();
+    // ImGui::PopStyleVar();
 }
 
 

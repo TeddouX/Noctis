@@ -19,12 +19,14 @@ EditorUI::EditorUI(Window &window, const char *glslVers)
     // Set the scale for all objects
     ImGuiStyle style = ImGui::GetStyle();
     style.ScaleAllSizes(this->m_imGuiScale);
-
+    
     // Config ImGui
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     // Disable the imgui.ini file 
     io.IniFilename = NULL;
+
+    this->m_font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Roboto-Regular.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesDefault());
 
     // Add all widgets
     m_allWidgets.push_back(std::make_shared<SceneDisplayWidget>(this->m_mainWindow));
@@ -41,7 +43,9 @@ void EditorUI::Render()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
     
-    ImGui::ShowDemoWindow();
+    ImGui::PushFont(this->m_font);
+
+    // ImGui::ShowDemoWindow();
     
     this->DockDisplays();
 
@@ -54,10 +58,13 @@ void EditorUI::Render()
     EditorState state = EDITOR()->GetState();
     if (state == EditorState::PROJECT_SELECTION)
     {
-        // blablabla
+        this->m_mainWindow.SetResizable(false);
+        this->m_psUI.Render();
     }
     else if (state == EditorState::IN_EDITOR)
     {
+        this->m_mainWindow.SetResizable(true);
+
         // Show the menu on top of the window
         this->ShowMenuBar();
 
@@ -69,6 +76,8 @@ void EditorUI::Render()
         }
     }
     
+    ImGui::PopFont();
+
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }

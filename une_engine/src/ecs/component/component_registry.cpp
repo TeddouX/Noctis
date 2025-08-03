@@ -78,6 +78,6 @@ void from_json(const json &j, std::shared_ptr<ISerializable> &ptr)
     }
     catch (const std::exception &e)
     {
-        LOG_ERR("Error while deserializing component: {}", e.what())
+        LOG_ERR("Error while deserializing component {}: {}", type, e.what())
     }
 }

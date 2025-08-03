@@ -212,11 +212,11 @@ std::shared_ptr<BasicTexture> Model::LoadTexture(aiMaterial *material, const aiS
     const aiTexture *aiTex = scene->GetEmbeddedTexture(texPath.c_str());
 
     std::shared_ptr<BasicTexture> texture;
-    if (aiTex->mHeight == 0) 
+    if (aiTex->mHeight == 0)
         // Compressed image data (PNG, JPEG...) 
         texture = std::make_shared<BasicTexture>(
             reinterpret_cast<unsigned char*>(aiTex->pcData),
-            aiTex->mWidth, 
+            aiTex->mWidth,
             TexTypeFromAssimp(aiTexType),
             this->m_name
         );
@@ -224,6 +224,7 @@ std::shared_ptr<BasicTexture> Model::LoadTexture(aiMaterial *material, const aiS
         // Raw data
         texture = std::make_shared<BasicTexture>(
             reinterpret_cast<unsigned char*>(aiTex->pcData),
+            IVec2(aiTex->mWidth, aiTex->mHeight),
             TexTypeFromAssimp(aiTexType),
             this->m_name
         );

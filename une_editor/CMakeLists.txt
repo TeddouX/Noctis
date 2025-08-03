@@ -19,6 +19,13 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${EDITOR_SOURCES})
 add_executable(UNE_Editor ${EDITOR_SOURCES})
 add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
+if (MSVC)
+    # Set visual studio CWD
+    set_target_properties(UNE_Editor PROPERTIES
+        VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    )
+endif()
+
 target_link_libraries(UNE_Editor PRIVATE 
     imgui::imgui
     UNE_Engine

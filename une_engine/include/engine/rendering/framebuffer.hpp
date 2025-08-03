@@ -27,6 +27,6 @@ public:
 
 private:
     BasicTexture m_texture, m_depthTexture;
-    IVec2     m_size;
-    GLuint    m_id;
+    IVec2  m_size;
+    GLuint m_id;
 };

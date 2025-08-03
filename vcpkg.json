@@ -14,7 +14,6 @@
     "stb",
     "glad",
     "nlohmann-json",
-    "fmt",
-    "boost-uuid"
+    "fmt"
   ]
 }

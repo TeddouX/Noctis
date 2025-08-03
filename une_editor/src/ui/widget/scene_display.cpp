@@ -33,7 +33,7 @@ void SceneDisplayWidget::RenderCurrScene()
         this->m_viewportWidth, 
         this->m_viewportHeight
     ));
-
+    
     Scene *currScene = SCENE_MANAGER().GetCurrScene();
     if (!currScene)
     {

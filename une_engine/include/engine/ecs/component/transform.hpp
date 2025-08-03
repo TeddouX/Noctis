@@ -6,9 +6,6 @@
 #include "../../math/math.hpp"
 
 
-namespace uuid = boost::uuids;
-
-
 /// @brief A transform represent's a entity's location in the world, it has to exist on every entity.
 class Transform : public IComponent, public ISerializable
 {

@@ -1,22 +1,13 @@
 #include "rendering/camera.hpp"
 
 
-Camera::Camera()
-	: m_position(0, 0, 0), m_aspectRatio(0.f), m_fov(0.f), m_near(0.f), m_far(0.f)
+Camera::Camera(Vec3 pos, float aspectRatio, float fov, float nearDst, float farDst)
+	: m_position(pos), 
+	m_aspectRatio(aspectRatio),  
+	m_fov(glm::radians(fov)), 
+	m_near(nearDst), 
+	m_far(farDst)
 {
-	this->Init();
-}
-
-
-Camera::Camera(Vec3 pos, float aspectRatio, float fov, float near, float far)
-	: m_position(pos), m_aspectRatio(aspectRatio),  m_fov(glm::radians(fov)), m_near(near), m_far(far)
-{
-	this->Init();
-}
-
-void Camera::Init()
-{
-	this->m_cameraSSBO.BindToPoint(0);
 }
 
 
@@ -24,6 +15,7 @@ void Camera::Resize(float aspectRatio)
 {
 	this->m_aspectRatio = aspectRatio;
 }
+
 
 void Camera::RotateBy(float yaw, float pitch)
 {
@@ -70,7 +62,7 @@ Mat4 Camera::GetProjectionMatrix() const
 
 void Camera::UploadData()
 {
-	CameraData data;
+	Camera::Data data;
 	data.viewMatrix = this->GetViewMatrix();
 	data.projectionMatrix = this->GetProjectionMatrix();
 	data.pos = this->m_position;

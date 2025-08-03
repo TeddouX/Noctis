@@ -11,13 +11,19 @@
 class Project
 {
 public:
+    Project(const fs::path &rootDir, const std::string &name);
     Project(const fs::path &rootDir);
+
+    bool Load(bool firstTime);
 
     const fs::path GetScenesFolder();
     const fs::path GetAssetsFolder();
 
+    static bool IsValidProjectFolder(const fs::path &path);
+
 private:
-    fs::path m_rootDir;
+    std::string m_name;
+    fs::path    m_rootDir;
 
     void LoadScenes();
 };

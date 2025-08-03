@@ -1,4 +1,8 @@
 #pragma once
+#include <windows.h>
+#include <shobjidl.h>
+#include <shlobj.h>
+
 #include <string>
 #include <filesystem>
 #include <fstream>
@@ -29,9 +33,13 @@ public:
     /// If it doesn't exist, it will be created.
     static void WriteFile(const fs::path &path, const std::string &contents);
 
-    /// @brief If non existant, create all directories from the path
-    static void CreateDirs(const fs::path &path);
-
     /// @returns `true` if the directory has a child directory
     static bool HasChildDirectory(const fs::path &path);
+
+    /// @brief Accepts environment variables like %USERPROFILE% 
+    /// @returns The folder that was selected in the dialog 
+    static fs::path FolderSelectDialog(const fs::path &folder, const std::string &title = "Select folder...");
+ 
+    /// @returns A wide string representation of a narrow string
+    static std::wstring StrToWStr(const std::string &str);
 };

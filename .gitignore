@@ -1,5 +1,5 @@
 build/
 .vscode/
 .vs/
-test_project/
+Projects/
 CMakeUserPresets.json

@@ -30,7 +30,7 @@ public:
     void SetState(EditorState state) { this->m_state = state; }
 
     Project *GetCurrProject() { return this->m_currProject; }
-    void SetCurrProject(Project *project) { this->m_currProject = project; }
+    void SetCurrProject(Project *project) { this->m_currProject = project; };
 
     void Run();
 
