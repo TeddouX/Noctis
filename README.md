@@ -12,6 +12,7 @@ Linux and MacOS support are not planned.
 - [Glad](https://github.com/Dav1dde/glad) - Multi-Language Vulkan/GL/GLES/EGL/GLX/WGL Loader-Generator based on the official specs. Use [this](https://gen.glad.sh/) to generate a loader.
 - [Nlohmann-json](https://github.com/nlohmann/json) - JSON for Modern C++
 - [Fmt](https://github.com/fmtlib/fmt) - A modern formatting library
+- [AngelScript](https://www.angelcode.com/angelscript/) - An extremely flexible cross-platform scripting library  
 
 ### Editor
 The editor's UI is made using [Dear ImGui](https://github.com/ocornut/imgui).  

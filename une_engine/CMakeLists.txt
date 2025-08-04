@@ -4,12 +4,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 find_package(nlohmann_json CONFIG REQUIRED)
+find_package(Angelscript   CONFIG REQUIRED)
 find_package(assimp CONFIG REQUIRED)
 find_package(glfw3  CONFIG REQUIRED)
 find_package(glad   CONFIG REQUIRED)
 find_package(fmt    CONFIG REQUIRED)
 find_package(glm    CONFIG REQUIRED)
-find_package(stb    REQUIRED)
+find_package(Stb    REQUIRED)
 
 
 file(GLOB ENGINE_MAIN          "src/*.cpp" "src/*.c" "include/engine/*.hpp")
@@ -40,12 +41,14 @@ add_library(UNE_Engine ${ENGINE_SOURCES})
 target_compile_definitions(UNE_Engine PUBLIC GLM_ENABLE_EXPERIMENTAL)
 
 target_link_libraries(UNE_Engine PUBLIC
-	nlohmann_json::nlohmann_json	
+	nlohmann_json::nlohmann_json
+    Angelscript::angelscript
 	assimp::assimp
 	glad::glad
 	glm::glm
 	fmt::fmt
 	glfw
+    as_addons
 )
 
 target_include_directories(UNE_Engine 
