@@ -3,6 +3,9 @@
 #include <memory>
 
 #include "component.hpp"
+#include "property/color_property.hpp"
+#include "property/float_property.hpp"
+#include "property/shader_property.hpp"
 #include "../../asset_manager.hpp"
 #include "../../math/math.hpp"
 #include "../../math/color.hpp"
@@ -14,7 +17,8 @@
 class Material : public IComponent, public ISerializable
 {
 public:
-    ENABLE_REFLECTION(Material)
+    ENABLE_SERIALIZATION(Material)
+    COMPONENT_GETNAME("Material")
 
     struct Data
     {
@@ -23,25 +27,25 @@ public:
         float shininess;
     };
 
-    PROPERTY_D(Color, color, Color(179, 175, 174))
-    PROPERTY_D(Color, specularReflectance, Color::White())
-    PROPERTY_D(float, specularDefinition, 32.f)
-
     Material() = default;
     Material(const std::string& name, std::shared_ptr<Shader> shader, std::shared_ptr<ITexture> texture = nullptr);
 
     inline std::string &GetName() { return this->m_name; }
-    PROPERTY_GETTER(GetName)
     
     inline std::shared_ptr<Shader> &GetShader() { return this->m_shader; }
-    PROPERTY_GETTER(GetShader)
 
     void UploadData(Shader &shader);
 
     void Serialize(json &j) const override;
     void Deserialize(const json &j) override;
-    
+
+    std::vector<std::shared_ptr<IPropertyBase>> GetProperties() override;
+
 private:
+    Color m_color = Color(179, 175, 174);
+    Color m_specularReflectance = Color::White();
+    float m_specularDefinition = 32.f;
+
     std::shared_ptr<ITexture> m_texture;
     std::shared_ptr<Shader>   m_shader;
     SSBO<Material::Data>      m_ssbo = SSBO<Material::Data>(1);

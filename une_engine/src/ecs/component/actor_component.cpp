@@ -1,4 +1,4 @@
-#include "ecs/component/actor.hpp"
+#include "ecs/component/actor_component.hpp"
 
 
 void Actor::Serialize(json &j) const

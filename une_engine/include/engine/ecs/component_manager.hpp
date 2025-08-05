@@ -15,7 +15,7 @@ class ComponentManager
 
 public:
     template <typename T> 
-    void AddComponent(Entity entity, std::shared_ptr<T> component);
+    void AddComponent(Entity entity, const T &component);
 
     template <typename T> 
     void RemoveComponent(Entity entity);
@@ -24,16 +24,16 @@ public:
     bool HasComponent(Entity entity) const;
 
     template <typename T> 
-    std::shared_ptr<T> GetComponent(Entity entity) const;
+    T *GetComponent(Entity entity) const;
 
     template <typename T> 
-    const std::unordered_map<Entity, std::shared_ptr<T>> &GetEntitiesWith() const;
+    std::unordered_map<Entity, T> &GetEntitiesWith() const;
 
     const std::vector<std::shared_ptr<IComponent>> GetAllComponents(Entity entity) const;
 
     void Clear();
 
-    private:
+private:
     template <typename T> 
     void RegisterComponent();
 

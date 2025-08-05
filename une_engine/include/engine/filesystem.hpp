@@ -1,8 +1,4 @@
 #pragma once
-#include <windows.h>
-#include <shobjidl.h>
-#include <shlobj.h>
-
 #include <string>
 #include <filesystem>
 #include <fstream>

@@ -1,5 +1,11 @@
 #include "filesystem.hpp"
 
+// Stop windows from polluting the 
+// other files' global namespace
+#include <windows.h>
+#include <shobjidl.h>
+#include <shlobj.h>
+
 
 std::string Filesystem::GetFileContents(const fs::path &path)
 {

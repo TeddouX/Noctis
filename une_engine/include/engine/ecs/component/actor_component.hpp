@@ -11,8 +11,9 @@
 class Actor : public IComponent, public ISerializable
 {
 public:
-    ENABLE_REFLECTION(Actor)
-    
+    COMPONENT_GETNAME("Actor")
+    ENABLE_SERIALIZATION(Actor)
+
     Actor() = default;
     /// @brief This constructor is used as a temporary placeholder
     /// when deserializing components. 
@@ -25,12 +26,13 @@ public:
 
     /// @returns a reference to this actor's name
     inline std::string &GetName() { return this->m_name; }
-    PROPERTY_GETTER(GetName)
 
     inline UUIDv4 GetUUID() const { return this->m_uuid; }
 
     void Serialize(json &j) const override;
     void Deserialize(const json &j) override;
+
+    std::vector<std::shared_ptr<IPropertyBase>> GetProperties() override { return {}; }
     
 private:
     std::string m_name;

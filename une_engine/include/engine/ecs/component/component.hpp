@@ -1,11 +1,13 @@
 #pragma once
 #include <nlohmann/json.hpp>
 
-#include "property.hpp"
 #include "component_registry.hpp"
+#include "property/property.hpp"
 #include "../entity.hpp"
 #include "../../logger.hpp"
 
+
+#define COMPONENT_GETNAME(NAME) std::string GetName() const override { return NAME; }
 
 using json = nlohmann::json;
 
@@ -13,8 +15,8 @@ using json = nlohmann::json;
 class IComponent
 {
 public:
-    virtual std::vector<IProperty *> _GetComponentProperties() const = 0;
-    virtual const std::string _GetComponentName() const = 0;
+    virtual std::vector<std::shared_ptr<IPropertyBase>> GetProperties() = 0; 
+    virtual std::string GetName() const = 0; 
 };
 
 

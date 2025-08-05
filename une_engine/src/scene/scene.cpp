@@ -147,7 +147,7 @@ void Scene::Load()
         this->AddEntity(entity);
 
         // Add the actor component to the entity
-        this->m_componentManager.AddComponent<Actor>(entity, actor);
+        this->m_componentManager.AddComponent<Actor>(entity, *actor);
 
         json allComponentsJson = actorJson["components"];
         for (const json &componentJson : allComponentsJson)
@@ -181,10 +181,10 @@ void Scene::Load()
     {
         // Is the transform parented to any 
         // other transform ?
-        if (!transform->IsChild())
+        if (!transform.IsChild())
             continue;
 
-        auto parent = transform->GetParent();
+        auto parent = transform.GetParent();
 
         // Was its parent built during deserialization ?
         if (!parent->IsTemporary())
@@ -193,7 +193,7 @@ void Scene::Load()
         // Because the parent needs to be set
         // to an existing transform ptr in the scene
         auto correctParent = transformsMap.at(parent->GetActor()->GetUUID());
-        transform->SetParent(correctParent.get());
+        transform.SetParent(correctParent.get());
     }
 
     LOG_INFO("Loaded scene {}", this->m_name)

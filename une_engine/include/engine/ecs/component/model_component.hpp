@@ -2,6 +2,7 @@
 #include <memory>
 
 #include "component.hpp"
+#include "property/model_property.hpp"
 #include "../../asset_manager.hpp"
 #include "../../rendering/model.hpp"
 
@@ -10,17 +11,19 @@
 class ModelComponent : public IComponent, public ISerializable
 {
 public:
-    ENABLE_REFLECTION(ModelComponent)
+    ENABLE_SERIALIZATION(ModelComponent)
+    COMPONENT_GETNAME("Model")
 
     ModelComponent() = default;
     ModelComponent(std::shared_ptr<Model> model)
         : m_model(model) {};
 
     std::shared_ptr<Model> &GetModel() { return this->m_model; }
-    PROPERTY_GETTER(GetModel)
 
     void Serialize(json &j) const override;
     void Deserialize(const json &j) override;
+
+    std::vector<std::shared_ptr<IPropertyBase>> GetProperties() override;
 
 private:
     std::shared_ptr<Model> m_model;

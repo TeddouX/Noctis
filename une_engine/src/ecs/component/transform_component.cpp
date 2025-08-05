@@ -1,4 +1,4 @@
-#include "ecs/component/transform.hpp"
+#include "ecs/component/transform_component.hpp"
 
 
 Transform::Transform(Vec3 pos, Vec3 rot, Vec3 scale, std::shared_ptr<Actor> actor, Transform *parent)
@@ -114,4 +114,14 @@ void Transform::Deserialize(const json &j)
         auto parentActor = std::dynamic_pointer_cast<Actor>(j.at("parent").get<std::shared_ptr<ISerializable>>());
         this->m_parent = new Transform(parentActor);
     }
+}
+
+
+std::vector<std::shared_ptr<IPropertyBase>> Transform::GetProperties()
+{
+    return {
+        std::make_shared<Vec3Property>(GETTER_FOR(this->m_pos), "Position"),
+        std::make_shared<Vec3Property>(GETTER_FOR(this->m_rot), "Rotation"),
+        std::make_shared<Vec3Property>(GETTER_FOR(this->m_scale), "Scale", true, false),
+    };
 }

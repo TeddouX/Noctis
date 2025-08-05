@@ -25,12 +25,12 @@ public:
 template <typename T>
 class ComponentArray : public IComponentArray 
 {
-    std::unordered_map<Entity, std::shared_ptr<T>> m_components;
+    std::unordered_map<Entity, T> m_components;
 
 public:
     void Clear() override;
 
-    void Insert(Entity entity, std::shared_ptr<T> component);
+    void Insert(Entity entity, const T &component);
 
     void Remove(Entity entity) override;
 
@@ -38,9 +38,9 @@ public:
 
     bool Has(Entity entity) const override;
 
-    std::shared_ptr<T> Get(Entity entity);
+    T *Get(Entity entity);
 
-    const std::unordered_map<Entity, std::shared_ptr<T>> &GetAll() const;
+    std::unordered_map<Entity, T> &GetAll();
 };
 
 #include "component_array.inl"

@@ -1,6 +1,7 @@
 #pragma once
-#include "actor.hpp"
+#include "actor_component.hpp"
 #include "model_component.hpp"
-#include "transform.hpp"
-#include "material.hpp"
-#include "light.hpp"
+#include "transform_component.hpp"
+#include "material_component.hpp"
+#include "light_component.hpp"
+#include "script_component.hpp"

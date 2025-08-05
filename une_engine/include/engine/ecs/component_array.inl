@@ -9,7 +9,7 @@ void ComponentArray<T>::Clear()
 
 
 template <typename T>
-void ComponentArray<T>::Insert(Entity entity, std::shared_ptr<T> component)
+void ComponentArray<T>::Insert(Entity entity, const T &component)
 {
     this->m_components.emplace(entity, component);
 }
@@ -26,7 +26,7 @@ template <typename T>
 std::shared_ptr<IComponent> ComponentArray<T>::GetUntyped(Entity entity) const
 {
     if (auto search = this->m_components.find(entity); search != this->m_components.end()) 
-        return search->second;
+        return std::make_shared<T>(search->second);
     else 
         return nullptr;
 }
@@ -40,17 +40,17 @@ bool ComponentArray<T>::Has(Entity entity) const
 
 
 template <typename T>
-std::shared_ptr<T> ComponentArray<T>::Get(Entity entity)
+T *ComponentArray<T>::Get(Entity entity)
 {
     if (auto search = this->m_components.find(entity); search != this->m_components.end()) 
-        return search->second;
+        return &search->second;
     else 
         return nullptr;
 }
 
 
 template <typename T>
-const std::unordered_map<Entity, std::shared_ptr<T>> &ComponentArray<T>::GetAll() const
+std::unordered_map<Entity, T> &ComponentArray<T>::GetAll()
 {
     return this->m_components;
 }

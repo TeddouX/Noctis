@@ -29,12 +29,12 @@ void SceneTreeWidget::Render()
             // Iterate through all the scene's entities to add them to the tree
             for (const Entity &entity : allEntities)
             {
-                std::shared_ptr<Transform> transform = cm.GetComponent<Transform>(entity);
+                Transform *transform = cm.GetComponent<Transform>(entity);
 
                 if (transform->IsChild()) 
                     continue;
 
-                IterateTransformChildren(transform.get(), entity);
+                IterateTransformChildren(transform, entity);
             }      
         }
     }        

@@ -2,7 +2,8 @@
 #include <vector>
 
 #include "component.hpp"
-#include "actor.hpp"
+#include "actor_component.hpp"
+#include "property/vec3_property.hpp"
 #include "../../math/math.hpp"
 
 
@@ -10,12 +11,18 @@
 class Transform : public IComponent, public ISerializable
 {
 public:
-    ENABLE_REFLECTION(Transform)
+    ENABLE_SERIALIZATION(Transform)
+    COMPONENT_GETNAME("Transform")
 
     Transform() = default;
     // This constructor is used as a temporary placeholder
     // when deserializing components. 
-    Transform(std::shared_ptr<Actor> actor) : m_actor(actor), m_temp(true) {};
+    Transform(std::shared_ptr<Actor> actor) 
+        : m_actor(actor), 
+        m_temp(true), 
+        m_parent(nullptr),
+        m_pos(0), m_rot(0), m_scale(0) {};
+
     Transform(Vec3 pos, Vec3 rot, Vec3 scale, std::shared_ptr<Actor> actor, Transform *parent = nullptr);
 
     /// @returns The position, not relative to this transform's parent
@@ -27,20 +34,16 @@ public:
 
     /// @returns A reference to this transform's position, relative to its parent 
     inline Vec3 &GetPosition() { return this->m_pos; }
-    PROPERTY_GETTER(GetPosition)
     /// @returns A reference to this transform's rotation, relative to its parent 
     inline Vec3 &GetRotation() { return this->m_rot; }
-    PROPERTY_GETTER(GetRotation)
     /// @returns A reference to this transform's scale, relative to its parent 
     inline Vec3 &GetScale() { return this->m_scale; }
-    PROPERTY_GETTER(GetScale)
 
     /// @returns The transform's model martrix, calculated from its position, scale and rotation
     Mat4 GetModelMatrix() const;
 
     /// @returns This transform's parent, or `nullptr` if its parent isn't set
-    inline Transform *&GetParent() { return this->m_parent; }
-    PROPERTY_GETTER_HIDDEN(GetParent)
+    inline Transform *GetParent() { return this->m_parent; }
     /// @brief Set this transform's parent, overriding the previous one
     /// @param parent The parent
     void SetParent(Transform *parent);
@@ -62,7 +65,6 @@ public:
 
     /// @returns The actor this transform is associated with
     inline std::shared_ptr<Actor> &GetActor() { return this->m_actor; } 
-    PROPERTY_GETTER_HIDDEN(GetActor)
 
     /// @returns `true` if this transform was created at loading time
     /// as a placeholder
@@ -70,6 +72,8 @@ public:
 
     void Serialize(json &j) const override;
     void Deserialize(const json &j) override;
+
+    std::vector<std::shared_ptr<IPropertyBase>> GetProperties() override;
    
 private:
     std::vector<Transform *> m_children;

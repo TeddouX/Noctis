@@ -13,6 +13,24 @@
 // My apologies to anyone that will have to read this
 // and try to understand it.
 
+#define ENABLE_SERIALIZATION(CLASSNAME) inline static const bool __serializable##CLASSNAME = \
+    ComponentRegistry::GetInstance().RegisterComponentDeserializer<CLASSNAME>(#CLASSNAME); 
+
+#define START_SERIALIZATION(JSON) JSON = json {
+#define END_SERIALIZATION() };
+
+/// @brief Helper macro for serializing a member variable
+#define PROP_TO_JSON(PROPERTY) {#PROPERTY, PROPERTY}
+
+
+/// @brief Helper macro for getting a member
+/// variable from a json object
+#define PROP_FROM_JSON(JSON, PROPERTY) JSON.at(#PROPERTY).get_to(PROPERTY);
+
+
+/// @brief Helper macro to serialize a component
+#define COMPONENT_TO_JSON(COMPONENT) {"type", #COMPONENT} 
+
 
 using json = nlohmann::json;
 

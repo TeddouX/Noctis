@@ -9,7 +9,7 @@ void RenderSystem::Update(const ComponentManager &cm, float dt)
         return;
     }
 
-    const auto &models = cm.GetEntitiesWith<ModelComponent>();
+    auto &models = cm.GetEntitiesWith<ModelComponent>();
 
     glClearColor(.09f, .09f, .09f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -39,7 +39,7 @@ void RenderSystem::Update(const ComponentManager &cm, float dt)
         shader->Use();
         material->UploadData(*shader);
         this->m_camera->UploadData();
-        model->GetModel()->Render(*shader, transform->GetModelMatrix());
+        model.GetModel()->Render(*shader, transform->GetModelMatrix());
     }
 }
 

@@ -3,22 +3,22 @@
 #include <algorithm>
 
 #include "system.hpp"
-#include "../component/light.hpp"
-#include "../component/transform.hpp"
+#include "../component/light_component.hpp"
+#include "../component/transform_component.hpp"
 #include "../../rendering/ssbo.hpp"
 
 
 template <typename _KTy, typename _VTy>
-static std::vector<_VTy> GetAllValues(std::unordered_map<_KTy, std::shared_ptr<_VTy>> map)
+static std::vector<_VTy> GetAllValues(std::unordered_map<_KTy, _VTy> map)
 {
     std::vector<_VTy> values(map.size());
     std::transform(
         map.begin(), 
         map.end(), 
         values.begin(), 
-        [](std::pair<_KTy, std::shared_ptr<_VTy>> pair)
+        [](std::pair<_KTy, _VTy> pair)
         {
-            return *pair.second;
+            return pair.second;
         }
     );
 

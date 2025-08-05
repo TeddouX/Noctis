@@ -16,3 +16,9 @@ void ModelComponent::Deserialize(const json &j)
     // Get a shared ptr to the model from the model name
     this->m_model = AssetManager::GetInstance().GetModel(j["model"]);
 }
+
+
+std::vector<std::shared_ptr<IPropertyBase>> ModelComponent::GetProperties()
+{
+    return { std::make_shared<ModelProperty>(GETTER_FOR(*this->m_model), "Model") };
+}

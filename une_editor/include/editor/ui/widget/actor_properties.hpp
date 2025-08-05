@@ -1,13 +1,13 @@
 #pragma once
 #include <engine/ecs/entity.hpp>
-#include <engine/ecs/component/property.hpp>
-#include <engine/ecs/component/actor.hpp>
+#include <engine/ecs/component/actor_component.hpp>
 #include <engine/scene/scene_manager.hpp>
 #include <engine/math/math.hpp>
 #include <engine/math/color.hpp>
 
 #include "widget.hpp"
-#include "../imgui_utils.hpp"
+#include "../../utils/imgui_utils.hpp"
+#include "../../utils/property_rendering.hpp"
 
 
 
@@ -19,8 +19,5 @@ public:
     void Render() override;
 
 private:
-    static void IterateComponentProperties(std::shared_ptr<IComponent> component);
-    static void HandleActor(IComponent *component);
-    static void ProcessProperty(IProperty *property, IComponent *component);
-    static std::string GenImGuiID(std::string prefix, IProperty *property, IComponent *component);
+    static void HandleActor(Actor *component);
 };
