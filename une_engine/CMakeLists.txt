@@ -70,6 +70,9 @@ set(ENGINE_SOURCES
     "include/engine/scene/scene.hpp"
     "include/engine/scene/scene.inl"
 
+    "include/engine/scripting/engine_bindings.hpp"
+    "include/engine/scripting/script_builder.hpp"
+
     "include/engine/utils/uuid.hpp"
 
     "include/engine/asset_manager.hpp"
@@ -108,6 +111,9 @@ set(ENGINE_SOURCES
 
     "src/scene/scene_manager.cpp"
     "src/scene/scene.cpp"
+
+    "src/scripting/engine_bindings.cpp"
+    "src/scripting/script_builder.cpp"
 
     "src/utils/uuid.cpp"
 

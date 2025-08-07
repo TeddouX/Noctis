@@ -9,21 +9,21 @@ void ComponentArray<T>::Clear()
 
 
 template <typename T>
-void ComponentArray<T>::Insert(Entity entity, const T &component)
+void ComponentArray<T>::Insert(const Entity &entity, const T &component)
 {
     this->m_components.emplace(entity, component);
 }
 
 
 template <typename T>
-void ComponentArray<T>::Remove(Entity entity)
+void ComponentArray<T>::Remove(const Entity &entity)
 {
     this->m_components.erase(entity);
 }
 
 
 template <typename T>
-std::shared_ptr<IComponent> ComponentArray<T>::GetUntyped(Entity entity) const
+std::shared_ptr<IComponent> ComponentArray<T>::GetUntyped(const Entity &entity) const
 {
     if (auto search = this->m_components.find(entity); search != this->m_components.end()) 
         return std::make_shared<T>(search->second);
@@ -33,14 +33,14 @@ std::shared_ptr<IComponent> ComponentArray<T>::GetUntyped(Entity entity) const
 
 
 template <typename T>
-bool ComponentArray<T>::Has(Entity entity) const
+bool ComponentArray<T>::Has(const Entity &entity) const
 {
     return this->m_components.find(entity) != m_components.end();
 }
 
 
 template <typename T>
-T *ComponentArray<T>::Get(Entity entity)
+T *ComponentArray<T>::Get(const Entity &entity)
 {
     if (auto search = this->m_components.find(entity); search != this->m_components.end()) 
         return &search->second;

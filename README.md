@@ -1,6 +1,5 @@
 # Unknown Engine: a simplistic game engine  
 /!\ In developement  
-Trying to reach a ratio of at least 1 comment for 10 lines of code (currently 1/12.6, 364 comments for 4598 loc).  
 Linux and MacOS support are not planned.  
 
 ### Credits
@@ -23,7 +22,6 @@ The editor's UI is made using [Dear ImGui](https://github.com/ocornut/imgui).
 
 __[vcpkg](https://vcpkg.io/en/) and [Cmake](https://cmake.org/) are required.__  
 For __vcpkg__, follow the installation guide on: [Microsoft Learn](https://learn.microsoft.com/en-us/vcpkg/get_started/get-started?pivots=shell-powershell#1---set-up-vcpkg).  
-After installation, add the `vcpkg/bin` folder to __PATH__.   
 
 After installing the required software the project, you will need to create a __`CMakeUserPresets.json`__ in the root of the repo, containing this: (*replace `"PATH/TO/VCPKG"` with the actual path*)  
 ```json

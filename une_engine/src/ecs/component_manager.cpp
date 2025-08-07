@@ -1,7 +1,7 @@
 #include "ecs/component_manager.hpp"
 
 
-const std::vector<std::shared_ptr<IComponent>> ComponentManager::GetAllComponents(Entity entity) const
+std::vector<std::shared_ptr<IComponent>> ComponentManager::GetAllComponents(const Entity &entity) const
 {
     std::vector<std::shared_ptr<IComponent>> allComponents;
 

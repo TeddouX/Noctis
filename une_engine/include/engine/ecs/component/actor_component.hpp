@@ -32,8 +32,6 @@ public:
     void Serialize(json &j) const override;
     void Deserialize(const json &j) override;
 
-    std::vector<std::shared_ptr<IPropertyBase>> GetProperties() override { return {}; }
-    
 private:
     std::string m_name;
     Entity m_entity;

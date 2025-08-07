@@ -2,35 +2,35 @@
 
 
 template <typename T> 
-void ComponentManager::AddComponent(Entity entity, const T &component)
+void ComponentManager::AddComponent(const Entity &entity, const T &component)
 {
     this->GetComponentArray<T>().Insert(entity, component);
 }
 
 
 template <typename T> 
-void ComponentManager::RemoveComponent(Entity entity)
+void ComponentManager::RemoveComponent(const Entity &entity)
 {
     this->GetComponentArray<T>().Remove(entity);
 }
 
 
 template <typename T> 
-bool ComponentManager::HasComponent(Entity entity) const
+bool ComponentManager::HasComponent(const Entity &entity) const
 {
     return this->GetComponentArray<T>().Has(entity);
 }
 
 
 template <typename T> 
-T *ComponentManager::GetComponent(Entity entity) const
+T *ComponentManager::GetComponent(const Entity &entity) const
 {
     return this->GetComponentArray<T>().Get(entity);
 }
 
 
 template <typename T> 
-std::unordered_map<Entity, T> &ComponentManager::GetEntitiesWith() const
+std::unordered_map<Entity, T> &ComponentManager::GetEntitiesWith()
 {
     return this->GetComponentArray<T>().GetAll();
 }

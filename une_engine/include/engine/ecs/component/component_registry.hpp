@@ -50,13 +50,13 @@ public:
 class ComponentRegistry
 {
 public:
-    using AddComponentFun = void(*)(Entity, ComponentManager &cm, std::shared_ptr<IComponent>);
+    using AddComponentFun = void(*)(Entity, std::shared_ptr<IComponent>);
     using ComponentDeserializerFun = std::shared_ptr<ISerializable>(*)(const json&);
 
     static ComponentRegistry &GetInstance();
 
     /// @brief Adds component from name to an entity
-    void AddComponentFromName(const std::string &name, Entity e, ComponentManager &cm, std::shared_ptr<IComponent> comp) const;
+    void AddComponentFromName(const std::string &name, Entity e, std::shared_ptr<IComponent> comp) const;
 
     /// @brief Adds a component to the registry so it can be used when deserializing 
     template <typename T>

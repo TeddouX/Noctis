@@ -5,9 +5,9 @@ template <typename T>
 bool ComponentRegistry::RegisterComponent(const std::string &name)
 {
     this->m_componentReg[name] = 
-        [](Entity e, ComponentManager &cm, std::shared_ptr<IComponent> comp)
+        [](Entity e, std::shared_ptr<IComponent> comp)
         {
-            cm.AddComponent<T>(e, *std::static_pointer_cast<T>(comp));
+            e.AddComponent<T>(*std::static_pointer_cast<T>(comp));
         };
 
     return true;

@@ -16,5 +16,5 @@ public:
     static void CreateDirectionalLight(Transform *parent);
 
 private:
-    static void AddDefaultComponents(ComponentManager &cm, Entity entity, Transform *parent, const std::string &name);
+    static void AddDefaultComponents(Entity entity, Transform *parent, const std::string &name);
 };

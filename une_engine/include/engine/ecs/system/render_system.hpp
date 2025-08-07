@@ -14,7 +14,7 @@
 class RenderSystem : public ISystem 
 {
 public:
-    void Update(const ComponentManager &cm, float dt) override;
+    void Update(ComponentManager &cm, float dt) override;
 
     // Set the camera used for drawing
     void SetCamera(Camera *camera);

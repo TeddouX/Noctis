@@ -6,5 +6,9 @@ class ISystem
 {
 public:
     virtual ~ISystem() = default;
-    virtual void Update(const ComponentManager &cm, float dt) = 0;
+
+    // Start is called once
+    virtual void Start(ComponentManager &cm) {};
+    // Update is called every frame
+    virtual void Update(ComponentManager &cm, float dt) = 0;
 };

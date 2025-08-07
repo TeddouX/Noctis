@@ -54,27 +54,6 @@ void EditorUI::Render()
 
     // Show popups etc...
     this->HandleState();
-
-    EditorState state = EDITOR()->GetState();
-    if (state == EditorState::PROJECT_SELECTION)
-    {
-        this->m_mainWindow.SetResizable(false);
-        this->m_psUI.Render();
-    }
-    else if (state == EditorState::IN_EDITOR)
-    {
-        this->m_mainWindow.SetResizable(true);
-
-        // Show the menu on top of the window
-        this->ShowMenuBar();
-
-        // Update all widgets
-        for (std::shared_ptr<IWidget> &widget : this->m_allWidgets)
-        {
-            widget->Update();
-            widget->Render();
-        }
-    }
     
     ImGui::PopFont();
 
@@ -147,6 +126,7 @@ void EditorUI::ShowMenuBar()
 
 void EditorUI::HandleState()
 {
+    // Handle the ui state
     if (this->m_state.showCreateScenePopup)
     {
         ImGui::OpenPopup("Create Scene##EDITOR_POPUP");
@@ -154,6 +134,28 @@ void EditorUI::HandleState()
     }
 
     this->ShowCreateSceneModal();
+
+    // Handle the editor state
+    EditorState state = EDITOR()->GetState();
+    if (state == EditorState::PROJECT_SELECTION)
+    {
+        this->m_mainWindow.SetResizable(false);
+        this->m_psUI.Render();
+    }
+    else if (state == EditorState::IN_EDITOR)
+    {
+        this->m_mainWindow.SetResizable(true);
+
+        // Show the menu on top of the window
+        this->ShowMenuBar();
+
+        // Update all widgets
+        for (std::shared_ptr<IWidget> &widget : this->m_allWidgets)
+        {
+            widget->Update();
+            widget->Render();
+        }
+    }
 }
 
 

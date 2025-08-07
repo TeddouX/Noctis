@@ -15,7 +15,7 @@ using json = nlohmann::json;
 class IComponent
 {
 public:
-    virtual std::vector<std::shared_ptr<IPropertyBase>> GetProperties() = 0; 
+    virtual std::vector<std::shared_ptr<IPropertyBase>> GetProperties() { return {}; } 
     virtual std::string GetName() const = 0; 
 };
 

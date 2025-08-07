@@ -4,9 +4,11 @@
 #include <typeindex>
 #include <stdexcept>
 
-#include "entity.hpp"
 #include "component_array.hpp"
 #include "../logger.hpp"
+
+
+class Entity;
 
 
 class ComponentManager 
@@ -15,21 +17,21 @@ class ComponentManager
 
 public:
     template <typename T> 
-    void AddComponent(Entity entity, const T &component);
+    void AddComponent(const Entity &entity, const T &component);
 
     template <typename T> 
-    void RemoveComponent(Entity entity);
+    void RemoveComponent(const Entity &entity);
     
     template <typename T> 
-    bool HasComponent(Entity entity) const;
+    bool HasComponent(const Entity &entity) const;
 
     template <typename T> 
-    T *GetComponent(Entity entity) const;
+    T *GetComponent(const Entity &entity) const;
 
     template <typename T> 
-    std::unordered_map<Entity, T> &GetEntitiesWith() const;
+    std::unordered_map<Entity, T> &GetEntitiesWith();
 
-    const std::vector<std::shared_ptr<IComponent>> GetAllComponents(Entity entity) const;
+    std::vector<std::shared_ptr<IComponent>> GetAllComponents(const Entity &entity) const;
 
     void Clear();
 

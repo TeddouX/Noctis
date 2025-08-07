@@ -26,7 +26,7 @@ T *SystemsManager::GetSystem()
 
 
 template <typename T>
-void SystemsManager::UpdateSystem(ComponentManager cm, float dt)
+void SystemsManager::UpdateSystem(ComponentManager &cm, float dt)
 {
 
     for (std::shared_ptr<ISystem> &system : this->m_systems)

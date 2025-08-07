@@ -29,7 +29,7 @@ static std::vector<_VTy> GetAllValues(std::unordered_map<_KTy, _VTy> map)
 class LightingSystem : public ISystem
 {
 public:
-    void Update(const ComponentManager &cm, float dt) override;
+    void Update(ComponentManager &cm, float dt) override;
 
 private:
     SSBO<DirectionalLight::Data> m_dirLightSSBO = SSBO<DirectionalLight::Data>(2);

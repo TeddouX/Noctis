@@ -1,16 +1,15 @@
 #include "utils/actor_creation_helper.hpp"
 
 
-void ActorCreationHelper::AddDefaultComponents(
-    ComponentManager &cm, 
+void ActorCreationHelper::AddDefaultComponents( 
     Entity entity, 
     Transform *parent, 
     const std::string &name
 )
 {
     Actor actor(name, entity);
-    cm.AddComponent(entity, actor);
-    cm.AddComponent(entity, Transform(
+    entity.AddComponent(actor);
+    entity.AddComponent(Transform(
         Vec3(0), // 0, 0, 0
         Vec3(0), // No rotation 
         parent ? Vec3(0) : Vec3(1), // Because scale is also relative to the parent 
@@ -23,11 +22,10 @@ void ActorCreationHelper::AddDefaultComponents(
 void ActorCreationHelper::CreateEmpty(Transform *parent)
 {
     Scene *currScene = SCENE_MANAGER().GetCurrScene();
-    ComponentManager &cm = currScene->GetComponentManager();
     
-    Entity entity = Entity::Create();
+    Entity entity(&currScene->GetComponentManager());
     
-    AddDefaultComponents(cm, entity, parent, "Empty Actor");
+    AddDefaultComponents(entity, parent, "Empty Actor");
 
     currScene->AddEntity(entity);
     currScene->SetSelectedEntity(entity);
@@ -39,18 +37,17 @@ void ActorCreationHelper::CreateEmpty(Transform *parent)
 void ActorCreationHelper::CreateSimpleShape(std::string_view modelName, Transform *parent)
 {
     Scene *currScene = SCENE_MANAGER().GetCurrScene();
-    ComponentManager &cm = currScene->GetComponentManager();
     AssetManager &am = AssetManager::GetInstance();
     
-    Entity entity = Entity::Create();
+    Entity entity(&currScene->GetComponentManager());
     std::shared_ptr<Model> model = am.GetModel(std::string(modelName));
     
-    AddDefaultComponents(cm, entity, parent, model->GetBeautifiedName());
+    AddDefaultComponents(entity, parent, model->GetBeautifiedName());
 
-    cm.AddComponent(entity, ModelComponent(model));
+    entity.AddComponent(ModelComponent(model));
 
     std::shared_ptr<Shader> shader = am.GetShader(std::string(LIT_SHADER_NAME));
-    cm.AddComponent(entity, Material("default", shader));
+    entity.AddComponent(Material("default", shader));
 
     currScene->AddEntity(entity);
     currScene->SetSelectedEntity(entity);
@@ -62,13 +59,12 @@ void ActorCreationHelper::CreateSimpleShape(std::string_view modelName, Transfor
 void ActorCreationHelper::CreateDirectionalLight(Transform *parent)
 {
     Scene *currScene = SCENE_MANAGER().GetCurrScene();
-    ComponentManager &cm = currScene->GetComponentManager();
 
-    Entity entity = Entity::Create();
+    Entity entity(&currScene->GetComponentManager());
 
-    AddDefaultComponents(cm, entity, parent, "Directional Light");
+    AddDefaultComponents(entity, parent, "Directional Light");
 
-    cm.AddComponent(entity, DirectionalLight(
+    entity.AddComponent(DirectionalLight(
         Color::White(), 
         Color::White(), 
         Color::White()

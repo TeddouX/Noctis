@@ -47,7 +47,7 @@ Window::Window(int width, int height, const std::string &title)
     glfwSetCursorPosCallback(this->m_glfwWindow, Window::GLFWCursorPosCallback);
     glfwSetMouseButtonCallback(this->m_glfwWindow, Window::GLFWMouseButtonCallback);
 
-    // Make this window usable in static callback functions
+    // Make our window class usable in static callback functions
     glfwSetWindowUserPointer(this->m_glfwWindow, this);
     glfwMakeContextCurrent(this->m_glfwWindow);
 
@@ -82,15 +82,14 @@ void Window::OpenGLDbgMessCallback(
     GLuint id, 
     GLenum severity,
     GLsizei length, 
-    const GLchar* message, 
-    const void* userParam
+    const GLchar *message, 
+    const GLvoid *userParam
 ) 
 {
     if (severity == GL_DEBUG_SEVERITY_LOW)
     {
 #if OPENGL_DBG_LOW_ENABLE
         LOG_INFO("[GL Debug] {}", message)
-        return;
 #endif
     }
     else if (severity == GL_DEBUG_SEVERITY_MEDIUM)
@@ -130,7 +129,7 @@ void Window::GLFWErrorCallback(int code, const char *desc)
 }
 
 
-void Window::GLFWWindowResizeCallback(GLFWwindow* glfwWindow, int width, int height)
+void Window::GLFWWindowResizeCallback(GLFWwindow *glfwWindow, int width, int height)
 {
     Window *window = (Window *)glfwGetWindowUserPointer(glfwWindow);
 
@@ -141,7 +140,7 @@ void Window::GLFWWindowResizeCallback(GLFWwindow* glfwWindow, int width, int hei
 }
 
 
-void Window::GLFWInputCallback(GLFWwindow* glfwWindow, int key, int scancode, int action, int mods)
+void Window::GLFWInputCallback(GLFWwindow *glfwWindow, int key, int scancode, int action, int mods)
 {
     Window *window = (Window *)glfwGetWindowUserPointer(glfwWindow);
 
@@ -155,7 +154,7 @@ void Window::GLFWInputCallback(GLFWwindow* glfwWindow, int key, int scancode, in
 }
 
 
-void Window::GLFWCursorPosCallback(GLFWwindow* glfwWindow, double xpos, double ypos)
+void Window::GLFWCursorPosCallback(GLFWwindow *glfwWindow, double xpos, double ypos)
 {
     Window *window = (Window *)glfwGetWindowUserPointer(glfwWindow);
     
@@ -167,7 +166,7 @@ void Window::GLFWCursorPosCallback(GLFWwindow* glfwWindow, double xpos, double y
 }
 
 
-void Window::GLFWMouseButtonCallback(GLFWwindow* glfwWindow, int button, int action, int mods)
+void Window::GLFWMouseButtonCallback(GLFWwindow *glfwWindow, int button, int action, int mods)
 {
     Window *window = (Window *)glfwGetWindowUserPointer(glfwWindow);
     

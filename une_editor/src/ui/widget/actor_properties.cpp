@@ -16,10 +16,9 @@ void ActorPropertiesWidget::Render()
 
     if (currScene && selectedEntity.IsValid())
     {
-        ComponentManager &cm = currScene->GetComponentManager();
-        auto allComponents = cm.GetAllComponents(selectedEntity);
+        auto allComponents = selectedEntity.GetAllComponents();
 
-        auto actor = cm.GetComponent<Actor>(selectedEntity);
+        auto actor = selectedEntity.GetComponent<Actor>();
         // The actor component is handled differently from the others
         // It shouldn't be rendered as a collapsing header
         if (actor)
@@ -32,7 +31,7 @@ void ActorPropertiesWidget::Render()
         }
 
         // Transform is processed individually here because it should be inserted at the top of everything
-        RenderComponentProperties(cm.GetComponent<Transform>(selectedEntity));
+        RenderComponentProperties(selectedEntity.GetComponent<Transform>());
 
         for (std::shared_ptr<IComponent> component : allComponents)
         {

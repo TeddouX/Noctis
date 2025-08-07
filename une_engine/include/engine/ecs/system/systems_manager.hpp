@@ -23,11 +23,11 @@ public:
     T *GetSystem();
 
     // Update all registered systems
-    void UpdateAll(ComponentManager cm, float dt);
+    void UpdateAll(ComponentManager &cm, float dt);
 
     // Update a singular system of type T
     template <typename T>
-    void UpdateSystem(ComponentManager cm, float dt);
+    void UpdateSystem(ComponentManager &cm, float dt);
 };
 
 #include "systems_manager.inl"

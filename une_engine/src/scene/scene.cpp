@@ -140,14 +140,14 @@ void Scene::Load()
         }
 
         
-        Entity entity = Entity::Create();
+        Entity entity;
         actor->SetEntity(entity);
 
         // Add the entity to this scene's entity list
         this->AddEntity(entity);
 
         // Add the actor component to the entity
-        this->m_componentManager.AddComponent<Actor>(entity, *actor);
+        entity.AddComponent<Actor>(*actor);
 
         json allComponentsJson = actorJson["components"];
         for (const json &componentJson : allComponentsJson)
@@ -165,8 +165,6 @@ void Scene::Load()
                 componentJson["type"],
                 // The entity it will be added to
                 entity,
-                // This scene's component manager 
-                this->m_componentManager,
                 // Pointer to the actual component
                 std::dynamic_pointer_cast<IComponent>(serializableComponent)
             );

@@ -1,7 +1,7 @@
 #include "ecs/system/render_system.hpp"
 
 
-void RenderSystem::Update(const ComponentManager &cm, float dt)
+void RenderSystem::Update(ComponentManager &cm, float dt)
 {
     if (!this->m_camera)
     {
@@ -16,8 +16,8 @@ void RenderSystem::Update(const ComponentManager &cm, float dt)
 
     for (auto &[entity, model] : models) 
     {
-        auto transform = cm.GetComponent<Transform>(entity);
-        auto material = cm.GetComponent<Material>(entity);
+        auto transform = entity.GetComponent<Transform>();
+        auto material = entity.GetComponent<Material>();
         
         // No material is a problem
         if (!material)

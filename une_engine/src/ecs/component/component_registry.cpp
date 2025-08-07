@@ -8,11 +8,11 @@ ComponentRegistry &ComponentRegistry::GetInstance()
 }
     
 
-void ComponentRegistry::AddComponentFromName(const std::string &name, Entity e, ComponentManager &cm, std::shared_ptr<IComponent> comp) const
+void ComponentRegistry::AddComponentFromName(const std::string &name, Entity e, std::shared_ptr<IComponent> comp) const
 {
     auto it = this->m_componentReg.find(name);
     if (it != this->m_componentReg.end()) 
-        it->second(e, cm, comp);
+        it->second(e, comp);
     else 
         LOG_ERR("Component {} is not registered.", name)
 }
