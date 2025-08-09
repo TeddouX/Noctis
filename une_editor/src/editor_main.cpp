@@ -3,8 +3,6 @@
 
 int main()
 {
-    Editor::Init();
-    Editor::GetInstance()->Run();
-    
+    EDITOR().Run();
     return 0;
 }

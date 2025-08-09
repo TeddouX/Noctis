@@ -96,14 +96,14 @@ void ProjectSelectionUI::CreateProjectFolder(const fs::path &folder)
 
 void ProjectSelectionUI::LoadProject(const fs::path &folder, bool firstTime)
 {
-    Project *project = new Project(folder);
+    Project project(folder);
     
-    if (!project->Load(firstTime))
+    if (!project.Load(firstTime))
     {
         LOG_ERR("Project {} couldn't be loaded. See errors in console.", folder.string());
         return;
     }
 
-    EDITOR()->SetCurrProject(project);
-    EDITOR()->SetState(EditorState::IN_EDITOR);
+    EDITOR().SetCurrProject(project);
+    EDITOR().SetState(EditorState::IN_EDITOR);
 }

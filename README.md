@@ -1,6 +1,47 @@
 # Unknown Engine: a simplistic game engine  
 /!\ In developement  
-Linux and MacOS support are not planned.  
+Linux and MacOS support is not planned.  
+
+### Editor
+The editor's UI is made using [ImGui](https://github.com/ocornut/imgui).  
+  
+<img width="1920" height="1080" alt="Screenshot of Uknown Engine's editor's UI" src="https://github.com/user-attachments/assets/0673b0fa-722e-4579-9e54-8539cd8fa626" />
+
+### Build locally
+
+__[vcpkg](https://vcpkg.io/en/) and [CMake](https://cmake.org/) are required.__  
+For __vcpkg__, follow the installation guide on: [Microsoft Learn](https://learn.microsoft.com/en-us/vcpkg/get_started/get-started?pivots=shell-powershell#1---set-up-vcpkg). For this project, following the tutorial past step one is not necessary.  
+
+After installing vcpkg and CMake, you will need to create a file named __`CMakeUserPresets.json`__ in the root of the cloned repository containing this:  
+```json
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "default",
+      "inherits": "vcpkg",
+      "environment": {
+        "VCPKG_ROOT": "F:/PATH/TO/VCPKG",
+        "VCPKG_DEFAULT_TRIPLET": "HOST TRIPLET"
+      }
+    }
+  ]
+} 
+```  
+Replace `"PATH/TO/VCPKG"` with the path to the vcpkg installation and `"VCPKG_DEFAULT_TRIPLET"` with x64-window for 64-bit windows and x32-windows for 32 bit windows, depending on your installation. 
+
+Then run:
+```cmd
+cmake --preset default
+```
+to build the CMake cache and install required __vcpkg__ libraries, this might take some time.  
+
+And finally:
+```cmd
+mkdir build
+cmake --build .\build\
+```
+to build the project.
 
 ### Credits
 - [Assimp](https://github.com/assimp/assimp) - The official Open-Asset-Importer-Library
@@ -12,42 +53,3 @@ Linux and MacOS support are not planned.
 - [Nlohmann-json](https://github.com/nlohmann/json) - JSON for Modern C++
 - [Fmt](https://github.com/fmtlib/fmt) - A modern formatting library
 - [AngelScript](https://www.angelcode.com/angelscript/) - An extremely flexible cross-platform scripting library  
-
-### Editor
-The editor's UI is made using [Dear ImGui](https://github.com/ocornut/imgui).  
-  
-<img width="1920" height="1080" alt="Screenshot of Uknown Engine's editor's UI" src="https://github.com/user-attachments/assets/0673b0fa-722e-4579-9e54-8539cd8fa626" />
-
-### Build locally
-
-__[vcpkg](https://vcpkg.io/en/) and [Cmake](https://cmake.org/) are required.__  
-For __vcpkg__, follow the installation guide on: [Microsoft Learn](https://learn.microsoft.com/en-us/vcpkg/get_started/get-started?pivots=shell-powershell#1---set-up-vcpkg).  
-
-After installing the required software the project, you will need to create a __`CMakeUserPresets.json`__ in the root of the repo, containing this: (*replace `"PATH/TO/VCPKG"` with the actual path*)  
-```json
-{
-  "version": 2,
-  "configurePresets": [
-    {
-      "name": "default",
-      "inherits": "vcpkg",
-      "environment": {
-        "VCPKG_ROOT": "PATH/TO/VCPKG"
-      }
-    }
-  ]
-}
-```
-Then run:
-```cmd
-cmake --preset default
-```
-to build the CMake cache and install required __vcpkg__ libraries.  
-
-And finally:
-```cmd
-mkdir build
-cmake --build .\build\
-```
-to __build__ the project. The *.exe* file can be found under `build/une_editor/Debug/`, if built using MSVC.
-

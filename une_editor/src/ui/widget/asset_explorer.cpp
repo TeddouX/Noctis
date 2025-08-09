@@ -50,14 +50,15 @@ void AssetExplorerWidget::RenderFolderView() const
 {
     ImGui::Begin("Folder View", nullptr, ImGuiWindowFlags_NoMove);
 
-    Project *currProject = EDITOR()->GetCurrProject();
-    if (currProject)
+    Project &currProject = EDITOR().GetCurrProject();
+
+    if (currProject.IsLoaded())
     {
         // Iterate through all directories in the assets folder
-        for (const auto &entry : fs::directory_iterator(currProject->GetAssetsFolder()))
+        for (const auto &entry : fs::directory_iterator(currProject.GetAssetsFolder()))
             this->IterateDirectory(entry);
     }
-        
+    
 
     ImGui::End();
 }

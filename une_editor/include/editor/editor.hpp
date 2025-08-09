@@ -27,25 +27,23 @@ class EditorUI;
 class Editor
 {
 public:
-    static void    Init();
-    static Editor *GetInstance();
+    static Editor &GetInstance();
 
     EditorState GetState() const { return this->m_state; }
     void SetState(EditorState state) { this->m_state = state; }
 
-    Project *GetCurrProject() { return this->m_currProject; }
-    void SetCurrProject(Project *project) { this->m_currProject = project; };
-
+    Project &GetCurrProject() { return this->m_currProject; }
+    void SetCurrProject(const Project &project) { this->m_currProject = project; };
     
     void Run();
     
 private:
-    inline static Editor *m_instance = nullptr;
+    static Editor s_instance;
     
-    Project     *m_currProject = nullptr;
-    EditorState  m_state;
-    Window       m_window;
-    EditorUI     m_ui;
+    Project     m_currProject;
+    EditorState m_state;
+    Window      m_window;
+    EditorUI    m_ui;
     
     Editor();
 };

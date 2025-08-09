@@ -57,6 +57,8 @@ bool Project::Load(bool firstTime)
     }
 
     SCENE_MANAGER().SetScenesFolder(this->GetScenesFolder());
+
+    this->m_loaded = true;
     
     return true;
 }

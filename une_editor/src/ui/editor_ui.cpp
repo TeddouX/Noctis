@@ -136,7 +136,7 @@ void EditorUI::HandleState()
     this->ShowCreateSceneModal();
 
     // Handle the editor state
-    EditorState state = EDITOR()->GetState();
+    EditorState state = EDITOR().GetState();
     if (state == EditorState::PROJECT_SELECTION)
     {
         this->m_mainWindow.SetResizable(false);

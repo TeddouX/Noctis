@@ -49,7 +49,6 @@ set(EDITOR_SOURCES
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${EDITOR_SOURCES})
 
 add_executable(UNE_Editor ${EDITOR_SOURCES})
-add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
 if (MSVC)
     # Set visual studio CWD
@@ -61,6 +60,15 @@ if (MSVC)
     set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY 
         VS_STARTUP_PROJECT UNE_Editor
     )
+
+    add_custom_command(TARGET UNE_Editor POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:UNE_Engine>
+            $<TARGET_PDB_FILE:UNE_Engine>
+            $<TARGET_RUNTIME_DLLS:UNE_Engine>
+            $<TARGET_FILE_DIR:UNE_Editor>
+        COMMAND_EXPAND_LISTS
+    )
 endif()
 
 target_link_libraries(UNE_Editor PRIVATE 
@@ -71,11 +79,4 @@ target_link_libraries(UNE_Editor PRIVATE
 target_include_directories(UNE_Editor 
     PUBLIC "include"
     PRIVATE "include/editor"
-)
-
-add_custom_command(TARGET UNE_Editor POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        $<TARGET_FILE:UNE_Engine>
-        $<TARGET_PDB_FILE:UNE_Engine>
-        $<TARGET_FILE_DIR:UNE_Editor>
 )

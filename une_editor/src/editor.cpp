@@ -1,6 +1,9 @@
 #include "editor.hpp"
 
 
+Editor Editor::s_instance;
+
+
 Editor::Editor()
     : m_state(EditorState::PROJECT_SELECTION),
     m_window(800, 600, "Unknown Engine"), 
@@ -9,23 +12,9 @@ Editor::Editor()
 }
 
 
-void Editor::Init()
+Editor &Editor::GetInstance()
 {
-    LOG_INFO("Initializing editor.");
-
-    m_instance = new Editor();
-}
-
-
-Editor *Editor::GetInstance()
-{
-    if (!m_instance)
-    {
-        LOG_ERR("Editor instance not initialized.");
-        return nullptr;
-    }
-
-    return m_instance;
+    return s_instance;
 }
 
 
@@ -34,6 +23,7 @@ void Editor::Run()
     while (!this->m_window.ShouldClose())
     {
         glfwPollEvents();
+
         this->m_ui.Render();
         this->m_window.PostRender();
     }
