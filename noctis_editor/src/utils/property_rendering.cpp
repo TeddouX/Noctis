@@ -1,4 +1,9 @@
-#include "utils/property_rendering.hpp"
+#include "property_rendering.hpp"
+
+#include <imgui.h>
+#include <engine/ecs/component/property/all_properties.hpp>
+
+#include "imgui_utils.hpp"
 
 
 std::string GenImGuiID(

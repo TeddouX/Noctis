@@ -5,6 +5,7 @@
 
 #include "widget.hpp"
 
+
 class Editor;
 
 class AssetExplorerWidget : public IWidget

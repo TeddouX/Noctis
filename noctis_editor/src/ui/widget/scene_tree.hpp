@@ -1,6 +1,4 @@
 #pragma once
-#include <engine/scene/scene_manager.hpp>
-
 #include "widget.hpp"
 #include "../../utils/actor_creation_helper.hpp"
 

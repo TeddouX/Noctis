@@ -1,4 +1,12 @@
-#include "ui/widget/actor_properties.hpp"
+#include "actor_properties.hpp"
+
+#include <engine/ecs/entity.hpp>
+#include <engine/scene/scene_manager.hpp>
+#include <engine/math/math.hpp>
+#include <engine/math/color.hpp>
+
+#include "../../utils/imgui_utils.hpp"
+#include "../../utils/property_rendering.hpp"
 
 
 void ActorPropertiesWidget::Render()

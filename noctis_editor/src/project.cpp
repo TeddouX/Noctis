@@ -1,5 +1,10 @@
 #include "project.hpp"
 
+#include <fmt/format.h>
+
+#include <engine/logger.hpp>
+#include <engine/scene/scene_manager.hpp>
+
 
 Project::Project(const fs::path &rootDir, const std::string &name)
     : m_rootDir(rootDir), m_name(name)
@@ -51,11 +56,11 @@ bool Project::Load(bool firstTime)
         fs::create_directories(this->GetAssetsFolder());
     
         // Load all embedded assets
-        AssetManager::GetInstance().LoadEmbedded();
 
         this->LoadScenes();
     }
 
+    AssetManager::GetInstance().LoadEmbedded();
     SCENE_MANAGER().SetScenesFolder(this->GetScenesFolder());
 
     this->m_loaded = true;

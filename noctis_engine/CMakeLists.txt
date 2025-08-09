@@ -4,7 +4,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 find_package(nlohmann_json CONFIG REQUIRED)
-find_package(stackwalker   CONFIG REQUIRED)
 find_package(Angelscript   CONFIG REQUIRED)
 find_package(assimp        CONFIG REQUIRED)
 find_package(glfw3         CONFIG REQUIRED)
@@ -137,7 +136,6 @@ target_compile_definitions(NoctisEngine
 )
 
 target_link_libraries(NoctisEngine PUBLIC
-    unofficial::stackwalker::StackWalker
 	nlohmann_json::nlohmann_json
     Angelscript::angelscript
 	assimp::assimp

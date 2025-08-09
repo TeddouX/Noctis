@@ -1,4 +1,6 @@
-#include "ui/widget/scene_tree.hpp"
+#include "scene_tree.hpp"
+
+#include <engine/scene/scene_manager.hpp>
 
 
 void SceneTreeWidget::Render()

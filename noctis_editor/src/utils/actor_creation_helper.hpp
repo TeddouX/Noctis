@@ -1,9 +1,5 @@
 #pragma once
-#include <regex>
-
-#include <engine/asset_manager.hpp>
-#include <engine/scene/scene_manager.hpp>
-#include <engine/ecs/component/all_components.hpp>
+#include <engine/ecs/component/transform_component.hpp>
 
 
 class ActorCreationHelper

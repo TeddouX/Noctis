@@ -1,11 +1,7 @@
 #pragma once
 #include <string>
-#include <filesystem>
-#include <fmt/format.h>
 
-#include <engine/logger.hpp>
 #include <engine/filesystem.hpp>
-#include <engine/scene/scene_manager.hpp>
 
 
 class Project

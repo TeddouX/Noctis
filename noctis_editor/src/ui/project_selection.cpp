@@ -1,5 +1,12 @@
-#include "ui/project_selection.hpp"
-#include "editor.hpp"
+#include <sstream>
+#include <imgui.h>
+#include <imgui_internal.h>
+
+#include "project_selection.hpp"
+
+#include "../editor.hpp"
+#include "../project.hpp"
+#include "../utils/imgui_utils.hpp"
 
 
 void ProjectSelectionUI::Render()
@@ -82,15 +89,18 @@ void ProjectSelectionUI::CreateProjectFolder(const fs::path &folder)
     // of the selected path
     fs::path fullPath = folder / (projName + "\\");
 
-    if (fs::is_empty(fullPath))
+    if (!fs::exists(fullPath))
     {
         // Create all directories in the project path
         fs::create_directories(fullPath);
 
-        this->LoadProject(folder, true);
+        this->LoadProject(fullPath, true);
     }
+    else if (fs::is_empty(fullPath))
+        this->LoadProject(fullPath, true);
     else
         LOG_ERR("Project folder: {} is not empty.", fullPath.string());
+
 }
 
 

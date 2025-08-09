@@ -1,8 +1,5 @@
 #pragma once
-#include <iostream>
-
 #include <engine/window.hpp>
-#include <engine/scene/scene_manager.hpp>
 #include <engine/rendering/framebuffer.hpp>
 #include <engine/rendering/camera.hpp>
 

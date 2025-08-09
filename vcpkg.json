@@ -20,7 +20,6 @@
         {
             "name": "angelscript",
             "features": ["addons"]
-        },
-        "stackwalker"
+        }
     ]
 }

@@ -1,10 +1,7 @@
-#include <imgui.h>
 
 #include <engine/ecs/component/component.hpp>
 #include <engine/ecs/component/property/property.hpp>
-#include <engine/ecs/component/property/all_properties.hpp>
 
-#include "imgui_utils.hpp"
 
 
 std::string GenImGuiID(

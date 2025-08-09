@@ -1,5 +1,18 @@
-#include "ui/editor_ui.hpp"
-#include "editor.hpp"
+#include "editor_ui.hpp"
+
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
+#include <imgui_internal.h>
+
+#include <engine/scene/scene_manager.hpp>
+
+#include "widget/scene_display.hpp"
+#include "widget/scene_tree.hpp"
+#include "widget/asset_explorer.hpp"
+#include "widget/actor_properties.hpp"
+#include "widget/console.hpp"
+#include "../editor.hpp"
+#include "../utils/imgui_utils.hpp"
 
 
 EditorUI::EditorUI(Window &window, const char *glslVers)

@@ -1,12 +1,5 @@
 #pragma once
-#include <sstream>
-#include <imgui.h>
-#include <imgui_internal.h>
-
 #include <engine/filesystem.hpp>
-
-#include "../utils/imgui_utils.hpp"
-#include "../project.hpp"
 
 
 class ProjectSelectionUI

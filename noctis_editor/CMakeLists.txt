@@ -8,22 +8,22 @@ set(EDITOR_SOURCES
     # -------------------
     #      Headers
     # -------------------
-    "include/editor/ui/widget/actor_properties.hpp"
-    "include/editor/ui/widget/asset_explorer.hpp"
-    "include/editor/ui/widget/console.hpp"
-    "include/editor/ui/widget/scene_display.hpp"
-    "include/editor/ui/widget/scene_tree.hpp"
-    "include/editor/ui/widget/widget.hpp"
+    "src/ui/widget/actor_properties.hpp"
+    "src/ui/widget/asset_explorer.hpp"
+    "src/ui/widget/console.hpp"
+    "src/ui/widget/scene_display.hpp"
+    "src/ui/widget/scene_tree.hpp"
+    "src/ui/widget/widget.hpp"
 
-    "include/editor/ui/editor_ui.hpp"
-    "include/editor/ui/project_selection.hpp"
+    "src/ui/editor_ui.hpp"
+    "src/ui/project_selection.hpp"
 
-    "include/editor/utils/actor_creation_helper.hpp"
-    "include/editor/utils/imgui_utils.hpp"
-    "include/editor/utils/property_rendering.hpp"
+    "src/utils/actor_creation_helper.hpp"
+    "src/utils/imgui_utils.hpp"
+    "src/utils/property_rendering.hpp"
 
-    "include/editor/editor.hpp"
-    "include/editor/project.hpp"
+    "src/editor.hpp"
+    "src/project.hpp"
 
     # -------------------
     #    Source files

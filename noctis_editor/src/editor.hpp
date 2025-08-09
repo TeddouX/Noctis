@@ -1,8 +1,4 @@
 #pragma once
-#include <stdio.h>
-#include <signal.h>
-#include <StackWalker.h>
-
 #include <engine/window.hpp>
 
 #include "project.hpp"

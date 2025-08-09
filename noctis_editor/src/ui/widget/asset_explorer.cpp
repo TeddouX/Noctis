@@ -1,5 +1,5 @@
-#include "ui/widget/asset_explorer.hpp"
-#include "editor.hpp"
+#include "asset_explorer.hpp"
+#include "../../editor.hpp"
 
 
 void AssetExplorerWidget::Render()

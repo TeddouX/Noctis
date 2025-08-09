@@ -1,4 +1,11 @@
-#include "utils/actor_creation_helper.hpp"
+#include "actor_creation_helper.hpp"
+
+#include <engine/asset_manager.hpp>
+#include <engine/scene/scene_manager.hpp>
+#include <engine/ecs/component/model_component.hpp>
+#include <engine/ecs/component/actor_component.hpp>
+#include <engine/ecs/component/material_component.hpp>
+#include <engine/ecs/component/light_component.hpp>
 
 
 void ActorCreationHelper::AddDefaultComponents( 

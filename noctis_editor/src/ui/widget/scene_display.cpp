@@ -1,4 +1,6 @@
-#include "ui/widget/scene_display.hpp"
+#include "scene_display.hpp"
+
+#include <engine/scene/scene_manager.hpp>
 
 
 void SceneDisplayWidget::Render()
