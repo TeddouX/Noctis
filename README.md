@@ -1,4 +1,4 @@
-# Unknown Engine: a simplistic game engine  
+# Noctis: a simplistic game engine  
 /!\ In developement  
 Linux and MacOS support is not planned.  
 
@@ -48,7 +48,7 @@ to build the project.
 - [Glfw3](https://github.com/glfw/glfw) - A multi-platform library for OpenGL, OpenGL ES, Vulkan, window and input
 - [GLM](https://github.com/g-truc/glm) - OpenGL Mathematics
 - [Dear ImGui](https://github.com/ocornut/imgui) - Bloat-free Graphical User interface for C++ with minimal dependencies
-- [STB](https://github.com/nothings/stb) - Single-file public domain libraries for C/C++ (*Unknown Engine uses [stb_image.h](https://github.com/nothings/stb/blob/master/stb_image.h) for image loading*).
+- [STB](https://github.com/nothings/stb) - Single-file public domain libraries for C/C++ (*Noctis uses [stb_image.h](https://github.com/nothings/stb/blob/master/stb_image.h) for image loading*).
 - [Glad](https://github.com/Dav1dde/glad) - Multi-Language Vulkan/GL/GLES/EGL/GLX/WGL Loader-Generator based on the official specs. Use [this](https://gen.glad.sh/) to generate a loader.
 - [Nlohmann-json](https://github.com/nlohmann/json) - JSON for Modern C++
 - [Fmt](https://github.com/fmtlib/fmt) - A modern formatting library

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(UnknownEngine)
+project(Noctis)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -9,6 +9,6 @@ if (NOT WIN32)
 endif()
 
 add_subdirectory(thirdparty/as_addons)
-add_subdirectory(une_engine)
-add_subdirectory(une_editor)
+add_subdirectory(noctis_engine)
+add_subdirectory(noctis_editor)
 # add_subdirectory(uke_runtime)
