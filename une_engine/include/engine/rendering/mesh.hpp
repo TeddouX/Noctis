@@ -7,7 +7,7 @@
 #include "shader.hpp"
 
 
-class Mesh
+class UNE_API Mesh
 {
 public:
     Mesh(std::vector<Vertex> &vertices, std::vector<GLuint> &indices);

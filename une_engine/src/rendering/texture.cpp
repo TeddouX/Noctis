@@ -27,7 +27,7 @@ BasicTexture::BasicTexture(int width, int height, int internalFormat, int format
 BasicTexture::BasicTexture(const fs::path &path, TextureType type)
     : m_type(type)
 {
-	LOG_INFO("Loading texture: {}", path.string())
+	LOG_INFO("Loading texture: {}", path.string());
 	this->Generate(true);
 
 	this->m_name = Filesystem::GetFileName(path);
@@ -42,7 +42,7 @@ BasicTexture::BasicTexture(const fs::path &path, TextureType type)
 	);
 	
 	if (!this->LoadFromStbi(imageData))
-		LOG_ERR("Failed to load image: {}", path.string())
+		LOG_ERR("Failed to load image: {}", path.string());
 }
 
 
@@ -61,7 +61,7 @@ BasicTexture::BasicTexture(uint8_t *data, int width, TextureType type, std::stri
 	);
 
 	if (!this->LoadFromStbi(imageData))
-		LOG_ERR("Failed to load texture from memory")
+		LOG_ERR("Failed to load texture from memory");
 }
 
 

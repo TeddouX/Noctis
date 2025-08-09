@@ -8,7 +8,7 @@
 
 
 /// @brief Any pointer of type IPropertyBase should be castable to IProperty
-class IPropertyBase
+class UNE_API IPropertyBase
 {
 public:
     virtual ~IPropertyBase() = default;
@@ -17,7 +17,7 @@ public:
 
 
 template <typename T>
-class IProperty : public IPropertyBase
+class UNE_API IProperty : public IPropertyBase
 {
 public:
     virtual T &GetValue() const = 0;

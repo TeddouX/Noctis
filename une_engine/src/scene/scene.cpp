@@ -6,13 +6,13 @@ Scene::Scene(const fs::path &path)
 {
     if (!fs::is_regular_file(path))
     {
-        LOG_ERR("Path {} is not a regular file.", path.string())
+        LOG_ERR("Path {} is not a regular file.", path.string());
         return;
     }
     
     if (path.extension() != ".scene")
     {
-        LOG_ERR("File {} is not a scene file.", path.string())
+        LOG_ERR("File {} is not a scene file.", path.string());
         return;
     }
 
@@ -60,7 +60,7 @@ void Scene::Load()
         "Loading scene {} from scene file {}", 
         this->m_name, 
         this->m_jsonPath.string()
-    )
+    );
 
     if (!fs::exists(this->m_jsonPath))
     {
@@ -68,7 +68,7 @@ void Scene::Load()
             "Scene file ({}) for scene {} doesn't exist. Creating one now...", 
             this->m_jsonPath.string(), 
             this->m_name
-        )
+        );
 
         // Fill the file with an empty json object
         json empty = json::object();
@@ -101,7 +101,7 @@ void Scene::Load()
     }
     catch (const json::parse_error&)
     {
-        LOG_ERR("Scene file is corrupted so it couldn't be loaded...")
+        LOG_ERR("Scene file is corrupted so it couldn't be loaded...");
         // Filesystem::WriteFile(this->m_jsonPath, "");
 
         return;
@@ -119,7 +119,7 @@ void Scene::Load()
             this->m_jsonPath.string(),
             this->m_name,
             nameInJson
-        )
+        );
 
         return;
     }
@@ -135,7 +135,7 @@ void Scene::Load()
         // This means the actor was not deserialized correctly
         if (!actor)
         {
-            LOG_ERR("Invalid actor json: {}", actorJson["actor"].dump())
+            LOG_ERR("Invalid actor json: {}", actorJson["actor"].dump());
             continue;
         }
 
@@ -194,7 +194,7 @@ void Scene::Load()
         transform.SetParent(correctParent.get());
     }
 
-    LOG_INFO("Loaded scene {}", this->m_name)
+    LOG_INFO("Loaded scene {}", this->m_name);
 }
 
 
@@ -213,7 +213,7 @@ void Scene::Save()
     LOG_INFO(
         "Saving scene {} to scene file ({})", 
         this->m_name, this->m_jsonPath.string()
-    )
+    );
 
     json sceneJson;
     sceneJson["name"] = this->m_name;
@@ -258,5 +258,5 @@ void Scene::Save()
     Filesystem::WriteFile(this->m_jsonPath, sceneJson.dump());
 #endif
 
-    LOG_INFO("Saved scene {}", this->m_name)
+    LOG_INFO("Saved scene {}", this->m_name);
 }

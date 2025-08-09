@@ -66,7 +66,7 @@ void ProjectSelectionUI::LoadProjectFolder(const fs::path &folder)
     if (Project::IsValidProjectFolder(folder))
         this->LoadProject(folder, false);
     else
-        LOG_ERR("Folder {} is not a valid project folder.", folder.string())
+        LOG_ERR("Folder {} is not a valid project folder.", folder.string());
 }
 
 
@@ -90,7 +90,7 @@ void ProjectSelectionUI::CreateProjectFolder(const fs::path &folder)
         this->LoadProject(folder, true);
     }
     else
-        LOG_ERR("Project folder: {} is not empty.", fullPath.string())
+        LOG_ERR("Project folder: {} is not empty.", fullPath.string());
 }
 
 
@@ -100,7 +100,7 @@ void ProjectSelectionUI::LoadProject(const fs::path &folder, bool firstTime)
     
     if (!project->Load(firstTime))
     {
-        LOG_ERR("Project {} couldn't be loaded. See errors in console.", folder.string())
+        LOG_ERR("Project {} couldn't be loaded. See errors in console.", folder.string());
         return;
     }
 

@@ -23,7 +23,7 @@ namespace fs = std::filesystem;
 using json = nlohmann::json;
 
 
-class Scene
+class UNE_API Scene
 {
 public:
     Scene(const fs::path &path);

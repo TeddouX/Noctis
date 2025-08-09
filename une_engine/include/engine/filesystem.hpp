@@ -10,7 +10,7 @@
 namespace fs = std::filesystem;
 
 
-class Filesystem
+class UNE_API Filesystem
 {
 public:
     /// @returns The contents of the file as a string

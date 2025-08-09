@@ -8,6 +8,9 @@
 #include <stdint.h>
 #include <fmt/format.h>
 
+#include "engine.hpp"
+
+
 // ANSI Escape color codes
 #define BLACK_FG          30
 #define BLACK_BG          40
@@ -46,9 +49,9 @@
 #define __FILENAME__     strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__
 
 #define LOGGER()         Logger::GetInstance()
-#define LOG_INFO(x, ...) LOGGER().Info(x,  __VA_ARGS__);
-#define LOG_WARN(x, ...) LOGGER().Warn(x,  __VA_ARGS__);
-#define LOG_ERR(x, ...)  LOGGER().Error(x, __VA_ARGS__);
+#define LOG_INFO(x, ...) LOGGER().Info(x,  __VA_ARGS__)
+#define LOG_WARN(x, ...) LOGGER().Warn(x,  __VA_ARGS__)
+#define LOG_ERR(x, ...)  LOGGER().Error(x, __VA_ARGS__)
 #define LOG_TODO(x)      LOGGER().Todo(x, __FILENAME__, __LINE__);
 #define ASSERT(_expr)    assert(_expr);
 
@@ -56,7 +59,7 @@
 namespace chrono = std::chrono;
 
 
-enum class LogLevel
+enum class UNE_API LogLevel
 {
     INFO,
     WARN,
@@ -64,7 +67,7 @@ enum class LogLevel
 };
 
 
-struct LogLine
+struct UNE_API LogLine
 {
     LogLevel level;
     std::string mess;
@@ -72,7 +75,7 @@ struct LogLine
 
 
 
-class Logger
+class UNE_API Logger
 {
 public:
     static Logger& GetInstance();

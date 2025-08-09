@@ -20,7 +20,7 @@ T *SystemsManager::GetSystem()
         if (T *derived = dynamic_cast<T*>(system.get()))
             return derived;
     
-    LOG_ERR("System \"{}\" couldn't be found. This may result in unexpected behaviour.", typeid(T).name())
+    LOG_ERR("System \"{}\" couldn't be found. This may result in unexpected behaviour.", typeid(T).name());
     return nullptr;
 }
 
@@ -39,5 +39,5 @@ void SystemsManager::UpdateSystem(ComponentManager &cm, float dt)
         }
     }
 
-    LOG_WARN("System \"{}\" couldn't be updated. Are you sure it's registered?", typeid(T).name())
+    LOG_WARN("System \"{}\" couldn't be updated. Are you sure it's registered?", typeid(T).name());
 }

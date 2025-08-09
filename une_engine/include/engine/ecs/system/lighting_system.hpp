@@ -26,7 +26,7 @@ static std::vector<_VTy> GetAllValues(std::unordered_map<_KTy, _VTy> map)
 }
 
 
-class LightingSystem : public ISystem
+class UNE_API LightingSystem : public ISystem
 {
 public:
     void Update(ComponentManager &cm, float dt) override;

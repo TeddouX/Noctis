@@ -5,7 +5,7 @@
 #include "../../filesystem.hpp"
 
 
-class ScriptComponent : public IComponent, public ISerializable
+class UNE_API ScriptComponent : public IComponent, public ISerializable
 {
 public:
     COMPONENT_GETNAME("Script")

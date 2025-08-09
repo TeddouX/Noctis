@@ -5,7 +5,7 @@ static bool CheckUniform(int location, const std::string& uniformName)
 {
 	if (location == -1)
 	{
-		LOG_WARN("Uniform {} couldn't be found.", uniformName)
+		LOG_WARN("Uniform {} couldn't be found.", uniformName);
         return false;
 	}
 
@@ -18,7 +18,7 @@ Shader::Shader(const std::string &name, const std::string &vertexPath, const std
 	m_vrPath(vertexPath),
 	m_frPath(fragmentPath)
 {
-	LOG_INFO("Loading shaders: {}, {}", vertexPath, fragmentPath)
+	LOG_INFO("Loading shaders: {}, {}", vertexPath, fragmentPath);
 
 	std::string vertexString = Filesystem::GetFileContents(vertexPath);
 	std::string fragmentString = Filesystem::GetFileContents(fragmentPath);
@@ -44,7 +44,7 @@ void Shader::CreateProgram(const char *vertexCode, const char *fragmentCode)
 	{
 		glGetShaderInfoLog(vertexShader, sizeof(infoLog), NULL, infoLog);
 
-		LOG_ERR("Vertex shader compilation failed:\n{}", infoLog)
+		LOG_ERR("Vertex shader compilation failed:\n{}", infoLog);
 	}
 
 
@@ -57,7 +57,7 @@ void Shader::CreateProgram(const char *vertexCode, const char *fragmentCode)
 	{
 		glGetShaderInfoLog(fragmentShader, sizeof(infoLog), NULL, infoLog);
 
-		LOG_ERR("Fragment shader compilation failed:\n{}", infoLog)
+		LOG_ERR("Fragment shader compilation failed:\n{}", infoLog);
 	}
 
 
@@ -70,7 +70,7 @@ void Shader::CreateProgram(const char *vertexCode, const char *fragmentCode)
 	if (!success)
 	{
 		glGetProgramInfoLog(program, sizeof(infoLog), NULL, infoLog);
-		LOG_ERR("Shader program linking error:\n{}", infoLog)
+		LOG_ERR("Shader program linking error:\n{}", infoLog);
 	}
 
 	glDeleteShader(vertexShader);
@@ -87,7 +87,7 @@ void Shader::Use() const
 
 	GLenum err = glGetError();
 	if (err != GL_NO_ERROR) 
-		LOG_ERR("glUseProgram failed: {:#x}", err)
+		LOG_ERR("glUseProgram failed: {:#x}", err);
 }
 
 

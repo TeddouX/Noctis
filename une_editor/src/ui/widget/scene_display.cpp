@@ -151,6 +151,6 @@ void SceneDisplayWidget::UpdateViewport(int windowWidth, int windowHeight)
         this->m_viewportX = 0;
         this->m_viewportY = (windowHeight - this->m_viewportHeight) / 2;
     }
-    
-    glViewport(0, 0, this->m_viewportWidth, this->m_viewportHeight);
+
+    this->m_window.SetViewportSize(this->m_viewportWidth, this->m_viewportHeight);
 }

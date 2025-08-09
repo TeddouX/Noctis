@@ -4,7 +4,7 @@
 #include "../../math/color.hpp"
 
 
-class DirectionalLight : public IComponent, public ISerializable
+class UNE_API DirectionalLight : public IComponent, public ISerializable
 {
 public:
     ENABLE_SERIALIZATION(DirectionalLight)

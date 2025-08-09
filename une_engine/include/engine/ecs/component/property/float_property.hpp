@@ -5,7 +5,7 @@
 #include "property.hpp"
 
 
-class FloatProperty : public IProperty<float>
+class UNE_API FloatProperty : public IProperty<float>
 {
 public:
     FloatProperty(

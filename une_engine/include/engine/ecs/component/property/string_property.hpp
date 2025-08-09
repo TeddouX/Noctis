@@ -4,7 +4,7 @@
 #include "property.hpp"
 
 
-class StringProperty: public IProperty<std::string>
+class UNE_API StringProperty: public IProperty<std::string>
 {
 public:
     StringProperty(

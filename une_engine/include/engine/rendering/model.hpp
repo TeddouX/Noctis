@@ -14,17 +14,17 @@
 #include "../filesystem.hpp"
 
 
-class Model
+class UNE_API Model
 {
 public:
     Model(const fs::path &path, const std::string &name = "");
 
     std::string GetBeautifiedName() const;
-    inline const std::string &GetName() const { return this->m_name; }
-    inline const fs::path     GetPath() const { return fs::absolute(this->m_path); }
+    const std::string &GetName() const { return this->m_name; }
+    const fs::path     GetPath() const { return fs::absolute(this->m_path); }
 
-    inline const std::vector<std::shared_ptr<ITexture>> &GetTextures() const { return this->m_textures; }
-    inline void ClearTextures() { this->m_textures.clear(); }
+    const std::vector<std::shared_ptr<ITexture>> &GetTextures() const { return this->m_textures; }
+    void ClearTextures() { this->m_textures.clear(); }
 
     void Render(Shader &shader, const Mat4 &modelMatrix) const;
 

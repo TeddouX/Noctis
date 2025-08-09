@@ -40,7 +40,7 @@ UUIDv4 UUIDv4::FromString(const std::string &hex)
         LOG_ERR("Hex string must have exactly 32 hex characters for conversion to a UUID. Got {} for string {}", 
             cleanHex.length(), 
             hex
-        )
+        );
 
         return UUIDv4();
     }

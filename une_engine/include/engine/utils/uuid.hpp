@@ -14,7 +14,7 @@
 using json = nlohmann::json;
 
 
-class UUIDv4
+class UNE_API UUIDv4
 {
 public:
     UUIDv4() = default;

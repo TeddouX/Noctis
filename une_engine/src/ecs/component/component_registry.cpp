@@ -14,7 +14,7 @@ void ComponentRegistry::AddComponentFromName(const std::string &name, Entity e, 
     if (it != this->m_componentReg.end()) 
         it->second(e, comp);
     else 
-        LOG_ERR("Component {} is not registered.", name)
+        LOG_ERR("Component {} is not registered.", name);
 }
 
 
@@ -40,7 +40,7 @@ void to_json(json &j, const std::shared_ptr<ISerializable> &ptr)
             LOG_WARN(
                 "Serialized component has no type defined, this may cause errors. JSON is: {}", 
                 j.dump()
-            )
+            );
     }
     else
         j = nullptr;
@@ -57,14 +57,14 @@ void from_json(const json &j, std::shared_ptr<ISerializable> &ptr)
 
     if (!j.contains("type"))
     {
-        LOG_ERR("Serialized component has no type defined: {}", j.dump())
+        LOG_ERR("Serialized component has no type defined: {}", j.dump());
         return;
     }
 
     std::string type = j.at("type");
     if (!ComponentRegistry::GetInstance().HasComponentDeserializer(type))
     {
-        LOG_ERR("Unknown type for deserialization: {}", type)
+        LOG_ERR("Unknown type for deserialization: {}", type);
         ptr = nullptr;
         return;
     }
@@ -78,6 +78,6 @@ void from_json(const json &j, std::shared_ptr<ISerializable> &ptr)
     }
     catch (const std::exception &e)
     {
-        LOG_ERR("Error while deserializing component {}: {}", type, e.what())
+        LOG_ERR("Error while deserializing component {}: {}", type, e.what());
     }
 }

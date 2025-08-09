@@ -7,7 +7,7 @@
 #include "../math/math.hpp"
 
 
-class FrameBuffer
+class UNE_API FrameBuffer
 {
 public:
     FrameBuffer();

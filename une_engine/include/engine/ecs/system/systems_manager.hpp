@@ -9,7 +9,7 @@
 
 
 // Stores every registered system to help with organisation
-class SystemsManager
+class UNE_API SystemsManager
 {
     std::vector<std::shared_ptr<ISystem>> m_systems;
 

@@ -3,12 +3,13 @@
 #include <stdint.h>
 
 #include "component_manager.hpp"
+#include "../engine.hpp"
 
 #define MAX_ENTITIES UINT16_MAX
 
 
 // Basically an ID
-class Entity
+class UNE_API Entity
 {    
 public:
     Entity() : m_id(0) {};

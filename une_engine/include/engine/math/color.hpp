@@ -4,7 +4,7 @@
 #include "math.hpp"
 
 
-class Color
+class UNE_API Color
 {
 public:
     Color() : m_red(0), m_green(0), m_blue(0) {};

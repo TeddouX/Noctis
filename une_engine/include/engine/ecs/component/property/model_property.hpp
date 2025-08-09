@@ -3,7 +3,7 @@
 #include "../../../rendering/model.hpp"
 
 
-class ModelProperty : public IProperty<Model>
+class UNE_API ModelProperty : public IProperty<Model>
 {
 public:
     ModelProperty(

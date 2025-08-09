@@ -5,7 +5,7 @@
 EditorUI::EditorUI(Window &window, const char *glslVers)
     : m_mainWindow(window)
 {
-    LOG_INFO("Initializing editor UI.")
+    LOG_INFO("Initializing editor UI.");
 
     GLFWwindow* glfwWindow = window.GetWindow();
     this->m_imGuiScale = 2;

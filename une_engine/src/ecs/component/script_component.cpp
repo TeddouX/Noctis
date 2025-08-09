@@ -12,7 +12,7 @@ static void ExecuteFunction(asIScriptContext *ctx)
             ctx->GetExceptionFunction()->GetDeclaration(), 
             ctx->GetExceptionLineNumber(), 
             ctx->GetExceptionString()
-        )
+        );
 	}
 }
 

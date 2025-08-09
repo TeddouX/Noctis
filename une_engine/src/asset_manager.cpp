@@ -66,7 +66,7 @@ std::shared_ptr<ITexture> AssetManager::GetTexture(const std::string &name)
 
 void AssetManager::InitializeEmbeddedModels()
 {
-    LOG_INFO("Loading embedded models.")
+    LOG_INFO("Loading embedded models.");
     
     Model cubeModel = Model(".\\assets\\models\\cube.obj", std::string(CUBE_MODEL_NAME));
     Model cylinderModel = Model(".\\assets\\models\\cylinder.obj", std::string(CYLINDER_MODEL_NAME));
@@ -81,7 +81,7 @@ void AssetManager::InitializeEmbeddedModels()
 
 void AssetManager::InitializeEmbeddedShaders()
 {
-    LOG_INFO("Loading embedded shaders.")
+    LOG_INFO("Loading embedded shaders.");
     
     Shader defaultShader = Shader(
         std::string(DEFAULT_SHADER_NAME),

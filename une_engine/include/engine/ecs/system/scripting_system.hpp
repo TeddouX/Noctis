@@ -3,7 +3,7 @@
 #include "../../scripting/script_builder.hpp"
 
 
-class ScriptingSystem : public ISystem
+class UNE_API ScriptingSystem : public ISystem
 {
 public:
     void CompileAll(ComponentManager &cm);

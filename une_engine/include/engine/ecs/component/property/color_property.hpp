@@ -3,7 +3,7 @@
 #include "../../../math/color.hpp"
 
 
-class ColorProperty : public IProperty<Color>
+class UNE_API ColorProperty : public IProperty<Color>
 {
 public:
     ColorProperty(

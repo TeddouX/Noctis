@@ -4,6 +4,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 find_package(nlohmann_json CONFIG REQUIRED)
+find_package(stackwalker   CONFIG REQUIRED)
 find_package(Angelscript   CONFIG REQUIRED)
 find_package(assimp        CONFIG REQUIRED)
 find_package(glfw3         CONFIG REQUIRED)
@@ -11,7 +12,6 @@ find_package(glad          CONFIG REQUIRED)
 find_package(fmt           CONFIG REQUIRED)
 find_package(glm           CONFIG REQUIRED)
 find_package(Stb                  REQUIRED)
-
 
 set(ENGINE_SOURCES
     # -------------------
@@ -76,6 +76,7 @@ set(ENGINE_SOURCES
     "include/engine/utils/uuid.hpp"
 
     "include/engine/asset_manager.hpp"
+    "include/engine/engine.hpp"
     "include/engine/filesystem.hpp"
     "include/engine/logger.hpp"
     "include/engine/logger.inl"
@@ -126,11 +127,17 @@ set(ENGINE_SOURCES
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${ENGINE_SOURCES})
 
-add_library(UNE_Engine ${ENGINE_SOURCES})
+add_library(UNE_Engine SHARED ${ENGINE_SOURCES})
 
-target_compile_definitions(UNE_Engine PUBLIC GLM_ENABLE_EXPERIMENTAL)
+target_compile_definitions(UNE_Engine 
+    PUBLIC 
+        GLM_ENABLE_EXPERIMENTAL
+    PRIVATE 
+        UNE_ENGINE_BUILD
+)
 
 target_link_libraries(UNE_Engine PUBLIC
+    unofficial::stackwalker::StackWalker
 	nlohmann_json::nlohmann_json
     Angelscript::angelscript
 	assimp::assimp
@@ -142,6 +149,8 @@ target_link_libraries(UNE_Engine PUBLIC
 )
 
 target_include_directories(UNE_Engine 
-    PUBLIC "include"
-    PRIVATE "include/engine"
+    PUBLIC 
+        "include"
+    PRIVATE 
+        "include/engine"
 )

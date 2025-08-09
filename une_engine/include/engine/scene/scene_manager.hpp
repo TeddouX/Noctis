@@ -8,7 +8,7 @@
 #define SCENE_MANAGER() SceneManager::GetInstance()
 
 
-class SceneManager
+class UNE_API SceneManager
 {
 public:
     static SceneManager &GetInstance();

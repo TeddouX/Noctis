@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <memory>
 
+#include "engine.hpp"
 #include "rendering/shader.hpp"
 #include "rendering/model.hpp"
 
@@ -17,7 +18,7 @@ inline constexpr std::string_view DEFAULT_SHADER_NAME = "Default";
 inline constexpr std::string_view LIT_SHADER_NAME = "Lit";
 
 
-class AssetManager
+class UNE_API AssetManager
 {
 public:
     static AssetManager &GetInstance();

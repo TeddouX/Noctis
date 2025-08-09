@@ -14,7 +14,7 @@
 #include "../../rendering/ssbo.hpp"
 
 
-class Material : public IComponent, public ISerializable
+class UNE_API Material : public IComponent, public ISerializable
 {
 public:
     ENABLE_SERIALIZATION(Material)

@@ -11,7 +11,7 @@ Editor::Editor()
 
 void Editor::Init()
 {
-    LOG_INFO("Initializing editor.")
+    LOG_INFO("Initializing editor.");
 
     m_instance = new Editor();
 }
@@ -21,7 +21,7 @@ Editor *Editor::GetInstance()
 {
     if (!m_instance)
     {
-        LOG_ERR("Editor instance not initialized.")
+        LOG_ERR("Editor instance not initialized.");
         return nullptr;
     }
 

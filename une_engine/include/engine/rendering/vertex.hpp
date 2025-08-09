@@ -2,7 +2,7 @@
 #include "../math/math.hpp"
 
 
-struct Vertex
+struct UNE_API Vertex
 {
     Vec3 position;
     Vec3 normal;

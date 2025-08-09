@@ -25,7 +25,7 @@ void ActorPropertiesWidget::Render()
             HandleActor(actor);
         else
         {
-            LOG_ERR("Currently selected entity has no actor associated with it, so it can't be used.")
+            LOG_ERR("Currently selected entity has no actor associated with it, so it can't be used.");
             ImGui::End();
             return;
         }

@@ -19,7 +19,7 @@ bool Project::Load(bool firstTime)
 
     if (firstTime)
     {
-        LOG_INFO("Creating project: {}", this->m_rootDir.string())
+        LOG_INFO("Creating project: {}", this->m_rootDir.string());
         
         // Create all directories
         fs::create_directories(this->GetAssetsFolder());
@@ -33,7 +33,7 @@ bool Project::Load(bool firstTime)
     }
     else
     {
-        LOG_INFO("Loading project: {}", this->m_rootDir.string())
+        LOG_INFO("Loading project: {}", this->m_rootDir.string());
 
         // Get name from the first projectect file that is found
         for (const auto &entry : fs::directory_iterator(this->m_rootDir))
@@ -67,7 +67,7 @@ void Project::LoadScenes()
     LOG_INFO(
         "Loading scenes from folder {}", 
         this->GetScenesFolder().string()
-    )
+    );
 
     SCENE_MANAGER().SetScenesFolder(this->GetScenesFolder());
 
@@ -76,7 +76,7 @@ void Project::LoadScenes()
         LOG_WARN(
             "The scene folder ({}) doesn't exist, creating one now...",
             this->GetScenesFolder().string()
-        )
+        );
         fs::create_directories(this->GetScenesFolder());
         return;  
     }
@@ -87,7 +87,7 @@ void Project::LoadScenes()
         // Is the entry is a json file ?
         if (path.extension() == ".scene")
         {
-            LOG_INFO("Found scene: {}", path.string())
+            LOG_INFO("Found scene: {}", path.string());
             
             // Create a scene with the file's name
             // The scene class handles loading when necessary

@@ -1,4 +1,8 @@
 #pragma once
+#include <stdio.h>
+#include <signal.h>
+#include <StackWalker.h>
+
 #include <engine/window.hpp>
 
 #include "project.hpp"
@@ -32,15 +36,16 @@ public:
     Project *GetCurrProject() { return this->m_currProject; }
     void SetCurrProject(Project *project) { this->m_currProject = project; };
 
+    
     void Run();
-
+    
 private:
     inline static Editor *m_instance = nullptr;
-
-    Project    *m_currProject = nullptr;
-    EditorState m_state;
-    Window      m_window;
-    EditorUI    m_ui;
-
+    
+    Project     *m_currProject = nullptr;
+    EditorState  m_state;
+    Window       m_window;
+    EditorUI     m_ui;
+    
     Editor();
 };

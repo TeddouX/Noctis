@@ -16,14 +16,14 @@ void ComponentManager::RemoveComponent(const Entity &entity)
 
 
 template <typename T> 
-bool ComponentManager::HasComponent(const Entity &entity) const
+bool ComponentManager::HasComponent(const Entity &entity)
 {
     return this->GetComponentArray<T>().Has(entity);
 }
 
 
 template <typename T> 
-T *ComponentManager::GetComponent(const Entity &entity) const
+T *ComponentManager::GetComponent(const Entity &entity)
 {
     return this->GetComponentArray<T>().Get(entity);
 }
@@ -47,17 +47,15 @@ void ComponentManager::RegisterComponent()
 
 
 template <typename T>
-ComponentArray<T> &ComponentManager::GetComponentArray() const
+ComponentArray<T> &ComponentManager::GetComponentArray()
 {
     std::type_index type(typeid(T));
     
-    auto it = this->m_componentArrays.find(type);
-    if (it == this->m_componentArrays.end()) 
-    {
-        ComponentManager *nonConstThis = const_cast<ComponentManager *>(this);
-        nonConstThis->RegisterComponent<T>();
-        it = m_componentArrays.find(type);
-    }
+    std::shared_ptr<IComponentArray> arrPtr;
+    if (!this->m_componentArrays.contains(type))
+        this->RegisterComponent<T>();
+    
+    arrPtr = this->m_componentArrays.at(type);
 
-    return *std::static_pointer_cast<ComponentArray<T>>(it->second);
+    return *std::static_pointer_cast<ComponentArray<T>>(arrPtr);
 }

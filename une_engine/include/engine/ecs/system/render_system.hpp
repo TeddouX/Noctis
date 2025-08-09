@@ -11,7 +11,7 @@
 
 
 // This system renders object to the screen
-class RenderSystem : public ISystem 
+class UNE_API RenderSystem : public ISystem 
 {
 public:
     void Update(ComponentManager &cm, float dt) override;

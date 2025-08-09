@@ -6,6 +6,7 @@
 #include <GLFW/glfw3.h>
 
 #include "logger.hpp"
+#include "engine.hpp"
 #include "math/math.hpp"
 
 
@@ -13,7 +14,7 @@
 
 
 /// @brief Used to describe key combos like Ctrl+S
-class KeyCombo
+class UNE_API KeyCombo
 {
 public:
     KeyCombo(int key, int modifiers) : m_key(key), m_modifiers(modifiers) {};
@@ -26,7 +27,7 @@ private:
 };
 
 
-class Window
+class UNE_API Window
 {
 public:
     Window(int width, int height, const std::string &title);
@@ -34,6 +35,8 @@ public:
 
     bool ShouldClose() const { return glfwWindowShouldClose(this->m_glfwWindow); }
     void PostRender();
+
+    void SetViewportSize(int w, int h);
 
     double GetDeltaTime() const { return this->m_deltaTime; }
 

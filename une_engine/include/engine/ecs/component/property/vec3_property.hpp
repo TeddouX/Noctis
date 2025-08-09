@@ -3,7 +3,7 @@
 #include "../../../math/math.hpp"
 
 
-class Vec3Property : public IProperty<Vec3>
+class UNE_API Vec3Property : public IProperty<Vec3>
 {
 public:
     Vec3Property(

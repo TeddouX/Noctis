@@ -16,7 +16,7 @@ bool KeyCombo::Is(int key, std::initializer_list<int> modifiers)
 Window::Window(int width, int height, const std::string &title)
     : m_width(width), m_height(height)
 {
-    LOG_INFO("Creating window.")
+    LOG_INFO("Creating window.");
 
     glfwSetErrorCallback(Window::GLFWErrorCallback);
     glfwInit();
@@ -30,13 +30,13 @@ Window::Window(int width, int height, const std::string &title)
         width, 
         height, 
         title.c_str(), 
-        NULL, 
-        NULL
+        nullptr, 
+        nullptr
     );
 
-    if (this->m_glfwWindow == NULL)
+    if (!this->m_glfwWindow)
 	{
-		LOG_ERR("Failed to create GLFW window. Exiting now...")
+		LOG_ERR("Failed to create GLFW window. Exiting now...");
 		glfwTerminate();
 		exit(-1);
 	}
@@ -53,7 +53,7 @@ Window::Window(int width, int height, const std::string &title)
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
-		LOG_ERR("Failed to initialize GLAD. Exiting now...")
+		LOG_ERR("Failed to initialize GLAD. Exiting now...");
         glfwTerminate();
 		exit(-1);
 	}
@@ -65,12 +65,13 @@ Window::Window(int width, int height, const std::string &title)
     glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 
     glDebugMessageCallback(OpenGLDbgMessCallback, nullptr);
+
 }
 
 
 Window::~Window()
 {   
-    LOG_INFO("Destroying window.")
+    LOG_INFO("Destroying window.");
 
 	glfwTerminate();
 }
@@ -89,13 +90,13 @@ void Window::OpenGLDbgMessCallback(
     if (severity == GL_DEBUG_SEVERITY_LOW)
     {
 #if OPENGL_DBG_LOW_ENABLE
-        LOG_INFO("[GL Debug] {}", message)
+        LOG_INFO("[GL Debug] {}", message);
 #endif
     }
     else if (severity == GL_DEBUG_SEVERITY_MEDIUM)
-        LOG_WARN("[GL Debug] {}", message)
+        LOG_WARN("[GL Debug] {}", message);
     else if (severity == GL_DEBUG_SEVERITY_HIGH)
-        LOG_ERR("[GL Debug] {}", message)
+        LOG_ERR("[GL Debug] {}", message);
 }
 
 
@@ -113,6 +114,10 @@ void Window::PostRender()
 	this->m_lastFrameTime = currentFrameTime;
 }
 
+void Window::SetViewportSize(int w, int h)
+{
+    glViewport(0, 0, w, h);
+}
 
 void Window::SetCursorEnabled(bool enabled) const
 {
@@ -125,7 +130,7 @@ void Window::SetCursorEnabled(bool enabled) const
 
 void Window::GLFWErrorCallback(int code, const char *desc)
 {
-    LOG_ERR("glfw error: {}", desc)
+    LOG_ERR("glfw error: {}", desc);
 }
 
 

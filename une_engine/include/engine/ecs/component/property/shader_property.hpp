@@ -3,7 +3,7 @@
 #include "../../../rendering/shader.hpp"
 
 
-class ShaderProperty : public IProperty<Shader>
+class UNE_API ShaderProperty : public IProperty<Shader>
 {
 public:
     ShaderProperty(

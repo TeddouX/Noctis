@@ -13,7 +13,7 @@
 static bool CheckUniform(int location, const std::string &uniformName);
 
 
-class Shader
+class UNE_API Shader
 {
 public:
 	Shader() = default;

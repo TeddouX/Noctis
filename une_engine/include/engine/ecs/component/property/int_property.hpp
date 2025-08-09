@@ -5,7 +5,7 @@
 #include "property.hpp"
 
 
-class IntProperty : public IProperty<int>
+class UNE_API IntProperty : public IProperty<int>
 {
 public:
     IntProperty(

@@ -12,7 +12,7 @@
 using json = nlohmann::json;
 
 
-class IComponent
+class UNE_API IComponent
 {
 public:
     virtual std::vector<std::shared_ptr<IPropertyBase>> GetProperties() { return {}; } 

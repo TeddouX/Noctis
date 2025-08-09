@@ -53,7 +53,7 @@ void ScriptBuilder::Build(ScriptComponent &scriptComp)
 		LOG_ERR(
 			"Script {} doesn't contain any classes that inherit from IActor", 
 			scriptComp.GetScriptPath().filename().string()
-		)
+		);
 		return;
 	}
 
@@ -71,10 +71,10 @@ void ScriptBuilder::MessageCallback(const asSMessageInfo *msg)
 	);
 
 	if (msg->type == asMSGTYPE_INFORMATION)
-		LOG_INFO(formattedMsg)
+		LOG_INFO(formattedMsg);
 	else if (msg->type == asMSGTYPE_WARNING)
-		LOG_WARN(formattedMsg)
+		LOG_WARN(formattedMsg);
 	else if (msg->type == asMSGTYPE_ERROR)
-		LOG_ERR(formattedMsg)
+		LOG_ERR(formattedMsg);
 }
 

@@ -5,7 +5,7 @@ void RenderSystem::Update(ComponentManager &cm, float dt)
 {
     if (!this->m_camera)
     {
-        LOG_ERR("The render system has no camera assigned.")
+        LOG_ERR("The render system has no camera assigned.");
         return;
     }
 
@@ -22,7 +22,7 @@ void RenderSystem::Update(ComponentManager &cm, float dt)
         // No material is a problem
         if (!material)
         {
-            LOG_ERR("Entity({}) has no material assigned, so it can't be rendered.", entity.GetID())
+            LOG_ERR("Entity({}) has no material assigned, so it can't be rendered.", entity.GetID());
             continue;
         }
 
@@ -31,7 +31,7 @@ void RenderSystem::Update(ComponentManager &cm, float dt)
         // Just a sanity check at this point
         if (!shader)
         {
-            LOG_ERR("Material {} has no shader assigned, so it can't be rendered.", material->GetName())
+            LOG_ERR("Material {} has no shader assigned, so it can't be rendered.", material->GetName());
             continue;
         }
 

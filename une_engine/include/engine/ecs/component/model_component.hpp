@@ -8,7 +8,7 @@
 
 
 // A ModelComponent stores a pointer to a model that can be rendered
-class ModelComponent : public IComponent, public ISerializable
+class UNE_API ModelComponent : public IComponent, public ISerializable
 {
 public:
     ENABLE_SERIALIZATION(ModelComponent)

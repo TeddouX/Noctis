@@ -11,7 +11,7 @@
 class Entity;
 
 
-class ComponentManager 
+class UNE_API ComponentManager 
 {
     std::unordered_map<std::type_index, std::shared_ptr<IComponentArray>> m_componentArrays;
 
@@ -23,15 +23,15 @@ public:
     void RemoveComponent(const Entity &entity);
     
     template <typename T> 
-    bool HasComponent(const Entity &entity) const;
+    bool HasComponent(const Entity &entity);
 
     template <typename T> 
-    T *GetComponent(const Entity &entity) const;
+    T *GetComponent(const Entity &entity);
 
     template <typename T> 
     std::unordered_map<Entity, T> &GetEntitiesWith();
 
-    std::vector<std::shared_ptr<IComponent>> GetAllComponents(const Entity &entity) const;
+    std::vector<std::shared_ptr<IComponent>> GetAllComponents(const Entity &entity);
 
     void Clear();
 
@@ -40,7 +40,7 @@ private:
     void RegisterComponent();
 
     template <typename T>
-    ComponentArray<T> &GetComponentArray() const;
+    ComponentArray<T> &GetComponentArray();
 };
 
 #include "component_manager.inl"

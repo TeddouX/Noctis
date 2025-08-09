@@ -133,7 +133,7 @@ void SceneTreeWidget::HandleDragDropTarget(Transform *parent)
         {
             if (payload->DataSize != sizeof(Transform *))
             {
-                LOG_ERR("Drop payload is not valid.")
+                LOG_ERR("Drop payload is not valid.");
                 return;
             }
 

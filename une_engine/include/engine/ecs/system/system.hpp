@@ -2,7 +2,7 @@
 #include "../component_manager.hpp"
 
 
-class ISystem
+class UNE_API ISystem
 {
 public:
     virtual ~ISystem() = default;

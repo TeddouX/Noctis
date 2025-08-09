@@ -8,7 +8,7 @@
 #include "../../utils/uuid.hpp"
 
 
-class Actor : public IComponent, public ISerializable
+class UNE_API Actor : public IComponent, public ISerializable
 {
 public:
     COMPONENT_GETNAME("Actor")

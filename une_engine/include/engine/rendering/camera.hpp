@@ -4,7 +4,7 @@
 #include "../math/math.hpp"
 
 
-class Camera 
+class UNE_API Camera 
 {
 public:
     struct Data
@@ -17,8 +17,8 @@ public:
 
     Camera(Vec3 pos, float aspectRatio, float fov, float nearDst, float farDst);
 
-    inline float GetAspect() const { return this->m_aspectRatio; }
-    void         Resize(float aspectRatio);
+    float GetAspect() const { return this->m_aspectRatio; }
+    void  Resize(float aspectRatio);
 
     void RotateBy(float yaw, float pitch);
 

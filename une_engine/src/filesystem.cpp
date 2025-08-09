@@ -11,7 +11,7 @@ std::string Filesystem::GetFileContents(const fs::path &path)
 {
     if (!fs::exists(path))
     {
-        LOG_ERR("File {} doesn't exist.", path.string())
+        LOG_ERR("File {} doesn't exist.", path.string());
         return "";
     }
 
@@ -47,7 +47,7 @@ void Filesystem::WriteCBOR(const fs::path &filePath, std::vector<uint8_t> cborDa
 
     if (!file)
     {
-        LOG_ERR("Failed to open file {} for writing.", filePath.string())
+        LOG_ERR("Failed to open file {} for writing.", filePath.string());
         return;
     }
 
@@ -64,7 +64,7 @@ std::vector<uint8_t> Filesystem::ReadCBOR(const fs::path &filePath)
 
     if (!file) 
     {
-        LOG_ERR("Failed to open file {} for reading.", filePath.string())
+        LOG_ERR("Failed to open file {} for reading.", filePath.string());
         return {};
     }
 
@@ -79,7 +79,7 @@ std::vector<uint8_t> Filesystem::ReadCBOR(const fs::path &filePath)
     // Read the file contents and put them in the buffer
     if (!file.read(reinterpret_cast<char*>(buffer.data()), fileSize)) 
     {
-        LOG_ERR("Failed to read file contents ({}).", filePath.string())
+        LOG_ERR("Failed to read file contents ({}).", filePath.string());
         return {};
     }
 
@@ -93,7 +93,7 @@ void Filesystem::WriteFile(const fs::path &path, const std::string &contents)
 
     if (file.bad())
     {
-        LOG_ERR("Failed to open file {} for writing.", path.string())
+        LOG_ERR("Failed to open file {} for writing.", path.string());
         return;
     }
 

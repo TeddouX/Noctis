@@ -30,7 +30,7 @@ void ActorCreationHelper::CreateEmpty(Transform *parent)
     currScene->AddEntity(entity);
     currScene->SetSelectedEntity(entity);
 
-    LOG_INFO("Created an empty actor")
+    LOG_INFO("Created an empty actor");
 }
 
 
@@ -52,7 +52,7 @@ void ActorCreationHelper::CreateSimpleShape(std::string_view modelName, Transfor
     currScene->AddEntity(entity);
     currScene->SetSelectedEntity(entity);
 
-    LOG_INFO("Created an actor with model ({})", model->GetBeautifiedName())
+    LOG_INFO("Created an actor with model ({})", model->GetBeautifiedName());
 }
 
 
@@ -73,5 +73,5 @@ void ActorCreationHelper::CreateDirectionalLight(Transform *parent)
     currScene->AddEntity(entity);    
     currScene->SetSelectedEntity(entity);
     
-    LOG_INFO("Created a directional light")
+    LOG_INFO("Created a directional light");
 }

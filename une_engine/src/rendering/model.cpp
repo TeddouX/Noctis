@@ -28,7 +28,7 @@ static glm::mat4 AssimpToGlm(const aiMatrix4x4 &from)
 Model::Model(const fs::path &path, const std::string &name)
     : m_path(path), m_name(name)
 {
-    LOG_INFO("Loading model: {}", path.string())
+    LOG_INFO("Loading model: {}", path.string());
 
     // Is the name already set ?
     if (this->m_name.empty())
@@ -43,7 +43,7 @@ Model::Model(const fs::path &path, const std::string &name)
 
     if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) 
     {
-        LOG_ERR("Couldn't load model: {}", importer.GetErrorString())
+        LOG_ERR("Couldn't load model: {}", importer.GetErrorString());
         return;
     }
 
@@ -53,7 +53,7 @@ Model::Model(const fs::path &path, const std::string &name)
     // anymore so we can safely clear it
     this->m_textureCache.clear();
 
-    LOG_INFO("Loaded model {}", this->m_name)
+    LOG_INFO("Loaded model {}", this->m_name);
 }
 
 

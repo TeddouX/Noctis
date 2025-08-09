@@ -40,7 +40,7 @@ set(EDITOR_SOURCES
     "src/utils/actor_creation_helper.cpp"
     "src/utils/imgui_utils.cpp"
     "src/utils/property_rendering.cpp"
-
+    
     "src/editor_main.cpp"
     "src/editor.cpp"
     "src/project.cpp"
@@ -71,4 +71,11 @@ target_link_libraries(UNE_Editor PRIVATE
 target_include_directories(UNE_Editor 
     PUBLIC "include"
     PRIVATE "include/editor"
+)
+
+add_custom_command(TARGET UNE_Editor POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_FILE:UNE_Engine>
+        $<TARGET_PDB_FILE:UNE_Engine>
+        $<TARGET_FILE_DIR:UNE_Editor>
 )

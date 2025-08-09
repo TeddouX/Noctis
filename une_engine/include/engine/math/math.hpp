@@ -6,6 +6,8 @@
 #include <glm/gtx/quaternion.hpp> 
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "../engine.hpp"
+
 
 using json = nlohmann::json;
 using Vec2 = glm::vec2;
@@ -16,16 +18,16 @@ using Mat4 = glm::mat4;
 using Quaternion = glm::quat;
 
 
-Mat4 ModelMatrix(Vec3 pos, Vec3 rot, Vec3 scale);
-Mat4 ViewMatrix(Vec3 pos, Vec3 front);
-Mat4 ViewMatrix(Vec3 pos, Vec3 front, Vec3 up);
-Mat4 PerspectiveProjMatrix(float fov, float aspect, float near, float far);
+UNE_API Mat4 ModelMatrix(Vec3 pos, Vec3 rot, Vec3 scale);
+UNE_API Mat4 ViewMatrix(Vec3 pos, Vec3 front);
+UNE_API Mat4 ViewMatrix(Vec3 pos, Vec3 front, Vec3 up);
+UNE_API Mat4 PerspectiveProjMatrix(float fov, float aspect, float near, float far);
 
-Vec3 Normalize(Vec3 vec);
+UNE_API Vec3 Normalize(Vec3 vec);
 
-float *GetPtr(Mat4 mat);
+UNE_API float *GetPtr(Mat4 mat);
 
-float Radians(float degrees);
+UNE_API float Radians(float degrees);
 
 // Serialization
 namespace glm

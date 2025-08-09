@@ -8,7 +8,7 @@
 
 
 /// @brief A transform represent's a entity's location in the world, it has to exist on every entity.
-class Transform : public IComponent, public ISerializable
+class UNE_API Transform : public IComponent, public ISerializable
 {
 public:
     ENABLE_SERIALIZATION(Transform)

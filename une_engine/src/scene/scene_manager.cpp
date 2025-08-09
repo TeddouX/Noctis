@@ -12,7 +12,7 @@ void SceneManager::AddScene(const std::string &name)
 {
     if (this->m_scenesFolder.empty())
     {
-        LOG_ERR("Scenes folder hasn't been set. Exiting now...")
+        LOG_ERR("Scenes folder hasn't been set. Exiting now...");
         exit(1);
     }
 
@@ -38,7 +38,7 @@ void SceneManager::SaveCurrScene()
 {
     if (this->m_currScene.empty())
     {
-        LOG_ERR("No scene is selected.")
+        LOG_ERR("No scene is selected.");
         return;
     }
 
@@ -64,14 +64,14 @@ void SceneManager::SetCurrScene(const std::string &name)
 
         if (!currScene)
         {
-            LOG_ERR("Current scene couldn't be found in the scene manager's registry.")
+            LOG_ERR("Current scene couldn't be found in the scene manager's registry.");
             return;
         }
         else
             currScene->Load();
     }
     else
-        LOG_ERR("Scene {} couldn't be set as current scene because it doesn't exist.", name)
+        LOG_ERR("Scene {} couldn't be set as current scene because it doesn't exist.", name);
 }
 
 
@@ -83,7 +83,7 @@ Scene *SceneManager::GetCurrScene()
     auto it = this->m_scenes.find(this->m_currScene);
     if (it == this->m_scenes.end())
     {
-        LOG_ERR("Scene {} doesn't exist.", this->m_currScene)
+        LOG_ERR("Scene {} doesn't exist.", this->m_currScene);
         return nullptr;
     }
 
