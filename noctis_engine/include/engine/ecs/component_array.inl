@@ -9,7 +9,7 @@ void ComponentArray<T>::Clear()
 
 
 template <typename T>
-void ComponentArray<T>::Insert(const Entity &entity, const T &component)
+void ComponentArray<T>::Insert(const Entity &entity, std::shared_ptr<T> component)
 {
     this->m_components.emplace(entity, component);
 }
@@ -23,10 +23,10 @@ void ComponentArray<T>::Remove(const Entity &entity)
 
 
 template <typename T>
-std::shared_ptr<IComponent> ComponentArray<T>::GetUntyped(const Entity &entity) const
+std::shared_ptr<IComponent> ComponentArray<T>::GetUntyped(const Entity &entity)
 {
-    if (auto search = this->m_components.find(entity); search != this->m_components.end()) 
-        return std::make_shared<T>(search->second);
+    if (this->m_components.contains(entity))
+        return this->m_components.at(entity);
     else 
         return nullptr;
 }
@@ -40,17 +40,17 @@ bool ComponentArray<T>::Has(const Entity &entity) const
 
 
 template <typename T>
-T *ComponentArray<T>::Get(const Entity &entity)
+std::shared_ptr<T> ComponentArray<T>::Get(const Entity &entity)
 {
-    if (auto search = this->m_components.find(entity); search != this->m_components.end()) 
-        return &search->second;
+    if (this->m_components.contains(entity)) 
+        return this->m_components.at(entity);
     else 
         return nullptr;
 }
 
 
 template <typename T>
-std::unordered_map<Entity, T> &ComponentArray<T>::GetAll()
+std::unordered_map<Entity, std::shared_ptr<T>> &ComponentArray<T>::GetAll()
 {
     return this->m_components;
 }

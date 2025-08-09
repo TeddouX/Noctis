@@ -59,7 +59,7 @@
 namespace chrono = std::chrono;
 
 
-enum class NOCTIS_API LogLevel
+enum class LogLevel
 {
     INFO,
     WARN,

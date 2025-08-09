@@ -26,7 +26,7 @@ void ActorPropertiesWidget::Render()
     {
         auto allComponents = selectedEntity.GetAllComponents();
 
-        auto actor = selectedEntity.GetComponent<Actor>();
+        std::shared_ptr<Actor> actor = selectedEntity.GetComponent<Actor>();
         // The actor component is handled differently from the others
         // It shouldn't be rendered as a collapsing header
         if (actor)
@@ -39,7 +39,8 @@ void ActorPropertiesWidget::Render()
         }
 
         // Transform is processed individually here because it should be inserted at the top of everything
-        RenderComponentProperties(selectedEntity.GetComponent<Transform>());
+        std::shared_ptr<Transform> transform = selectedEntity.GetComponent<Transform>();
+        RenderComponentProperties(transform);
 
         for (std::shared_ptr<IComponent> component : allComponents)
         {
@@ -48,7 +49,7 @@ void ActorPropertiesWidget::Render()
                 std::dynamic_pointer_cast<Transform>(component))
                 continue; 
 
-            RenderComponentProperties(component.get());
+            RenderComponentProperties(component);
         }  
     }
 
@@ -56,11 +57,11 @@ void ActorPropertiesWidget::Render()
 }
 
 
-void ActorPropertiesWidget::HandleActor(Actor *component)
+void ActorPropertiesWidget::HandleActor(std::shared_ptr<Actor> actor)
 {
     ImGui::SeparatorText("Actor");
 
-    std::string &actorName = component->GetName();
+    std::string &actorName = actor->GetName();
     ImGui::ResizableInputText("##actor_name_string_input", actorName, true);
 
     ImGui::SeparatorText("Components");

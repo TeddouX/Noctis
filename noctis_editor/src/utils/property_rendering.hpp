@@ -7,11 +7,11 @@
 std::string GenImGuiID(
     std::string prefix, 
     std::shared_ptr<IPropertyBase> property, 
-    IComponent *component
+    std::shared_ptr<IComponent> component
 );
 
 template <typename T>
-void RenderProperty(std::shared_ptr<T> prop, IComponent *comp);
+void RenderProperty(std::shared_ptr<T> prop, std::shared_ptr<IComponent> comp);
 
 
-void RenderComponentProperties(IComponent *comp);
+void RenderComponentProperties(std::shared_ptr<IComponent> comp);

@@ -16,9 +16,9 @@ void ScriptBuilder::Prepare()
 }
 
 
-void ScriptBuilder::Build(ScriptComponent &scriptComp)
+void ScriptBuilder::Build(std::shared_ptr<ScriptComponent> scriptComp)
 {
-    const char *scriptPath = scriptComp.GetScriptPath().string().c_str();
+    const char *scriptPath = scriptComp->GetScriptPath().string().c_str();
     int res;
 
     CScriptBuilder builder;
@@ -52,12 +52,12 @@ void ScriptBuilder::Build(ScriptComponent &scriptComp)
 	{
 		LOG_ERR(
 			"Script {} doesn't contain any classes that inherit from IActor", 
-			scriptComp.GetScriptPath().filename().string()
+			scriptComp->GetScriptPath().filename().string()
 		);
 		return;
 	}
 
-	scriptComp.SetActorClassInfo(type);
+	scriptComp->SetActorClassInfo(type);
 }
 
 

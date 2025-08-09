@@ -39,7 +39,7 @@ void RenderSystem::Update(ComponentManager &cm, float dt)
         shader->Use();
         material->UploadData(*shader);
         this->m_camera->UploadData();
-        model.GetModel()->Render(*shader, transform->GetModelMatrix());
+        model->GetModel()->Render(*shader, transform->GetModelMatrix());
     }
 }
 

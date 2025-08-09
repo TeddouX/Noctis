@@ -20,7 +20,9 @@ void Material::UploadData(Shader &shader)
     int materialType = 0;
     if (std::dynamic_pointer_cast<BasicTexture>(this->m_texture))
         materialType = 1;
-    if (std::dynamic_pointer_cast<PBRTexture>(this->m_texture))
+    
+    auto pbr = std::dynamic_pointer_cast<PBRTexture>(this->m_texture);
+    if (!pbr->IsEmpty())
         materialType = 2;
 
     this->m_texture->Bind();

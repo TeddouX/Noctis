@@ -2,7 +2,7 @@
 
 
 template <typename T> 
-void ComponentManager::AddComponent(const Entity &entity, const T &component)
+void ComponentManager::AddComponent(const Entity &entity, std::shared_ptr<T> component)
 {
     this->GetComponentArray<T>().Insert(entity, component);
 }
@@ -23,14 +23,14 @@ bool ComponentManager::HasComponent(const Entity &entity)
 
 
 template <typename T> 
-T *ComponentManager::GetComponent(const Entity &entity)
+std::shared_ptr<T> ComponentManager::GetComponent(const Entity &entity)
 {
     return this->GetComponentArray<T>().Get(entity);
 }
 
 
 template <typename T> 
-std::unordered_map<Entity, T> &ComponentManager::GetEntitiesWith()
+std::unordered_map<Entity, std::shared_ptr<T>> &ComponentManager::GetEntitiesWith()
 {
     return this->GetComponentArray<T>().GetAll();
 }

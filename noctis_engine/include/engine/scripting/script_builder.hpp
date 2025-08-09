@@ -12,7 +12,7 @@ public:
     ScriptBuilder() = default;
 
     void Prepare();
-    void Build(ScriptComponent &scriptComp);
+    void Build(std::shared_ptr<ScriptComponent> scriptComp);
 
     asIScriptEngine *GetScriptEngine() { return this->m_engine; }
 

@@ -11,7 +11,6 @@ public:
         : m_loaded(false) {}
 
     Project(const fs::path &rootDir, const std::string &name);
-    Project(const fs::path &rootDir);
 
     bool Load(bool firstTime);
 

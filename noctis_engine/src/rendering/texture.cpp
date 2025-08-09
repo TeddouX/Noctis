@@ -88,7 +88,7 @@ BasicTexture::BasicTexture(uint8_t *data, IVec2 size, TextureType type, std::str
 std::shared_ptr<BasicTexture> BasicTexture::Get1x1WTex(TextureType type)
 {
 	static auto tex = std::make_shared<BasicTexture>(
-		new uint8_t[3]{ 255, 0, 255 },
+		new uint8_t[3]{ 255, 255, 255 },
 		IVec2(1),
 		type,
 		emptyTexName

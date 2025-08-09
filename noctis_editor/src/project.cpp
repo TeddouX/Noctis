@@ -9,13 +9,7 @@
 Project::Project(const fs::path &rootDir, const std::string &name)
     : m_rootDir(rootDir), m_name(name)
 {
-} 
-
-
-Project::Project(const fs::path &rootDir)
-    : m_rootDir(rootDir)
-{
-} 
+}
 
 
 bool Project::Load(bool firstTime)
@@ -40,7 +34,7 @@ bool Project::Load(bool firstTime)
     {
         LOG_INFO("Loading project: {}", this->m_rootDir.string());
 
-        // Get name from the first projectect file that is found
+        // Get name from the first project file that is found
         for (const auto &entry : fs::directory_iterator(this->m_rootDir))
         {
             if (entry.is_regular_file() && entry.path().extension() == ".nocproj")

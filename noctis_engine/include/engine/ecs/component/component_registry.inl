@@ -7,7 +7,7 @@ bool ComponentRegistry::RegisterComponent(const std::string &name)
     this->m_componentReg[name] = 
         [](Entity e, std::shared_ptr<IComponent> comp)
         {
-            e.AddComponent<T>(*std::static_pointer_cast<T>(comp));
+            e.AddComponent<T>(std::static_pointer_cast<T>(comp));
         };
 
     return true;

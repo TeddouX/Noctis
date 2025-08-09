@@ -17,17 +17,17 @@ public:
     
     inline static void ResetCount() { nextEntityID = 1; }
     
-    size_t GetID() const { return m_id; }
-    bool   IsValid() { return m_id > 0; }
+    uint64_t GetID() const { return m_id; }
+    bool     IsValid() { return m_id > 0; }
     
     bool operator==(const Entity& other) const { return m_id == other.m_id; }
     bool operator!=(const Entity& other) const { return m_id != other.m_id; }
 
     template <typename T>
-    void AddComponent(const T &comp) { m_cm->AddComponent<T>(*this, comp); }
+    void AddComponent(std::shared_ptr<T> comp) { m_cm->AddComponent<T>(*this, comp); }
 
     template <typename T>
-    T *GetComponent() const { return m_cm->GetComponent<T>(*this); }
+    std::shared_ptr<T> GetComponent() const { return m_cm->GetComponent<T>(*this); }
 
     std::vector<std::shared_ptr<IComponent>> GetAllComponents() { return m_cm->GetAllComponents(*this); }
 
@@ -35,9 +35,9 @@ public:
     
 private:
     // Keeping 0 for an invalid entity
-    inline static size_t nextEntityID = 1;
+    inline static uint64_t nextEntityID = 1;
     
-    size_t m_id;
+    uint64_t m_id;
     ComponentManager *m_cm = nullptr;
 };
 
@@ -49,7 +49,7 @@ namespace std
     {
         inline size_t operator()(const Entity& entity) const noexcept 
         {
-            return std::hash<size_t>()(entity.GetID());
+            return std::hash<uint64_t>()(entity.GetID());
         }
     };
 }

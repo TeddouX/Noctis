@@ -17,7 +17,7 @@ class NOCTIS_API ComponentManager
 
 public:
     template <typename T> 
-    void AddComponent(const Entity &entity, const T &component);
+    void AddComponent(const Entity &entity, std::shared_ptr<T> component);
 
     template <typename T> 
     void RemoveComponent(const Entity &entity);
@@ -26,10 +26,10 @@ public:
     bool HasComponent(const Entity &entity);
 
     template <typename T> 
-    T *GetComponent(const Entity &entity);
+    std::shared_ptr<T> GetComponent(const Entity &entity);
 
     template <typename T> 
-    std::unordered_map<Entity, T> &GetEntitiesWith();
+    std::unordered_map<Entity, std::shared_ptr<T>> &GetEntitiesWith();
 
     std::vector<std::shared_ptr<IComponent>> GetAllComponents(const Entity &entity);
 

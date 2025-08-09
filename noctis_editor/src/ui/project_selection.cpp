@@ -71,7 +71,7 @@ void ProjectSelectionUI::Render()
 void ProjectSelectionUI::LoadProjectFolder(const fs::path &folder)
 {
     if (Project::IsValidProjectFolder(folder))
-        this->LoadProject(folder, false);
+        this->LoadProject(folder, "", false);
     else
         LOG_ERR("Folder {} is not a valid project folder.", folder.string());
 }
@@ -94,19 +94,19 @@ void ProjectSelectionUI::CreateProjectFolder(const fs::path &folder)
         // Create all directories in the project path
         fs::create_directories(fullPath);
 
-        this->LoadProject(fullPath, true);
+        this->LoadProject(fullPath, projName, true);
     }
     else if (fs::is_empty(fullPath))
-        this->LoadProject(fullPath, true);
+        this->LoadProject(fullPath, projName, true);
     else
         LOG_ERR("Project folder: {} is not empty.", fullPath.string());
 
 }
 
 
-void ProjectSelectionUI::LoadProject(const fs::path &folder, bool firstTime)
+void ProjectSelectionUI::LoadProject(const fs::path &folder, const std::string &name, bool firstTime)
 {
-    Project project(folder);
+    Project project(folder, name);
     
     if (!project.Load(firstTime))
     {

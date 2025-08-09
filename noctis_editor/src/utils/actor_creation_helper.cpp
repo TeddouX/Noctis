@@ -14,13 +14,13 @@ void ActorCreationHelper::AddDefaultComponents(
     const std::string &name
 )
 {
-    Actor actor(name, entity);
+    auto actor = std::make_shared<Actor>(name, entity);
     entity.AddComponent(actor);
-    entity.AddComponent(Transform(
+    entity.AddComponent(std::make_shared<Transform>(
         Vec3(0), // 0, 0, 0
         Vec3(0), // No rotation 
         parent ? Vec3(0) : Vec3(1), // Because scale is also relative to the parent 
-        std::make_shared<Actor>(actor), 
+        actor, 
         parent
     ));
 }
@@ -51,10 +51,10 @@ void ActorCreationHelper::CreateSimpleShape(std::string_view modelName, Transfor
     
     AddDefaultComponents(entity, parent, model->GetBeautifiedName());
 
-    entity.AddComponent(ModelComponent(model));
+    entity.AddComponent(std::make_shared < ModelComponent>(model));
 
     std::shared_ptr<Shader> shader = am.GetShader(std::string(LIT_SHADER_NAME));
-    entity.AddComponent(Material("default", shader));
+    entity.AddComponent(std::make_shared<Material>("default", shader));
 
     currScene->AddEntity(entity);
     currScene->SetSelectedEntity(entity);
@@ -71,7 +71,7 @@ void ActorCreationHelper::CreateDirectionalLight(Transform *parent)
 
     AddDefaultComponents(entity, parent, "Directional Light");
 
-    entity.AddComponent(DirectionalLight(
+    entity.AddComponent(std::make_shared<DirectionalLight>(
         Color::White(), 
         Color::White(), 
         Color::White()

@@ -9,7 +9,7 @@
 std::string GenImGuiID(
     std::string prefix, 
     std::shared_ptr<IPropertyBase> property, 
-    IComponent *component
+    std::shared_ptr<IComponent> component
 )
 {
     return fmt::format(
@@ -22,7 +22,7 @@ std::string GenImGuiID(
 
 
 template <>
-void RenderProperty(std::shared_ptr<IntProperty> prop, IComponent *comp)
+void RenderProperty(std::shared_ptr<IntProperty> prop, std::shared_ptr<IComponent> comp)
 {
     ImGui::InlinedLabel(prop->GetName().c_str());
 
@@ -37,7 +37,7 @@ void RenderProperty(std::shared_ptr<IntProperty> prop, IComponent *comp)
 
 
 template <>
-void RenderProperty(std::shared_ptr<FloatProperty> prop, IComponent *comp)
+void RenderProperty(std::shared_ptr<FloatProperty> prop, std::shared_ptr<IComponent> comp)
 {
     ImGui::InlinedLabel(prop->GetName().c_str());
 
@@ -51,7 +51,7 @@ void RenderProperty(std::shared_ptr<FloatProperty> prop, IComponent *comp)
 
 
 template <>
-void RenderProperty(std::shared_ptr<Vec3Property> prop, IComponent *comp)
+void RenderProperty(std::shared_ptr<Vec3Property> prop, std::shared_ptr<IComponent> comp)
 {
     ImGui::InlinedLabel(prop->GetName().c_str());
 
@@ -74,12 +74,12 @@ void RenderProperty(std::shared_ptr<Vec3Property> prop, IComponent *comp)
     ImGui::SameLine();
     ImGui::DragFloat(fmt::format("{}_z", id).c_str(), &v3.z, .1f);
 
-    ImGui::PopItemWidth();;
+    ImGui::PopItemWidth();
 }
 
 
 template <>
-void RenderProperty(std::shared_ptr<ColorProperty> prop, IComponent *comp)
+void RenderProperty(std::shared_ptr<ColorProperty> prop, std::shared_ptr<IComponent> comp)
 {
     ImGui::InlinedLabel(prop->GetName().c_str());
 
@@ -90,7 +90,7 @@ void RenderProperty(std::shared_ptr<ColorProperty> prop, IComponent *comp)
 
 
 template <>
-void RenderProperty(std::shared_ptr<StringProperty> prop, IComponent *comp)
+void RenderProperty(std::shared_ptr<StringProperty> prop, std::shared_ptr<IComponent> comp)
 {
     ImGui::InlinedLabel(prop->GetName().c_str());
 
@@ -100,7 +100,7 @@ void RenderProperty(std::shared_ptr<StringProperty> prop, IComponent *comp)
 
 
 template <>
-void RenderProperty(std::shared_ptr<ModelProperty> prop, IComponent *comp)
+void RenderProperty(std::shared_ptr<ModelProperty> prop, std::shared_ptr<IComponent> comp)
 {
     ImGui::InlinedLabel(prop->GetName().c_str());
         
@@ -111,7 +111,7 @@ void RenderProperty(std::shared_ptr<ModelProperty> prop, IComponent *comp)
 
 
 template <>
-void RenderProperty(std::shared_ptr<ShaderProperty> prop, IComponent *comp)
+void RenderProperty(std::shared_ptr<ShaderProperty> prop, std::shared_ptr<IComponent> comp)
 {
     ImGui::InlinedLabel(prop->GetName().c_str());
         
@@ -120,7 +120,7 @@ void RenderProperty(std::shared_ptr<ShaderProperty> prop, IComponent *comp)
     ImGui::Text(m.GetName().c_str());
 }
 
-void RenderComponentProperties(IComponent *comp)
+void RenderComponentProperties(std::shared_ptr<IComponent> comp)
 {
     std::string componentName = comp->GetName();
 
@@ -147,6 +147,3 @@ void RenderComponentProperties(IComponent *comp)
             RenderProperty(c, comp);
     }
 }
-
-
-

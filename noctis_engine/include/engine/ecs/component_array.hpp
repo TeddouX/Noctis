@@ -18,29 +18,29 @@ public:
     virtual void Clear() = 0;
     virtual void Remove(const Entity &entity) = 0;
     virtual bool Has(const Entity &entity) const = 0;
-    virtual std::shared_ptr<IComponent> GetUntyped(const Entity &entity) const = 0;
+    virtual std::shared_ptr<IComponent> GetUntyped(const Entity &entity) = 0;
 };
 
 
 template <typename T>
 class ComponentArray : public IComponentArray 
 {
-    std::unordered_map<Entity, T> m_components;
+    std::unordered_map<Entity, std::shared_ptr<T>> m_components;
 
 public:
     void Clear() override;
 
-    void Insert(const Entity &entity, const T &component);
+    void Insert(const Entity &entity, std::shared_ptr<T> component);
 
     void Remove(const Entity &entity) override;
 
-    std::shared_ptr<IComponent> GetUntyped(const Entity &entity) const override;
+    std::shared_ptr<IComponent> GetUntyped(const Entity &entity) override;
 
     bool Has(const Entity &entity) const override;
 
-    T *Get(const Entity &entity);
+    std::shared_ptr<T> Get(const Entity &entity);
 
-    std::unordered_map<Entity, T> &GetAll();
+    std::unordered_map<Entity, std::shared_ptr<T>> &GetAll();
 };
 
 #include "component_array.inl"

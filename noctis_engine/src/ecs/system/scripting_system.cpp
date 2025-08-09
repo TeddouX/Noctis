@@ -17,7 +17,7 @@ void ScriptingSystem::Start(ComponentManager &cm)
     auto &allScripts = cm.GetEntitiesWith<ScriptComponent>();
     
     for (auto &[entity, script] : allScripts)
-        script.ExecuteStart();
+        script->ExecuteStart();
 }
 
 
@@ -26,5 +26,5 @@ void ScriptingSystem::Update(ComponentManager &cm, float dt)
     auto &allScripts = cm.GetEntitiesWith<ScriptComponent>();
     
     for (auto &[entity, script] : allScripts)
-        script.ExecuteUpdate(dt);
+        script->ExecuteUpdate(dt);
 }

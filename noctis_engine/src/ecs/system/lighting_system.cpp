@@ -6,11 +6,11 @@ void LightingSystem::Update(ComponentManager &cm, float dt)
     auto &dirLightsMap = cm.GetEntitiesWith<DirectionalLight>();
 
     for (auto &[entity, dirLight] : dirLightsMap)
-        dirLight.SetRotation(entity.GetComponent<Transform>()->GetWorldRot());
+        dirLight->SetRotation(entity.GetComponent<Transform>()->GetWorldRot());
 
     std::vector<DirectionalLight::Data> dirLightsData;
-    for (DirectionalLight dirLight : GetAllValues(dirLightsMap))
-        dirLightsData.push_back(dirLight.GetData());
+    for (auto dirLight : GetAllValues(dirLightsMap))
+        dirLightsData.push_back(dirLight->GetData());
 
     this->UploadLights(dirLightsData, this->m_dirLightSSBO);
 }

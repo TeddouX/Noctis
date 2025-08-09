@@ -11,5 +11,5 @@ public:
     void Render() override;
 
 private:
-    static void HandleActor(Actor *component);
+    static void HandleActor(std::shared_ptr<Actor> component);
 };

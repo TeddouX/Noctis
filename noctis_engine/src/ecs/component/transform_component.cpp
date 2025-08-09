@@ -1,4 +1,6 @@
 #include "ecs/component/transform_component.hpp"
+#include "ecs/component/property/float_property.hpp"
+#include "ecs/component/property/color_property.hpp"
 
 
 Transform::Transform(Vec3 pos, Vec3 rot, Vec3 scale, std::shared_ptr<Actor> actor, Transform *parent)
@@ -119,7 +121,12 @@ void Transform::Deserialize(const json &j)
 
 std::vector<std::shared_ptr<IPropertyBase>> Transform::GetProperties()
 {
+    static float f = 1;
+    static Color c(0, 1, 2);
+
     return {
+        std::make_shared<ColorProperty>(GETTER_FOR(c), "CACA"),
+        std::make_shared<FloatProperty>(GETTER_FOR(f), "Test"),
         std::make_shared<Vec3Property>(GETTER_FOR(this->m_pos), "Position"),
         std::make_shared<Vec3Property>(GETTER_FOR(this->m_rot), "Rotation"),
         std::make_shared<Vec3Property>(GETTER_FOR(this->m_scale), "Scale", true, false),
