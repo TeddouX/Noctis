@@ -65,7 +65,7 @@ void Camera::UploadData()
 	Camera::Data data;
 	data.viewMatrix = this->GetViewMatrix();
 	data.projectionMatrix = this->GetProjectionMatrix();
-	data.pos = this->m_position;
+	data.pos = Vec4(this->m_position, 0);
 
 	this->m_cameraSSBO.UploadData(data);
 }

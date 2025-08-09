@@ -11,8 +11,7 @@ public:
     {
         Mat4 projectionMatrix;
         Mat4 viewMatrix;
-        Mat4 modelMatrix;
-        Vec3 pos;
+        Vec4 pos;
     };
 
     Camera(Vec3 pos, float aspectRatio, float fov, float nearDst, float farDst);
