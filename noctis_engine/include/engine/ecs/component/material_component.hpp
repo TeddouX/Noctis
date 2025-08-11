@@ -14,11 +14,10 @@
 #include "../../rendering/ssbo.hpp"
 
 
-class NOCTIS_API Material : public IComponent, public ISerializable
+class NOCTIS_API Material : public IComponent
 {
 public:
-    ENABLE_SERIALIZATION(Material)
-    COMPONENT_GETNAME("Material")
+    REGISTER_COMPONENT(Material, "Material")
 
     struct Data
     {
@@ -46,8 +45,8 @@ private:
     Color m_specularReflectance = Color::White();
     float m_specularDefinition = 32.f;
 
-    std::shared_ptr<ITexture> m_texture;
-    std::shared_ptr<Shader>   m_shader;
+    std::shared_ptr<ITexture> m_texture = std::make_shared<PBRTexture>("");
+    std::shared_ptr<Shader>   m_shader = AssetManager::GetInstance().GetShader(std::string(LIT_SHADER_NAME));
     SSBO<Material::Data>      m_ssbo = SSBO<Material::Data>(1);
     std::string               m_name;
 };

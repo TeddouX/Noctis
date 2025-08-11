@@ -12,4 +12,7 @@ public:
 
 private:
     static void HandleActor(std::shared_ptr<Actor> component);
+    
+    void ShowAddComponentPopup(Entity &entity);
+    void ShowComponentRightClickPopup(std::shared_ptr<IComponent> comp, Entity &entity, const std::string &popupID);
 };

@@ -1,6 +1,7 @@
 #include "actor_properties.hpp"
 
 #include <engine/ecs/entity.hpp>
+#include <engine/ecs/component/component_registry.hpp>
 #include <engine/scene/scene_manager.hpp>
 #include <engine/math/math.hpp>
 #include <engine/math/color.hpp>
@@ -20,7 +21,7 @@ void ActorPropertiesWidget::Render()
         return;
     }
 
-    Entity selectedEntity = currScene->GetSelectedEntity();
+    Entity &selectedEntity = currScene->GetSelectedEntity();
 
     if (currScene && selectedEntity.IsValid())
     {
@@ -49,9 +50,32 @@ void ActorPropertiesWidget::Render()
                 std::dynamic_pointer_cast<Transform>(component))
                 continue; 
 
-            RenderComponentProperties(component);
-        }  
+            bool open = ImGui::CollapsingHeader(component->GetName().c_str(), ImGuiTreeNodeFlags_DefaultOpen);
+            
+            std::string popupID = "COMPONENT_RIGHT_CLICK_POPUP_" + component->GetName();  
+            if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
+                ImGui::OpenPopup(popupID.c_str());
+            
+            if (open)
+                RenderComponentProperties(component);
+
+            this->ShowComponentRightClickPopup(component, selectedEntity, popupID);
+
+        }
+
+        float buttonWidth = 180;
+        float offsetX = (ImGui::GetContentRegionAvail().x - buttonWidth) * .5f;
+
+        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + offsetX);
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 20);
+        
+        if (ImGui::Button("Add Component", ImVec2(buttonWidth, 0.f)))
+            ImGui::OpenPopup("ADD_COMPONENT_POPUP");
+
+        this->ShowAddComponentPopup(selectedEntity);
     }
+
+    
 
     ImGui::End();
 }
@@ -65,4 +89,42 @@ void ActorPropertiesWidget::HandleActor(std::shared_ptr<Actor> actor)
     ImGui::ResizableInputText("##actor_name_string_input", actorName, true);
 
     ImGui::SeparatorText("Components");
+}
+
+
+void ActorPropertiesWidget::ShowAddComponentPopup(Entity &entity)
+{
+    if (ImGui::BeginPopup("ADD_COMPONENT_POPUP"))
+    {
+        ImGui::SeparatorText("Components");
+        
+        auto allComponents = ComponentRegistry::GetInstance().GetAllComponents();
+        for (auto &[name, compRegEntry] : allComponents)
+        {
+            // You shouldn't be able to add the 
+            // actor component to an Actor
+            if (name == "Actor")
+                continue;
+
+            if (ImGui::Selectable(name.c_str()))
+            {
+                if (compRegEntry.addComponentFun(entity, compRegEntry.untypedGetterFun()))
+                    ImGui::CloseCurrentPopup();
+            }
+        }
+
+        ImGui::EndPopup();
+    }
+}
+
+
+void ActorPropertiesWidget::ShowComponentRightClickPopup(std::shared_ptr<IComponent> comp, Entity &entity, const std::string &popupID)
+{
+    if (ImGui::BeginPopup(popupID.c_str()))
+    {
+        if (ImGui::Selectable("Delete"))
+            ComponentRegistry::GetInstance().GetEntry(comp->GetName()).removeComponentFun(entity);
+
+        ImGui::EndPopup();
+    }
 }

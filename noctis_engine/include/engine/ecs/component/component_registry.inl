@@ -4,27 +4,30 @@
 template <typename T>
 bool ComponentRegistry::RegisterComponent(const std::string &name)
 {
-    this->m_componentReg[name] = 
-        [](Entity e, std::shared_ptr<IComponent> comp)
+    static_assert(std::is_base_of<IComponent, T>::value, "Component must inherit from IComponent to be registered");
+
+    ComponentRegEntry entry (
+        [](Entity e, std::shared_ptr<IComponent> comp) -> bool
         {
-            e.AddComponent<T>(std::static_pointer_cast<T>(comp));
-        };
+            if (e.HasComponent<T>())
+                return false;
 
-    return true;
-}
+            e.AddComponent(std::dynamic_pointer_cast<T>(comp));
+            return true;
+        },
+        [](Entity e)
+        {
+            e.RemoveComponent<T>();
+        },
+        []()
+        {
+            return std::static_pointer_cast<IComponent>(
+                std::make_shared<T>()
+            );
+        }
+    );
 
-
-template <typename T>
-bool ComponentRegistry::RegisterComponentDeserializer(const std::string &name)
-{
-    this->m_componentDeserializerReg[name] = [](const json &j)
-    {
-        return std::static_pointer_cast<ISerializable>(
-            std::make_shared<T>()
-        );
-    };
-    
-    this->RegisterComponent<T>(name);
+    this->m_componentReg[name] = entry;
 
     return true;
 }

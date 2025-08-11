@@ -129,7 +129,7 @@ void Scene::Load()
     json allActorsJson = sceneJson["actors"];
     for (const json &actorJson : allActorsJson)
     {
-        std::shared_ptr<ISerializable> actorUntyped = actorJson["actor"];
+        std::shared_ptr<IComponent> actorUntyped = actorJson["actor"];
         auto actor = std::dynamic_pointer_cast<Actor>(actorUntyped);
 
         // This means the actor was not deserialized correctly
@@ -152,7 +152,7 @@ void Scene::Load()
         json allComponentsJson = actorJson["components"];
         for (const json &componentJson : allComponentsJson)
         {
-            std::shared_ptr<ISerializable> serializableComponent = componentJson;
+            std::shared_ptr<IComponent> serializableComponent = componentJson;
 
             // If the component is a transform, add it to the map for 
             // later referencing
@@ -231,16 +231,13 @@ void Scene::Save()
         actorJson["actor"] = actorSerializedJson;
 
         json componentsJson = json::array();
-        // Serialize all components that inherit from ISerializable.
         for (std::shared_ptr<IComponent> component : components)
         {
             // Actor is already serialized
             if (std::dynamic_pointer_cast<Actor>(component))
                 continue;
 
-            // Is the component serializable ?
-            if (auto serializable = std::dynamic_pointer_cast<ISerializable>(component))
-                componentsJson.push_back(serializable);
+            componentsJson.push_back(component);
         }
             
         actorJson["components"] = componentsJson;

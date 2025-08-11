@@ -4,11 +4,10 @@
 #include "../../math/color.hpp"
 
 
-class NOCTIS_API DirectionalLight : public IComponent, public ISerializable
+class NOCTIS_API DirectionalLight : public IComponent
 {
 public:
-    ENABLE_SERIALIZATION(DirectionalLight)
-    COMPONENT_GETNAME("Directional Light")
+    REGISTER_COMPONENT(DirectionalLight, "Directional Light")
 
     struct Data
     {

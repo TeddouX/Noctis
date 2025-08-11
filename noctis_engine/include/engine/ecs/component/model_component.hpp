@@ -8,11 +8,10 @@
 
 
 // A ModelComponent stores a pointer to a model that can be rendered
-class NOCTIS_API ModelComponent : public IComponent, public ISerializable
+class NOCTIS_API ModelComponent : public IComponent
 {
 public:
-    ENABLE_SERIALIZATION(ModelComponent)
-    COMPONENT_GETNAME("Model")
+    REGISTER_COMPONENT(ModelComponent, "Model")
 
     ModelComponent() = default;
     ModelComponent(std::shared_ptr<Model> model)

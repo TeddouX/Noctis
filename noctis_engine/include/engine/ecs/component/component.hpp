@@ -7,8 +7,6 @@
 #include "../../logger.hpp"
 
 
-#define COMPONENT_GETNAME(NAME) std::string GetName() const override { return NAME; }
-
 using json = nlohmann::json;
 
 
@@ -17,6 +15,9 @@ class NOCTIS_API IComponent
 public:
     virtual std::vector<std::shared_ptr<IPropertyBase>> GetProperties() { return {}; } 
     virtual std::string GetName() const = 0; 
+
+    virtual void Serialize(json &j) const = 0;
+    virtual void Deserialize(const json &j) = 0;
 };
 
 

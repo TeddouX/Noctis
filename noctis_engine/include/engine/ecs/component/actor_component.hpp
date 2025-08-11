@@ -7,11 +7,10 @@
 #include "../../utils/uuid.hpp"
 
 
-class NOCTIS_API Actor : public IComponent, public ISerializable
+class NOCTIS_API Actor : public IComponent
 {
 public:
-    COMPONENT_GETNAME("Actor")
-    ENABLE_SERIALIZATION(Actor)
+    REGISTER_COMPONENT(Actor, "Actor")
 
     Actor() = default;
     /// @brief This constructor is used as a temporary placeholder

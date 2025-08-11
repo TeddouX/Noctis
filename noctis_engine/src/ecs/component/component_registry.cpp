@@ -1,4 +1,5 @@
 #include "ecs/component/component_registry.hpp"
+#include "ecs/component/component.hpp"
 
 
 ComponentRegistry &ComponentRegistry::GetInstance()
@@ -8,30 +9,31 @@ ComponentRegistry &ComponentRegistry::GetInstance()
 }
     
 
-void ComponentRegistry::AddComponentFromName(const std::string &name, Entity e, std::shared_ptr<IComponent> comp) const
+bool ComponentRegistry::AddComponentFromName(const std::string &name, Entity e, std::shared_ptr<IComponent> comp) const
 {
-    auto it = this->m_componentReg.find(name);
-    if (it != this->m_componentReg.end()) 
-        it->second(e, comp);
+    if (this->m_componentReg.contains(name)) 
+        return this->m_componentReg.at(name).addComponentFun(e, comp);
     else 
+    {
         LOG_ERR("Component {} is not registered.", name);
+        return false;
+    }
 }
 
 
 bool ComponentRegistry::HasComponentDeserializer(const std::string &comp) const
 {
-    return this->m_componentDeserializerReg.find(comp) 
-            != this->m_componentDeserializerReg.end();
+    return this->m_componentReg.contains(comp);
 }
 
 
-ComponentRegistry::ComponentDeserializerFun ComponentRegistry::GetDeserializer(const std::string &comp) const
+ComponentRegEntry ComponentRegistry::GetEntry(const std::string &comp) const
 {
-    return this->m_componentDeserializerReg.at(comp);
+    return this->m_componentReg.at(comp);
 }
 
 
-void to_json(json &j, const std::shared_ptr<ISerializable> &ptr)
+void to_json(json &j, const std::shared_ptr<IComponent> &ptr)
 {
     if (ptr)
     {
@@ -47,7 +49,7 @@ void to_json(json &j, const std::shared_ptr<ISerializable> &ptr)
 }
 
 
-void from_json(const json &j, std::shared_ptr<ISerializable> &ptr)
+void from_json(const json &j, std::shared_ptr<IComponent> &ptr)
 {
     if (j.is_null())
     {
@@ -62,14 +64,14 @@ void from_json(const json &j, std::shared_ptr<ISerializable> &ptr)
     }
 
     std::string type = j.at("type");
-    if (!ComponentRegistry::GetInstance().HasComponentDeserializer(type))
+    if (!COMPONENT_REGISTRY().HasComponentDeserializer(type))
     {
         LOG_ERR("Unknown type for deserialization: {}", type);
         ptr = nullptr;
         return;
     }
 
-    ptr = ComponentRegistry::GetInstance().GetDeserializer(type)(j);
+    ptr = COMPONENT_REGISTRY().GetEntry(type).untypedGetterFun();
     
     // Try deserializing and catch any exceptions
     try 

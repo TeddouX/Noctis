@@ -122,13 +122,6 @@ void RenderProperty(std::shared_ptr<ShaderProperty> prop, std::shared_ptr<ICompo
 
 void RenderComponentProperties(std::shared_ptr<IComponent> comp)
 {
-    std::string componentName = comp->GetName();
-
-    bool open = ImGui::CollapsingHeader(componentName.c_str(), ImGuiTreeNodeFlags_DefaultOpen);
-
-    if (!open)
-        return;
-
     for (std::shared_ptr<IPropertyBase> prop : comp->GetProperties())
     {
         if (auto c = std::dynamic_pointer_cast<IntProperty>(prop))

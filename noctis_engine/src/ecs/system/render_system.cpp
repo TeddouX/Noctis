@@ -19,19 +19,17 @@ void RenderSystem::Update(ComponentManager &cm, float dt)
         auto transform = entity.GetComponent<Transform>();
         auto material = entity.GetComponent<Material>();
         
-        // No material is a problem
         if (!material)
         {
-            LOG_ERR("Entity({}) has no material assigned, so it can't be rendered.", entity.GetID());
+            // LOG_ERR("Entity({}) has no material assigned, so it can't be rendered.", entity.GetID());
             continue;
         }
 
         auto shader = material->GetShader();
 
-        // Just a sanity check at this point
         if (!shader)
         {
-            LOG_ERR("Material {} has no shader assigned, so it can't be rendered.", material->GetName());
+            // LOG_ERR("Material {} has no shader assigned, so it can't be rendered.", material->GetName());
             continue;
         }
 

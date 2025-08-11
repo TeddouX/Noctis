@@ -27,7 +27,13 @@ public:
     void AddComponent(std::shared_ptr<T> comp) { m_cm->AddComponent<T>(*this, comp); }
 
     template <typename T>
+    void RemoveComponent() { return m_cm->RemoveComponent<T>(*this); }
+
+    template <typename T>
     std::shared_ptr<T> GetComponent() const { return m_cm->GetComponent<T>(*this); }
+
+    template <typename T>
+    bool HasComponent() const { return m_cm->HasComponent<T>(*this); }
 
     std::vector<std::shared_ptr<IComponent>> GetAllComponents() { return m_cm->GetAllComponents(*this); }
 

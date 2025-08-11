@@ -5,11 +5,10 @@
 #include "../../filesystem.hpp"
 
 
-class NOCTIS_API ScriptComponent : public IComponent, public ISerializable
+class NOCTIS_API ScriptComponent : public IComponent
 {
 public:
-    COMPONENT_GETNAME("Script")
-    ENABLE_SERIALIZATION(ScriptComponent)
+    REGISTER_COMPONENT(ScriptComponent, "Script")
 
     ScriptComponent() = default;
     ScriptComponent(const fs::path &scriptPath)

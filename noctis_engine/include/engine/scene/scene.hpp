@@ -40,7 +40,7 @@ public:
     inline const std::vector<Entity> &GetAllEntities() const { return this->m_entities; }
 
     /// @returns The currently selected entity (editor only) 
-    inline Entity GetSelectedEntity() { return this->m_selectedEntity; }
+    inline Entity &GetSelectedEntity() { return this->m_selectedEntity; }
  
     /// @brief Sets the currently selected entity (editor only) 
     inline void SetSelectedEntity(Entity entity) { this->m_selectedEntity = entity; }

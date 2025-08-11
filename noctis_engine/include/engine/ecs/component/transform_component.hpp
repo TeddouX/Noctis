@@ -8,11 +8,10 @@
 
 
 /// @brief A transform represent's a entity's location in the world, it has to exist on every entity.
-class NOCTIS_API Transform : public IComponent, public ISerializable
+class NOCTIS_API Transform : public IComponent
 {
 public:
-    ENABLE_SERIALIZATION(Transform)
-    COMPONENT_GETNAME("Transform")
+    REGISTER_COMPONENT(Transform, "Transform")
 
     Transform() = default;
     // This constructor is used as a temporary placeholder
