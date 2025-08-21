@@ -6,7 +6,7 @@
 #include "property/color_property.hpp"
 #include "property/float_property.hpp"
 #include "property/shader_property.hpp"
-#include "../../asset_manager.hpp"
+#include "../../asset/asset_manager.hpp"
 #include "../../math/math.hpp"
 #include "../../math/color.hpp"
 #include "../../rendering/texture.hpp"

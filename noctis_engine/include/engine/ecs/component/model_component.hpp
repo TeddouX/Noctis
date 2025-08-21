@@ -3,7 +3,7 @@
 
 #include "component.hpp"
 #include "property/model_property.hpp"
-#include "../../asset_manager.hpp"
+#include "../../asset/asset_manager.hpp"
 #include "../../rendering/model.hpp"
 
 

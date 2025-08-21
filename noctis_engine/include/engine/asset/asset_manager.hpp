@@ -4,18 +4,40 @@
 #include <unordered_map>
 #include <memory>
 
-#include "engine.hpp"
-#include "rendering/shader.hpp"
-#include "rendering/model.hpp"
+#include "asset.hpp"
+#include "../engine.hpp"
+#include "../rendering/shader.hpp"
+#include "../rendering/model.hpp"
 
 
-inline constexpr std::string_view CUBE_MODEL_NAME = "Cube";
-inline constexpr std::string_view CYLINDER_MODEL_NAME = "Cylinder";
-inline constexpr std::string_view MONKEY_MODEL_NAME = "Monkey";
-inline constexpr std::string_view SPHERE_MODEL_NAME = "Sphere";
+#define CUBE_MODEL_NAME "Cube"
+#define CYLINDER_MODEL_NAME "Cylinder"
+#define MONKEY_MODEL_NAME "Monkey"
+#define SPHERE_MODEL_NAME "Sphere"
 
-inline constexpr std::string_view DEFAULT_SHADER_NAME = "Default";
-inline constexpr std::string_view LIT_SHADER_NAME = "Lit";
+#define DEFAULT_SHADER_NAME "Default"
+#define LIT_SHADER_NAME "Lit"
+
+
+class NOCTIS_API IAssetManager
+{
+public:
+    virtual ~IAssetManager() = default;
+    virtual void InitEmbedded() = 0;
+    // virtual void AddAsset(const std::string &name, AssetType type, std::shared_ptr<IAssetBase> asset) = 0;
+    virtual std::shared_ptr<IAssetBase> GetAsset(AssetType type, const std::string &name) = 0;
+};
+
+
+class NOCTIS_API AssetManagerAccessor
+{
+public:
+    static void SetAssetManager(std::shared_ptr<IAssetManager> assetManager) { s_assetManager = assetManager; }
+    static std::shared_ptr<IAssetManager> GetAssetManager();
+
+private:
+    static inline std::shared_ptr<IAssetManager> s_assetManager;
+};
 
 
 class NOCTIS_API AssetManager

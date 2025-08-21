@@ -8,7 +8,7 @@
 #include "../filesystem.hpp"
 
 
-enum class NOCTIS_API TextureType
+enum class TextureType
 {
     INVALID,
     DIFFUSE,

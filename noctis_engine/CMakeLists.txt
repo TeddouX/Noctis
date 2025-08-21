@@ -16,6 +16,9 @@ set(ENGINE_SOURCES
     # -------------------
     #      Headers
     # -------------------
+    "include/engine/asset/asset_manager.hpp"
+    "include/engine/asset/asset.hpp"
+
     "include/engine/ecs/component/property/all_properties.hpp"
     "include/engine/ecs/component/property/color_property.hpp"
     "include/engine/ecs/component/property/float_property.hpp"
@@ -74,7 +77,6 @@ set(ENGINE_SOURCES
 
     "include/engine/utils/uuid.hpp"
 
-    "include/engine/asset_manager.hpp"
     "include/engine/engine.hpp"
     "include/engine/filesystem.hpp"
     "include/engine/logger.hpp"
@@ -84,6 +86,8 @@ set(ENGINE_SOURCES
     # -------------------
     #    Source files
     # -------------------
+    "src/asset/asset_manager.cpp"
+    
     "src/ecs/component/actor_component.cpp"
     "src/ecs/component/component_registry.cpp"
     "src/ecs/component/light_component.cpp"
@@ -117,7 +121,6 @@ set(ENGINE_SOURCES
 
     "src/utils/uuid.cpp"
 
-    "src/asset_manager.cpp"
     "src/filesystem.cpp"
     "src/logger.cpp"
     "src/stb_image_impl.c"

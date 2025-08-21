@@ -3,12 +3,10 @@
 
 #include "project.hpp"
 #include "ui/editor_ui.hpp"
+#include "asset/editor_asset_manager.hpp"
 
 
 #define EDITOR() Editor::GetInstance()
-
-#define GLSL_VERS "#version 430 core"
-
 
 enum class EditorState
 {
@@ -36,6 +34,7 @@ public:
 private:
     static Editor s_instance;
     
+    std::shared_ptr<EditorAssetManager> m_assetManager;
     Project     m_currProject;
     EditorState m_state;
     Window      m_window;

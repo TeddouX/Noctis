@@ -17,10 +17,9 @@ class NOCTIS_API Shader
 {
 public:
 	Shader() = default;
-	Shader(const std::string &name, const std::string &vertexPath, const std::string &fragmentPath);
+	Shader(const fs::path &vertexPath, const fs::path &fragmentPath);
+	Shader(const fs::path &shaderPath);
 	~Shader() = default;
-
-	const std::string &GetName() const { return this->m_name; }
 
 	void Use() const;
 
@@ -33,8 +32,6 @@ public:
 
 private:
 	GLuint m_shaderProgramID = 0;
-	std::string m_name;
-	std::string m_vrPath, m_frPath;
 
 	void CreateProgram(const char *vertexCode, const char *fragmentCode);
 };

@@ -1,6 +1,6 @@
 # Noctis: a simplistic game engine  
 /!\ In developement  
-Linux and MacOS support is not planned.  
+Linux and MacOS support will be added in the late future.  
 
 ### Editor
 The editor's UI is made using [ImGui](https://github.com/ocornut/imgui).  

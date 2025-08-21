@@ -8,6 +8,9 @@ set(EDITOR_SOURCES
     # -------------------
     #      Headers
     # -------------------
+    "src/asset/editor_asset_manager.hpp"
+    "src/asset/assets.hpp"
+
     "src/ui/widget/actor_properties.hpp"
     "src/ui/widget/asset_explorer.hpp"
     "src/ui/widget/console.hpp"
@@ -28,6 +31,8 @@ set(EDITOR_SOURCES
     # -------------------
     #    Source files
     # -------------------
+    "src/asset/editor_asset_manager.cpp"
+
     "src/ui/widget/actor_properties.cpp"
     "src/ui/widget/asset_explorer.cpp"
     "src/ui/widget/console.cpp"
