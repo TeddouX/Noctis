@@ -1,34 +1,18 @@
 #include "editor_asset_manager.hpp"
 
+#include "importer/model_importer.hpp"
+#include "importer/texture_importer.hpp"
 
-static bool IsImageFile(const fs::path &path)
+
+bool IsImageFile(const fs::path &path);
+bool IsModelFile(const fs::path &path);
+bool IsShaderFile(const fs::path &path);
+
+
+EditorAssetManager &EditorAssetManager::GetInstance()
 {
-    if (fs::is_regular_file(path))
-        return false;
-
-    std::string extension = path.extension().string();
-
-    return extension == ".png" 
-        || extension == ".jpeg"; 
-    //  || extension == ".hdr";
-}
-
-
-static bool IsModelFile(const fs::path &path)
-{
-    if (fs::is_regular_file(path))
-        return false;
-
-    return path.extension() == ".obj"; 
-}
-
-
-static bool IsShaderFile(const fs::path &path)
-{
-    if (fs::is_regular_file(path))
-        return false;
-
-    return path.extension() == ".glsl"; 
+    static EditorAssetManager eam;
+    return eam;
 }
 
 
@@ -41,38 +25,52 @@ void EditorAssetManager::InitEmbedded()
 
 void EditorAssetManager::AddFile(const fs::path &file)
 {
-    std::string fileName = file.stem().string();
-
     if (IsImageFile(file))
-    {
-        auto ta = std::make_shared<TextureAsset>(
-            fileName,
-            std::make_shared<BasicTexture>(file, TextureType::INVALID),
-            file
-        );
-
-        this->m_assetCache[AssetType::TEXTURE].push_back(ta);
-    }
+        AddTexture(file);
     else if (IsModelFile(file))
-    {
-        auto ma = std::make_shared<ModelAsset>(
-            fileName,
-            Model(file),
-            file
-        );
-
-        this->m_assetCache[AssetType::MODEL].push_back(ma);
-    }
+        AddModel(file);
     else if (IsShaderFile(file))
-    {
-        auto sa = std::make_shared<ShaderAsset>(
-            fileName,
-            Shader(file),
-            file
-        );
-        
-        this->m_assetCache[AssetType::SHADER].push_back(sa);
-    }
+        AddShader(file);
+}
+
+
+void EditorAssetManager::AddModel(const fs::path &file)
+{
+    auto ma = std::make_shared<ModelAsset>(
+        file.stem().string(),
+        LoadModel(file),
+        file
+    );
+
+    this->m_assetCache[AssetType::MODEL].push_back(ma);
+}
+
+
+void EditorAssetManager::AddShader(const fs::path &file)
+{
+    std::string fileContents = Filesystem::GetFileContents(file);
+    if (fileContents.empty())
+        return;
+
+    auto sa = std::make_shared<ShaderAsset>(
+        file.stem().string(),
+        std::make_shared<Shader>(fileContents.c_str()),
+        file
+    );
+    
+    this->m_assetCache[AssetType::SHADER].push_back(sa);
+}
+
+
+void EditorAssetManager::AddTexture(const fs::path &file)
+{
+    auto ta = std::make_shared<TextureAsset>(
+        file.stem().string(),
+        LoadTextureFromFile(file),
+        file
+    );
+
+    this->m_assetCache[AssetType::TEXTURE].push_back(ta);
 }
 
 
@@ -92,11 +90,46 @@ std::shared_ptr<IAssetBase> EditorAssetManager::GetAsset(AssetType type, const s
 
 void EditorAssetManager::InitializeEmbeddedModels()
 {
-    
+    AddModel(".\\assets\\models\\Cube.obj");
+    AddModel(".\\assets\\models\\Cylinder.obj");
+    AddModel(".\\assets\\models\\Monkey.obj");
+    AddModel(".\\assets\\models\\Sphere.obj");
 }
 
 
 void EditorAssetManager::InitializeEmbeddedShaders()
 {
+    AddShader(".\\assets\\shaders\\Default.glsl");
+    AddShader(".\\assets\\shaders\\Lit.glsl");
+}
 
+
+bool IsImageFile(const fs::path &path)
+{
+    if (fs::is_regular_file(path))
+        return false;
+
+    std::string extension = path.extension().string();
+
+    return extension == ".png" 
+        || extension == ".jpeg"; 
+    //  || extension == ".hdr";
+}
+
+
+bool IsModelFile(const fs::path &path)
+{
+    if (fs::is_regular_file(path))
+        return false;
+
+    return path.extension() == ".obj"; 
+}
+
+
+bool IsShaderFile(const fs::path &path)
+{
+    if (fs::is_regular_file(path))
+        return false;
+
+    return path.extension() == ".glsl"; 
 }

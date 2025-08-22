@@ -1,7 +1,7 @@
 #include "rendering/shader.hpp"
 
 
-static bool CheckUniform(int location, const std::string& uniformName)
+bool CheckUniform(int location, const std::string& uniformName)
 {
 	if (location == -1)
 	{
@@ -13,31 +13,10 @@ static bool CheckUniform(int location, const std::string& uniformName)
 }
 
 
-Shader::Shader(const fs::path &vertexPath, const fs::path &fragmentPath)
+Shader::Shader(const char *fileContents)
 {
-	LOG_INFO("Loading shaders: {}, {}", vertexPath, fragmentPath);
-
-	std::string vertexString = Filesystem::GetFileContents(vertexPath);
-	std::string fragmentString = Filesystem::GetFileContents(fragmentPath);
-	
-	if (vertexString.empty() || fragmentString.empty())
-		return;
-
-	this->CreateProgram(vertexString.c_str(), fragmentString.c_str());
-}
-
-
-Shader::Shader(const fs::path &shaderPath)
-{
-	LOG_INFO("Loading shader: {}, {}", shaderPath);
-
-	std::string shaderString = Filesystem::GetFileContents(shaderPath);
-	
-	if (shaderPath.empty())
-		return;
-
-	std::string vertexString = std::string(NOCTIS_OPENGL_VERSION) + "\n#define VERTEX\n" + shaderString;
-	std::string fragmentString = std::string(NOCTIS_OPENGL_VERSION) + "\n#define FRAGMENT\n" + shaderString;
+	std::string vertexString = std::string(NOCTIS_OPENGL_VERSION) + "\n#define VERTEX\n" + fileContents;
+	std::string fragmentString = std::string(NOCTIS_OPENGL_VERSION) + "\n#define FRAGMENT\n" + fileContents;
 
 	this->CreateProgram(vertexString.c_str(), fragmentString.c_str());
 }

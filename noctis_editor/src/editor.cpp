@@ -11,9 +11,6 @@ Editor::Editor()
     m_window(800, 600, "Noctis Editor"), 
     m_ui(m_window, NOCTIS_OPENGL_VERSION)
 {
-    this->m_assetManager = std::make_shared<EditorAssetManager>();
-
-    AssetManagerAccessor::SetAssetManager(this->m_assetManager);
 }
 
 

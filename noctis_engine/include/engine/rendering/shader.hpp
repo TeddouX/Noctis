@@ -17,8 +17,7 @@ class NOCTIS_API Shader
 {
 public:
 	Shader() = default;
-	Shader(const fs::path &vertexPath, const fs::path &fragmentPath);
-	Shader(const fs::path &shaderPath);
+	Shader(const char *fileContents);
 	~Shader() = default;
 
 	void Use() const;

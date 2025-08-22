@@ -28,13 +28,12 @@ public:
 
     Project &GetCurrProject() { return this->m_currProject; }
     void SetCurrProject(const Project &project) { this->m_currProject = project; };
-    
+
     void Run();
     
 private:
     static Editor s_instance;
     
-    std::shared_ptr<EditorAssetManager> m_assetManager;
     Project     m_currProject;
     EditorState m_state;
     Window      m_window;

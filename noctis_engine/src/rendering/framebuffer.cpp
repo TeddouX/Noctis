@@ -25,12 +25,12 @@ void FrameBuffer::Init(IVec2 size)
 {
     this->m_size = size;
 
-    this->m_texture = BasicTexture(
+    this->m_texture = Texture(
         std::max(1, size.x), 
         std::max(1, size.y)
     );
 
-    this->m_depthTexture = BasicTexture(
+    this->m_depthTexture = Texture(
         std::max(1, size.x), 
         std::max(1, size.y), 
         GL_DEPTH_COMPONENT24, 

@@ -1,7 +1,7 @@
 #include "asset/asset_manager.hpp"
 
 
-std::shared_ptr<IAssetManager> AssetManagerAccessor::GetAssetManager()
+IAssetManager *AssetManagerAccessor::Get()
 {
     if (!s_assetManager)
     {

@@ -14,7 +14,7 @@ enum class AssetType
 };
 
 
-struct IAssetBase
+struct NOCTIS_API IAssetBase
 {
     virtual ~IAssetBase() = default;
 
@@ -25,7 +25,7 @@ struct IAssetBase
 template <typename T>
 struct NOCTIS_API IAsset : public IAssetBase
 {
-    T Asset;
+    std::shared_ptr<T> Asset;
 };
 
 

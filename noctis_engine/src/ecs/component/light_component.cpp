@@ -37,9 +37,9 @@ void DirectionalLight::Deserialize(const json &j)
 std::vector<std::shared_ptr<IPropertyBase>> DirectionalLight::GetProperties()
 {
     return {
-        std::make_shared<ColorProperty>(GETTER_FOR(this->m_ambient), "Ambient Color"),
-        std::make_shared<ColorProperty>(GETTER_FOR(this->m_diffuse), "Diffuse Color"),
-        std::make_shared<ColorProperty>(GETTER_FOR(this->m_specular), "Specular Color"),
+        std::make_shared<ColorProperty>(GETTER_FOR_REF(this->m_ambient), "Ambient Color"),
+        std::make_shared<ColorProperty>(GETTER_FOR_REF(this->m_diffuse), "Diffuse Color"),
+        std::make_shared<ColorProperty>(GETTER_FOR_REF(this->m_specular), "Specular Color"),
     };
 }
 

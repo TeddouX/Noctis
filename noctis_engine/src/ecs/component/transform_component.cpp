@@ -121,14 +121,9 @@ void Transform::Deserialize(const json &j)
 
 std::vector<std::shared_ptr<IPropertyBase>> Transform::GetProperties()
 {
-    static float f = 1;
-    static Color c(0, 1, 2);
-
     return {
-        std::make_shared<ColorProperty>(GETTER_FOR(c), "CACA"),
-        std::make_shared<FloatProperty>(GETTER_FOR(f), "Test"),
-        std::make_shared<Vec3Property>(GETTER_FOR(this->m_pos), "Position"),
-        std::make_shared<Vec3Property>(GETTER_FOR(this->m_rot), "Rotation"),
-        std::make_shared<Vec3Property>(GETTER_FOR(this->m_scale), "Scale", true, false),
+        std::make_shared<Vec3Property>(GETTER_FOR_REF(this->m_pos), "Position"),
+        std::make_shared<Vec3Property>(GETTER_FOR_REF(this->m_rot), "Rotation"),
+        std::make_shared<Vec3Property>(GETTER_FOR_REF(this->m_scale), "Scale", true, false),
     };
 }

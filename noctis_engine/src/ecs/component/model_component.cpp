@@ -5,20 +5,22 @@ void ModelComponent::Serialize(json &j) const
 {
     START_SERIALIZATION(j)
         COMPONENT_TO_JSON(ModelComponent),
-        {"model", this->m_model->GetName()}
+        {"model", this->m_model->Name}
     END_SERIALIZATION()
 }
 
 
 void ModelComponent::Deserialize(const json &j)
 {
-    // PROP_FROM_JSON(j, m_model)
-    // Get a shared ptr to the model from the model name
-    this->m_model = AssetManager::GetInstance().GetModel(j["model"]);
+    this->m_model = ASSET_MANAGER()->GetTyped<Model>(AssetType::MODEL, j["model"]);
 }
 
 
 std::vector<std::shared_ptr<IPropertyBase>> ModelComponent::GetProperties()
 {
-    return { std::make_shared<ModelProperty>(GETTER_FOR(*this->m_model), "Model") };
+    return { 
+        std::make_shared<AssetProperty>(
+            GETTER_FOR(std::dynamic_pointer_cast<IAssetBase>(this->m_model)), "Model"
+        ) 
+    };
 }

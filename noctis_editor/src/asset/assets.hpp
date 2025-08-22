@@ -1,3 +1,4 @@
+#pragma once
 #include <memory>
 
 #include <engine/asset/asset.hpp>
@@ -13,9 +14,9 @@ struct IEditorAsset : public IAsset<T>
 };
 
 
-struct TextureAsset : public IEditorAsset<std::shared_ptr<ITexture>> 
+struct TextureAsset : public IEditorAsset<Texture> 
 {
-    TextureAsset(const std::string &name, std::shared_ptr<ITexture> texture, const fs::path &path)
+    TextureAsset(const std::string &name, std::shared_ptr<Texture> texture, const fs::path &path)
     {
         Name = name;
         Asset = texture;
@@ -25,7 +26,7 @@ struct TextureAsset : public IEditorAsset<std::shared_ptr<ITexture>>
 
 struct ShaderAsset : public IEditorAsset<Shader> 
 {
-    ShaderAsset(const std::string &name, Shader shader, const fs::path &path)
+    ShaderAsset(const std::string &name, std::shared_ptr<Shader> shader, const fs::path &path)
     {
         Name = name;
         Asset = shader;
@@ -33,9 +34,9 @@ struct ShaderAsset : public IEditorAsset<Shader>
     };
 };
 
-struct ModelAsset : public IEditorAsset<Model> 
+struct ModelAsset : public IEditorAsset<Model>
 {
-    ModelAsset(const std::string &name, Model model, const fs::path &path)
+    ModelAsset(const std::string &name, std::shared_ptr<Model> model, const fs::path &path)
     {
         Name = name;
         Asset = model;

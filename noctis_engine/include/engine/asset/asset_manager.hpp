@@ -18,6 +18,8 @@
 #define DEFAULT_SHADER_NAME "Default"
 #define LIT_SHADER_NAME "Lit"
 
+#define ASSET_MANAGER() AssetManagerAccessor::Get()
+
 
 class NOCTIS_API IAssetManager
 {
@@ -26,49 +28,23 @@ public:
     virtual void InitEmbedded() = 0;
     // virtual void AddAsset(const std::string &name, AssetType type, std::shared_ptr<IAssetBase> asset) = 0;
     virtual std::shared_ptr<IAssetBase> GetAsset(AssetType type, const std::string &name) = 0;
+
+    template <typename T>
+    std::shared_ptr<IAsset<T>> GetTyped(AssetType type, const std::string &name)
+    {
+        return std::dynamic_pointer_cast<IAsset<T>>(
+            this->GetAsset(type, name)
+        );
+    }
 };
 
 
 class NOCTIS_API AssetManagerAccessor
 {
 public:
-    static void SetAssetManager(std::shared_ptr<IAssetManager> assetManager) { s_assetManager = assetManager; }
-    static std::shared_ptr<IAssetManager> GetAssetManager();
+    static void Set(IAssetManager *assetManager) { s_assetManager = assetManager; }
+    static IAssetManager *Get();
 
 private:
-    static inline std::shared_ptr<IAssetManager> s_assetManager;
-};
-
-
-class NOCTIS_API AssetManager
-{
-public:
-    static AssetManager &GetInstance();
-
-    void LoadEmbedded();
-
-    void AddModel(Model &model);
-    void AddShader(Shader &shader);
-
-    inline void AddTexture(const std::string &name, std::shared_ptr<ITexture> texture)
-    {
-        this->m_allTextures.emplace(name, texture);
-    };
-
-    std::shared_ptr<Model> GetModel(const std::string &name);
-    std::shared_ptr<Shader> GetShader(const std::string &name);
-    std::shared_ptr<ITexture> GetTexture(const std::string &name);
-
-private:
-    // Might want to change how this works lol
-    std::unordered_map<std::string, std::shared_ptr<ITexture>> m_allTextures;
-    std::unordered_map<std::string, Shader>   m_allShaders;
-    std::unordered_map<std::string, Model>    m_allModels;
-    
-    AssetManager() = default;
-
-    void InitializeEmbeddedModels();
-    void InitializeEmbeddedShaders();
-
-    void AddAllTexturesFromModel(Model &model);
+    static inline IAssetManager *s_assetManager = nullptr;
 };
