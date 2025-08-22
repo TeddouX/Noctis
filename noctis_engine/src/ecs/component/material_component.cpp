@@ -57,8 +57,8 @@ void Material::Serialize(json &j) const
         {"shader", this->m_shader->Name},
         {
             "texture", 
-            this->m_texture->Asset->IsEmpty()
-            ? json(nullptr)        
+            !this->m_texture || this->m_texture->Asset->IsEmpty()
+            ? json(nullptr)
             : json(this->m_texture->Name)
         }
     END_SERIALIZATION()

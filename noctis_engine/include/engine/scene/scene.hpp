@@ -30,26 +30,26 @@ public:
     Scene(const std::string &name, const fs::path &scenesRoot);
 
     /// @brief Adds an entity to this scene's entity list
-    inline void AddEntity(Entity entity) { this->m_entities.push_back(entity); }
+    void AddEntity(Entity entity) { this->m_entities.push_back(entity); }
 
     /// @brief Removes an entity from this scene's, its children 
     /// and its associated components (unfinished)
     void RemoveEntity(Entity entity);
 
     /// @returns All this scene's entities 
-    inline const std::vector<Entity> &GetAllEntities() const { return this->m_entities; }
+    const std::vector<Entity> &GetAllEntities() const { return this->m_entities; }
 
     /// @returns The currently selected entity (editor only) 
-    inline Entity &GetSelectedEntity() { return this->m_selectedEntity; }
+    Entity &GetSelectedEntity() { return this->m_selectedEntity; }
  
     /// @brief Sets the currently selected entity (editor only) 
-    inline void SetSelectedEntity(Entity entity) { this->m_selectedEntity = entity; }
+    void SetSelectedEntity(Entity entity) { this->m_selectedEntity = entity; }
 
     /// @returns This scene's name
-    inline std::string GetName() const { return this->m_name; };
+    std::string GetName() const { return this->m_name; };
 
     /// @returns This scene's component manager
-    inline ComponentManager &GetComponentManager() { return this->m_componentManager; }
+    ComponentManager &GetComponentManager() { return this->m_componentManager; }
 
     /// @brief Updates all systems registered on this scene
     void UpdateAllSystems(float dt);

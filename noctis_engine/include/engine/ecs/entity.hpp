@@ -18,7 +18,7 @@ public:
     inline static void ResetCount() { nextEntityID = 1; }
     
     uint64_t GetID() const { return m_id; }
-    bool     IsValid() { return m_id > 0; }
+    bool     IsValid() { return m_id != 0; }
     
     bool operator==(const Entity& other) const { return m_id == other.m_id; }
     bool operator!=(const Entity& other) const { return m_id != other.m_id; }
