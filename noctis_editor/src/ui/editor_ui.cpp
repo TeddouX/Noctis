@@ -58,7 +58,7 @@ void EditorUI::Render()
     
     ImGui::PushFont(this->m_font);
 
-    ImGui::ShowDemoWindow();
+    // ImGui::ShowDemoWindow();
     
     this->DockDisplays();
 

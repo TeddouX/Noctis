@@ -41,7 +41,9 @@ void ActorPropertiesWidget::Render()
 
         // Transform is processed individually here because it should be inserted at the top of everything
         std::shared_ptr<Transform> transform = selectedEntity.GetComponent<Transform>();
-        RenderComponentProperties(transform);
+        bool open = ImGui::CollapsingHeader(transform->GetName().c_str(), ImGuiTreeNodeFlags_DefaultOpen);
+        if (open)
+            RenderComponentProperties(transform);
 
         for (std::shared_ptr<IComponent> component : allComponents)
         {
@@ -50,7 +52,7 @@ void ActorPropertiesWidget::Render()
                 std::dynamic_pointer_cast<Transform>(component))
                 continue; 
 
-            bool open = ImGui::CollapsingHeader(component->GetName().c_str(), ImGuiTreeNodeFlags_DefaultOpen);
+            open = ImGui::CollapsingHeader(component->GetName().c_str(), ImGuiTreeNodeFlags_DefaultOpen);
             
             std::string popupID = "COMPONENT_RIGHT_CLICK_POPUP_" + component->GetName();  
             if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
@@ -74,8 +76,6 @@ void ActorPropertiesWidget::Render()
 
         this->ShowAddComponentPopup(selectedEntity);
     }
-
-    
 
     ImGui::End();
 }

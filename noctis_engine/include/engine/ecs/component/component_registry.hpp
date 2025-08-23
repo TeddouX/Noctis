@@ -14,7 +14,7 @@
     ComponentRegistry::GetInstance().RegisterComponent<CLASSNAME>(NAME); \
     std::string GetName() const override { return NAME; }
 
-#define START_SERIALIZATION(JSON) JSON = json {
+#define START_SERIALIZATION(JSON) JSON = json { {"type", this->GetName()},
 #define END_SERIALIZATION() };
 
 /// @brief Helper macro for serializing a member variable
@@ -24,10 +24,6 @@
 /// @brief Helper macro for getting a member
 /// variable from a json object
 #define PROP_FROM_JSON(JSON, PROPERTY) JSON.at(#PROPERTY).get_to(PROPERTY);
-
-
-/// @brief Helper macro to serialize a component
-#define COMPONENT_TO_JSON(COMPONENT) {"type", #COMPONENT} 
 
 
 using json = nlohmann::json;

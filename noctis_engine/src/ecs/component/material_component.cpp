@@ -49,7 +49,6 @@ void Material::UploadData(Shader &shader)
 void Material::Serialize(json &j) const
 {
     START_SERIALIZATION(j)
-        COMPONENT_TO_JSON(Material),
         PROP_TO_JSON(m_color),
         PROP_TO_JSON(m_specularReflectance),
         PROP_TO_JSON(m_specularDefinition),

@@ -85,7 +85,6 @@ Mat4 Transform::GetModelMatrix() const
 void Transform::Serialize(json &j) const
 {
     START_SERIALIZATION(j)
-        COMPONENT_TO_JSON(Transform),
         PROP_TO_JSON(m_pos),
         PROP_TO_JSON(m_rot),
         PROP_TO_JSON(m_scale),

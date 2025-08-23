@@ -16,7 +16,6 @@ DirectionalLight::Data DirectionalLight::GetData()
 void DirectionalLight::Serialize(json &j) const
 {
     START_SERIALIZATION(j)
-        COMPONENT_TO_JSON(DirectionalLight),
         PROP_TO_JSON(m_rotation),
         PROP_TO_JSON(m_ambient),
         PROP_TO_JSON(m_diffuse),
