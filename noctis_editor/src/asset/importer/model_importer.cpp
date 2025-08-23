@@ -151,7 +151,9 @@ Mesh ProcessMesh(aiMesh *mesh, const aiScene *scene)
 }
 
 
-std::vector<std::shared_ptr<Texture>> LoadAllTextures(aiMaterial *material, const aiScene *scene)
+std::vector<std::shared_ptr<Texture>> LoadAllTextures(
+    aiMaterial *material, 
+    const aiScene *scene)
 {
     static const std::array<aiTextureType, 5> supportedTextureTypes = {
         aiTextureType_DIFFUSE,

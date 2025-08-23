@@ -28,9 +28,9 @@ Texture::Texture(uint8_t *data, IVec2 size, int nrChannels)
 	this->Generate(true);
 
 	GLenum format = GL_RGBA;
-	if (this->m_nrChannels == 1)
+	if (nrChannels == 1)
 		format = GL_RED;
-	else if (this->m_nrChannels == 3)
+	else if (nrChannels == 3)
 		format = GL_RGB;
 
 	glTexImage2D(

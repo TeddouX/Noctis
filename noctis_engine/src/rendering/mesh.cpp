@@ -3,7 +3,7 @@
 
 Mesh::Mesh(const std::vector<Vertex> &vertices, const std::vector<GLuint> &indices)
 {
-    this->m_indicesSize = indices.size();
+    this->m_indicesSize = (GLsizei)indices.size();
 
     // Generate buffers
     glGenVertexArrays(1, &this->m_VAO);

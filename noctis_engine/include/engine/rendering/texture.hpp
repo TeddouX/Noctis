@@ -24,18 +24,15 @@ public:
 
     GLuint GetID() const;
 
-    bool IsEmpty() { return this->m_empty; }
+    bool IsEmpty() const { return this->m_empty; }
 
     void Bind();
     void BindToPoint(int bindPoint) const;
     void Delete();
 
 private:
-    GLuint m_id;
-
+    GLuint m_id = 0;
     bool m_empty = false;
-    int m_width, m_height; 
-    int m_nrChannels;
 
     void Generate(bool mipmaps);
 };
