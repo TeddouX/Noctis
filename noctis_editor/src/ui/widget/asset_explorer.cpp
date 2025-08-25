@@ -35,7 +35,7 @@ void AssetExplorerWidget::UpdateLayoutSizes(float availWidth)
 
 void AssetExplorerWidget::RenderAssetBrowser()
 {
-    // Heavily inspired by the ImGui example asset browser:
+    // Heavily inspired by ImGui's example asset browser:
     // https://github.com/ocornut/imgui/blob/master/imgui_demo.cpp#L10549
 
     m_assetViews.clear();
