@@ -16,6 +16,8 @@ std::unique_ptr<Texture> LoadTextureFromFile(const fs::path &path)
 		0
 	);
 
+    LOG_INFO("{}, {}, {}", width, height, nrChannels);
+
     auto tex = std::make_unique<Texture>(imageData, IVec2(width, height), nrChannels);
 
     stbi_image_free(imageData);

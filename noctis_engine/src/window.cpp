@@ -83,9 +83,9 @@ void Window::OpenGLDbgMessCallback(
     GLuint id, 
     GLenum severity,
     GLsizei length, 
-    const GLchar *message, 
-    const GLvoid *userParam
-) 
+    const GLchar* message, 
+    const void* userParam
+)
 {
     if (severity == GL_DEBUG_SEVERITY_LOW)
     {

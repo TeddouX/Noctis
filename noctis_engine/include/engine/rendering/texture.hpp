@@ -14,7 +14,7 @@ public:
     Texture() = default;
 
     /// @brief Create an empty texture of size
-    Texture(int width, int height, int internalFormat = GL_RGB, int format = GL_RGB);
+    Texture(int width, int height, int internalFormat = GL_RGBA8, int format = GL_RGB);
 
     /// @brief Load raw data from memory
     Texture(uint8_t *data, IVec2 size, int nrChannels = 3);

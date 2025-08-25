@@ -90,6 +90,6 @@ target_include_directories(NoctisEditor
 
 add_custom_command(TARGET NoctisEditor POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        $<TARGET_FILE:NoctisEngine>         # the built SDL3 DLL
-        $<TARGET_FILE_DIR:NoctisEditor>   # the folder where your exe is
+        $<TARGET_FILE:NoctisEngine>
+        $<TARGET_FILE_DIR:NoctisEditor>
 )
