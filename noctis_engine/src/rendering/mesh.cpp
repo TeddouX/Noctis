@@ -1,9 +1,10 @@
 #include "rendering/mesh.hpp"
 
 
-Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<GLuint> &indices)
-    : m_vertices(vertices), m_indices(indices)
+Mesh::Mesh(const std::vector<Vertex> &vertices, const std::vector<GLuint> &indices)
 {
+    this->m_indicesSize = (GLsizei)indices.size();
+
     // Generate buffers
     glGenVertexArrays(1, &this->m_VAO);
     glGenBuffers(1,      &this->m_VBO);
@@ -48,5 +49,5 @@ void Mesh::Render(Shader &shader, const Mat4 &modelMatrix)
     shader.SetMatrix("modelMatrix", modelMatrix * this->m_transformMatrix);
 
     glBindVertexArray(this->m_VAO);
-    glDrawElements(GL_TRIANGLES, (GLsizei)this->m_indices.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, m_indicesSize, GL_UNSIGNED_INT, 0);
 }

@@ -1,5 +1,7 @@
 #include "editor.hpp"
 
+#include <engine/asset/asset_manager.hpp>
+
 
 Editor Editor::s_instance;
 
@@ -7,7 +9,7 @@ Editor Editor::s_instance;
 Editor::Editor()
     : m_state(EditorState::PROJECT_SELECTION),
     m_window(800, 600, "Noctis Editor"), 
-    m_ui(m_window, GLSL_VERS)
+    m_ui(m_window, NOCTIS_OPENGL_VERSION)
 {
 }
 

@@ -25,7 +25,7 @@ void RenderSystem::Update(ComponentManager &cm, float dt)
             continue;
         }
 
-        auto shader = material->GetShader();
+        std::shared_ptr<Shader> shader = material->GetShader();
 
         if (!shader)
         {

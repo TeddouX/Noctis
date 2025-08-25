@@ -4,7 +4,8 @@
 #include "../../../filesystem.hpp"
 
 
-#define GETTER_FOR(EXPR) [this]() -> decltype(EXPR)& { return EXPR; }
+#define GETTER_FOR(EXPR) [this]() -> decltype(EXPR) { return EXPR; }
+#define GETTER_FOR_REF(EXPR) [this]() -> decltype(EXPR)& { return EXPR; }
 
 
 /// @brief Any pointer of type IPropertyBase should be castable to IProperty

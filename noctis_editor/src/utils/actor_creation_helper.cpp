@@ -1,6 +1,6 @@
 #include "actor_creation_helper.hpp"
 
-#include <engine/asset_manager.hpp>
+#include <engine/asset/asset_manager.hpp>
 #include <engine/scene/scene_manager.hpp>
 #include <engine/ecs/component/model_component.hpp>
 #include <engine/ecs/component/actor_component.hpp>
@@ -44,22 +44,22 @@ void ActorCreationHelper::CreateEmpty(Transform *parent)
 void ActorCreationHelper::CreateSimpleShape(std::string_view modelName, Transform *parent)
 {
     Scene *currScene = SCENE_MANAGER().GetCurrScene();
-    AssetManager &am = AssetManager::GetInstance();
+    IAssetManager *am = AssetManagerAccessor::Get();
     
     Entity entity(&currScene->GetComponentManager());
-    std::shared_ptr<Model> model = am.GetModel(std::string(modelName));
+    auto model = am->GetTyped<Model>(AssetType::MODEL, std::string(modelName));
     
-    AddDefaultComponents(entity, parent, model->GetBeautifiedName());
+    AddDefaultComponents(entity, parent, model->Name);
 
-    entity.AddComponent(std::make_shared < ModelComponent>(model));
+    entity.AddComponent(std::make_shared<ModelComponent>(model));
 
-    std::shared_ptr<Shader> shader = am.GetShader(std::string(LIT_SHADER_NAME));
+    auto shader = am->GetTyped<Shader>(AssetType::SHADER, std::string(LIT_SHADER_NAME));
     entity.AddComponent(std::make_shared<Material>("default", shader));
 
     currScene->AddEntity(entity);
     currScene->SetSelectedEntity(entity);
 
-    LOG_INFO("Created an actor with model ({})", model->GetBeautifiedName());
+    LOG_INFO("Created an actor with model ({})", model->Name);
 }
 
 

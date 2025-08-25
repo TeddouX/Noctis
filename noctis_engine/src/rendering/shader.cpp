@@ -1,7 +1,7 @@
 #include "rendering/shader.hpp"
 
 
-static bool CheckUniform(int location, const std::string& uniformName)
+bool CheckUniform(int location, const std::string& uniformName)
 {
 	if (location == -1)
 	{
@@ -13,18 +13,10 @@ static bool CheckUniform(int location, const std::string& uniformName)
 }
 
 
-Shader::Shader(const std::string &name, const std::string &vertexPath, const std::string &fragmentPath)
-	: m_name(name), 
-	m_vrPath(vertexPath),
-	m_frPath(fragmentPath)
+Shader::Shader(const char *fileContents)
 {
-	LOG_INFO("Loading shaders: {}, {}", vertexPath, fragmentPath);
-
-	std::string vertexString = Filesystem::GetFileContents(vertexPath);
-	std::string fragmentString = Filesystem::GetFileContents(fragmentPath);
-	
-	if (vertexString.empty() || fragmentString.empty())
-		return;
+	std::string vertexString = std::string(NOCTIS_OPENGL_VERSION) + "\n#define VERTEX\n" + fileContents;
+	std::string fragmentString = std::string(NOCTIS_OPENGL_VERSION) + "\n#define FRAGMENT\n" + fileContents;
 
 	this->CreateProgram(vertexString.c_str(), fragmentString.c_str());
 }

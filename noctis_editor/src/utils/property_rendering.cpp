@@ -100,24 +100,13 @@ void RenderProperty(std::shared_ptr<StringProperty> prop, std::shared_ptr<ICompo
 
 
 template <>
-void RenderProperty(std::shared_ptr<ModelProperty> prop, std::shared_ptr<IComponent> comp)
+void RenderProperty(std::shared_ptr<AssetProperty> prop, std::shared_ptr<IComponent> comp)
 {
     ImGui::InlinedLabel(prop->GetName().c_str());
         
-    Model &m = prop->GetValue();
+    std::shared_ptr<IAssetBase> &m = prop->GetValue();
 
-    ImGui::Text(m.GetBeautifiedName().c_str());
-}
-
-
-template <>
-void RenderProperty(std::shared_ptr<ShaderProperty> prop, std::shared_ptr<IComponent> comp)
-{
-    ImGui::InlinedLabel(prop->GetName().c_str());
-        
-    Shader &m = prop->GetValue();
-
-    ImGui::Text(m.GetName().c_str());
+    ImGui::Text(m->Name.c_str());
 }
 
 void RenderComponentProperties(std::shared_ptr<IComponent> comp)
@@ -134,9 +123,7 @@ void RenderComponentProperties(std::shared_ptr<IComponent> comp)
             RenderProperty(c, comp);
         else if (auto c = std::dynamic_pointer_cast<StringProperty>(prop))
             RenderProperty(c, comp);
-        else if (auto c = std::dynamic_pointer_cast<ModelProperty>(prop))
-            RenderProperty(c, comp);
-        else if (auto c = std::dynamic_pointer_cast<ShaderProperty>(prop))
+        else if (auto c = std::dynamic_pointer_cast<AssetProperty>(prop))
             RenderProperty(c, comp);
     }
 }

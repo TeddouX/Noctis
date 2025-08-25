@@ -3,12 +3,10 @@
 
 #include "project.hpp"
 #include "ui/editor_ui.hpp"
+#include "asset/editor_asset_manager.hpp"
 
 
 #define EDITOR() Editor::GetInstance()
-
-#define GLSL_VERS "#version 430 core"
-
 
 enum class EditorState
 {
@@ -30,7 +28,7 @@ public:
 
     Project &GetCurrProject() { return this->m_currProject; }
     void SetCurrProject(const Project &project) { this->m_currProject = project; };
-    
+
     void Run();
     
 private:

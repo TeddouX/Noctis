@@ -6,7 +6,17 @@
 #include "widget.hpp"
 
 
-class Editor;
+struct AssetView
+{
+    int ID;
+    std::string Name;
+    ImTextureID TextureID;
+    bool IsFolder;
+
+    AssetView(int id, const std::string &name, ImTextureID textureID, bool isFolder = false)
+        : ID(id), Name(name), TextureID(textureID), IsFolder(isFolder) {};
+};
+
 
 class AssetExplorerWidget : public IWidget
 {
@@ -19,8 +29,26 @@ public:
     
 private:
     ImGuiID m_dockspaceID = 0;
+    fs::path m_currFolder;
 
-    void RenderFolderView() const;
-    void DockFolderViewWindow();
-    void IterateDirectory(const fs::directory_entry &entry) const;
+    float m_iconSize = 64.f;
+    float m_iconSpacing = 10.f;
+    float m_selectedIconSpacing = 4.f;
+    
+    // Layout
+    float m_outerPadding = 10.f;
+    int m_columnCount = 0;
+    int m_lineCount = 0;
+    // Used for rendering the icons
+    // m_iconSpacing - m_selectedIconSpacing
+    float m_selectableSpacing = 0.f;
+    // m_iconSize + m_iconSpacing
+    float m_iconStep = 0.f;
+    float m_layoutIconSpacing = 0.f;
+    
+    std::vector<AssetView> m_assetViews;
+    ImGuiSelectionBasicStorage m_assetSelection;
+
+    void UpdateLayoutSizes(float availWidth);
+    void RenderAssetBrowser();
 };

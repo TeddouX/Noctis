@@ -5,8 +5,8 @@
 #include "component.hpp"
 #include "property/color_property.hpp"
 #include "property/float_property.hpp"
-#include "property/shader_property.hpp"
-#include "../../asset_manager.hpp"
+#include "property/asset_property.hpp"
+#include "../../asset/asset_manager.hpp"
 #include "../../math/math.hpp"
 #include "../../math/color.hpp"
 #include "../../rendering/texture.hpp"
@@ -27,11 +27,11 @@ public:
     };
 
     Material() = default;
-    Material(const std::string& name, std::shared_ptr<Shader> shader, std::shared_ptr<ITexture> texture = nullptr);
+    Material(const std::string& name, std::shared_ptr<IAsset<Shader>> shader, std::shared_ptr<IAsset<Texture>> texture = nullptr);
 
-    inline std::string &GetName() { return this->m_name; }
+    std::string &GetName() { return this->m_name; }
     
-    inline std::shared_ptr<Shader> &GetShader() { return this->m_shader; }
+    std::shared_ptr<Shader> GetShader() { return this->m_shader->Asset; }
 
     void UploadData(Shader &shader);
 
@@ -45,8 +45,10 @@ private:
     Color m_specularReflectance = Color::White();
     float m_specularDefinition = 32.f;
 
-    std::shared_ptr<ITexture> m_texture = std::make_shared<PBRTexture>("");
-    std::shared_ptr<Shader>   m_shader = AssetManager::GetInstance().GetShader(std::string(LIT_SHADER_NAME));
-    SSBO<Material::Data>      m_ssbo = SSBO<Material::Data>(1);
-    std::string               m_name;
+    std::shared_ptr<IAsset<Texture>> m_texture;
+    std::shared_ptr<IAsset<Shader>>  m_shader = 
+        AssetManagerAccessor::Get()->GetTyped<Shader>(AssetType::SHADER, std::string(LIT_SHADER_NAME));
+
+    SSBO<Material::Data> m_ssbo = SSBO<Material::Data>(1);
+    std::string          m_name;
 };

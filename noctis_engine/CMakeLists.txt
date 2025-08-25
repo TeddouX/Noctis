@@ -5,24 +5,24 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(Angelscript   CONFIG REQUIRED)
-find_package(assimp        CONFIG REQUIRED)
 find_package(glfw3         CONFIG REQUIRED)
 find_package(glad          CONFIG REQUIRED)
 find_package(fmt           CONFIG REQUIRED)
 find_package(glm           CONFIG REQUIRED)
-find_package(Stb                  REQUIRED)
 
 set(ENGINE_SOURCES
     # -------------------
     #      Headers
     # -------------------
+    "include/engine/asset/asset_manager.hpp"
+    "include/engine/asset/asset.hpp"
+
     "include/engine/ecs/component/property/all_properties.hpp"
+    "include/engine/ecs/component/property/asset_property.hpp"
     "include/engine/ecs/component/property/color_property.hpp"
     "include/engine/ecs/component/property/float_property.hpp"
     "include/engine/ecs/component/property/int_property.hpp"
-    "include/engine/ecs/component/property/model_property.hpp"
     "include/engine/ecs/component/property/property.hpp"
-    "include/engine/ecs/component/property/shader_property.hpp"
     "include/engine/ecs/component/property/string_property.hpp"
     "include/engine/ecs/component/property/vec3_property.hpp"
 
@@ -74,7 +74,6 @@ set(ENGINE_SOURCES
 
     "include/engine/utils/uuid.hpp"
 
-    "include/engine/asset_manager.hpp"
     "include/engine/engine.hpp"
     "include/engine/filesystem.hpp"
     "include/engine/logger.hpp"
@@ -84,6 +83,8 @@ set(ENGINE_SOURCES
     # -------------------
     #    Source files
     # -------------------
+    "src/asset/asset_manager.cpp"
+    
     "src/ecs/component/actor_component.cpp"
     "src/ecs/component/component_registry.cpp"
     "src/ecs/component/light_component.cpp"
@@ -117,10 +118,8 @@ set(ENGINE_SOURCES
 
     "src/utils/uuid.cpp"
 
-    "src/asset_manager.cpp"
     "src/filesystem.cpp"
     "src/logger.cpp"
-    "src/stb_image_impl.c"
     "src/window.cpp"
 )
 
@@ -138,7 +137,6 @@ target_compile_definitions(NoctisEngine
 target_link_libraries(NoctisEngine PUBLIC
 	nlohmann_json::nlohmann_json
     Angelscript::angelscript
-	assimp::assimp
 	glad::glad
 	glm::glm
 	fmt::fmt

@@ -5,6 +5,8 @@
 #include <engine/logger.hpp>
 #include <engine/scene/scene_manager.hpp>
 
+#include "asset/editor_asset_manager.hpp"
+
 
 Project::Project(const fs::path &rootDir, const std::string &name)
     : m_rootDir(rootDir), m_name(name)
@@ -49,12 +51,14 @@ bool Project::Load(bool firstTime)
         // Temporary
         fs::create_directories(this->GetAssetsFolder());
     
-        // Load all embedded assets
-
         this->LoadScenes();
     }
 
-    AssetManager::GetInstance().LoadEmbedded();
+    AssetManagerAccessor::Set(&EditorAssetManager::GetInstance());
+
+    EditorAssetManager::GetInstance().InitEmbedded();
+    EditorAssetManager::GetInstance().SetRootFolder(this->GetAssetsFolder());
+    
     SCENE_MANAGER().SetScenesFolder(this->GetScenesFolder());
 
     this->m_loaded = true;

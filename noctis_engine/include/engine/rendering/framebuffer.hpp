@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-#include <Windows.h>
 #include <glad/glad.h>
 
 #include "texture.hpp"
@@ -26,7 +25,7 @@ public:
     GLuint GetTextureID() const;
 
 private:
-    BasicTexture m_texture, m_depthTexture;
+    Texture m_texture, m_depthTexture;
     IVec2  m_size;
     GLuint m_id;
 };

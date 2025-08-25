@@ -5,87 +5,164 @@
 
 void AssetExplorerWidget::Render()
 {
-    
-    // ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
     ImGui::Begin(std::string(AssetExplorerWidget::name).c_str());
     
-    this->DockFolderViewWindow();
-    this->RenderFolderView();
+    if (m_currFolder.empty())
+        m_currFolder = EDITOR().GetCurrProject().GetAssetsFolder();
+
+    this->RenderAssetBrowser();
     
     ImGui::End();
-    // ImGui::PopStyleVar();
 }
 
 
-void AssetExplorerWidget::DockFolderViewWindow()
+void AssetExplorerWidget::UpdateLayoutSizes(float availWidth)
 {
-    // Create a dockspace for this widget
-    this->m_dockspaceID = ImGui::GetID("AssetExplorerDockspace");
-    ImGui::DockSpace(this->m_dockspaceID, ImVec2(0, 0), ImGuiDockNodeFlags_PassthruCentralNode);
-
-    // Initialize only once
-    static bool dockInitialized = false;
-    if (!dockInitialized)
-    {
-        dockInitialized = true;
-
-        // Clear any previous layout
-        ImGui::DockBuilderRemoveNode(this->m_dockspaceID);
-        ImGui::DockBuilderAddNode(this->m_dockspaceID, ImGuiDockNodeFlags_DockSpace);
-        ImGui::DockBuilderSetNodeSize(this->m_dockspaceID, ImGui::GetMainViewport()->Size);
-        
-        ImGuiID mainDock = this->m_dockspaceID;
-        // 20% left, 80% right
-        ImGuiID DockLeft = ImGui::DockBuilderSplitNode(mainDock, ImGuiDir_Left, 0.20f, nullptr, &mainDock);
-
-        // Dock folder view window
-        ImGui::DockBuilderDockWindow("Folder View", DockLeft);
-
-        ImGui::DockBuilderFinish(this->m_dockspaceID);
-    }
-}
-
-
-
-void AssetExplorerWidget::RenderFolderView() const
-{
-    ImGui::Begin("Folder View", nullptr, ImGuiWindowFlags_NoMove);
-
-    Project &currProject = EDITOR().GetCurrProject();
-
-    if (currProject.IsLoaded())
-    {
-        // Iterate through all directories in the assets folder
-        for (const auto &entry : fs::directory_iterator(currProject.GetAssetsFolder()))
-            this->IterateDirectory(entry);
-    }
-    
-
-    ImGui::End();
-}
-
-
-void AssetExplorerWidget::IterateDirectory(const fs::directory_entry &entry) const
-{
-    if (!entry.is_directory())
-        return; 
-
-    ImGui::PushID(entry.path().string().c_str());
-    
-    bool open = ImGui::TreeNodeEx(
-        entry.path().filename().string().c_str(),
-        // If the directory has other directories in it
-        // render it as a leaf node
-        (Filesystem::HasChildDirectory(entry) ? 0 : ImGuiTreeNodeFlags_Leaf)
+    m_columnCount = std::max(
+        (int)(availWidth / (m_iconSize + m_iconSpacing)),
+        1
     );
 
-    if (open)
-    {
-        for (const auto &childEntry : fs::directory_iterator(entry))
-            this->IterateDirectory(childEntry);
+    if (m_columnCount > 1)
+        m_layoutIconSpacing = floorf(availWidth - m_iconSize * m_columnCount) / m_columnCount;
 
-        ImGui::TreePop();
+    m_lineCount = ((int)m_assetViews.size() + m_columnCount) / m_columnCount;
+    m_selectableSpacing = m_iconSpacing - m_selectedIconSpacing;
+    m_iconStep = m_iconSize + m_iconSpacing;
+    // m_outerPadding = m_iconSize / 2;
+}
+
+
+void AssetExplorerWidget::RenderAssetBrowser()
+{
+    // Heavily inspired by ImGui's example asset browser:
+    // https://github.com/ocornut/imgui/blob/master/imgui_demo.cpp#L10549
+
+    m_assetViews.clear();
+
+    int id = 0;
+    for (const auto &entry : fs::directory_iterator(m_currFolder))
+    {
+        AssetView v(id, entry.path().stem().string(), 0, entry.is_directory());
+        m_assetViews.push_back(v);
+        
+        id++;
     }
 
-    ImGui::PopID();
+    const ImVec2 iconSize2D(m_iconSize, m_iconSize);
+
+    ImGui::SetNextWindowContentSize(ImVec2(
+        0.f, 
+        m_outerPadding + m_lineCount * (m_iconSize + m_layoutIconSpacing)
+    ));
+
+    if (ImGui::BeginChild("Assets"))
+    {
+        ImDrawList *drawList = ImGui::GetWindowDrawList();
+
+        UpdateLayoutSizes(ImGui::GetContentRegionAvail().x);
+
+        ImVec2 cursorStartPos = ImGui::GetCursorScreenPos();
+        cursorStartPos = ImVec2(
+            cursorStartPos.x + m_outerPadding, 
+            cursorStartPos.y + m_outerPadding
+        );
+        ImGui::SetCursorScreenPos(cursorStartPos);
+
+        ImGuiMultiSelectFlags msFlags = ImGuiMultiSelectFlags_ClearOnEscape 
+            | ImGuiMultiSelectFlags_ClearOnClickVoid
+            | ImGuiMultiSelectFlags_BoxSelect2d;
+        ImGuiMultiSelectIO* msIO = ImGui::BeginMultiSelect(
+            msFlags, 
+            m_assetSelection.Size, 
+            (int)m_assetViews.size()
+        );
+
+        m_assetSelection.UserData = this;
+        m_assetSelection.AdapterIndexToStorageId = [](
+            ImGuiSelectionBasicStorage *sbs, 
+            int idx) -> ImGuiID
+        {
+            AssetExplorerWidget *ab = (AssetExplorerWidget*)sbs->UserData; 
+            return ab->m_assetViews[idx].ID;
+        };
+
+        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, 
+            ImVec2(m_selectableSpacing, m_selectableSpacing)
+        );
+
+        ImGuiListClipper clipper;
+        clipper.Begin((int)m_assetViews.size(), m_iconSize);
+
+        // RangeSrc item must never be clipped
+        if (msIO->RangeSrcItem != -1)
+            clipper.IncludeItemByIndex((int)msIO->RangeSrcItem / m_columnCount);
+        
+        while (clipper.Step())
+        {
+            for (int lineIdx = clipper.DisplayStart; lineIdx < clipper.DisplayEnd; lineIdx++)
+            {
+                const int minItemIdxForLine = lineIdx * m_columnCount;
+                const int maxItemIdxForLine = std::min(
+                    (lineIdx + 1) * m_columnCount, 
+                    (int)m_assetViews.size()
+                );
+
+                for (int itemIdx = minItemIdxForLine; itemIdx < maxItemIdxForLine; itemIdx++)
+                {
+                    AssetView asset = m_assetViews[itemIdx];
+
+                    ImGui::PushID(asset.ID);
+
+                    ImVec2 cursorPos = ImVec2(
+                        cursorStartPos.x + (itemIdx % m_columnCount) * m_iconStep, 
+                        cursorStartPos.y + lineIdx * m_iconStep
+                    );
+                    ImGui::SetCursorScreenPos(cursorPos);
+                    
+                    ImGui::SetNextItemSelectionUserData(itemIdx);
+                    bool selected = m_assetSelection.Contains((ImGuiID)asset.ID);
+                    bool visible = ImGui::IsRectVisible(iconSize2D);
+                    ImGui::Selectable("", selected, ImGuiSelectableFlags_None, iconSize2D);
+
+                    if (ImGui::IsItemToggledSelection())
+                        selected = !selected;
+
+                    if (!visible)
+                    {
+                        ImGui::PopID();
+                        continue;
+                    }
+
+                    ImVec2 imageMin(cursorPos.x, cursorPos.y);
+                    ImVec2 imageMax(cursorPos.x + m_iconSize, cursorPos.y + m_iconSize);
+                    drawList->AddRectFilled(imageMin, imageMax, IM_COL32(255, 0, 0, 255));
+                
+                    const char *assetName = asset.Name.c_str();
+                    const float textWidth = ImGui::CalcTextSize(assetName).x;
+                    ImVec2 textPos(imageMin.x, imageMax.y - ImGui::GetFontSize());
+
+                    ImGui::RenderTextEllipsis(
+                        drawList,
+                        textPos,
+                        imageMax,
+                        imageMax.x,
+                        imageMax.x,
+                        assetName,
+                        assetName + strlen(assetName),
+                        nullptr
+                    );
+                    
+                    ImGui::PopID();
+                }
+            }
+        }
+
+        ImGui::PopStyleVar(); // ImGuiStyleVar_ItemSpacing
+        
+        msIO = ImGui::EndMultiSelect();
+        m_assetSelection.ApplyRequests(msIO);
+    }
+
+    ImGui::EndChild();
 }

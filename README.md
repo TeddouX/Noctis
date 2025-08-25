@@ -1,6 +1,7 @@
 # Noctis: a simplistic game engine  
 /!\ In developement  
-Linux and MacOS support is not planned.  
+Linux and MacOS support will be added in the late future.  
+A public [Trello board](https://trello.com/b/By0OcR3N/noctis) is available for anyone to see. If you have an ideas for a feature, feel free to create a GitHub [issue](https://github.com/TeddouX/Noctis/issues/new) with the __enhancement__ label.  
 
 ### Editor
 The editor's UI is made using [ImGui](https://github.com/ocornut/imgui).  

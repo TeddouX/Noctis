@@ -4,7 +4,6 @@
 void Actor::Serialize(json &j) const
 {
     START_SERIALIZATION(j)
-        COMPONENT_TO_JSON(Actor),
         PROP_TO_JSON(m_name),
         PROP_TO_JSON(m_uuid)
     END_SERIALIZATION()

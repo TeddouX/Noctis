@@ -16,7 +16,6 @@ DirectionalLight::Data DirectionalLight::GetData()
 void DirectionalLight::Serialize(json &j) const
 {
     START_SERIALIZATION(j)
-        COMPONENT_TO_JSON(DirectionalLight),
         PROP_TO_JSON(m_rotation),
         PROP_TO_JSON(m_ambient),
         PROP_TO_JSON(m_diffuse),
@@ -37,9 +36,9 @@ void DirectionalLight::Deserialize(const json &j)
 std::vector<std::shared_ptr<IPropertyBase>> DirectionalLight::GetProperties()
 {
     return {
-        std::make_shared<ColorProperty>(GETTER_FOR(this->m_ambient), "Ambient Color"),
-        std::make_shared<ColorProperty>(GETTER_FOR(this->m_diffuse), "Diffuse Color"),
-        std::make_shared<ColorProperty>(GETTER_FOR(this->m_specular), "Specular Color"),
+        std::make_shared<ColorProperty>(GETTER_FOR_REF(this->m_ambient), "Ambient Color"),
+        std::make_shared<ColorProperty>(GETTER_FOR_REF(this->m_diffuse), "Diffuse Color"),
+        std::make_shared<ColorProperty>(GETTER_FOR_REF(this->m_specular), "Specular Color"),
     };
 }
 

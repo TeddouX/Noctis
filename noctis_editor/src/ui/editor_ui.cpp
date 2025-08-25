@@ -58,7 +58,7 @@ void EditorUI::Render()
     
     ImGui::PushFont(this->m_font);
 
-    ImGui::ShowDemoWindow();
+    // ImGui::ShowDemoWindow();
     
     this->DockDisplays();
 
@@ -189,7 +189,7 @@ void EditorUI::HandleInput()
     if (optCombo.has_value())
     {
         KeyCombo combo = optCombo.value();
-        
+
         // Ctrl+S
         if (combo.Is(GLFW_KEY_S, { GLFW_MOD_CONTROL }))
             SCENE_MANAGER().SaveCurrScene();

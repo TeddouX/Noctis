@@ -2,12 +2,19 @@ project(NoctisEditor)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(imgui CONFIG REQUIRED)
+find_package(assimp CONFIG REQUIRED)
+find_package(imgui  CONFIG REQUIRED)
+find_package(Stb           REQUIRED)
 
 set(EDITOR_SOURCES 
     # -------------------
     #      Headers
     # -------------------
+    "src/asset/importer/model_importer.hpp"
+    "src/asset/importer/texture_importer.hpp"
+    "src/asset/editor_asset_manager.hpp"
+    "src/asset/assets.hpp"
+
     "src/ui/widget/actor_properties.hpp"
     "src/ui/widget/asset_explorer.hpp"
     "src/ui/widget/console.hpp"
@@ -28,6 +35,10 @@ set(EDITOR_SOURCES
     # -------------------
     #    Source files
     # -------------------
+    "src/asset/importer/model_importer.cpp"
+    "src/asset/importer/texture_importer.cpp"
+    "src/asset/editor_asset_manager.cpp"
+
     "src/ui/widget/actor_properties.cpp"
     "src/ui/widget/asset_explorer.cpp"
     "src/ui/widget/console.cpp"
@@ -44,6 +55,7 @@ set(EDITOR_SOURCES
     "src/editor_main.cpp"
     "src/editor.cpp"
     "src/project.cpp"
+    "src/stb_image_impl.c"
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${EDITOR_SOURCES})
@@ -60,23 +72,24 @@ if (MSVC)
     set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY 
         VS_STARTUP_PROJECT NoctisEditor
     )
-
-    add_custom_command(TARGET NoctisEditor POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            $<TARGET_FILE:NoctisEngine>
-            $<TARGET_PDB_FILE:NoctisEngine>
-            $<TARGET_RUNTIME_DLLS:NoctisEngine>
-            $<TARGET_FILE_DIR:NoctisEditor>
-        COMMAND_EXPAND_LISTS
-    )
 endif()
 
 target_link_libraries(NoctisEditor PRIVATE 
+    assimp::assimp
     imgui::imgui
     NoctisEngine
 )
 
 target_include_directories(NoctisEditor 
-    PUBLIC "include"
-    PRIVATE "include/editor"
+    PUBLIC 
+        "include"
+    PRIVATE 
+        "include/editor"
+        ${Stb_INCLUDE_DIR}
+)
+
+add_custom_command(TARGET NoctisEditor POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_FILE:NoctisEngine>         # the built SDL3 DLL
+        $<TARGET_FILE_DIR:NoctisEditor>   # the folder where your exe is
 )
