@@ -1,6 +1,14 @@
 #include "asset_explorer.hpp"
 
 #include "../../editor.hpp"
+#include "../../asset/importer/texture_importer.hpp"
+
+
+AssetExplorerWidget::AssetExplorerWidget()
+{
+    m_folderIconTex = LoadTextureFromFile("./assets/images/asset_explorer/folder_icon.jpeg");
+    m_fileIconTex = LoadTextureFromFile("./assets/images/asset_explorer/file_icon.jpeg");
+}
 
 
 void AssetExplorerWidget::Render()
@@ -10,7 +18,8 @@ void AssetExplorerWidget::Render()
     if (m_currFolder.empty())
         m_currFolder = EDITOR().GetCurrProject().GetAssetsFolder();
 
-    this->RenderAssetBrowser();
+    UpdateAssetViews();
+    RenderAssetBrowser();
     
     ImGui::End();
 }
@@ -33,21 +42,31 @@ void AssetExplorerWidget::UpdateLayoutSizes(float availWidth)
 }
 
 
-void AssetExplorerWidget::RenderAssetBrowser()
+void AssetExplorerWidget::UpdateAssetViews()
 {
-    // Heavily inspired by ImGui's example asset browser:
-    // https://github.com/ocornut/imgui/blob/master/imgui_demo.cpp#L10549
-
     m_assetViews.clear();
 
     int id = 0;
     for (const auto &entry : fs::directory_iterator(m_currFolder))
     {
-        AssetView v(id, entry.path().stem().string(), 0, entry.is_directory());
+        AssetView v(
+            id, 
+            entry.path().stem().string(), 
+            entry.is_directory() ? m_folderIconTex->GetID() : m_fileIconTex->GetID(), 
+            entry.is_directory()
+        );
+
         m_assetViews.push_back(v);
         
         id++;
     }
+}
+
+
+void AssetExplorerWidget::RenderAssetBrowser()
+{
+    // Heavily inspired by ImGui's example asset browser:
+    // https://github.com/ocornut/imgui/blob/master/imgui_demo.cpp#L10549
 
     const ImVec2 iconSize2D(m_iconSize, m_iconSize);
 
@@ -136,8 +155,14 @@ void AssetExplorerWidget::RenderAssetBrowser()
 
                     ImVec2 imageMin(cursorPos.x, cursorPos.y);
                     ImVec2 imageMax(cursorPos.x + m_iconSize, cursorPos.y + m_iconSize);
-                    drawList->AddRectFilled(imageMin, imageMax, IM_COL32(255, 0, 0, 255));
-                
+                    // drawList->AddRectFilled(imageMin, imageMax, IM_COL32(255, 0, 0, 255));
+                    
+                    drawList->AddImage(
+                        asset.TextureID, 
+                        imageMin,
+                        imageMax
+                    );
+
                     const char *assetName = asset.Name.c_str();
                     const float textWidth = ImGui::CalcTextSize(assetName).x;
                     ImVec2 textPos(imageMin.x, imageMax.y - ImGui::GetFontSize());

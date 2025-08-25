@@ -36,7 +36,7 @@ Texture::Texture(uint8_t *data, IVec2 size, int nrChannels)
 	glTexImage2D(
 		GL_TEXTURE_2D, 
 		0, 
-		GL_RGB, 
+		format, 
 		size.x, 
 		size.y, 
 		0, 

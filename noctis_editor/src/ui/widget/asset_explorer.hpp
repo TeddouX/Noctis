@@ -6,6 +6,9 @@
 #include "widget.hpp"
 
 
+class Texture;
+
+
 struct AssetView
 {
     int ID;
@@ -21,13 +24,16 @@ struct AssetView
 class AssetExplorerWidget : public IWidget
 {
 public:
-    AssetExplorerWidget() = default;
+    AssetExplorerWidget();
 
     static constexpr std::string_view name = "Asset Explorer";
 
     void Render() override;
     
 private:
+    std::unique_ptr<Texture> m_folderIconTex;
+    std::unique_ptr<Texture> m_fileIconTex;
+
     ImGuiID m_dockspaceID = 0;
     fs::path m_currFolder;
 
@@ -50,5 +56,6 @@ private:
     ImGuiSelectionBasicStorage m_assetSelection;
 
     void UpdateLayoutSizes(float availWidth);
+    void UpdateAssetViews();
     void RenderAssetBrowser();
 };
