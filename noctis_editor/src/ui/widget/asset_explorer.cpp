@@ -1,13 +1,15 @@
 #include "asset_explorer.hpp"
 
+#include <algorithm>
+
 #include "../../editor.hpp"
 #include "../../asset/importer/texture_importer.hpp"
 
 
 AssetExplorerWidget::AssetExplorerWidget()
 {
-    m_folderIconTex = LoadTextureFromFile("./assets/images/asset_explorer/folder_icon.jpeg");
-    m_fileIconTex = LoadTextureFromFile("./assets/images/asset_explorer/file_icon.jpeg");
+    m_folderIconTex = LoadTextureFromFile("./assets/images/asset_explorer/folder_icon.png");
+    m_fileIconTex = LoadTextureFromFile("./assets/images/asset_explorer/file_icon.png");
 }
 
 
@@ -60,6 +62,16 @@ void AssetExplorerWidget::UpdateAssetViews()
         
         id++;
     }
+
+    std::sort(
+        m_assetViews.begin(), m_assetViews.end(),
+        [](const AssetView &left, const AssetView &right)
+        {
+            if (left.IsFolder != right.IsFolder)
+                return left.IsFolder;
+            return left.Name > right.Name;
+        }
+    );
 }
 
 
@@ -157,10 +169,10 @@ void AssetExplorerWidget::RenderAssetBrowser()
                     ImVec2 imageMax(cursorPos.x + m_iconSize, cursorPos.y + m_iconSize);
                     // drawList->AddRectFilled(imageMin, imageMax, IM_COL32(255, 0, 0, 255));
                     
-                    drawList->AddImage(
+                    ImGui::SetCursorScreenPos(imageMin);
+                    ImGui::Image(
                         asset.TextureID, 
-                        imageMin,
-                        imageMax
+                        ImVec2(imageMax.x - imageMin.x, imageMax.y - imageMin.y)
                     );
 
                     const char *assetName = asset.Name.c_str();

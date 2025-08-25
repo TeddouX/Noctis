@@ -27,20 +27,28 @@ Texture::Texture(uint8_t *data, IVec2 size, int nrChannels)
 {
 	this->Generate(true);
 
-	GLenum format = GL_RGBA;
-	if (nrChannels == 1)
-		format = GL_RED;
-	else if (nrChannels == 3)
-		format = GL_RGB;
+	GLenum internalFormat = GL_RGBA8;
+    GLenum dataFormat = GL_RGBA;
+
+    if (nrChannels == 1)
+    {
+        internalFormat = GL_R8;
+        dataFormat = GL_RED;
+    }
+    else if (nrChannels == 3)
+    {
+        internalFormat = GL_RGB8;
+        dataFormat = GL_RGB;
+    }
 
 	glTexImage2D(
 		GL_TEXTURE_2D, 
 		0, 
-		format, 
+		internalFormat, 
 		size.x, 
 		size.y, 
 		0, 
-		GL_RGB, 
+		dataFormat,
 		GL_UNSIGNED_BYTE, 
 		data
 	);
