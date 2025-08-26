@@ -13,6 +13,8 @@
 #include "../../rendering/shader.hpp"
 #include "../../rendering/ssbo.hpp"
 
+namespace Noctis
+{
 
 class NOCTIS_API Material : public IComponent
 {
@@ -52,3 +54,5 @@ private:
     SSBO<Material::Data> m_ssbo = SSBO<Material::Data>(1);
     std::string          m_name;
 };
+
+}

@@ -9,9 +9,8 @@
 #include "../logger.hpp"
 #include "../filesystem.hpp"
 
-
-static bool CheckUniform(int location, const std::string &uniformName);
-
+namespace Noctis
+{
 
 class NOCTIS_API Shader
 {
@@ -34,3 +33,5 @@ private:
 
 	void CreateProgram(const char *vertexCode, const char *fragmentCode);
 };
+
+}

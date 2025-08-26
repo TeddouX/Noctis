@@ -1,6 +1,8 @@
 #pragma once
 #include <engine/filesystem.hpp>
 
+namespace NoctisEditor
+{
 
 class ProjectSelectionUI
 {
@@ -17,3 +19,5 @@ private:
     /// and sets it as the current project in the editor
     void LoadProject(const fs::path &folder, const std::string &name, bool firstTime);
 };
+
+}

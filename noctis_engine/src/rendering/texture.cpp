@@ -1,5 +1,7 @@
 #include "rendering/texture.hpp"
 
+namespace Noctis
+{
 
 Texture::Texture(int width, int height, int internalFormat, int format)
 {
@@ -107,4 +109,6 @@ void Texture::Delete()
 GLuint Texture::GetID() const
 {
     return this->m_id;
+}
+
 }

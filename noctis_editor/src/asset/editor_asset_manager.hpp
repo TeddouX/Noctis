@@ -6,8 +6,10 @@
 
 #include "assets.hpp"
 
+namespace NoctisEditor
+{
 
-class EditorAssetManager : public IAssetManager
+class EditorAssetManager : public Noctis::IAssetManager
 {
 public:
     static EditorAssetManager &GetInstance();
@@ -22,7 +24,7 @@ public:
     void AddShader(const fs::path &file);
     void AddTexture(const fs::path &file);
     
-    std::shared_ptr<IAssetBase> GetAsset(AssetType type, const std::string &name) override;
+    std::shared_ptr<Noctis::IAssetBase> GetAsset(Noctis::AssetType type, const std::string &name) override;
     
 private:
     EditorAssetManager() = default;
@@ -30,6 +32,8 @@ private:
     void InitializeEmbeddedModels();
     void InitializeEmbeddedShaders();
 
-    std::unordered_map<AssetType, std::vector<std::shared_ptr<IAssetBase>>> m_assetCache;
+    std::unordered_map<Noctis::AssetType, std::vector<std::shared_ptr<Noctis::IAssetBase>>> m_assetCache;
     fs::path m_root;
 };
+
+}

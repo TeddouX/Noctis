@@ -2,6 +2,8 @@
 #include <string>
 #include <imgui.h>
 
+namespace NoctisEditor
+{
 
 class IWidget
 {
@@ -11,3 +13,5 @@ public:
     virtual void Render() {};
     virtual void Update() {};
 };
+
+}

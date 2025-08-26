@@ -1,5 +1,7 @@
 #include "component_array.hpp"
 
+namespace Noctis
+{
 
 template <typename T>
 void ComponentArray<T>::Clear()
@@ -53,4 +55,6 @@ template <typename T>
 std::unordered_map<Entity, std::shared_ptr<T>> &ComponentArray<T>::GetAll()
 {
     return this->m_components;
+}
+
 }

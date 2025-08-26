@@ -3,6 +3,8 @@
 
 #include <engine/filesystem.hpp>
 
+namespace NoctisEditor
+{
 
 class Project
 {
@@ -28,3 +30,5 @@ private:
 
     void LoadScenes();
 };
+
+}

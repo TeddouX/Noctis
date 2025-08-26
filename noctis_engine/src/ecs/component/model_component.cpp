@@ -1,5 +1,7 @@
 #include "ecs/component/model_component.hpp"
 
+namespace Noctis
+{
 
 void ModelComponent::Serialize(json &j) const
 {
@@ -22,4 +24,6 @@ std::vector<std::shared_ptr<IPropertyBase>> ModelComponent::GetProperties()
             GETTER_FOR(std::dynamic_pointer_cast<IAssetBase>(this->m_model)), "Model"
         ) 
     };
+}
+
 }

@@ -22,6 +22,8 @@
 namespace fs = std::filesystem;
 using json = nlohmann::json;
 
+namespace Noctis
+{
 
 class NOCTIS_API Scene
 {
@@ -83,5 +85,7 @@ private:
 
     void RegisterSystems();
 };
+
+}
 
 #include "scene.inl"

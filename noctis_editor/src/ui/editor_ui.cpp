@@ -14,13 +14,15 @@
 #include "../editor.hpp"
 #include "../utils/imgui_utils.hpp"
 
+namespace NoctisEditor
+{
 
-EditorUI::EditorUI(Window &window, const char *glslVers)
+EditorUI::EditorUI(std::shared_ptr<Noctis::Window> window, const char *glslVers)
     : m_mainWindow(window)
 {
     LOG_INFO("Initializing editor UI.");
 
-    GLFWwindow* glfwWindow = window.GetWindow();
+    GLFWwindow* glfwWindow = window->GetWindow();
     this->m_imGuiScale = 2;
 
     // Init ImGui
@@ -152,12 +154,12 @@ void EditorUI::HandleState()
     EditorState state = EDITOR().GetState();
     if (state == EditorState::PROJECT_SELECTION)
     {
-        this->m_mainWindow.SetResizable(false);
+        this->m_mainWindow->SetResizable(false);
         this->m_psUI.Render();
     }
     else if (state == EditorState::IN_EDITOR)
     {
-        this->m_mainWindow.SetResizable(true);
+        this->m_mainWindow->SetResizable(true);
 
         // Show the menu on top of the window
         this->ShowMenuBar();
@@ -179,16 +181,16 @@ void EditorUI::HandleInput()
 
     // Prevent ImGui from capturing mouse 
     // input when the cursor is disabled
-    if (this->m_mainWindow.IsCursorEnabled()) 
+    if (this->m_mainWindow->IsCursorEnabled()) 
         io.ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
     else 
         io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
 
         
-    std::optional<KeyCombo> optCombo = this->m_mainWindow.GetLastCombo(); 
+    std::optional<Noctis::KeyCombo> optCombo = this->m_mainWindow->GetLastCombo(); 
     if (optCombo.has_value())
     {
-        KeyCombo combo = optCombo.value();
+        Noctis::KeyCombo combo = optCombo.value();
 
         // Ctrl+S
         if (combo.Is(GLFW_KEY_S, { GLFW_MOD_CONTROL }))
@@ -212,7 +214,7 @@ void EditorUI::ShowCreateSceneModal()
         static std::string sceneName;
 
         ImGui::Separator();
-        ImGui::ResizableInputText("Scene name", sceneName, false);
+        NoctisEditor::ResizableInputText("Scene name", sceneName, false);
 
         if (ImGui::Button("OK", ImVec2(120, 0))) 
         { 
@@ -229,4 +231,6 @@ void EditorUI::ShowCreateSceneModal()
         
         ImGui::EndPopup();
     }
+}
+
 }

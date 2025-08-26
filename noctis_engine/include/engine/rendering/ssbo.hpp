@@ -2,6 +2,8 @@
 #include <vector>
 #include <glad/glad.h>
 
+namespace Noctis
+{
 
 /// @brief An SSBO is used to send large amounts of data to shaders
 /// @tparam T The data type it sends to the shader
@@ -41,5 +43,7 @@ private:
     void Bind();
     void BindToPoint();
 };
+
+}
 
 #include "ssbo.inl"

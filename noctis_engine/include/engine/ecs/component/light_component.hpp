@@ -3,6 +3,8 @@
 #include "property/color_property.hpp"
 #include "../../math/color.hpp"
 
+namespace Noctis
+{
 
 class NOCTIS_API DirectionalLight : public IComponent
 {
@@ -36,3 +38,5 @@ private:
     Color m_diffuse = Color::White();
     Color m_specular = Color::White();
 };
+
+}

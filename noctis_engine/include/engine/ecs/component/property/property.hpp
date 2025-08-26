@@ -7,6 +7,8 @@
 #define GETTER_FOR(EXPR) [this]() -> decltype(EXPR) { return EXPR; }
 #define GETTER_FOR_REF(EXPR) [this]() -> decltype(EXPR)& { return EXPR; }
 
+namespace Noctis
+{
 
 /// @brief Any pointer of type IPropertyBase should be castable to IProperty
 class NOCTIS_API IPropertyBase
@@ -23,3 +25,5 @@ class NOCTIS_API IProperty : public IPropertyBase
 public:
     virtual T &GetValue() const = 0;
 };
+
+}

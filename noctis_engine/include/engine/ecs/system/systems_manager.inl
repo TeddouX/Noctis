@@ -1,5 +1,7 @@
 #include "systems_manager.hpp"
 
+namespace Noctis
+{
 
 template <typename T, typename... Args>
 T &SystemsManager::RegisterSystem(Args &&...args)
@@ -40,4 +42,6 @@ void SystemsManager::UpdateSystem(ComponentManager &cm, float dt)
     }
 
     LOG_WARN("System \"{}\" couldn't be updated. Are you sure it's registered?", typeid(T).name());
+}
+
 }

@@ -2,6 +2,8 @@
 
 #include <engine/scene/scene_manager.hpp>
 
+namespace NoctisEditor
+{
 
 void SceneDisplayWidget::Render()
 {
@@ -31,12 +33,12 @@ void SceneDisplayWidget::RenderCurrScene()
     static ImVec2 lastSize = availableSpace;
 
     // Resize frame buffer if needed
-    this->m_frameBuffer.Resize(IVec2(
+    this->m_frameBuffer.Resize(Noctis::IVec2(
         this->m_viewportWidth, 
         this->m_viewportHeight
     ));
     
-    Scene *currScene = SCENE_MANAGER().GetCurrScene();
+    Noctis::Scene *currScene = SCENE_MANAGER().GetCurrScene();
     if (!currScene)
     {
         ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 0, 0, 255));
@@ -54,9 +56,9 @@ void SceneDisplayWidget::RenderCurrScene()
 
     // Update all the scene's systems that 
     // are related to rendering
-    currScene->GetSystem<RenderSystem>()->SetCamera(&this->m_camera);
-    currScene->UpdateSystem<LightingSystem>(.0f);
-    currScene->UpdateSystem<RenderSystem>(.0f);
+    currScene->GetSystem<Noctis::RenderSystem>()->SetCamera(&this->m_camera);
+    currScene->UpdateSystem<Noctis::LightingSystem>(.0f);
+    currScene->UpdateSystem<Noctis::RenderSystem>(.0f);
 
     this->m_frameBuffer.Unbind();
 
@@ -82,25 +84,25 @@ void SceneDisplayWidget::HandleMouseInput()
 {
     if (!ImGui::IsWindowFocused())
     {
-        this->m_window.SetCursorEnabled(true);
+        this->m_window->SetCursorEnabled(true);
         return;
     }
     
-    const auto &mouseButtons = this->m_window.GetMouseButtonsDown();
+    const auto &mouseButtons = this->m_window->GetMouseButtonsDown();
 
     // Is rmb pressed ?
     if (mouseButtons.contains(GLFW_MOUSE_BUTTON_RIGHT))
     {
         // Hide the cursor and lock it
-        this->m_window.SetCursorEnabled(false);
+        this->m_window->SetCursorEnabled(false);
 
-        Vec2 mouseDelta = this->m_window.GetMouseDelta() * (1 / this->m_mouseSensitivity);
+        Noctis::Vec2 mouseDelta = this->m_window->GetMouseDelta() * (1 / this->m_mouseSensitivity);
         // Needs to be negative else vertical mouse input is inversed
         this->m_camera.RotateBy(mouseDelta.x, -mouseDelta.y);
     }
     else
         // Reenable cursor if rmb was released
-        this->m_window.SetCursorEnabled(true);
+        this->m_window->SetCursorEnabled(true);
 }
 
 
@@ -109,15 +111,15 @@ void SceneDisplayWidget::HandleKeyboardInput()
     if (!ImGui::IsWindowFocused())
         return;
 
-    const auto &keys = this->m_window.GetKeysDown();
+    const auto &keys = this->m_window->GetKeysDown();
 
     // Camera speed constant across all framerates
-    float cameraSpeed = this->m_cameraSpeed * (float)this->m_window.GetDeltaTime();
+    float cameraSpeed = this->m_cameraSpeed * (float)this->m_window->GetDeltaTime();
     // Make the camera move forward according to its rotation
-    Vec3 forwardMovement = this->m_camera.GetForwardVec() * cameraSpeed;
+    Noctis::Vec3 forwardMovement = this->m_camera.GetForwardVec() * cameraSpeed;
     // This vector points to the right of the camera
-    Vec3 rightMovement = glm::normalize(glm::cross(glm::vec3(0, 1, 0), this->m_camera.GetForwardVec())) * cameraSpeed;
-    Vec3 cameraPosition = this->m_camera.GetPosition();
+    Noctis::Vec3 rightMovement = glm::normalize(glm::cross(Noctis::Vec3(0, 1, 0), this->m_camera.GetForwardVec())) * cameraSpeed;
+    Noctis::Vec3 cameraPosition = this->m_camera.GetPosition();
 
     // Update camera position according to keyboard input
     if (keys.contains(GLFW_KEY_W)) // Forwards
@@ -154,5 +156,7 @@ void SceneDisplayWidget::UpdateViewport(int windowWidth, int windowHeight)
         this->m_viewportY = (windowHeight - this->m_viewportHeight) / 2;
     }
 
-    this->m_window.SetViewportSize(this->m_viewportWidth, this->m_viewportHeight);
+    this->m_window->SetViewportSize(this->m_viewportWidth, this->m_viewportHeight);
+}
+
 }

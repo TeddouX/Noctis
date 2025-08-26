@@ -7,9 +7,11 @@
 #include "../component/transform_component.hpp"
 #include "../../rendering/ssbo.hpp"
 
+namespace Noctis
+{
 
 template <typename _KTy, typename _VTy>
-static std::vector<_VTy> GetAllValues(std::unordered_map<_KTy, _VTy> map)
+std::vector<_VTy> GetAllValues(std::unordered_map<_KTy, _VTy> map)
 {
     std::vector<_VTy> values(map.size());
     std::transform(
@@ -37,5 +39,7 @@ private:
     template <typename T>
     void UploadLights(const std::vector<T> &lights, SSBO<T> ssbo);
 };
+
+}
 
 #include "lighting_system.inl"

@@ -3,6 +3,8 @@
 #include "ssbo.hpp"
 #include "../math/math.hpp"
 
+namespace Noctis
+{
 
 class NOCTIS_API Camera 
 {
@@ -38,3 +40,5 @@ private:
 
     SSBO<Camera::Data> m_cameraSSBO = SSBO<Camera::Data>(0);
 };
+
+}

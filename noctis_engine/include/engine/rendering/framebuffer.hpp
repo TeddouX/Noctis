@@ -5,6 +5,8 @@
 #include "texture.hpp"
 #include "../math/math.hpp"
 
+namespace Noctis
+{
 
 class NOCTIS_API FrameBuffer
 {
@@ -29,3 +31,5 @@ private:
     IVec2  m_size;
     GLuint m_id;
 };
+
+}

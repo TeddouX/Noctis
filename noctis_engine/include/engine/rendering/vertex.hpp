@@ -1,6 +1,8 @@
 #pragma once
 #include "../math/math.hpp"
 
+namespace Noctis
+{
 
 struct NOCTIS_API Vertex
 {
@@ -14,3 +16,5 @@ struct NOCTIS_API Vertex
     Vertex(Vec3 position, Vec3 normal, Vec2 texCoords)
         : position(position), normal(normal), texCoords(texCoords) {}
 };
+
+}

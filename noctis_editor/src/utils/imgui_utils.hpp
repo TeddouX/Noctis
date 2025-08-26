@@ -5,11 +5,15 @@
 #include <engine/math/color.hpp>
 
 
-namespace ImGui
+namespace NoctisEditor
 {
 
 void ResizableInputText(const char* label, std::string& str, bool needsEnter);
 void InlinedLabel(const char* text);
-void ColorEditEx(const char* label, Color &color, ImGuiColorEditFlags flags = 0);
+void ColorEditEx(
+    const char* label, 
+    Noctis::Color &color, 
+    ImGuiColorEditFlags flags = 0
+);
 
 }

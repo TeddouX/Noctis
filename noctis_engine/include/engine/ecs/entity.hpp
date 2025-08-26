@@ -7,6 +7,8 @@
 
 #define MAX_ENTITIES UINT16_MAX
 
+namespace Noctis
+{
 
 // Basically an ID
 class NOCTIS_API Entity
@@ -47,13 +49,15 @@ private:
     ComponentManager *m_cm = nullptr;
 };
 
+}
+
 
 namespace std 
 {
     template<>
-    struct hash<Entity> 
+    struct hash<Noctis::Entity> 
     {
-        inline size_t operator()(const Entity& entity) const noexcept 
+        inline size_t operator()(const Noctis::Entity& entity) const noexcept 
         {
             return std::hash<uint64_t>()(entity.GetID());
         }

@@ -2,6 +2,8 @@
 #include "property.hpp"
 #include "../../../asset/asset.hpp"
 
+namespace Noctis
+{
 
 class NOCTIS_API AssetProperty : public IProperty<std::shared_ptr<IAssetBase>>
 {
@@ -24,3 +26,5 @@ private:
     std::function<std::shared_ptr<IAssetBase> (void)> m_getter;
     std::string m_name;
 };
+
+}

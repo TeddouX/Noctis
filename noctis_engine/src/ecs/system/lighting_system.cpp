@@ -1,5 +1,7 @@
 #include "ecs/system/lighting_system.hpp"
 
+namespace Noctis
+{
 
 void LightingSystem::Update(ComponentManager &cm, float dt)
 {
@@ -13,4 +15,6 @@ void LightingSystem::Update(ComponentManager &cm, float dt)
         dirLightsData.push_back(dirLight->GetData());
 
     this->UploadLights(dirLightsData, this->m_dirLightSSBO);
+}
+
 }

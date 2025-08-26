@@ -6,6 +6,8 @@
 #include <shobjidl.h>
 #include <shlobj.h>
 
+namespace Noctis
+{
 
 std::string Filesystem::GetFileContents(const fs::path &path)
 {
@@ -213,4 +215,6 @@ std::wstring Filesystem::StrToWStr(const std::string &str)
     MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, &wideStr[0], size);
 
     return wideStr;
+}
+
 }

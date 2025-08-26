@@ -2,6 +2,8 @@
 #include "property.hpp"
 #include "../../../math/math.hpp"
 
+namespace Noctis
+{
 
 class NOCTIS_API Vec3Property : public IProperty<Vec3>
 {
@@ -28,3 +30,5 @@ private:
     bool m_canComponentsLink;
     bool m_canBeNegative;
 };
+
+}

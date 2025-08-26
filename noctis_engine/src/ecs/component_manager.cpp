@@ -1,5 +1,7 @@
 #include "ecs/component_manager.hpp"
 
+namespace Noctis
+{
 
 std::vector<std::shared_ptr<IComponent>> ComponentManager::GetAllComponents(const Entity &entity)
 {
@@ -21,4 +23,6 @@ void ComponentManager::Clear()
 {
     for (auto &[type, compArray] : this->m_componentArrays)
         compArray->Clear();
+}
+
 }

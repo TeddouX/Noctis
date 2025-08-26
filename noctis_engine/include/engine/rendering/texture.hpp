@@ -7,6 +7,8 @@
 #include "../math/math.hpp"
 #include "../filesystem.hpp"
 
+namespace Noctis
+{
 
 class NOCTIS_API Texture
 {
@@ -36,3 +38,5 @@ private:
 
     void Generate(bool mipmaps);
 };
+
+}

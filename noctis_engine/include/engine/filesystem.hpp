@@ -9,6 +9,8 @@
 
 namespace fs = std::filesystem;
 
+namespace Noctis
+{
 
 class NOCTIS_API Filesystem
 {
@@ -39,3 +41,5 @@ public:
     /// @returns A wide string representation of a narrow string
     static std::wstring StrToWStr(const std::string &str);
 };
+
+}

@@ -4,6 +4,8 @@
 
 #include "property.hpp"
 
+namespace Noctis
+{
 
 class NOCTIS_API FloatProperty : public IProperty<float>
 {
@@ -31,3 +33,5 @@ private:
     std::string m_name;
     
 };
+
+}

@@ -4,5 +4,9 @@
 #include <engine/filesystem.hpp>
 #include <engine/rendering/model.hpp>
 
+namespace NoctisEditor
+{
 
-std::unique_ptr<Model> LoadModel(const fs::path &path);
+std::unique_ptr<Noctis::Model> LoadModel(const fs::path &path);
+
+}

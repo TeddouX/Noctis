@@ -1,5 +1,7 @@
 #include "ecs/system/scripting_system.hpp"
 
+namespace Noctis
+{
 
 void ScriptingSystem::CompileAll(ComponentManager &cm)
 {
@@ -27,4 +29,6 @@ void ScriptingSystem::Update(ComponentManager &cm, float dt)
     
     for (auto &[entity, script] : allScripts)
         script->ExecuteUpdate(dt);
+}
+
 }

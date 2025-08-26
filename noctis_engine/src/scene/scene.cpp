@@ -1,5 +1,7 @@
 #include "scene/scene.hpp"
 
+namespace Noctis
+{
 
 Scene::Scene(const fs::path &path)
     : m_jsonPath(path)
@@ -256,4 +258,6 @@ void Scene::Save()
 #endif
 
     LOG_INFO("Saved scene {}", this->m_name);
+}
+
 }

@@ -1,5 +1,7 @@
 #include "scripting/script_builder.hpp"
 
+namespace Noctis
+{
 
 void ScriptBuilder::Prepare()
 {
@@ -78,3 +80,4 @@ void ScriptBuilder::MessageCallback(const asSMessageInfo *msg)
 		LOG_ERR(formattedMsg);
 }
 
+}

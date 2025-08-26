@@ -8,8 +8,11 @@
 
 #include "../engine.hpp"
 
-
 using json = nlohmann::json;
+
+namespace Noctis
+{
+
 using Vec2 = glm::vec2;
 using IVec2 = glm::ivec2;
 using Vec3 = glm::vec3;
@@ -29,11 +32,13 @@ NOCTIS_API float *GetPtr(Mat4 mat);
 
 NOCTIS_API float Radians(float degrees);
 
+}
+
 // Serialization
 namespace glm
 {
 
-void from_json(const json &j, Vec3 &vec3);
-void to_json(json &j, const Vec3 &vec3);
+void from_json(const json &j, Noctis::Vec3 &vec3);
+void to_json(json &j, const Noctis::Vec3 &vec3);
 
 }

@@ -48,7 +48,7 @@
 
 #define __FILENAME__     strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__
 
-#define LOGGER()         Logger::GetInstance()
+#define LOGGER()         Noctis::Logger::GetInstance()
 #define LOG_INFO(x, ...) LOGGER().Info(x,  __VA_ARGS__)
 #define LOG_WARN(x, ...) LOGGER().Warn(x,  __VA_ARGS__)
 #define LOG_ERR(x, ...)  LOGGER().Error(x, __VA_ARGS__)
@@ -56,8 +56,8 @@
 #define ASSERT(_expr)    assert(_expr);
 
 
-namespace chrono = std::chrono;
-
+namespace Noctis
+{
 
 enum class LogLevel
 {
@@ -105,5 +105,7 @@ private:
 
     std::vector<LogLine> m_lines;
 };
+
+}
 
 #include "logger.inl"

@@ -1,5 +1,7 @@
 #include "math/color.hpp"
 
+namespace Noctis
+{
 
 Vec3 Color::ToFloats()
 {
@@ -26,4 +28,6 @@ uint32_t Color::ToNumber()
     return (this->m_red   << 0)
          | (this->m_green << 8)
          | (this->m_blue  << 16);
+}
+
 }

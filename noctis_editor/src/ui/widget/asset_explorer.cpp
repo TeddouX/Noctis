@@ -6,6 +6,9 @@
 #include "../../asset/importer/texture_importer.hpp"
 
 
+namespace NoctisEditor
+{
+
 AssetExplorerWidget::AssetExplorerWidget()
 {
     m_folderIconTex = LoadTextureFromFile("./assets/images/asset_explorer/folder_icon.png");
@@ -20,10 +23,17 @@ void AssetExplorerWidget::Render()
     if (m_currFolder.empty())
         m_currFolder = EDITOR().GetCurrProject().GetAssetsFolder();
 
+    RenderCurrFolderPath();
     UpdateAssetViews();
     RenderAssetBrowser();
     
     ImGui::End();
+}
+
+
+void AssetExplorerWidget::RenderCurrFolderPath()
+{
+    
 }
 
 
@@ -207,4 +217,6 @@ void AssetExplorerWidget::RenderAssetBrowser()
     }
 
     ImGui::EndChild();
+}
+
 }

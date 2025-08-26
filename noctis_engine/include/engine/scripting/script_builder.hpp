@@ -5,6 +5,8 @@
 #include "../filesystem.hpp"
 #include "../ecs/component/script_component.hpp"
 
+namespace Noctis
+{
 
 class ScriptBuilder
 {
@@ -21,3 +23,5 @@ private:
 
     static void MessageCallback(const asSMessageInfo *msg);
 };
+
+}

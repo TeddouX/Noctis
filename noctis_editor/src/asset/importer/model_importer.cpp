@@ -11,28 +11,30 @@
 
 #include "texture_importer.hpp"
 
+namespace NoctisEditor
+{
 
 glm::mat4 AssimpToGlm(const aiMatrix4x4 &from);
 
-std::vector<Mesh> ProcessNode(
+std::vector<Noctis::Mesh> ProcessNode(
     aiNode *node, 
     const aiScene *scene, 
-    Mat4 parentMatrix);
+    Noctis::Mat4 parentMatrix);
 
-Mesh ProcessMesh(aiMesh *mesh, const aiScene *scene);
+Noctis::Mesh ProcessMesh(aiMesh *mesh, const aiScene *scene);
 
-std::vector<std::shared_ptr<Texture>> LoadAllTextures(
+std::vector<std::shared_ptr<Noctis::Texture>> LoadAllTextures(
     aiMaterial *material, 
     const aiScene *scene);
 
-std::shared_ptr<Texture> LoadTexture(
+std::shared_ptr<Noctis::Texture> LoadTexture(
     aiMaterial *material, 
     const aiScene *scene, 
     aiTextureType aiTexType, 
-    std::unordered_map<std::string, std::shared_ptr<Texture>> &textureCache);
+    std::unordered_map<std::string, std::shared_ptr<Noctis::Texture>> &textureCache);
 
 
-std::unique_ptr<Model> LoadModel(const fs::path &path)
+std::unique_ptr<Noctis::Model> LoadModel(const fs::path &path)
 {
     LOG_INFO("Loading model: {}", path.string());
 
@@ -50,8 +52,8 @@ std::unique_ptr<Model> LoadModel(const fs::path &path)
 
     LOG_INFO("Finished loading model");
 
-    return std::make_unique<Model>(
-        ProcessNode(scene->mRootNode, scene, Mat4(1.f))
+    return std::make_unique<Noctis::Model>(
+        ProcessNode(scene->mRootNode, scene, Noctis::Mat4(1.f))
     );
 }
 
@@ -67,17 +69,20 @@ glm::mat4 AssimpToGlm(const aiMatrix4x4 &from)
 }
 
 
-std::vector<Mesh> ProcessNode(aiNode *node, const aiScene *scene, Mat4 parentMatrix)
+std::vector<Noctis::Mesh> ProcessNode(
+    aiNode *node, 
+    const aiScene *scene, 
+    Noctis::Mat4 parentMatrix)
 {
-    std::vector<Mesh> meshes;
+    std::vector<Noctis::Mesh> meshes;
 
-    Mat4 nodeTransform = parentMatrix * AssimpToGlm(node->mTransformation);
+    Noctis::Mat4 nodeTransform = parentMatrix * AssimpToGlm(node->mTransformation);
 
     // Process the node's meshes
     for(uint32_t i = 0; i < node->mNumMeshes; i++)
     {
         aiMesh *assimpMesh = scene->mMeshes[node->mMeshes[i]];
-        Mesh mesh = ProcessMesh(assimpMesh, scene);
+        Noctis::Mesh mesh = ProcessMesh(assimpMesh, scene);
         mesh.SetTransformMatrix(nodeTransform);
 
         meshes.push_back(mesh);
@@ -86,7 +91,7 @@ std::vector<Mesh> ProcessNode(aiNode *node, const aiScene *scene, Mat4 parentMat
     // Do the same for each of its children
     for(uint32_t i = 0; i < node->mNumChildren; i++)
     {
-        std::vector<Mesh> childMeshes = ProcessNode(node->mChildren[i], scene, nodeTransform);
+        std::vector<Noctis::Mesh> childMeshes = ProcessNode(node->mChildren[i], scene, nodeTransform);
         meshes.insert(meshes.end(), childMeshes.begin(), childMeshes.end());
     }
 
@@ -94,18 +99,18 @@ std::vector<Mesh> ProcessNode(aiNode *node, const aiScene *scene, Mat4 parentMat
 }
 
 
-Mesh ProcessMesh(aiMesh *mesh, const aiScene *scene)
+Noctis::Mesh ProcessMesh(aiMesh *mesh, const aiScene *scene)
 {
-    std::shared_ptr<Texture> texture;
+    std::shared_ptr<Noctis::Texture> texture;
     std::vector<uint32_t>    indices;
-    std::vector<Vertex>      vertices;
+    std::vector<Noctis::Vertex>      vertices;
 
     // Process vertices
     for(uint32_t i = 0; i < mesh->mNumVertices; i++)
     {
-        Vertex vertex;
+        Noctis::Vertex vertex;
 
-        Vec3 vec3; 
+        Noctis::Vec3 vec3; 
         // Vertex position
         vec3.x = mesh->mVertices[i].x;
         vec3.y = mesh->mVertices[i].y;
@@ -120,13 +125,13 @@ Mesh ProcessMesh(aiMesh *mesh, const aiScene *scene)
 
         if(mesh->mTextureCoords[0]) // If the mesh has a texture 
         {
-            Vec2 vec2;
+            Noctis::Vec2 vec2;
             vec2.x = mesh->mTextureCoords[0][i].x; 
             vec2.y = mesh->mTextureCoords[0][i].y;
             vertex.texCoords = vec2;
         }
         else
-            vertex.texCoords = Vec2(0.0f, 0.0f);  
+            vertex.texCoords = Noctis::Vec2(0.f);  
         
         vertices.push_back(vertex);
     }
@@ -147,11 +152,11 @@ Mesh ProcessMesh(aiMesh *mesh, const aiScene *scene)
         LoadAllTextures(material, scene);
     }
 
-    return Mesh(vertices, indices);
+    return Noctis::Mesh(vertices, indices);
 }
 
 
-std::vector<std::shared_ptr<Texture>> LoadAllTextures(
+std::vector<std::shared_ptr<Noctis::Texture>> LoadAllTextures(
     aiMaterial *material, 
     const aiScene *scene)
 {
@@ -162,8 +167,8 @@ std::vector<std::shared_ptr<Texture>> LoadAllTextures(
         aiTextureType_HEIGHT
     };
 
-    std::vector<std::shared_ptr<Texture>> allTextures;
-    std::unordered_map<std::string, std::shared_ptr<Texture>> textureCache;
+    std::vector<std::shared_ptr<Noctis::Texture>> allTextures;
+    std::unordered_map<std::string, std::shared_ptr<Noctis::Texture>> textureCache;
     for (auto texType : supportedTextureTypes)
     {
         if (auto tex = LoadTexture(material, scene, texType, textureCache))
@@ -174,11 +179,11 @@ std::vector<std::shared_ptr<Texture>> LoadAllTextures(
 }
 
 
-std::shared_ptr<Texture> LoadTexture(
+std::shared_ptr<Noctis::Texture> LoadTexture(
     aiMaterial *material, 
     const aiScene *scene, 
     aiTextureType aiTexType, 
-    std::unordered_map<std::string, std::shared_ptr<Texture>> &textureCache)
+    std::unordered_map<std::string, std::shared_ptr<Noctis::Texture>> &textureCache)
 {
     if (!(material->GetTextureCount(aiTexType) > 0))
         return nullptr;
@@ -195,7 +200,7 @@ std::shared_ptr<Texture> LoadTexture(
     
     const aiTexture *aiTex = scene->GetEmbeddedTexture(texPath.c_str());
 
-    std::shared_ptr<Texture> texture;
+    std::shared_ptr<Noctis::Texture> texture;
     if (aiTex->mHeight == 0)
         // Compressed image data (PNG, JPEG...) 
         texture = LoadTextureFromMemory(
@@ -204,9 +209,9 @@ std::shared_ptr<Texture> LoadTexture(
         );
     else
         // Raw data
-        texture = std::make_shared<Texture>(
+        texture = std::make_shared<Noctis::Texture>(
             reinterpret_cast<uint8_t *>(aiTex->pcData),
-            IVec2(aiTex->mWidth, aiTex->mHeight)
+            Noctis::IVec2(aiTex->mWidth, aiTex->mHeight)
         );
 
     // Add the texture to the cache 
@@ -214,4 +219,6 @@ std::shared_ptr<Texture> LoadTexture(
     textureCache.emplace(texPath, texture);
 
     return texture;
+}
+
 }

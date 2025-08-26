@@ -1,5 +1,7 @@
 #include "ecs/system/render_system.hpp"
 
+namespace Noctis
+{
 
 void RenderSystem::Update(ComponentManager &cm, float dt)
 {
@@ -45,4 +47,6 @@ void RenderSystem::Update(ComponentManager &cm, float dt)
 void RenderSystem::SetCamera(Camera *camera)
 {
     this->m_camera = camera;
+}
+
 }

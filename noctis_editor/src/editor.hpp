@@ -6,7 +6,10 @@
 #include "asset/editor_asset_manager.hpp"
 
 
-#define EDITOR() Editor::GetInstance()
+#define EDITOR() NoctisEditor::Editor::GetInstance()
+
+namespace NoctisEditor
+{
 
 enum class EditorState
 {
@@ -34,10 +37,12 @@ public:
 private:
     static Editor s_instance;
     
+    std::shared_ptr<Noctis::Window> m_window;
     Project     m_currProject;
     EditorState m_state;
-    Window      m_window;
     EditorUI    m_ui;
     
     Editor();
 };
+
+}

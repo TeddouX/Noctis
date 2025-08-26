@@ -1,5 +1,7 @@
 #include "scene.hpp"
 
+namespace Noctis
+{
 
 template <typename T>
 void Scene::UpdateSystem(float dt)
@@ -14,4 +16,6 @@ template <typename T>
 T *Scene::GetSystem()
 {
     return this->m_systemsManager.GetSystem<T>();
+}
+
 }

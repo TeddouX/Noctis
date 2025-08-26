@@ -1,5 +1,7 @@
 #include "scene/scene_manager.hpp"
 
+namespace Noctis
+{
 
 SceneManager &SceneManager::GetInstance()
 {
@@ -88,4 +90,6 @@ Scene *SceneManager::GetCurrScene()
     }
 
     return &it->second;
+}
+
 }

@@ -7,6 +7,8 @@
 
 #include "asset/editor_asset_manager.hpp"
 
+namespace NoctisEditor
+{
 
 Project::Project(const fs::path &rootDir, const std::string &name)
     : m_rootDir(rootDir), m_name(name)
@@ -30,7 +32,7 @@ bool Project::Load(bool firstTime)
             {"name", this->m_name}
         };
 
-        Filesystem::WriteCBOR(projFilePath, json::to_cbor(j));
+        Noctis::Filesystem::WriteCBOR(projFilePath, json::to_cbor(j));
     }
     else
     {
@@ -41,7 +43,7 @@ bool Project::Load(bool firstTime)
         {
             if (entry.is_regular_file() && entry.path().extension() == ".nocproj")
             {
-                auto cborData = Filesystem::ReadCBOR(entry.path());
+                auto cborData = Noctis::Filesystem::ReadCBOR(entry.path());
                 json j = json::from_cbor(cborData);
 
                 this->m_name = j["name"];
@@ -54,7 +56,7 @@ bool Project::Load(bool firstTime)
         this->LoadScenes();
     }
 
-    AssetManagerAccessor::Set(&EditorAssetManager::GetInstance());
+    Noctis::AssetManagerAccessor::Set(&EditorAssetManager::GetInstance());
 
     EditorAssetManager::GetInstance().InitEmbedded();
     EditorAssetManager::GetInstance().SetRootFolder(this->GetAssetsFolder());
@@ -127,5 +129,7 @@ bool Project::IsValidProjectFolder(const fs::path &path)
     }
 
     return false;
+}
+
 }
 

@@ -5,8 +5,10 @@
 #include "../logger.hpp"
 
 
-#define SCENE_MANAGER() SceneManager::GetInstance()
+#define SCENE_MANAGER() Noctis::SceneManager::GetInstance()
 
+namespace Noctis
+{
 
 class NOCTIS_API SceneManager
 {
@@ -32,3 +34,5 @@ private:
     fs::path    m_scenesFolder;
     std::string m_currScene;
 };
+
+}

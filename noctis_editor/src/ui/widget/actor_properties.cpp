@@ -10,24 +10,27 @@
 #include "../../utils/property_rendering.hpp"
 
 
+namespace NoctisEditor
+{
+
 void ActorPropertiesWidget::Render()
 {   
     ImGui::Begin(std::string(ActorPropertiesWidget::name).c_str());
 
-    Scene *currScene = SCENE_MANAGER().GetCurrScene();
+    Noctis::Scene *currScene = SCENE_MANAGER().GetCurrScene();
     if (!currScene)
     {
         ImGui::End();
         return;
     }
 
-    Entity &selectedEntity = currScene->GetSelectedEntity();
+    Noctis::Entity &selectedEntity = currScene->GetSelectedEntity();
 
     if (currScene && selectedEntity.IsValid())
     {
         auto allComponents = selectedEntity.GetAllComponents();
 
-        std::shared_ptr<Actor> actor = selectedEntity.GetComponent<Actor>();
+        auto actor = selectedEntity.GetComponent<Noctis::Actor>();
         // The actor component is handled differently from the others
         // It shouldn't be rendered as a collapsing header
         if (actor)
@@ -40,16 +43,16 @@ void ActorPropertiesWidget::Render()
         }
 
         // Transform is processed individually here because it should be inserted at the top of everything
-        std::shared_ptr<Transform> transform = selectedEntity.GetComponent<Transform>();
+        auto transform = selectedEntity.GetComponent<Noctis::Transform>();
         bool open = ImGui::CollapsingHeader(transform->GetName().c_str(), ImGuiTreeNodeFlags_DefaultOpen);
         if (open)
             RenderComponentProperties(transform);
 
-        for (std::shared_ptr<IComponent> component : allComponents)
+        for (std::shared_ptr<Noctis::IComponent> component : allComponents)
         {
             // Actor and transform are already handled
-            if (std::dynamic_pointer_cast<Actor>(component) || 
-                std::dynamic_pointer_cast<Transform>(component))
+            if (std::dynamic_pointer_cast<Noctis::Actor>(component) || 
+                std::dynamic_pointer_cast<Noctis::Transform>(component))
                 continue; 
 
             open = ImGui::CollapsingHeader(component->GetName().c_str(), ImGuiTreeNodeFlags_DefaultOpen);
@@ -81,24 +84,24 @@ void ActorPropertiesWidget::Render()
 }
 
 
-void ActorPropertiesWidget::HandleActor(std::shared_ptr<Actor> actor)
+void ActorPropertiesWidget::HandleActor(std::shared_ptr<Noctis::Actor> actor)
 {
     ImGui::SeparatorText("Actor");
 
     std::string &actorName = actor->GetName();
-    ImGui::ResizableInputText("##actor_name_string_input", actorName, true);
+    NoctisEditor::ResizableInputText("##actor_name_string_input", actorName, true);
 
     ImGui::SeparatorText("Components");
 }
 
 
-void ActorPropertiesWidget::ShowAddComponentPopup(Entity &entity)
+void ActorPropertiesWidget::ShowAddComponentPopup(Noctis::Entity &entity)
 {
     if (ImGui::BeginPopup("ADD_COMPONENT_POPUP"))
     {
         ImGui::SeparatorText("Components");
         
-        auto allComponents = ComponentRegistry::GetInstance().GetAllComponents();
+        auto allComponents = Noctis::ComponentRegistry::GetInstance().GetAllComponents();
         for (auto &[name, compRegEntry] : allComponents)
         {
             // You shouldn't be able to add the 
@@ -118,13 +121,18 @@ void ActorPropertiesWidget::ShowAddComponentPopup(Entity &entity)
 }
 
 
-void ActorPropertiesWidget::ShowComponentRightClickPopup(std::shared_ptr<IComponent> comp, Entity &entity, const std::string &popupID)
+void ActorPropertiesWidget::ShowComponentRightClickPopup(
+    std::shared_ptr<Noctis::IComponent> comp, 
+    Noctis::Entity &entity, 
+    const std::string &popupID)
 {
     if (ImGui::BeginPopup(popupID.c_str()))
     {
         if (ImGui::Selectable("Delete"))
-            ComponentRegistry::GetInstance().GetEntry(comp->GetName()).removeComponentFun(entity);
+            Noctis::ComponentRegistry::GetInstance().GetEntry(comp->GetName()).removeComponentFun(entity);
 
         ImGui::EndPopup();
     }
+}
+
 }

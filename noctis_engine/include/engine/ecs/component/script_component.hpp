@@ -5,6 +5,9 @@
 #include "../../filesystem.hpp"
 
 
+namespace Noctis
+{
+
 class NOCTIS_API ScriptComponent : public IComponent
 {
 public:
@@ -33,3 +36,5 @@ private:
     fs::path m_scriptPath;
     std::vector<std::shared_ptr<IPropertyBase>> m_scriptProperties;
 };
+
+}

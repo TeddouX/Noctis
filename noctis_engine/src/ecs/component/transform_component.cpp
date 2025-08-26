@@ -2,6 +2,8 @@
 #include "ecs/component/property/float_property.hpp"
 #include "ecs/component/property/color_property.hpp"
 
+namespace Noctis
+{
 
 Transform::Transform(Vec3 pos, Vec3 rot, Vec3 scale, std::shared_ptr<Actor> actor, Transform *parent)
     : m_pos(pos), m_rot(rot), m_scale(scale), m_actor(actor), m_parent(parent)
@@ -125,4 +127,6 @@ std::vector<std::shared_ptr<IPropertyBase>> Transform::GetProperties()
         std::make_shared<Vec3Property>(GETTER_FOR_REF(this->m_rot), "Rotation"),
         std::make_shared<Vec3Property>(GETTER_FOR_REF(this->m_scale), "Scale", true, false),
     };
+}
+
 }

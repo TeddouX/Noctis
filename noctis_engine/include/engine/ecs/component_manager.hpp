@@ -7,6 +7,8 @@
 #include "component_array.hpp"
 #include "../logger.hpp"
 
+namespace Noctis
+{
 
 class Entity;
 
@@ -42,5 +44,7 @@ private:
     template <typename T>
     ComponentArray<T> &GetComponentArray();
 };
+
+}
 
 #include "component_manager.inl"

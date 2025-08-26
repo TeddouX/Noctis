@@ -1,5 +1,7 @@
 #include "logger.hpp"
 
+namespace Noctis
+{
 
 template <typename... Args>
 void Logger::Info(const std::string_view format, Args &&...args)
@@ -31,4 +33,6 @@ void Logger::Error(const std::string_view format, Args &&...args)
 
     if (!finalMess.empty())
         std::cout << this->FormatColor(finalMess, BRIGHT_RED_FG) << std::endl << std::flush;
+}
+
 }

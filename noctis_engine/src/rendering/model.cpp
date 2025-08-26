@@ -1,5 +1,7 @@
 #include "rendering/model.hpp"
 
+namespace Noctis
+{
 
 void Model::Render(Shader &shader, const Mat4 &modelMatrix) const
 {
@@ -8,3 +10,4 @@ void Model::Render(Shader &shader, const Mat4 &modelMatrix) const
         mesh.Render(shader, modelMatrix);
 }
 
+}

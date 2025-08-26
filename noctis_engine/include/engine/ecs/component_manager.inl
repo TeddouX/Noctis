@@ -1,5 +1,7 @@
 #include "component_manager.hpp"
 
+namespace Noctis
+{
 
 template <typename T> 
 void ComponentManager::AddComponent(const Entity &entity, std::shared_ptr<T> component)
@@ -58,4 +60,6 @@ ComponentArray<T> &ComponentManager::GetComponentArray()
     arrPtr = this->m_componentArrays.at(type);
 
     return *std::static_pointer_cast<ComponentArray<T>>(arrPtr);
+}
+
 }

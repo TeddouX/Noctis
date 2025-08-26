@@ -6,6 +6,8 @@
 #include "property/vec3_property.hpp"
 #include "../../math/math.hpp"
 
+namespace Noctis
+{
 
 /// @brief A transform represent's a entity's location in the world, it has to exist on every entity.
 class NOCTIS_API Transform : public IComponent
@@ -82,3 +84,5 @@ private:
 
     Vec3 m_pos, m_rot, m_scale;
 };
+
+}

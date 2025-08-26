@@ -13,6 +13,8 @@
 #include "../logger.hpp"
 #include "../filesystem.hpp"
 
+namespace Noctis
+{
 
 class NOCTIS_API Model
 {
@@ -28,3 +30,5 @@ private:
     std::vector<Mesh> m_meshes;
     std::vector<Texture> m_textures;
 };
+
+}

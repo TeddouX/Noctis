@@ -2,6 +2,8 @@
 #include "property.hpp"
 #include "../../../math/color.hpp"
 
+namespace Noctis
+{
 
 class NOCTIS_API ColorProperty : public IProperty<Color>
 {
@@ -19,3 +21,5 @@ private:
     std::function<Color &(void)> m_getter;
     std::string m_name;
 };
+
+}

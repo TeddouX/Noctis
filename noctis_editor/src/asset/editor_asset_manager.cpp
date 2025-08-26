@@ -3,6 +3,8 @@
 #include "importer/model_importer.hpp"
 #include "importer/texture_importer.hpp"
 
+namespace NoctisEditor
+{
 
 bool IsImageFile(const fs::path &path);
 bool IsModelFile(const fs::path &path);
@@ -42,23 +44,23 @@ void EditorAssetManager::AddModel(const fs::path &file)
         file
     );
 
-    this->m_assetCache[AssetType::MODEL].push_back(ma);
+    this->m_assetCache[Noctis::AssetType::MODEL].push_back(ma);
 }
 
 
 void EditorAssetManager::AddShader(const fs::path &file)
 {
-    std::string fileContents = Filesystem::GetFileContents(file);
+    std::string fileContents = Noctis::Filesystem::GetFileContents(file);
     if (fileContents.empty())
         return;
 
     auto sa = std::make_shared<ShaderAsset>(
         file.stem().string(),
-        std::make_shared<Shader>(fileContents.c_str()),
+        std::make_shared<Noctis::Shader>(fileContents.c_str()),
         file
     );
     
-    this->m_assetCache[AssetType::SHADER].push_back(sa);
+    this->m_assetCache[Noctis::AssetType::SHADER].push_back(sa);
 }
 
 
@@ -70,13 +72,14 @@ void EditorAssetManager::AddTexture(const fs::path &file)
         file
     );
 
-    this->m_assetCache[AssetType::TEXTURE].push_back(ta);
+    this->m_assetCache[Noctis::AssetType::TEXTURE].push_back(ta);
 }
 
 
-std::shared_ptr<IAssetBase> EditorAssetManager::GetAsset(AssetType type, const std::string &name)
+std::shared_ptr<Noctis::IAssetBase> 
+EditorAssetManager::GetAsset(Noctis::AssetType type, const std::string &name)
 {
-    std::vector<std::shared_ptr<IAssetBase>> &vec = this->m_assetCache.at(type);
+    std::vector<std::shared_ptr<Noctis::IAssetBase>> &vec = this->m_assetCache.at(type);
 
     for (auto &asset : vec)
     {
@@ -132,4 +135,6 @@ bool IsShaderFile(const fs::path &path)
         return false;
 
     return path.extension() == ".glsl"; 
+}
+
 }

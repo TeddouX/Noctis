@@ -8,6 +8,8 @@
 #include "../project.hpp"
 #include "../utils/imgui_utils.hpp"
 
+namespace NoctisEditor
+{
 
 void ProjectSelectionUI::Render()
 {
@@ -37,7 +39,7 @@ void ProjectSelectionUI::Render()
 
     if (pressed)
     {
-        fs::path projectPath = Filesystem::FolderSelectDialog("%USERPROFILE%", "Select project folder");
+        fs::path projectPath = Noctis::Filesystem::FolderSelectDialog("%USERPROFILE%", "Select project folder");
 
         this->LoadProjectFolder(projectPath);
     }
@@ -58,7 +60,7 @@ void ProjectSelectionUI::Render()
 
     if (pressed)
     {
-        fs::path projectPath = Filesystem::FolderSelectDialog("%USERPROFILE%", "Select project folder");
+        fs::path projectPath = Noctis::Filesystem::FolderSelectDialog("%USERPROFILE%", "Select project folder");
         
         this->CreateProjectFolder(projectPath);
     }
@@ -116,4 +118,6 @@ void ProjectSelectionUI::LoadProject(const fs::path &folder, const std::string &
 
     EDITOR().SetCurrProject(project);
     EDITOR().SetState(EditorState::IN_EDITOR);
+}
+
 }

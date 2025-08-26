@@ -87,6 +87,7 @@ set(ENGINE_SOURCES
     
     "src/ecs/component/actor_component.cpp"
     "src/ecs/component/component_registry.cpp"
+    "src/ecs/component/component.cpp"
     "src/ecs/component/light_component.cpp"
     "src/ecs/component/material_component.cpp"
     "src/ecs/component/model_component.cpp"

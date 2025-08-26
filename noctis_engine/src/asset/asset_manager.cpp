@@ -1,5 +1,7 @@
 #include "asset/asset_manager.hpp"
 
+namespace Noctis
+{
 
 IAssetManager *AssetManagerAccessor::Get()
 {
@@ -13,4 +15,6 @@ IAssetManager *AssetManagerAccessor::Get()
     }
     else 
         return s_assetManager;
+}
+
 }

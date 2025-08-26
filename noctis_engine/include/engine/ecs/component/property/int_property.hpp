@@ -4,6 +4,8 @@
 
 #include "property.hpp"
 
+namespace Noctis
+{
 
 class NOCTIS_API IntProperty : public IProperty<int>
 {
@@ -30,3 +32,5 @@ private:
     std::function<int &(void)> m_getter;
     std::string m_name;
 };
+
+}

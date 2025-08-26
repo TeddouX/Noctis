@@ -6,6 +6,8 @@
 #include "texture.hpp"
 #include "shader.hpp"
 
+namespace Noctis
+{
 
 class NOCTIS_API Mesh
 {
@@ -21,3 +23,5 @@ private:
     GLsizei m_indicesSize;
     Mat4    m_transformMatrix;
 };
+
+}

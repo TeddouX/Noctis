@@ -18,8 +18,10 @@
 #define DEFAULT_SHADER_NAME "Default"
 #define LIT_SHADER_NAME "Lit"
 
-#define ASSET_MANAGER() AssetManagerAccessor::Get()
+#define ASSET_MANAGER() Noctis::AssetManagerAccessor::Get()
 
+namespace Noctis
+{
 
 class NOCTIS_API IAssetManager
 {
@@ -48,3 +50,5 @@ public:
 private:
     static inline IAssetManager *s_assetManager = nullptr;
 };
+
+}

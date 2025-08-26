@@ -1,5 +1,7 @@
 #include "window.hpp"
 
+namespace Noctis
+{
 
 bool KeyCombo::Is(int key, std::initializer_list<int> modifiers)
 {
@@ -179,4 +181,6 @@ void Window::GLFWMouseButtonCallback(GLFWwindow *glfwWindow, int button, int act
         window->m_mouseButtonsDown.insert(button);
     else if (action == GLFW_RELEASE)
         window->m_mouseButtonsDown.erase(button);
+}
+
 }

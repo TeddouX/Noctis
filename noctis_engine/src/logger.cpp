@@ -1,5 +1,7 @@
 #include "logger.hpp"
 
+namespace Noctis
+{
 
 Logger& Logger::GetInstance()
 {
@@ -62,6 +64,8 @@ std::string Logger::LogLevelToString(LogLevel level)
 
 std::string Logger::TimeString()
 {
+    namespace chrono = std::chrono;
+
     chrono::system_clock::time_point now = chrono::system_clock::now();
     // Time zone offset
     chrono::seconds offset = chrono::current_zone()->get_info(now).offset;
@@ -72,4 +76,6 @@ std::string Logger::TimeString()
     int64_t hours   = chrono::duration_cast<chrono::hours>(sysTime).count()   % 24;
 
     return fmt::format("{:02}:{:02}:{:02}", hours, minutes, seconds);
+}
+
 }

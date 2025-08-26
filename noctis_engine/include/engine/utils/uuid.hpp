@@ -13,6 +13,8 @@
 
 using json = nlohmann::json;
 
+namespace Noctis
+{
 
 class NOCTIS_API UUIDv4
 {
@@ -42,13 +44,15 @@ private:
 void from_json(const json &j, UUIDv4 &uuid);
 void to_json(json &j, const UUIDv4 &uuid);
 
+}
+
 
 namespace std 
 {
     template<>
-    struct hash<UUIDv4> 
+    struct hash<Noctis::UUIDv4> 
     {
-        size_t operator()(const UUIDv4& uuid) const noexcept 
+        size_t operator()(const Noctis::UUIDv4& uuid) const noexcept 
         {
             // Fowler–Noll–Vo hash function from wikipedia:
             // https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function

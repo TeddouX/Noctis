@@ -1,5 +1,7 @@
 #include "ssbo.hpp"
 
+namespace Noctis
+{
 
 template <typename T>
 SSBO<T>::SSBO(GLuint bindPoint, GLenum usage)
@@ -83,4 +85,6 @@ void SSBO<T>::Resize(size_t newSize)
 {
     this->Bind();
     glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(T) * newSize, nullptr, this->m_usage);
+}
+
 }

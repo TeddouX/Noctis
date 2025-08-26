@@ -12,6 +12,8 @@
 
 #define OPENGL_DBG_LOW_ENABLE 1
 
+namespace Noctis
+{
 
 /// @brief Used to describe key combos like Ctrl+S
 class NOCTIS_API  KeyCombo
@@ -92,3 +94,5 @@ private:
     static void GLFWCursorPosCallback(GLFWwindow* glfwWindow, double xpos, double ypos);
     static void GLFWMouseButtonCallback(GLFWwindow* glfwWindow, int button, int action, int mods);
 };
+
+}

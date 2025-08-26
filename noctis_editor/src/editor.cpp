@@ -2,13 +2,15 @@
 
 #include <engine/asset/asset_manager.hpp>
 
+namespace NoctisEditor
+{
 
 Editor Editor::s_instance;
 
 
 Editor::Editor()
     : m_state(EditorState::PROJECT_SELECTION),
-    m_window(800, 600, "Noctis Editor"), 
+    m_window(std::make_shared<Noctis::Window>(800, 600, "Noctis Editor")), 
     m_ui(m_window, NOCTIS_OPENGL_VERSION)
 {
 }
@@ -22,11 +24,13 @@ Editor &Editor::GetInstance()
 
 void Editor::Run()
 {
-    while (!this->m_window.ShouldClose())
+    while (!this->m_window->ShouldClose())
     {
         glfwPollEvents();
 
         this->m_ui.Render();
-        this->m_window.PostRender();
+        this->m_window->PostRender();
     }
+}
+
 }

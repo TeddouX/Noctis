@@ -1,5 +1,7 @@
 #include "ecs/component/actor_component.hpp"
 
+namespace Noctis
+{
 
 void Actor::Serialize(json &j) const
 {
@@ -14,4 +16,6 @@ void Actor::Deserialize(const json &j)
 {
     PROP_FROM_JSON(j, m_name)
     PROP_FROM_JSON(j, m_uuid)
+}
+
 }

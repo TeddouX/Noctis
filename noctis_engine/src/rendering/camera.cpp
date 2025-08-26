@@ -1,5 +1,7 @@
 #include "rendering/camera.hpp"
 
+namespace Noctis
+{
 
 Camera::Camera(Vec3 pos, float aspectRatio, float fov, float nearDst, float farDst)
 	: m_position(pos), 
@@ -68,4 +70,6 @@ void Camera::UploadData()
 	data.pos = Vec4(this->m_position, 0);
 
 	this->m_cameraSSBO.UploadData(data);
+}
+
 }

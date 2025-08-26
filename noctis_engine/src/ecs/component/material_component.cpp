@@ -1,5 +1,7 @@
 #include "ecs/component/material_component.hpp"
 
+namespace Noctis
+{
 
 Material::Material(
     const std::string& name, 
@@ -88,4 +90,6 @@ std::vector<std::shared_ptr<IPropertyBase>> Material::GetProperties()
         std::make_shared<ColorProperty>(GETTER_FOR_REF(this->m_specularReflectance), "Specular Reflectance"),
         std::make_shared<FloatProperty>(GETTER_FOR_REF(this->m_specularDefinition), "Specular Definittion", 0.f, 100.f),
     };
+}
+
 }

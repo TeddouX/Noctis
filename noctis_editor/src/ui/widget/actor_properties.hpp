@@ -3,6 +3,9 @@
 
 #include "widget.hpp"
 
+namespace NoctisEditor
+{
+
 class ActorPropertiesWidget : public IWidget
 {
 public:
@@ -11,8 +14,14 @@ public:
     void Render() override;
 
 private:
-    static void HandleActor(std::shared_ptr<Actor> component);
+    static void HandleActor(std::shared_ptr<Noctis::Actor> component);
     
-    void ShowAddComponentPopup(Entity &entity);
-    void ShowComponentRightClickPopup(std::shared_ptr<IComponent> comp, Entity &entity, const std::string &popupID);
+    void ShowAddComponentPopup(Noctis::Entity &entity);
+    void ShowComponentRightClickPopup(
+        std::shared_ptr<Noctis::IComponent> comp, 
+        Noctis::Entity &entity, 
+        const std::string &popupID
+    );
 };
+
+}

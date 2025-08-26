@@ -3,6 +3,8 @@
 
 #include "math.hpp"
 
+namespace Noctis
+{
 
 class NOCTIS_API Color
 {
@@ -32,4 +34,4 @@ private:
     uint8_t m_red, m_green, m_blue;
 };
 
-
+}

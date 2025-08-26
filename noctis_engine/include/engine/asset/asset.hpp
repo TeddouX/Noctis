@@ -3,6 +3,8 @@
 
 #include "../engine.hpp"
 
+namespace Noctis
+{
 
 enum class AssetType
 {
@@ -28,13 +30,14 @@ struct NOCTIS_API IAsset : public IAssetBase
     std::shared_ptr<T> Asset;
 };
 
+}
 
 namespace std 
 {
     template <>
-    struct hash<AssetType> 
+    struct hash<Noctis::AssetType> 
     {
-        std::size_t operator()(const AssetType& at) const noexcept 
+        std::size_t operator()(const Noctis::AssetType& at) const noexcept 
         {
             return std::hash<int>()(static_cast<int>(at));
         }

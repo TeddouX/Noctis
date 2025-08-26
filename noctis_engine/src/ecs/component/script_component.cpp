@@ -1,7 +1,9 @@
 #include "ecs/component/script_component.hpp"
 
+namespace Noctis
+{
 
-static void ExecuteFunction(asIScriptContext *ctx)
+void ExecuteFunction(asIScriptContext *ctx)
 {
     int res = ctx->Execute();
 
@@ -66,4 +68,6 @@ void ScriptComponent::Serialize(json &j) const
 void ScriptComponent::Deserialize(const json &j)
 {
     PROP_FROM_JSON(j, m_scriptPath)
+}
+
 }

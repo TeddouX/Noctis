@@ -1,7 +1,7 @@
 #include "imgui_utils.hpp"
 
 
-namespace ImGui
+namespace NoctisEditor
 {
 
 void ResizableInputText(const char* label, std::string& str, bool needsEnter)
@@ -48,7 +48,7 @@ void InlinedLabel(const char* text)
     ImGui::SetCursorPosX(ImGui::CalcTextSize(text).x + 64.f);
 }
 
-void ColorEditEx(const char* label, Color &color, ImGuiColorEditFlags flags)
+void ColorEditEx(const char* label, Noctis::Color &color, ImGuiColorEditFlags flags)
 {
     ImVec4 colorVec = ImVec4(color.GetRed() / 255.f, color.GetGreen() / 255.f, color.GetBlue() / 255.f, 0.f);
 
@@ -60,4 +60,4 @@ void ColorEditEx(const char* label, Color &color, ImGuiColorEditFlags flags)
     }
 }
 
-} // namespace ImGui
+}

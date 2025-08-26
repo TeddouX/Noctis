@@ -5,11 +5,13 @@
 
 #include "imgui_utils.hpp"
 
+namespace NoctisEditor
+{
 
 std::string GenImGuiID(
     std::string prefix, 
-    std::shared_ptr<IPropertyBase> property, 
-    std::shared_ptr<IComponent> component
+    std::shared_ptr<Noctis::IPropertyBase> property, 
+    std::shared_ptr<Noctis::IComponent> component
 )
 {
     return fmt::format(
@@ -22,9 +24,9 @@ std::string GenImGuiID(
 
 
 template <>
-void RenderProperty(std::shared_ptr<IntProperty> prop, std::shared_ptr<IComponent> comp)
+void RenderProperty(std::shared_ptr<Noctis::IntProperty> prop, std::shared_ptr<Noctis::IComponent> comp)
 {
-    ImGui::InlinedLabel(prop->GetName().c_str());
+    NoctisEditor::InlinedLabel(prop->GetName().c_str());
 
     int &i = prop->GetValue();
     ImGui::DragInt(
@@ -37,9 +39,9 @@ void RenderProperty(std::shared_ptr<IntProperty> prop, std::shared_ptr<IComponen
 
 
 template <>
-void RenderProperty(std::shared_ptr<FloatProperty> prop, std::shared_ptr<IComponent> comp)
+void RenderProperty(std::shared_ptr<Noctis::FloatProperty> prop, std::shared_ptr<Noctis::IComponent> comp)
 {
-    ImGui::InlinedLabel(prop->GetName().c_str());
+    NoctisEditor::InlinedLabel(prop->GetName().c_str());
 
     float &f = prop->GetValue();
     ImGui::DragFloat(GenImGuiID("int_input", prop, comp).c_str(), 
@@ -51,11 +53,11 @@ void RenderProperty(std::shared_ptr<FloatProperty> prop, std::shared_ptr<ICompon
 
 
 template <>
-void RenderProperty(std::shared_ptr<Vec3Property> prop, std::shared_ptr<IComponent> comp)
+void RenderProperty(std::shared_ptr<Noctis::Vec3Property> prop, std::shared_ptr<Noctis::IComponent> comp)
 {
-    ImGui::InlinedLabel(prop->GetName().c_str());
+    NoctisEditor::InlinedLabel(prop->GetName().c_str());
 
-    Vec3 &v3 = prop->GetValue();
+    Noctis::Vec3 &v3 = prop->GetValue();
     std::string id = GenImGuiID("vec3_input", prop, comp);
 
     ImGui::PushItemWidth(64.f);
@@ -79,51 +81,53 @@ void RenderProperty(std::shared_ptr<Vec3Property> prop, std::shared_ptr<ICompone
 
 
 template <>
-void RenderProperty(std::shared_ptr<ColorProperty> prop, std::shared_ptr<IComponent> comp)
+void RenderProperty(std::shared_ptr<Noctis::ColorProperty> prop, std::shared_ptr<Noctis::IComponent> comp)
 {
-    ImGui::InlinedLabel(prop->GetName().c_str());
+    InlinedLabel(prop->GetName().c_str());
 
-    Color &c = prop->GetValue();
+    Noctis::Color &c = prop->GetValue();
     std::string id = GenImGuiID("color_input", prop, comp);
-    ImGui::ColorEditEx(id.c_str(), c, ImGuiColorEditFlags_NoInputs);
+    NoctisEditor::ColorEditEx(id.c_str(), c, ImGuiColorEditFlags_NoInputs);
 }
 
 
 template <>
-void RenderProperty(std::shared_ptr<StringProperty> prop, std::shared_ptr<IComponent> comp)
+void RenderProperty(std::shared_ptr<Noctis::StringProperty> prop, std::shared_ptr<Noctis::IComponent> comp)
 {
-    ImGui::InlinedLabel(prop->GetName().c_str());
+    NoctisEditor::InlinedLabel(prop->GetName().c_str());
 
     std::string &s = prop->GetValue();
-    ImGui::ResizableInputText(GenImGuiID("string_input", prop, comp).c_str(), s, true);
+    NoctisEditor::ResizableInputText(GenImGuiID("string_input", prop, comp).c_str(), s, true);
 }
 
 
 template <>
-void RenderProperty(std::shared_ptr<AssetProperty> prop, std::shared_ptr<IComponent> comp)
+void RenderProperty(std::shared_ptr<Noctis::AssetProperty> prop, std::shared_ptr<Noctis::IComponent> comp)
 {
-    ImGui::InlinedLabel(prop->GetName().c_str());
+    NoctisEditor::InlinedLabel(prop->GetName().c_str());
         
-    std::shared_ptr<IAssetBase> &m = prop->GetValue();
+    std::shared_ptr<Noctis::IAssetBase> &m = prop->GetValue();
 
     ImGui::Text(m->Name.c_str());
 }
 
-void RenderComponentProperties(std::shared_ptr<IComponent> comp)
+void RenderComponentProperties(std::shared_ptr<Noctis::IComponent> comp)
 {
-    for (std::shared_ptr<IPropertyBase> prop : comp->GetProperties())
+    for (std::shared_ptr<Noctis::IPropertyBase> prop : comp->GetProperties())
     {
-        if (auto c = std::dynamic_pointer_cast<IntProperty>(prop))
+        if (auto c = std::dynamic_pointer_cast<Noctis::IntProperty>(prop))
             RenderProperty(c, comp);
-        else if (auto c = std::dynamic_pointer_cast<FloatProperty>(prop))
+        else if (auto c = std::dynamic_pointer_cast<Noctis::FloatProperty>(prop))
             RenderProperty(c, comp);
-        else if (auto c = std::dynamic_pointer_cast<Vec3Property>(prop))
+        else if (auto c = std::dynamic_pointer_cast<Noctis::Vec3Property>(prop))
             RenderProperty(c, comp);
-        else if (auto c = std::dynamic_pointer_cast<ColorProperty>(prop))
+        else if (auto c = std::dynamic_pointer_cast<Noctis::ColorProperty>(prop))
             RenderProperty(c, comp);
-        else if (auto c = std::dynamic_pointer_cast<StringProperty>(prop))
+        else if (auto c = std::dynamic_pointer_cast<Noctis::StringProperty>(prop))
             RenderProperty(c, comp);
-        else if (auto c = std::dynamic_pointer_cast<AssetProperty>(prop))
+        else if (auto c = std::dynamic_pointer_cast<Noctis::AssetProperty>(prop))
             RenderProperty(c, comp);
     }
+}
+
 }

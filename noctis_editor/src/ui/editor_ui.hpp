@@ -7,6 +7,8 @@
 #include "project_selection.hpp"
 #include "widget/widget.hpp"
 
+namespace NoctisEditor
+{
 
 struct EditorUIState
 {
@@ -17,14 +19,14 @@ struct EditorUIState
 class EditorUI
 {
 public:
-    EditorUI(Window &window, const char *glslVers);
+    EditorUI(std::shared_ptr<Noctis::Window> window, const char *glslVers);
 
     void Render();
 
 private:
+    std::shared_ptr<Noctis::Window> m_mainWindow;
     ProjectSelectionUI m_psUI;
     EditorUIState m_state;
-    Window &m_mainWindow;
     float m_imGuiScale;
 
     ImFont *m_font;
@@ -37,3 +39,5 @@ private:
     void HandleInput();
     void HandleState();
 };
+
+}

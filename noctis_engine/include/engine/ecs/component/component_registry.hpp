@@ -8,7 +8,7 @@
 #include "../component_manager.hpp"
 
 
-#define COMPONENT_REGISTRY() ComponentRegistry::GetInstance()
+#define COMPONENT_REGISTRY() Noctis::ComponentRegistry::GetInstance()
 
 #define REGISTER_COMPONENT(CLASSNAME, NAME) inline static const bool __serializable##CLASSNAME = \
     ComponentRegistry::GetInstance().RegisterComponent<CLASSNAME>(NAME); \
@@ -28,6 +28,8 @@
 
 using json = nlohmann::json;
 
+namespace Noctis
+{
 
 class IComponent;
 
@@ -71,13 +73,7 @@ private:
     std::unordered_map<std::string, ComponentRegEntry> m_componentReg;
 };
 
-
-/// @brief Serializing components that inherit from IComponent
-void to_json(json &j, const std::shared_ptr<IComponent> &ptr);
-
-
-/// @brief Deserializing components that inherit from IComponent
-void from_json(const json &j, std::shared_ptr<IComponent> &ptr);
+}
 
 
 #include "component_registry.inl"

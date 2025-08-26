@@ -1,5 +1,7 @@
 #include "ecs/component/light_component.hpp"
 
+namespace Noctis
+{
 
 DirectionalLight::Data DirectionalLight::GetData()
 {
@@ -42,3 +44,4 @@ std::vector<std::shared_ptr<IPropertyBase>> DirectionalLight::GetProperties()
     };
 }
 
+}

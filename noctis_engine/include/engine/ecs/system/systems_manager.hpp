@@ -7,6 +7,8 @@
 #include "../component_manager.hpp"
 #include "../../logger.hpp"
 
+namespace Noctis
+{
 
 // Stores every registered system to help with organisation
 class NOCTIS_API SystemsManager
@@ -29,5 +31,7 @@ public:
     template <typename T>
     void UpdateSystem(ComponentManager &cm, float dt);
 };
+
+}
 
 #include "systems_manager.inl"

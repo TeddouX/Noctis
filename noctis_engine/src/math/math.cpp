@@ -1,5 +1,7 @@
 #include "math/math.hpp"
 
+namespace Noctis
+{
 
 Mat4 ModelMatrix(Vec3 pos, Vec3 rot, Vec3 scale)
 {
@@ -39,18 +41,20 @@ float *GetPtr(Mat4 mat) { return &(mat[0].x); }
 
 float Radians(float degrees) { return glm::radians(degrees); }
 
+}
+
 
 namespace glm
 {
   
-void from_json(const json &j, Vec3 &vec3)
+void from_json(const json &j, Noctis::Vec3 &vec3)
 {
     j.at("x").get_to(vec3.x);
     j.at("y").get_to(vec3.y);
     j.at("z").get_to(vec3.z);
 }
 
-void to_json(json &j, const Vec3 &vec3)
+void to_json(json &j, const Noctis::Vec3 &vec3)
 {
     j = json{
         {"x", vec3.x},

@@ -2,17 +2,19 @@
 
 #include <engine/scene/scene_manager.hpp>
 
+namespace NoctisEditor
+{
 
 void SceneTreeWidget::Render()
 {
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
     ImGui::Begin(std::string(SceneTreeWidget::name).c_str());
 
-    Scene *currScene = SCENE_MANAGER().GetCurrScene();
+    Noctis::Scene *currScene = SCENE_MANAGER().GetCurrScene();
 
     if (currScene)
     {
-        ComponentManager &cm = currScene->GetComponentManager();
+        Noctis::ComponentManager &cm = currScene->GetComponentManager();
         
         ImGuiTreeNodeFlags headerFlags = ImGuiTreeNodeFlags_DefaultOpen
             | ImGuiTreeNodeFlags_OpenOnArrow;
@@ -27,11 +29,11 @@ void SceneTreeWidget::Render()
             HandleDragDropTarget(nullptr);
 
             // Avoid undefined behaviour due vector reallocation
-            std::vector<Entity> allEntities = currScene->GetAllEntities();
+            std::vector<Noctis::Entity> allEntities = currScene->GetAllEntities();
             // Iterate through all the scene's entities to add them to the tree
-            for (const Entity &entity : allEntities)
+            for (const auto &entity : allEntities)
             {
-                auto transform = cm.GetComponent<Transform>(entity);
+                auto transform = cm.GetComponent<Noctis::Transform>(entity);
 
                 if (transform->IsChild()) 
                     continue;
@@ -46,9 +48,11 @@ void SceneTreeWidget::Render()
 }
 
 
-void SceneTreeWidget::IterateTransformChildren(Transform *transform, const Entity &entity)
+void SceneTreeWidget::IterateTransformChildren(
+    Noctis::Transform *transform, 
+    const Noctis::Entity &entity)
 {
-    Scene *currScene = SCENE_MANAGER().GetCurrScene();
+    Noctis::Scene *currScene = SCENE_MANAGER().GetCurrScene();
 
     ImGuiTreeNodeFlags treeFlags = ImGuiTreeNodeFlags_DefaultOpen 
         | ImGuiTreeNodeFlags_OpenOnArrow
@@ -66,7 +70,7 @@ void SceneTreeWidget::IterateTransformChildren(Transform *transform, const Entit
 
     if (ImGui::BeginDragDropSource()) 
     {
-        ImGui::SetDragDropPayload("SCENE_TREE", &transform, sizeof(Transform *));
+        ImGui::SetDragDropPayload("SCENE_TREE", &transform, sizeof(Noctis::Transform *));
         ImGui::EndDragDropSource();
     }
 
@@ -75,7 +79,7 @@ void SceneTreeWidget::IterateTransformChildren(Transform *transform, const Entit
     if (open)
     {
         // Recursively iterate through all the transform's children
-        for (Transform *child : transform->GetChildren())
+        for (Noctis::Transform *child : transform->GetChildren())
             IterateTransformChildren(child, child->GetActor()->GetEntity());
         
         ImGui::TreePop();
@@ -85,7 +89,7 @@ void SceneTreeWidget::IterateTransformChildren(Transform *transform, const Entit
 }
 
 
-void SceneTreeWidget::HandleActorCreationMenu(Transform *parent)
+void SceneTreeWidget::HandleActorCreationMenu(Noctis::Transform *parent)
 {
     if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
         ImGui::OpenPopup("SCENE_TREE_CREATE_ACTOR");
@@ -127,22 +131,24 @@ void SceneTreeWidget::HandleActorCreationMenu(Transform *parent)
 }
 
 
-void SceneTreeWidget::HandleDragDropTarget(Transform *parent)
+void SceneTreeWidget::HandleDragDropTarget(Noctis::Transform *parent)
 {    
     if (ImGui::BeginDragDropTarget()) 
     {
         if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("SCENE_TREE"))
         {
-            if (payload->DataSize != sizeof(Transform *))
+            if (payload->DataSize != sizeof(Noctis::Transform *))
             {
                 LOG_ERR("Drop payload is not valid.");
                 return;
             }
 
-            Transform *payloadTransform = *(Transform **)payload->Data;
+            Noctis::Transform *payloadTransform = *(Noctis::Transform **)payload->Data;
             payloadTransform->SetParent(parent);
         }
 
         ImGui::EndDragDropTarget();
     } 
+}
+
 }

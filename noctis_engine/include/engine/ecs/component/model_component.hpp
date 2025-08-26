@@ -6,6 +6,8 @@
 #include "../../asset/asset_manager.hpp"
 #include "../../rendering/model.hpp"
 
+namespace Noctis
+{
 
 // A ModelComponent stores a pointer to a model that can be rendered
 class NOCTIS_API ModelComponent : public IComponent
@@ -27,3 +29,5 @@ public:
 private:
     std::shared_ptr<IAsset<Model>> m_model;
 };
+
+}

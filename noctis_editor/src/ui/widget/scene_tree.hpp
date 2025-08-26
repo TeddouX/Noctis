@@ -2,6 +2,8 @@
 #include "widget.hpp"
 #include "../../utils/actor_creation_helper.hpp"
 
+namespace NoctisEditor
+{
 
 class SceneTreeWidget : public IWidget
 {
@@ -11,7 +13,12 @@ public:
     void Render() override;
 
 private:
-    static void IterateTransformChildren(Transform *transform, const Entity &entity);
-    static void HandleActorCreationMenu(Transform *parent);
-    static void HandleDragDropTarget(Transform *parent);
+    void IterateTransformChildren(
+        Noctis::Transform *transform, 
+        const Noctis::Entity &entity
+    );
+    void HandleActorCreationMenu(Noctis::Transform *parent);
+    void HandleDragDropTarget(Noctis::Transform *parent);
 };
+
+}

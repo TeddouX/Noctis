@@ -9,6 +9,8 @@
 #include "../../rendering/model.hpp"
 #include "../../rendering/shader.hpp"
 
+namespace Noctis
+{
 
 // This system renders object to the screen
 class NOCTIS_API RenderSystem : public ISystem 
@@ -22,3 +24,5 @@ public:
 private:
     Camera *m_camera;
 };
+
+}

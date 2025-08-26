@@ -4,6 +4,8 @@
 
 #include "../logger.hpp"
 
+namespace Noctis
+{
 
 // As this class doesn't do any direct operations on the
 // component, forward declaration is possible.
@@ -42,5 +44,7 @@ public:
 
     std::unordered_map<Entity, std::shared_ptr<T>> &GetAll();
 };
+
+}
 
 #include "component_array.inl"

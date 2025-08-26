@@ -1,9 +1,11 @@
 #include "console.hpp"
 
+namespace NoctisEditor
+{
 
 void ConsoleWidget::Update()
 {
-    std::vector<LogLine> logLines = LOGGER().GetLogLines();
+    std::vector<Noctis::LogLine> logLines = LOGGER().GetLogLines();
 
     this->m_logLineBuffer.clear();
     // Insert LogLines from the last flush index to the end
@@ -25,7 +27,7 @@ void ConsoleWidget::Render()
     {
         ImGui::PushStyleVarY(ImGuiStyleVar_CellPadding, 10.0f);
 
-        for (LogLine logLine : this->m_logLineBuffer)
+        for (Noctis::LogLine logLine : this->m_logLineBuffer)
         {
             ImGui::TableNextRow(ImGuiTableRowFlags_None);
             ImGui::TableNextColumn();
@@ -50,13 +52,15 @@ void ConsoleWidget::Render()
 }
 
 
-ImU32 ConsoleWidget::ColorFromLogLevel(LogLevel level)
+ImU32 ConsoleWidget::ColorFromLogLevel(Noctis::LogLevel level)
 {
     switch (level)
     {
-    case LogLevel::INFO: return COL_INFO;
-    case LogLevel::WARN: return COL_WARN;
-    case LogLevel::ERR:  return COL_ERR;
+    case Noctis::LogLevel::INFO: return COL_INFO;
+    case Noctis::LogLevel::WARN: return COL_WARN;
+    case Noctis::LogLevel::ERR:  return COL_ERR;
     default:             return 0;
     }
+}
+
 }

@@ -3,7 +3,10 @@
 #include <stb_image.h>
 
 
-std::unique_ptr<Texture> LoadTextureFromFile(const fs::path &path)
+namespace NoctisEditor
+{
+
+std::unique_ptr<Noctis::Texture> LoadTextureFromFile(const fs::path &path)
 {
     int width, height;
     int nrChannels;
@@ -16,7 +19,11 @@ std::unique_ptr<Texture> LoadTextureFromFile(const fs::path &path)
 		0
 	);
 
-    auto tex = std::make_unique<Texture>(imageData, IVec2(width, height), nrChannels);
+    auto tex = std::make_unique<Noctis::Texture>(
+        imageData, 
+        Noctis::IVec2(width, height), 
+        nrChannels
+    );
 
     stbi_image_free(imageData);
 
@@ -24,7 +31,7 @@ std::unique_ptr<Texture> LoadTextureFromFile(const fs::path &path)
 }
 
 
-std::unique_ptr<Texture> LoadTextureFromMemory(uint8_t *data, int width)
+std::unique_ptr<Noctis::Texture> LoadTextureFromMemory(uint8_t *data, int width)
 {
     int realWidth, height;
     int nrChannels;
@@ -38,9 +45,15 @@ std::unique_ptr<Texture> LoadTextureFromMemory(uint8_t *data, int width)
 		0
 	);
 
-    auto tex = std::make_unique<Texture>(imageData, IVec2(realWidth, height), nrChannels);
+    auto tex = std::make_unique<Noctis::Texture>(
+        imageData, 
+        Noctis::IVec2(realWidth, height), 
+        nrChannels
+    );
 
     stbi_image_free(imageData);
 
     return std::move(tex);
+}
+
 }

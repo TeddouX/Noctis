@@ -1,5 +1,7 @@
 #include "rendering/mesh.hpp"
 
+namespace Noctis
+{
 
 Mesh::Mesh(const std::vector<Vertex> &vertices, const std::vector<GLuint> &indices)
 {
@@ -50,4 +52,6 @@ void Mesh::Render(Shader &shader, const Mat4 &modelMatrix)
 
     glBindVertexArray(this->m_VAO);
     glDrawElements(GL_TRIANGLES, m_indicesSize, GL_UNSIGNED_INT, 0);
+}
+
 }

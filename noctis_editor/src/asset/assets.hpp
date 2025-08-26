@@ -6,17 +6,22 @@
 #include <engine/rendering/shader.hpp>
 #include <engine/rendering/model.hpp>
 
+namespace NoctisEditor
+{
 
 template <typename T>
-struct IEditorAsset : public IAsset<T>
+struct IEditorAsset : public Noctis::IAsset<T>
 {
     fs::path Path;
 };
 
 
-struct TextureAsset : public IEditorAsset<Texture> 
+struct TextureAsset : public IEditorAsset<Noctis::Texture> 
 {
-    TextureAsset(const std::string &name, std::shared_ptr<Texture> texture, const fs::path &path)
+    TextureAsset(
+        const std::string &name, 
+        std::shared_ptr<Noctis::Texture> texture, 
+        const fs::path &path)
     {
         Name = name;
         Asset = texture;
@@ -24,9 +29,12 @@ struct TextureAsset : public IEditorAsset<Texture>
     };
 };
 
-struct ShaderAsset : public IEditorAsset<Shader> 
+struct ShaderAsset : public IEditorAsset<Noctis::Shader> 
 {
-    ShaderAsset(const std::string &name, std::shared_ptr<Shader> shader, const fs::path &path)
+    ShaderAsset(
+        const std::string &name, 
+        std::shared_ptr<Noctis::Shader> shader, 
+        const fs::path &path)
     {
         Name = name;
         Asset = shader;
@@ -34,12 +42,17 @@ struct ShaderAsset : public IEditorAsset<Shader>
     };
 };
 
-struct ModelAsset : public IEditorAsset<Model>
+struct ModelAsset : public IEditorAsset<Noctis::Model>
 {
-    ModelAsset(const std::string &name, std::shared_ptr<Model> model, const fs::path &path)
+    ModelAsset(
+        const std::string &name, 
+        std::shared_ptr<Noctis::Model> model, 
+        const fs::path &path)
     {
         Name = name;
         Asset = model;
         Path = path;
     };
 };
+
+}

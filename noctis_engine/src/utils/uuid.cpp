@@ -1,5 +1,7 @@
 #include "utils/uuid.hpp"
 
+namespace Noctis
+{
 
 UUIDv4 UUIDv4::Generate()
 {
@@ -85,4 +87,6 @@ void to_json(json &j, const UUIDv4 &uuid)
     j = json{
         {"value", uuid.ToString()}     
     };
+}
+
 }

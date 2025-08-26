@@ -1,5 +1,7 @@
 #include "rendering/framebuffer.hpp"
 
+namespace Noctis
+{
 
 FrameBuffer::FrameBuffer()
 {
@@ -105,4 +107,6 @@ void FrameBuffer::Resize(IVec2 size)
 GLuint FrameBuffer::GetTextureID() const
 {
     return this->m_texture.GetID();
+}
+
 }

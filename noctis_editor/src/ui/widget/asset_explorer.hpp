@@ -6,8 +6,13 @@
 #include "widget.hpp"
 
 
-class Texture;
+namespace Noctis
+{
+    class Texture;
+}
 
+namespace NoctisEditor
+{
 
 struct AssetView
 {
@@ -29,8 +34,8 @@ public:
     void Render() override;
     
 private:
-    std::unique_ptr<Texture> m_folderIconTex;
-    std::unique_ptr<Texture> m_fileIconTex;
+    std::unique_ptr<Noctis::Texture> m_folderIconTex;
+    std::unique_ptr<Noctis::Texture> m_fileIconTex;
 
     ImGuiID m_dockspaceID = 0;
     fs::path m_currFolder;
@@ -53,7 +58,10 @@ private:
     std::vector<AssetView> m_assetViews;
     ImGuiSelectionBasicStorage m_assetSelection;
 
+    void RenderCurrFolderPath();
     void UpdateLayoutSizes(float availWidth);
     void UpdateAssetViews();
     void RenderAssetBrowser();
 };
+
+}

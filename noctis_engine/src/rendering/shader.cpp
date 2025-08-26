@@ -1,5 +1,7 @@
 #include "rendering/shader.hpp"
 
+namespace Noctis
+{
 
 bool CheckUniform(int location, const std::string& uniformName)
 {
@@ -123,4 +125,6 @@ void Shader::SetMatrix(const std::string& name, Mat4 value) const
 	int location = glGetUniformLocation(this->m_shaderProgramID, name.c_str());
     if (!CheckUniform(location, name)) return;
 	glUniformMatrix4fv(location, 1, GL_FALSE, GetPtr(value));
+}
+
 }

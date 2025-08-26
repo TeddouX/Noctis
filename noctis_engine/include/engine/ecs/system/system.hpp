@@ -1,6 +1,8 @@
 #pragma once
 #include "../component_manager.hpp"
 
+namespace Noctis
+{
 
 class NOCTIS_API ISystem
 {
@@ -12,3 +14,5 @@ public:
     // Update is called every frame
     virtual void Update(ComponentManager &cm, float dt) = 0;
 };
+
+}

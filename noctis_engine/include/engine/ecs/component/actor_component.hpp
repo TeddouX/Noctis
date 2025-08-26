@@ -6,6 +6,8 @@
 #include "../entity.hpp"
 #include "../../utils/uuid.hpp"
 
+namespace Noctis
+{
 
 class NOCTIS_API Actor : public IComponent
 {
@@ -36,3 +38,4 @@ private:
     UUIDv4 m_uuid;
 };
 
+}

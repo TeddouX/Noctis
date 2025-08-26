@@ -1,5 +1,7 @@
 #include "lighting_system.hpp"
 
+namespace Noctis
+{
 
 template <typename T>
 void LightingSystem::UploadLights(const std::vector<T> &lights, SSBO<T> ssbo)
@@ -30,4 +32,6 @@ void LightingSystem::UploadLights(const std::vector<T> &lights, SSBO<T> ssbo)
     );
 
     ssbo.UploadRaw(buffer.data(), buffer.size());
+}
+
 }

@@ -1,5 +1,7 @@
 #include "component_registry.hpp"
 
+namespace Noctis
+{
 
 template <typename T>
 bool ComponentRegistry::RegisterComponent(const std::string &name)
@@ -30,4 +32,6 @@ bool ComponentRegistry::RegisterComponent(const std::string &name)
     this->m_componentReg[name] = entry;
 
     return true;
+}
+
 }
