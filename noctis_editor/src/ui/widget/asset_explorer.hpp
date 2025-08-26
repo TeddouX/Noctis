@@ -12,12 +12,10 @@ class Texture;
 struct AssetView
 {
     int ID;
-    std::string Name;
-    ImTextureID TextureID;
-    bool IsFolder;
+    fs::directory_entry DirEntry;
 
-    AssetView(int id, const std::string &name, ImTextureID textureID, bool isFolder = false)
-        : ID(id), Name(name), TextureID(textureID), IsFolder(isFolder) {};
+    AssetView(int id, const fs::directory_entry &dirEntry)
+        : ID(id), DirEntry(dirEntry) {}
 };
 
 

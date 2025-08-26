@@ -51,15 +51,7 @@ void AssetExplorerWidget::UpdateAssetViews()
     int id = 0;
     for (const auto &entry : fs::directory_iterator(m_currFolder))
     {
-        AssetView v(
-            id, 
-            entry.path().stem().string(), 
-            entry.is_directory() ? m_folderIconTex->GetID() : m_fileIconTex->GetID(), 
-            entry.is_directory()
-        );
-
-        m_assetViews.push_back(v);
-        
+        m_assetViews.push_back(AssetView(id, entry));
         id++;
     }
 
@@ -67,9 +59,10 @@ void AssetExplorerWidget::UpdateAssetViews()
         m_assetViews.begin(), m_assetViews.end(),
         [](const AssetView &left, const AssetView &right)
         {
-            if (left.IsFolder != right.IsFolder)
-                return left.IsFolder;
-            return left.Name > right.Name;
+            if (left.DirEntry.is_directory() != right.DirEntry.is_directory())
+                return left.DirEntry.is_directory();
+            return left.DirEntry.path().filename().string() 
+                < right.DirEntry.path().filename().string();
         }
     );
 }
@@ -141,21 +134,34 @@ void AssetExplorerWidget::RenderAssetBrowser()
 
                 for (int itemIdx = minItemIdxForLine; itemIdx < maxItemIdxForLine; itemIdx++)
                 {
-                    AssetView asset = m_assetViews[itemIdx];
+                    auto assetView = m_assetViews[itemIdx];
+                    bool isFolder = assetView.DirEntry.is_directory();
 
-                    ImGui::PushID(asset.ID);
+                    ImGui::PushID(assetView.ID);
 
-                    ImVec2 cursorPos = ImVec2(
+                    const ImVec2 cursorPos = ImVec2(
                         cursorStartPos.x + (itemIdx % m_columnCount) * m_iconStep, 
                         cursorStartPos.y + lineIdx * m_iconStep
                     );
                     ImGui::SetCursorScreenPos(cursorPos);
                     
                     ImGui::SetNextItemSelectionUserData(itemIdx);
-                    bool selected = m_assetSelection.Contains((ImGuiID)asset.ID);
+                    bool selected = m_assetSelection.Contains((ImGuiID)assetView.ID);
                     bool visible = ImGui::IsRectVisible(iconSize2D);
-                    ImGui::Selectable("", selected, ImGuiSelectableFlags_None, iconSize2D);
+                    ImGui::Selectable(
+                        "", 
+                        selected, 
+                        isFolder 
+                        ? ImGuiSelectableFlags_AllowDoubleClick 
+                        : ImGuiSelectableFlags_None, 
+                        iconSize2D
+                    );
 
+                    if (ImGui::IsItemActivated() 
+                        && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left) 
+                        && isFolder)
+                        m_currFolder = assetView.DirEntry.path();
+                    
                     if (ImGui::IsItemToggledSelection())
                         selected = !selected;
 
@@ -165,19 +171,18 @@ void AssetExplorerWidget::RenderAssetBrowser()
                         continue;
                     }
 
-                    ImVec2 imageMin(cursorPos.x, cursorPos.y);
-                    ImVec2 imageMax(cursorPos.x + m_iconSize, cursorPos.y + m_iconSize);
-                    // drawList->AddRectFilled(imageMin, imageMax, IM_COL32(255, 0, 0, 255));
-                    
+                    const ImVec2 imageMin(cursorPos.x, cursorPos.y);
+                    const ImVec2 imageMax(cursorPos.x + m_iconSize, cursorPos.y + m_iconSize);
+
                     ImGui::SetCursorScreenPos(imageMin);
                     ImGui::Image(
-                        asset.TextureID, 
+                        isFolder ? m_folderIconTex->GetID() : m_fileIconTex->GetID(),
                         ImVec2(imageMax.x - imageMin.x, imageMax.y - imageMin.y)
                     );
 
-                    const char *assetName = asset.Name.c_str();
-                    const float textWidth = ImGui::CalcTextSize(assetName).x;
-                    ImVec2 textPos(imageMin.x, imageMax.y - ImGui::GetFontSize());
+                    std::string assetName = assetView.DirEntry.path().stem().string();
+                    const float textWidth = ImGui::CalcTextSize(assetName.c_str()).x;
+                    const ImVec2 textPos(imageMin.x, imageMax.y - ImGui::GetFontSize());
 
                     ImGui::RenderTextEllipsis(
                         drawList,
@@ -185,8 +190,8 @@ void AssetExplorerWidget::RenderAssetBrowser()
                         imageMax,
                         imageMax.x,
                         imageMax.x,
-                        assetName,
-                        assetName + strlen(assetName),
+                        assetName.c_str(),
+                        assetName.c_str() + assetName.size(),
                         nullptr
                     );
                     
