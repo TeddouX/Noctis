@@ -16,8 +16,9 @@ public:
 
     bool Load(bool firstTime);
 
-    const fs::path GetScenesFolder();
-    const fs::path GetAssetsFolder();
+    const fs::path &GetRootDir() const { return this->m_rootDir; }
+    fs::path GetScenesFolder();
+    fs::path GetAssetsFolder();
 
     bool IsLoaded() { return this->m_loaded; }
 

@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include "../../editor.hpp"
+#include "../../utils/imgui_utils.hpp"
 #include "../../asset/importer/texture_importer.hpp"
 
 
@@ -33,7 +34,42 @@ void AssetExplorerWidget::Render()
 
 void AssetExplorerWidget::RenderCurrFolderPath()
 {
-    
+    const fs::path &assetsFolder = EDITOR().GetCurrProject().GetAssetsFolder();
+
+    std::vector<fs::path> allFolders;
+
+    fs::path current;
+    bool startCollecting = false;
+    for (const auto& part : m_currFolder) 
+    {
+        if (part == assetsFolder.stem())
+            startCollecting = true;
+
+        if (current.empty()) 
+            current = part;
+        else 
+            current /= part;
+        
+        if (startCollecting)
+            allFolders.push_back(current);
+    }
+
+
+    for (size_t i = 0; i < allFolders.size(); i++)
+    {
+        const auto &folder = allFolders[i];
+
+        bool clicked = NoctisEditor::ClickableText(folder.stem().string().c_str());
+        if (clicked)
+            m_currFolder = folder;
+
+        if (i != allFolders.size() - 1)
+        {
+            ImGui::SameLine();
+            ImGui::Text(">");
+            ImGui::SameLine();
+        }
+    }
 }
 
 

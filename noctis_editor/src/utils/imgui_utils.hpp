@@ -15,5 +15,6 @@ void ColorEditEx(
     Noctis::Color &color, 
     ImGuiColorEditFlags flags = 0
 );
+bool ClickableText(const char *text);
 
 }

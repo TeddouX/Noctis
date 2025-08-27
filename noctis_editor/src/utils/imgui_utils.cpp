@@ -41,12 +41,14 @@ void ResizableInputText(const char* label, std::string& str, bool needsEnter)
     }
 }
 
+
 void InlinedLabel(const char* text)
 {
     ImGui::Text(text);
     ImGui::SameLine();
     ImGui::SetCursorPosX(ImGui::CalcTextSize(text).x + 64.f);
 }
+
 
 void ColorEditEx(const char* label, Noctis::Color &color, ImGuiColorEditFlags flags)
 {
@@ -58,6 +60,17 @@ void ColorEditEx(const char* label, Noctis::Color &color, ImGuiColorEditFlags fl
         color.SetGreen((uint8_t)(colorVec.y * 255));
         color.SetBlue((uint8_t)(colorVec.z * 255));
     }
+}
+
+
+bool ClickableText(const char *text)
+{
+    ImGui::Text(text);
+
+    if (ImGui::IsItemHovered())
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+
+    return ImGui::IsItemClicked(ImGuiMouseButton_Left);
 }
 
 }

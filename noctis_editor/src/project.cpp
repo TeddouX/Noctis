@@ -104,15 +104,15 @@ void Project::LoadScenes()
 }
 
 
-const fs::path Project::GetScenesFolder()
+fs::path Project::GetScenesFolder()
 {
-    return fmt::format("{}\\Scenes", this->m_rootDir.string());
+    return this->m_rootDir / "Scenes";
 }
 
 
-const fs::path Project::GetAssetsFolder()
+fs::path Project::GetAssetsFolder()
 {
-    return fmt::format("{}\\Assets", this->m_rootDir.string());
+    return this->m_rootDir / "Assets";
 }
 
 
