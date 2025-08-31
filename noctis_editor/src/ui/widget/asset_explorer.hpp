@@ -1,6 +1,8 @@
 #pragma once
+#include <optional>
 #include <imgui_internal.h>
 
+#include <engine/asset/asset.hpp>
 #include <engine/filesystem.hpp>
 
 #include "widget.hpp"
@@ -58,7 +60,7 @@ private:
     std::vector<AssetView> m_assetViews;
     ImGuiSelectionBasicStorage m_assetSelection;
 
-    void RenderCurrFolderPath();
+    void RenderMenu();
     void UpdateLayoutSizes(float availWidth);
     void UpdateAssetViews();
     void RenderAssetBrowser();

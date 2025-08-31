@@ -24,7 +24,7 @@ void AssetExplorerWidget::Render()
     if (m_currFolder.empty())
         m_currFolder = EDITOR().GetCurrProject().GetAssetsFolder();
 
-    RenderCurrFolderPath();
+    RenderMenu();
     UpdateAssetViews();
     RenderAssetBrowser();
     
@@ -32,7 +32,7 @@ void AssetExplorerWidget::Render()
 }
 
 
-void AssetExplorerWidget::RenderCurrFolderPath()
+void AssetExplorerWidget::RenderMenu()
 {
     const fs::path &assetsFolder = EDITOR().GetCurrProject().GetAssetsFolder();
 
@@ -63,13 +63,110 @@ void AssetExplorerWidget::RenderCurrFolderPath()
         if (clicked)
             m_currFolder = folder;
 
-        if (i != allFolders.size() - 1)
+        
+        if (i < allFolders.size() - 1)
         {
             ImGui::SameLine();
             ImGui::Text(">");
             ImGui::SameLine();
         }
     }
+
+    if (ImGui::Button("Create..."))
+        ImGui::OpenPopup("CREATE##ASSET_EXPLORER");
+
+    static std::optional<Noctis::AssetType> type;
+    bool shouldOpenPopup = false;
+    if (ImGui::BeginPopup("CREATE##ASSET_EXPLORER"))
+    {
+        if (ImGui::MenuItem("Folder"))
+            shouldOpenPopup = true;
+
+        ImGui::Separator();
+
+        if (ImGui::MenuItem("Script"))
+        {
+            shouldOpenPopup = true;
+            type = Noctis::AssetType::SCRIPT;
+        }
+        
+        if (ImGui::MenuItem("Material"))
+        {
+            shouldOpenPopup = true;
+            type = Noctis::AssetType::MATERIAL;
+        }
+
+        if (ImGui::MenuItem("Shader"))
+        {
+            shouldOpenPopup = true;
+            type = Noctis::AssetType::SHADER;
+        }
+
+        ImGui::EndPopup();
+    }
+
+    if (shouldOpenPopup)
+        ImGui::OpenPopup("Name##ASSET_EXPLORER");
+
+    const ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+    ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+
+    if (ImGui::BeginPopupModal(
+        "Name##ASSET_EXPLORER", 
+        nullptr, 
+        ImGuiWindowFlags_AlwaysAutoResize))
+    {
+        static std::string name;
+
+        ImGui::Separator();
+        NoctisEditor::InlinedLabel("Name: ");
+        NoctisEditor::ResizableInputText("##INPUT", name, false);
+
+        if (ImGui::Button("OK", ImVec2(120, 0))) 
+        {
+            if (type.has_value())
+            {
+                std::string extension;
+                switch (type.value())
+                {
+                case Noctis::AssetType::SCRIPT:   extension = ".as";     break;
+                case Noctis::AssetType::MATERIAL: extension = ".nocmat"; break;
+                case Noctis::AssetType::SHADER:   extension = ".glsl";   break;
+                default: break;
+                }
+
+                const std::string fileName = name + extension;
+                const fs::path filePath = m_currFolder / fileName;
+
+                Noctis::Filesystem::WriteFile(filePath, "");
+            }
+            else
+            {
+                const fs::path folderPath = m_currFolder / name;
+                fs::create_directories(folderPath);
+            }
+
+            name.clear();
+            type.reset();
+
+            ImGui::CloseCurrentPopup();
+        }
+
+        ImGui::SetItemDefaultFocus();
+        ImGui::SameLine();
+
+        if (ImGui::Button("Cancel", ImVec2(120, 0)))
+        {
+            name.clear();
+            type.reset();
+
+            ImGui::CloseCurrentPopup(); 
+        }
+
+        ImGui::EndPopup();
+    }
+
+    ImGui::Separator();
 }
 
 

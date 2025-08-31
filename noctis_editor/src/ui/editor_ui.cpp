@@ -23,7 +23,6 @@ EditorUI::EditorUI(std::shared_ptr<Noctis::Window> window, const char *glslVers)
     LOG_INFO("Initializing editor UI.");
 
     GLFWwindow* glfwWindow = window->GetWindow();
-    this->m_imGuiScale = 2;
 
     // Init ImGui
     IMGUI_CHECKVERSION();
@@ -32,8 +31,11 @@ EditorUI::EditorUI(std::shared_ptr<Noctis::Window> window, const char *glslVers)
     ImGui_ImplOpenGL3_Init(glslVers);
 
     // Set the scale for all objects
-    ImGuiStyle style = ImGui::GetStyle();
-    style.ScaleAllSizes(this->m_imGuiScale);
+    ImGuiStyle &style = ImGui::GetStyle();
+    style.FrameRounding = 3;
+    style.FrameBorderSize = 1;
+    style.WindowMenuButtonPosition = ImGuiDir_None;
+    style.WindowRounding = 3;
     
     // Config ImGui
     ImGuiIO& io = ImGui::GetIO();
@@ -205,7 +207,6 @@ void EditorUI::HandleInput()
 
 void EditorUI::ShowCreateSceneModal()
 {
-
     ImVec2 center = ImGui::GetMainViewport()->GetCenter();
     ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 

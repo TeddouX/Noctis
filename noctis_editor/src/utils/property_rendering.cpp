@@ -12,15 +12,7 @@ std::string GenImGuiID(
     std::string prefix, 
     std::shared_ptr<Noctis::IPropertyBase> property, 
     std::shared_ptr<Noctis::IComponent> component
-)
-{
-    return fmt::format(
-        "##{}_{}_{}",
-        prefix,
-        component->GetName(),
-        property->GetName()
-    );;
-}
+);
 
 
 template <>
@@ -128,6 +120,21 @@ void RenderComponentProperties(std::shared_ptr<Noctis::IComponent> comp)
         else if (auto c = std::dynamic_pointer_cast<Noctis::AssetProperty>(prop))
             RenderProperty(c, comp);
     }
+}
+
+
+std::string GenImGuiID(
+    std::string prefix, 
+    std::shared_ptr<Noctis::IPropertyBase> property, 
+    std::shared_ptr<Noctis::IComponent> component
+)
+{
+    return fmt::format(
+        "##{}_{}_{}",
+        prefix,
+        component->GetName(),
+        property->GetName()
+    );;
 }
 
 }

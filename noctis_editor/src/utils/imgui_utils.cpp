@@ -4,7 +4,7 @@
 namespace NoctisEditor
 {
 
-void ResizableInputText(const char* label, std::string& str, bool needsEnter)
+bool ResizableInputText(const char* label, std::string& str, bool needsEnter)
 {
     // Prevent the buffer from pointing to null
     std::string buf = str;
@@ -23,7 +23,6 @@ void ResizableInputText(const char* label, std::string& str, bool needsEnter)
         {
             if (data->EventFlag == ImGuiInputTextFlags_CallbackResize)
             {
-                // This is the last argument passed into ImGui::InputText
                 std::string* buf = static_cast<std::string*>(data->UserData);
                 // Remove the null terminator from the ImGui input
                 buf->resize(data->BufSize - 1);
@@ -38,7 +37,11 @@ void ResizableInputText(const char* label, std::string& str, bool needsEnter)
         // Resize to the correct visible size
         buf.resize(std::strlen(buf.c_str()));
         str = buf;
+
+        return true;
     }
+
+    return false;
 }
 
 

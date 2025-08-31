@@ -92,4 +92,8 @@ add_custom_command(TARGET NoctisEditor POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         $<TARGET_FILE:NoctisEngine>
         $<TARGET_FILE_DIR:NoctisEditor>
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_RUNTIME_DLLS:NoctisEngine>
+        $<TARGET_FILE_DIR:NoctisEditor>
+    COMMAND_EXPAND_LISTS
 )

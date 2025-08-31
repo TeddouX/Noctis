@@ -91,8 +91,10 @@ std::vector<uint8_t> Filesystem::ReadCBOR(const fs::path &filePath)
 
 void Filesystem::WriteFile(const fs::path &path, const std::string &contents)
 {
-    std::ofstream file(path);
+    std::ofstream file;
 
+    file.open(path, std::ios::out | std::ios::app);
+    
     if (file.bad())
     {
         LOG_ERR("Failed to open file {} for writing.", path.string());

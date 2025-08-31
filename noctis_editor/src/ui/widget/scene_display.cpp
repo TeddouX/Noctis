@@ -70,7 +70,7 @@ void SceneDisplayWidget::RenderCurrScene()
 
     // Create an image with the framebuffer's color texture
     ImGui::Image(
-        (ImTextureID)(intptr_t) this->m_frameBuffer.GetTextureID(), 
+        this->m_frameBuffer.GetTextureID(), 
         ImVec2((float)this->m_viewportWidth, (float)this->m_viewportHeight),
         ImVec2(0.f, 1.f),  
         ImVec2(1.f, 0.f)
