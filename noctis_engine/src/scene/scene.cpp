@@ -1,5 +1,15 @@
 #include "scene/scene.hpp"
 
+#include <fstream>
+#include <fmt/format.h>
+
+#include "logger.hpp"
+#include "ecs/component/actor_component.hpp"
+#include "ecs/system/render_system.hpp"
+#include "ecs/system/lighting_system.hpp"
+
+using json = nlohmann::json;
+
 namespace Noctis
 {
 

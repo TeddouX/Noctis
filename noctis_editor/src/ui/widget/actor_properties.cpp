@@ -1,6 +1,8 @@
 #include "actor_properties.hpp"
 
 #include <engine/ecs/entity.hpp>
+#include <engine/ecs/component/actor_component.hpp>
+#include <engine/ecs/component/transform_component.hpp>
 #include <engine/ecs/component/component_registry.hpp>
 #include <engine/scene/scene_manager.hpp>
 #include <engine/math/math.hpp>

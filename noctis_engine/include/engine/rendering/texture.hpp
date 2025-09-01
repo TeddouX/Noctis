@@ -1,11 +1,9 @@
 #pragma once
 #include <string>
 #include <glad/glad.h>
-#include <stb_image.h>
 
 #include "../logger.hpp"
 #include "../math/math.hpp"
-#include "../filesystem.hpp"
 
 namespace Noctis
 {

@@ -9,10 +9,15 @@ set(EDITOR_SOURCES
     # -------------------
     #      Headers
     # -------------------
-    "src/asset/importer/model_importer.hpp"
-    "src/asset/importer/texture_importer.hpp"
-    "src/asset/editor_asset_manager.hpp"
-    "src/asset/assets.hpp"
+    "src/asset_management/asset/asset.hpp"
+    "src/asset_management/asset/material_asset.hpp"
+    "src/asset_management/asset/model_asset.hpp"
+    "src/asset_management/asset/script_asset.hpp"
+    "src/asset_management/asset/shader_asset.hpp"
+    "src/asset_management/asset/texture_asset.hpp"
+    "src/asset_management/importer/model_importer.hpp"
+    "src/asset_management/importer/texture_importer.hpp"
+    "src/asset_management/editor_asset_manager.hpp"
 
     "src/ui/widget/actor_properties.hpp"
     "src/ui/widget/asset_explorer.hpp"
@@ -34,9 +39,9 @@ set(EDITOR_SOURCES
     # -------------------
     #    Source files
     # -------------------
-    "src/asset/importer/model_importer.cpp"
-    "src/asset/importer/texture_importer.cpp"
-    "src/asset/editor_asset_manager.cpp"
+    "src/asset_management/importer/model_importer.cpp"
+    "src/asset_management/importer/texture_importer.cpp"
+    "src/asset_management/editor_asset_manager.cpp"
 
     "src/ui/widget/actor_properties.cpp"
     "src/ui/widget/asset_explorer.cpp"

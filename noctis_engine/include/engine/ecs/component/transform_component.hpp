@@ -3,7 +3,7 @@
 
 #include "component.hpp"
 #include "actor_component.hpp"
-#include "property/vec3_property.hpp"
+#include "../../property/vec3_property.hpp"
 #include "../../math/math.hpp"
 
 namespace Noctis

@@ -2,7 +2,7 @@
 #include <memory>
 
 #include "component.hpp"
-#include "property/asset_property.hpp"
+#include "../../property/asset_property.hpp"
 #include "../../asset/asset_manager.hpp"
 #include "../../rendering/model.hpp"
 

@@ -2,8 +2,9 @@
 #include <nlohmann/json.hpp>
 
 #include "component_registry.hpp"
-#include "property/property.hpp"
 #include "../entity.hpp"
+#include "../../property/property.hpp"
+#include "../../property/property_holder.hpp"
 #include "../../logger.hpp"
 
 
@@ -12,10 +13,10 @@ using json = nlohmann::json;
 namespace Noctis
 {
 
-class NOCTIS_API IComponent
+class NOCTIS_API IComponent : public IPropertyHolder
 {
 public:
-    virtual std::vector<std::shared_ptr<IPropertyBase>> GetProperties() { return {}; } 
+    virtual std::vector<std::shared_ptr<IPropertyBase>> GetProperties() override { return {}; }
     virtual std::string GetName() const = 0; 
 
     virtual void Serialize(json &j) const = 0;
@@ -34,12 +35,12 @@ void from_json(const json &j, std::shared_ptr<IComponent> &ptr);
 
 /// @brief Support for serializing shared pointers
 template <typename T>
-inline void to_json(json &j, const std::shared_ptr<T> &ptr);
+void to_json(json &j, const std::shared_ptr<T> &ptr);
 
 
 /// @brief Support for deserializing shared pointers
 template <typename T>
-inline void from_json(const json &j, std::shared_ptr<T> &ptr);
+void from_json(const json &j, std::shared_ptr<T> &ptr);
 
 
 #include "component.inl"

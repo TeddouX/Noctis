@@ -1,6 +1,6 @@
 #pragma once
 #include "property.hpp"
-#include "../../../asset/asset.hpp"
+#include "../asset/asset.hpp"
 
 namespace Noctis
 {

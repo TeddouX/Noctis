@@ -1,6 +1,6 @@
 #include "ecs/component/transform_component.hpp"
-#include "ecs/component/property/float_property.hpp"
-#include "ecs/component/property/color_property.hpp"
+#include "property/float_property.hpp"
+#include "property/color_property.hpp"
 
 namespace Noctis
 {

@@ -2,6 +2,11 @@
 
 #include "importer/model_importer.hpp"
 #include "importer/texture_importer.hpp"
+#include "asset/material_asset.hpp"
+#include "asset/model_asset.hpp"
+#include "asset/script_asset.hpp"
+#include "asset/shader_asset.hpp"
+#include "asset/texture_asset.hpp"
 
 namespace NoctisEditor
 {

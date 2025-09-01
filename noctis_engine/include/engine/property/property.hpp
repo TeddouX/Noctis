@@ -1,9 +1,6 @@
 #pragma once
 #include <string>
 
-#include "../../../filesystem.hpp"
-
-
 #define GETTER_FOR(EXPR) [this]() -> decltype(EXPR) { return EXPR; }
 #define GETTER_FOR_REF(EXPR) [this]() -> decltype(EXPR)& { return EXPR; }
 

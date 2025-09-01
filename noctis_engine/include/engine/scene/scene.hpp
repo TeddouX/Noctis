@@ -1,29 +1,22 @@
 #pragma once
 #include <memory>
-#include <filesystem>
-#include <fstream>
 #include <string>
 #include <vector>
 #include <nlohmann/json.hpp>
-#include <fmt/format.h>
 
-#include "../logger.hpp"
+#include "../engine.hpp"
+#include "../filesystem.hpp"
 #include "../ecs/entity.hpp"
 #include "../ecs/component_manager.hpp"
-#include "../ecs/component/all_components.hpp"
 #include "../ecs/system/systems_manager.hpp"
-#include "../ecs/system/render_system.hpp"
-#include "../ecs/system/lighting_system.hpp"
-
 
 #define COMPRESS_SCENE_DATA 1
 
-
-namespace fs = std::filesystem;
-using json = nlohmann::json;
-
 namespace Noctis
 {
+
+class ComponentManager;
+class SystemsManager;
 
 class NOCTIS_API Scene
 {
@@ -75,13 +68,13 @@ public:
     void Save();
 
 private:
-    std::vector<Entity>  m_entities;
-    Entity               m_selectedEntity;
-    ComponentManager     m_componentManager;
-    SystemsManager       m_systemsManager;
+    std::vector<Entity> m_entities;
+    Entity              m_selectedEntity;
+    ComponentManager    m_componentManager;
+    SystemsManager      m_systemsManager;
     
-    std::string          m_name;
-    fs::path             m_jsonPath;
+    std::string m_name;
+    fs::path    m_jsonPath;
 
     void RegisterSystems();
 };

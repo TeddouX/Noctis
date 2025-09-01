@@ -1,5 +1,5 @@
 #include <engine/ecs/component/component.hpp>
-#include <engine/ecs/component/property/property.hpp>
+#include <engine/property/property.hpp>
 
 namespace NoctisEditor
 {

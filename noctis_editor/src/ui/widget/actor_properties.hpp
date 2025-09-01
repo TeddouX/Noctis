@@ -1,7 +1,15 @@
 #pragma once
-#include <engine/ecs/component/actor_component.hpp>
+#include <memory>
+#include <string>
 
 #include "widget.hpp"
+
+namespace Noctis
+{
+    class Actor;
+    class Entity;
+    class IComponent;
+}
 
 namespace NoctisEditor
 {

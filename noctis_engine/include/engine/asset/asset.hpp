@@ -4,6 +4,14 @@
 
 #include "../engine.hpp"
 
+#define CUBE_MODEL_NAME "Cube"
+#define CYLINDER_MODEL_NAME "Cylinder"
+#define MONKEY_MODEL_NAME "Monkey"
+#define SPHERE_MODEL_NAME "Sphere"
+
+#define DEFAULT_SHADER_NAME "Default"
+#define LIT_SHADER_NAME "Lit"
+
 namespace Noctis
 {
 

@@ -1,6 +1,11 @@
 #pragma once
 #include "widget.hpp"
-#include "../../utils/actor_creation_helper.hpp"
+
+namespace Noctis
+{
+    class Entity;
+    class Transform;
+}
 
 namespace NoctisEditor
 {

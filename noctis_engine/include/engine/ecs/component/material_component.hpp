@@ -3,9 +3,9 @@
 #include <memory>
 
 #include "component.hpp"
-#include "property/color_property.hpp"
-#include "property/float_property.hpp"
-#include "property/asset_property.hpp"
+#include "../../property/color_property.hpp"
+#include "../../property/float_property.hpp"
+#include "../../property/asset_property.hpp"
 #include "../../asset/asset_manager.hpp"
 #include "../../math/math.hpp"
 #include "../../math/color.hpp"

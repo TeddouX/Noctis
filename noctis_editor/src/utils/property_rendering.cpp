@@ -1,7 +1,12 @@
 #include "property_rendering.hpp"
 
 #include <imgui.h>
-#include <engine/ecs/component/property/all_properties.hpp>
+#include <engine/property/asset_property.hpp>
+#include <engine/property/color_property.hpp>
+#include <engine/property/float_property.hpp>
+#include <engine/property/int_property.hpp>
+#include <engine/property/string_property.hpp>
+#include <engine/property/vec3_property.hpp>
 
 #include "imgui_utils.hpp"
 

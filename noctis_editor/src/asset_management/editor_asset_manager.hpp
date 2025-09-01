@@ -4,8 +4,6 @@
 #include <engine/asset/asset_manager.hpp>
 #include <engine/filesystem.hpp>
 
-#include "assets.hpp"
-
 namespace NoctisEditor
 {
 

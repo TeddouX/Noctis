@@ -4,7 +4,7 @@
 
 #include "../../editor.hpp"
 #include "../../utils/imgui_utils.hpp"
-#include "../../asset/importer/texture_importer.hpp"
+#include "../../asset_management/importer/texture_importer.hpp"
 
 
 namespace NoctisEditor

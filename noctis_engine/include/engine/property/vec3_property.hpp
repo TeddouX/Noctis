@@ -1,6 +1,6 @@
 #pragma once
 #include "property.hpp"
-#include "../../../math/math.hpp"
+#include "../math/math.hpp"
 
 namespace Noctis
 {

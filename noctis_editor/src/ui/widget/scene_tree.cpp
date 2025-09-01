@@ -1,6 +1,9 @@
 #include "scene_tree.hpp"
 
+#include <engine/asset/asset.hpp>
 #include <engine/scene/scene_manager.hpp>
+
+#include "../../utils/actor_creation_helper.hpp"
 
 namespace NoctisEditor
 {
