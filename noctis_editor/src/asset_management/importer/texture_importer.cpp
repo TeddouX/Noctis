@@ -1,7 +1,7 @@
 #include "texture_importer.hpp"
 
 #include <stb_image.h>
-
+#include <noctis/rendering/texture.hpp>
 
 namespace NoctisEditor
 {

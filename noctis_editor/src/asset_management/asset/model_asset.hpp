@@ -1,21 +1,22 @@
+#pragma once
 #include <memory>
-#include <engine/rendering/model.hpp>
+#include <noctis/rendering/model.hpp>
 
 #include "asset.hpp"
 
 namespace NoctisEditor
 {
 
-struct ModelAsset : public virtual IEditorAsset<Noctis::Model>
+struct ModelAsset : public IEditorAsset<Noctis::Model>
 {
     ModelAsset(
         const std::string &name, 
         std::shared_ptr<Noctis::Model> model, 
         const fs::path &path)
     {
-        this->Name = name;
-        this->Asset = model;
-        this->Path = path;
+        Name = name;
+        Asset = model;
+        Path = path;
     };
 
     std::vector<std::shared_ptr<Noctis::IPropertyBase>> GetProperties() override

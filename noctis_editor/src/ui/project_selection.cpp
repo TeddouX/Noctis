@@ -3,7 +3,6 @@
 #include <imgui_internal.h>
 
 #include "project_selection.hpp"
-
 #include "../editor.hpp"
 #include "../project.hpp"
 #include "../utils/imgui_utils.hpp"

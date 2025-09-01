@@ -1,5 +1,7 @@
 #include "console.hpp"
 
+#include <noctis/logger.hpp>
+
 namespace NoctisEditor
 {
 

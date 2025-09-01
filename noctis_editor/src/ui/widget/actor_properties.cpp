@@ -1,12 +1,12 @@
 #include "actor_properties.hpp"
 
-#include <engine/ecs/entity.hpp>
-#include <engine/ecs/component/actor_component.hpp>
-#include <engine/ecs/component/transform_component.hpp>
-#include <engine/ecs/component/component_registry.hpp>
-#include <engine/scene/scene_manager.hpp>
-#include <engine/math/math.hpp>
-#include <engine/math/color.hpp>
+#include <noctis/ecs/entity.hpp>
+#include <noctis/ecs/component/actor_component.hpp>
+#include <noctis/ecs/component/transform_component.hpp>
+#include <noctis/ecs/component/component_registry.hpp>
+#include <noctis/scene/scene_manager.hpp>
+#include <noctis/math/math.hpp>
+#include <noctis/math/color.hpp>
 
 #include "../../utils/imgui_utils.hpp"
 #include "../../utils/property_rendering.hpp"
@@ -48,7 +48,7 @@ void ActorPropertiesWidget::Render()
         auto transform = selectedEntity.GetComponent<Noctis::Transform>();
         bool open = ImGui::CollapsingHeader(transform->GetName().c_str(), ImGuiTreeNodeFlags_DefaultOpen);
         if (open)
-            RenderComponentProperties(transform);
+            RenderProperties(transform);
 
         for (std::shared_ptr<Noctis::IComponent> component : allComponents)
         {
@@ -64,7 +64,7 @@ void ActorPropertiesWidget::Render()
                 ImGui::OpenPopup(popupID.c_str());
             
             if (open)
-                RenderComponentProperties(component);
+                RenderProperties(component);
 
             this->ShowComponentRightClickPopup(component, selectedEntity, popupID);
 

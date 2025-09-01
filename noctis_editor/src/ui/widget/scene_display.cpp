@@ -1,8 +1,8 @@
 #include "scene_display.hpp"
 
-#include <engine/scene/scene_manager.hpp>
-#include <engine/ecs/system/render_system.hpp>
-#include <engine/ecs/system/lighting_system.hpp>
+#include <noctis/scene/scene_manager.hpp>
+#include <noctis/ecs/system/render_system.hpp>
+#include <noctis/ecs/system/lighting_system.hpp>
 
 namespace NoctisEditor
 {

@@ -1,12 +1,9 @@
 #include "editor.hpp"
 
-#include <engine/asset/asset_manager.hpp>
-
 namespace NoctisEditor
 {
 
 Editor Editor::s_instance;
-
 
 Editor::Editor()
     : m_state(EditorState::PROJECT_SELECTION),

@@ -1,11 +1,11 @@
 #include "asset_explorer.hpp"
 
 #include <algorithm>
+#include <noctis/asset/asset.hpp>
 
 #include "../../editor.hpp"
 #include "../../utils/imgui_utils.hpp"
 #include "../../asset_management/importer/texture_importer.hpp"
-
 
 namespace NoctisEditor
 {

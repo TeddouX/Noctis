@@ -3,8 +3,7 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <imgui_internal.h>
-
-#include <engine/scene/scene_manager.hpp>
+#include <noctis/scene/scene_manager.hpp>
 
 #include "widget/scene_display.hpp"
 #include "widget/scene_tree.hpp"

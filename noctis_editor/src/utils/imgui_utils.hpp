@@ -2,8 +2,7 @@
 #include <string>
 #include <imgui.h>
 
-#include <engine/math/color.hpp>
-
+#include <noctis/math/color.hpp>
 
 namespace NoctisEditor
 {

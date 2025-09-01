@@ -1,5 +1,6 @@
+#pragma once
 #include <memory>
-#include <engine/rendering/texture.hpp>
+#include <noctis/rendering/texture.hpp>
 
 #include "asset.hpp"
 

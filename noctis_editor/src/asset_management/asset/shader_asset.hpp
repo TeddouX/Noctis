@@ -1,5 +1,6 @@
+#pragma once
 #include <memory>
-#include <engine/rendering/shader.hpp>
+#include <noctis/rendering/shader.hpp>
 
 #include "asset.hpp"
 

@@ -1,6 +1,5 @@
 #include "editor.hpp"
 
-
 int main()
 {
     EDITOR().Run();

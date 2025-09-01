@@ -1,11 +1,10 @@
 #include "project.hpp"
 
 #include <fmt/format.h>
+#include <noctis/logger.hpp>
+#include <noctis/scene/scene_manager.hpp>
 
-#include <engine/logger.hpp>
-#include <engine/scene/scene_manager.hpp>
-
-#include "asset/editor_asset_manager.hpp"
+#include "asset_management/editor_asset_manager.hpp"
 
 namespace NoctisEditor
 {

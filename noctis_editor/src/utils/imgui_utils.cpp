@@ -1,6 +1,5 @@
 #include "imgui_utils.hpp"
 
-
 namespace NoctisEditor
 {
 

@@ -5,9 +5,10 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#include <engine/rendering/texture.hpp>
-#include <engine/rendering/mesh.hpp>
-#include <engine/logger.hpp>
+#include <noctis/rendering/texture.hpp>
+#include <noctis/rendering/mesh.hpp>
+#include <noctis/rendering/model.hpp>
+#include <noctis/logger.hpp>
 
 #include "texture_importer.hpp"
 

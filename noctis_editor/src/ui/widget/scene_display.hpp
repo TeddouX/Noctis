@@ -1,7 +1,7 @@
 #pragma once
-#include <engine/window.hpp>
-#include <engine/rendering/framebuffer.hpp>
-#include <engine/rendering/camera.hpp>
+#include <noctis/window.hpp>
+#include <noctis/rendering/framebuffer.hpp>
+#include <noctis/rendering/camera.hpp>
 
 #include "widget.hpp"
 

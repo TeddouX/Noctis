@@ -2,8 +2,12 @@
 #include <stdint.h>
 #include <memory>
 
-#include <engine/rendering/texture.hpp>
-#include <engine/filesystem.hpp>
+#include <noctis/filesystem.hpp>
+
+namespace Noctis
+{
+    class Texture;
+}
 
 namespace NoctisEditor
 {

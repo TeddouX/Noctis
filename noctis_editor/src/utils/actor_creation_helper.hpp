@@ -1,5 +1,5 @@
 #pragma once
-#include <engine/ecs/component/transform_component.hpp>
+#include <noctis/ecs/component/transform_component.hpp>
 
 namespace NoctisEditor
 {

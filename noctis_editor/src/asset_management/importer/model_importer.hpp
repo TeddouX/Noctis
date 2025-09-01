@@ -1,8 +1,12 @@
 #pragma once
 #include <memory>
 
-#include <engine/filesystem.hpp>
-#include <engine/rendering/model.hpp>
+#include <noctis/filesystem.hpp>
+
+namespace Noctis
+{
+    class Model;
+}
 
 namespace NoctisEditor
 {

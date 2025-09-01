@@ -1,8 +1,8 @@
 #pragma once
 #include <algorithm>
 
-#include <engine/asset/asset_manager.hpp>
-#include <engine/filesystem.hpp>
+#include <noctis/asset/asset_manager.hpp>
+#include <noctis/filesystem.hpp>
 
 namespace NoctisEditor
 {
