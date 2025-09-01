@@ -4,7 +4,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(assimp CONFIG REQUIRED)
 find_package(imgui  CONFIG REQUIRED)
-find_package(Stb           REQUIRED)
 
 set(EDITOR_SOURCES 
     # -------------------
@@ -55,7 +54,6 @@ set(EDITOR_SOURCES
     "src/editor_main.cpp"
     "src/editor.cpp"
     "src/project.cpp"
-    "src/stb_image_impl.c"
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${EDITOR_SOURCES})
@@ -77,7 +75,9 @@ endif()
 target_link_libraries(NoctisEditor PRIVATE 
     assimp::assimp
     imgui::imgui
+
     NoctisEngine
+    Stb
 )
 
 target_include_directories(NoctisEditor 

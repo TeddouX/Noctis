@@ -50,8 +50,6 @@ std::unique_ptr<Noctis::Model> LoadModel(const fs::path &path)
         return nullptr;
     }
 
-    LOG_INFO("Finished loading model");
-
     return std::make_unique<Noctis::Model>(
         ProcessNode(scene->mRootNode, scene, Noctis::Mat4(1.f))
     );

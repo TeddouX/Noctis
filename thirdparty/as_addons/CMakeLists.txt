@@ -4,18 +4,7 @@ project(as_addons)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-
-if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-    # 64 bits win
-    set(HOST_TRIPLET "x64-windows")
-elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
-    # 32 bits win
-    set(HOST_TRIPLET "x32-windows")
-endif()
-
-
-set(VCPKG_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/${HOST_TRIPLET}/include")
-set(AS_INCLUDE_DIR "${VCPKG_INCLUDE_DIR}/angelscript")
+set(AS_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include/angelscript")
 
 set(ANGELSCRIPT_ADDONS_SOURCE
     "${AS_INCLUDE_DIR}/autowrapper/aswrappedcall.h"
@@ -67,14 +56,11 @@ set(ANGELSCRIPT_ADDONS_SOURCE
     "${AS_INCLUDE_DIR}/weakref/weakref.h"
     "${AS_INCLUDE_DIR}/weakref/weakref.cpp"
 
-    "${VCPKG_INCLUDE_DIR}/angelscript.h"
+    "${AS_INCLUDE_DIR}/angelscript.h"
 )
 
-source_group(TREE ${VCPKG_INCLUDE_DIR} FILES ${ANGELSCRIPT_ADDONS_SOURCE})
+source_group(TREE ${AS_INCLUDE_DIR} FILES ${ANGELSCRIPT_ADDONS_SOURCE})
 
-add_library(as_addons STATIC ${ANGELSCRIPT_ADDONS_SOURCE})
+add_library(as_addons ${ANGELSCRIPT_ADDONS_SOURCE})
 
-# angelscript.h
-target_include_directories(as_addons PUBLIC ${VCPKG_INCLUDE_DIR})
-# AngelScript addons
 target_include_directories(as_addons PUBLIC ${AS_INCLUDE_DIR})

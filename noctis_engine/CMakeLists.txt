@@ -6,7 +6,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(Angelscript   CONFIG REQUIRED)
 find_package(glfw3         CONFIG REQUIRED)
-find_package(glad          CONFIG REQUIRED)
 find_package(fmt           CONFIG REQUIRED)
 find_package(glm           CONFIG REQUIRED)
 
@@ -138,11 +137,12 @@ target_compile_definitions(NoctisEngine
 target_link_libraries(NoctisEngine PUBLIC
 	nlohmann_json::nlohmann_json
     Angelscript::angelscript
-	glad::glad
 	glm::glm
 	fmt::fmt
+
 	glfw
     as_addons
+    Glad
 )
 
 target_include_directories(NoctisEngine 

@@ -13,6 +13,9 @@ if (MSVC)
 endif()
 
 add_subdirectory(thirdparty/as_addons)
+add_subdirectory(thirdparty/glad)
+add_subdirectory(thirdparty/stb)
+
 add_subdirectory(noctis_engine)
 add_subdirectory(noctis_editor)
 # add_subdirectory(uke_runtime)

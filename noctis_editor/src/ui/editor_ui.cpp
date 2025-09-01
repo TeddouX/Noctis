@@ -23,27 +23,31 @@ EditorUI::EditorUI(std::shared_ptr<Noctis::Window> window, const char *glslVers)
     LOG_INFO("Initializing editor UI.");
 
     GLFWwindow* glfwWindow = window->GetWindow();
-
+    
     // Init ImGui
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGui_ImplGlfw_InitForOpenGL(glfwWindow, true);
     ImGui_ImplOpenGL3_Init(glslVers);
+    
+    ImGui::StyleColorsDark();
 
-    // Set the scale for all objects
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    io.IniFilename = nullptr;
+
     ImGuiStyle &style = ImGui::GetStyle();
     style.FrameRounding = 3;
     style.FrameBorderSize = 1;
     style.WindowMenuButtonPosition = ImGuiDir_None;
     style.WindowRounding = 3;
-    
-    // Config ImGui
-    ImGuiIO& io = ImGui::GetIO();
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    // Disable the imgui.ini file 
-    io.IniFilename = NULL;
 
-    this->m_font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Roboto-Regular.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesDefault());
+    this->m_font = io.Fonts->AddFontFromFileTTF(
+        "C:\\Windows\\Fonts\\Roboto-Regular.ttf", 
+        18.0f, 
+        nullptr, 
+        io.Fonts->GetGlyphRangesDefault()
+    );
 
     // Add all widgets
     m_allWidgets.push_back(std::make_shared<SceneDisplayWidget>(this->m_mainWindow));
@@ -62,7 +66,7 @@ void EditorUI::Render()
     
     ImGui::PushFont(this->m_font);
 
-    ImGui::ShowDemoWindow();
+    // ImGui::ShowDemoWindow();
     
     this->DockDisplays();
 
@@ -219,16 +223,23 @@ void EditorUI::ShowCreateSceneModal()
 
         if (ImGui::Button("OK", ImVec2(120, 0))) 
         { 
-            ImGui::CloseCurrentPopup();
             SCENE_MANAGER().AddScene(sceneName);
             SCENE_MANAGER().SetCurrScene(sceneName);
+
+            sceneName.clear();
+
+            ImGui::CloseCurrentPopup();
         }
 
         ImGui::SetItemDefaultFocus();
         ImGui::SameLine();
 
-        if (ImGui::Button("Cancel", ImVec2(120, 0))) 
+        if (ImGui::Button("Cancel", ImVec2(120, 0)))
+        {
+            sceneName.clear();
+
             ImGui::CloseCurrentPopup(); 
+        }
         
         ImGui::EndPopup();
     }

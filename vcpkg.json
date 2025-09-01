@@ -13,8 +13,6 @@
                 "docking-experimental"
             ]
         },
-        "stb",
-        "glad",
         "nlohmann-json",
         "fmt",
         {
