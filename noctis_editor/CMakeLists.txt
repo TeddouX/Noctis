@@ -19,9 +19,9 @@ set(EDITOR_SOURCES
     "src/asset_management/importer/texture_importer.hpp"
     "src/asset_management/editor_asset_manager.hpp"
 
-    "src/ui/widget/actor_properties.hpp"
     "src/ui/widget/asset_explorer.hpp"
     "src/ui/widget/console.hpp"
+    "src/ui/widget/properties.hpp"
     "src/ui/widget/scene_display.hpp"
     "src/ui/widget/scene_tree.hpp"
     "src/ui/widget/widget.hpp"
@@ -43,9 +43,9 @@ set(EDITOR_SOURCES
     "src/asset_management/importer/texture_importer.cpp"
     "src/asset_management/editor_asset_manager.cpp"
 
-    "src/ui/widget/actor_properties.cpp"
     "src/ui/widget/asset_explorer.cpp"
     "src/ui/widget/console.cpp"
+    "src/ui/widget/properties.cpp"
     "src/ui/widget/scene_display.cpp"
     "src/ui/widget/scene_tree.cpp"
 

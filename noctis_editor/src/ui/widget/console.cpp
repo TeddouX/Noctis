@@ -23,7 +23,7 @@ void ConsoleWidget::Render()
 {
     // Remove padding inside the window
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
-    ImGui::Begin(std::string(ConsoleWidget::name).c_str());
+    ImGui::Begin(GetName().c_str());
 
     if (ImGui::BeginTable("table_console_messages", 1, ImGuiTableFlags_Borders))
     {

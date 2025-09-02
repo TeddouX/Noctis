@@ -15,78 +15,96 @@ bool IsImageFile(const fs::path &path);
 bool IsModelFile(const fs::path &path);
 bool IsShaderFile(const fs::path &path);
 
-
-EditorAssetManager &EditorAssetManager::GetInstance()
+std::vector<AssetView> 
+EditorAssetManager::GetAssetViews(const fs::path& folderPath)
 {
-    static EditorAssetManager eam;
-    return eam;
-}
+    std::vector<AssetView> assetViews;
 
+    int id = 0;
+    for (const auto &entry : fs::directory_iterator(folderPath))
+    {
+        const fs::path path = entry.path();
+        
+        // Try getting an asset
+        std::shared_ptr<Noctis::IAssetBase> asset;
+        if (HasAsset(path))
+            asset = GetAsset(path);
+        else
+            // Try creating a new asset
+            asset = AddFile(path);
+
+        AssetView av(id, entry, asset);
+        assetViews.push_back(av);
+
+        id++;
+    }
+
+    return assetViews;
+}
 
 void EditorAssetManager::InitEmbedded()
 {
-    InitializeEmbeddedModels();
-    InitializeEmbeddedShaders();
+    AddFile(".\\assets\\models\\Cube.obj");
+    AddFile(".\\assets\\models\\Cylinder.obj");
+    AddFile(".\\assets\\models\\Monkey.obj");
+    AddFile(".\\assets\\models\\Sphere.obj");
+
+    AddFile(".\\assets\\shaders\\Default.glsl");
+    AddFile(".\\assets\\shaders\\Lit.glsl");
 }
 
-
-void EditorAssetManager::AddFile(const fs::path &file)
+std::shared_ptr<Noctis::IAssetBase> 
+EditorAssetManager::AddFile(const fs::path &file)
 {
+    std::shared_ptr<Noctis::IAssetBase> asset;
     if (IsImageFile(file))
-        AddTexture(file);
+    {
+        asset = std::make_shared<TextureAsset>(
+            file.stem().string(),
+            LoadTextureFromFile(file),
+            file
+        );
+
+        this->m_assetCache[Noctis::AssetType::TEXTURE].push_back(asset);
+    }
     else if (IsModelFile(file))
-        AddModel(file);
+    {
+        asset = std::make_shared<ModelAsset>(
+            file.stem().string(),
+            LoadModel(file),
+            file
+        );
+
+        this->m_assetCache[Noctis::AssetType::MODEL].push_back(asset);
+    }
     else if (IsShaderFile(file))
-        AddShader(file);
+    {
+        std::string fileContents = Noctis::Filesystem::GetFileContents(file);
+        if (fileContents.empty())
+            return nullptr;
+
+        asset = std::make_shared<ShaderAsset>(
+            file.stem().string(),
+            std::make_shared<Noctis::Shader>(fileContents.c_str()),
+            file
+        );
+        
+        this->m_assetCache[Noctis::AssetType::SHADER].push_back(asset);
+    }
+
+    if (asset)
+    {
+        this->m_assetFileCache.emplace(file, asset);
+        return asset;
+    }
+
+    return nullptr;
 }
-
-
-void EditorAssetManager::AddModel(const fs::path &file)
-{
-    auto ma = std::make_shared<ModelAsset>(
-        file.stem().string(),
-        LoadModel(file),
-        file
-    );
-
-    this->m_assetCache[Noctis::AssetType::MODEL].push_back(ma);
-}
-
-
-void EditorAssetManager::AddShader(const fs::path &file)
-{
-    std::string fileContents = Noctis::Filesystem::GetFileContents(file);
-    if (fileContents.empty())
-        return;
-
-    auto sa = std::make_shared<ShaderAsset>(
-        file.stem().string(),
-        std::make_shared<Noctis::Shader>(fileContents.c_str()),
-        file
-    );
-    
-    this->m_assetCache[Noctis::AssetType::SHADER].push_back(sa);
-}
-
-
-void EditorAssetManager::AddTexture(const fs::path &file)
-{
-    auto ta = std::make_shared<TextureAsset>(
-        file.stem().string(),
-        LoadTextureFromFile(file),
-        file
-    );
-
-    this->m_assetCache[Noctis::AssetType::TEXTURE].push_back(ta);
-}
-
 
 std::shared_ptr<Noctis::IAssetBase> 
 EditorAssetManager::GetAsset(Noctis::AssetType type, const std::string &name)
 {
-    std::vector<std::shared_ptr<Noctis::IAssetBase>> &vec = this->m_assetCache.at(type);
-
-    for (auto &asset : vec)
+    for (auto &asset : this->m_assetCache.at(type))
     {
         if (asset->Name == name)
             return asset;
@@ -95,28 +113,31 @@ EditorAssetManager::GetAsset(Noctis::AssetType type, const std::string &name)
     return nullptr;
 }
 
-
-void EditorAssetManager::InitializeEmbeddedModels()
+std::shared_ptr<Noctis::IAssetBase> EditorAssetManager::GetAsset(const fs::path &path)
 {
-    AddModel(".\\assets\\models\\Cube.obj");
-    AddModel(".\\assets\\models\\Cylinder.obj");
-    AddModel(".\\assets\\models\\Monkey.obj");
-    AddModel(".\\assets\\models\\Sphere.obj");
+    if (HasAsset(path))
+        return m_assetFileCache.at(path);
+    else
+        return nullptr;
 }
 
 
-void EditorAssetManager::InitializeEmbeddedShaders()
+bool EditorAssetManager::HasAsset(Noctis::AssetType type, const std::string &name)
 {
-    AddShader(".\\assets\\shaders\\Default.glsl");
-    AddShader(".\\assets\\shaders\\Lit.glsl");
+    for (auto &asset : this->m_assetCache.at(type))
+        if (asset->Name == name)
+            return true;
+    return false;
+}
+
+bool EditorAssetManager::HasAsset(const fs::path &path)
+{
+    return m_assetFileCache.contains(path);
 }
 
 
 bool IsImageFile(const fs::path &path)
 {
-    if (fs::is_regular_file(path))
-        return false;
-
     std::string extension = path.extension().string();
 
     return extension == ".png" 
@@ -124,21 +145,13 @@ bool IsImageFile(const fs::path &path)
     //  || extension == ".hdr";
 }
 
-
 bool IsModelFile(const fs::path &path)
 {
-    if (fs::is_regular_file(path))
-        return false;
-
     return path.extension() == ".obj"; 
 }
 
-
 bool IsShaderFile(const fs::path &path)
 {
-    if (fs::is_regular_file(path))
-        return false;
-
     return path.extension() == ".glsl"; 
 }
 

@@ -11,7 +11,7 @@ void SceneDisplayWidget::Render()
 {
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
     ImGui::Begin(
-        std::string(SceneDisplayWidget::name).c_str(), 
+        GetName().c_str(), 
         nullptr, 
         ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse
     );

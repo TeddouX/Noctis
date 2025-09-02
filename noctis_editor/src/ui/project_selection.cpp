@@ -13,7 +13,7 @@ namespace NoctisEditor
 void ProjectSelectionUI::Render()
 {
     // Create an imgui window that fills all of the os window
-    ImGuiViewport* viewport = ImGui::GetMainViewport();
+    ImGuiViewport *viewport = ImGui::GetMainViewport();
     ImGui::SetNextWindowPos(viewport->WorkPos);
     ImGui::SetNextWindowSize(viewport->WorkSize);
     ImGui::SetNextWindowViewport(viewport->ID);
@@ -107,15 +107,15 @@ void ProjectSelectionUI::CreateProjectFolder(const fs::path &folder)
 
 void ProjectSelectionUI::LoadProject(const fs::path &folder, const std::string &name, bool firstTime)
 {
-    Project project(folder, name);
+    auto project = std::make_unique<Project>(folder, name);
     
-    if (!project.Load(firstTime))
+    if (!project->Load(firstTime))
     {
         LOG_ERR("Project {} couldn't be loaded. See errors in console.", folder.string());
         return;
     }
 
-    EDITOR().SetCurrProject(project);
+    EDITOR().SetCurrProject(std::move(project));
     EDITOR().SetState(EditorState::IN_EDITOR);
 }
 

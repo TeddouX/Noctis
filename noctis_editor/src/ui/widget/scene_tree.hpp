@@ -13,7 +13,7 @@ namespace NoctisEditor
 class SceneTreeWidget : public IWidget
 {
 public:
-    static constexpr std::string_view name = "Scene Tree";
+    static std::string GetName() { return "Scene Tree"; }
 
     void Render() override;
 

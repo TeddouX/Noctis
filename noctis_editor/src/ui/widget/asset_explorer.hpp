@@ -3,6 +3,7 @@
 #include <imgui_internal.h>
 #include <noctis/filesystem.hpp>
 
+#include "../../asset_management/asset/asset.hpp"
 #include "widget.hpp"
 
 namespace Noctis
@@ -13,22 +14,15 @@ namespace Noctis
 namespace NoctisEditor
 {
 
-struct AssetView
-{
-    int ID;
-    fs::directory_entry DirEntry;
-
-    AssetView(int id, const fs::directory_entry &dirEntry)
-        : ID(id), DirEntry(dirEntry) {}
-};
-
+class PropertiesWidget;
+struct AssetView;
 
 class AssetExplorerWidget : public IWidget
 {
 public:
-    AssetExplorerWidget();
+    AssetExplorerWidget(std::shared_ptr<PropertiesWidget> propertiesWidget);
 
-    static constexpr std::string_view name = "Asset Explorer";
+    static std::string GetName() { return "Asset Explorer"; }
 
     void Render() override;
     
@@ -54,12 +48,12 @@ private:
     float m_iconStep = 0.f;
     float m_layoutIconSpacing = 0.f;
     
+    std::shared_ptr<PropertiesWidget> m_propertiesWidget;
     std::vector<AssetView> m_assetViews;
     ImGuiSelectionBasicStorage m_assetSelection;
 
     void RenderMenu();
     void UpdateLayoutSizes(float availWidth);
-    void UpdateAssetViews();
     void RenderAssetBrowser();
 };
 

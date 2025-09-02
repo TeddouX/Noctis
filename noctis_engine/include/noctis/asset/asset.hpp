@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "../engine.hpp"
+#include "../property/property_holder.hpp"
 
 #define CUBE_MODEL_NAME "Cube"
 #define CYLINDER_MODEL_NAME "Cylinder"
@@ -25,7 +26,7 @@ enum class AssetType
 };
 
 
-struct NOCTIS_API IAssetBase
+struct NOCTIS_API IAssetBase : public IPropertyHolder
 {
     virtual ~IAssetBase() = default;
 

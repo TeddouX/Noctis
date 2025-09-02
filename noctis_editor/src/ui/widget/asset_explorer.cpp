@@ -3,14 +3,16 @@
 #include <algorithm>
 #include <noctis/asset/asset.hpp>
 
-#include "../../editor.hpp"
-#include "../../utils/imgui_utils.hpp"
 #include "../../asset_management/importer/texture_importer.hpp"
+#include "../../asset_management/asset/asset.hpp"
+#include "../../utils/imgui_utils.hpp"
+#include "../../editor.hpp"
 
 namespace NoctisEditor
 {
 
-AssetExplorerWidget::AssetExplorerWidget()
+AssetExplorerWidget::AssetExplorerWidget(std::shared_ptr<PropertiesWidget> propertiesWidget)
+    : m_propertiesWidget(propertiesWidget)
 {
     m_folderIconTex = LoadTextureFromFile("./assets/images/asset_explorer/folder_icon.png");
     m_fileIconTex = LoadTextureFromFile("./assets/images/asset_explorer/file_icon.png");
@@ -19,13 +21,22 @@ AssetExplorerWidget::AssetExplorerWidget()
 
 void AssetExplorerWidget::Render()
 {
-    ImGui::Begin(std::string(AssetExplorerWidget::name).c_str());
+    ImGui::Begin(GetName().c_str());
     
-    if (m_currFolder.empty())
-        m_currFolder = EDITOR().GetCurrProject().GetAssetsFolder();
+    Project *proj = EDITOR().GetCurrProject();
+    if (!proj)
+    {
+        ImGui::End();
+        return;
+    }
 
+    if (m_currFolder.empty())
+        m_currFolder = proj->GetAssetsFolder();
+    
     RenderMenu();
-    UpdateAssetViews();
+
+    m_assetViews = proj->GetAssetManager()->GetAssetViews(m_currFolder);
+
     RenderAssetBrowser();
     
     ImGui::End();
@@ -34,7 +45,7 @@ void AssetExplorerWidget::Render()
 
 void AssetExplorerWidget::RenderMenu()
 {
-    const fs::path &assetsFolder = EDITOR().GetCurrProject().GetAssetsFolder();
+    const fs::path &assetsFolder = EDITOR().GetCurrProject()->GetAssetsFolder();
 
     std::vector<fs::path> allFolders;
 
@@ -124,6 +135,7 @@ void AssetExplorerWidget::RenderMenu()
 
         if (ImGui::Button("OK", ImVec2(120, 0))) 
         {
+            // Not a folder
             if (type.has_value())
             {
                 std::string extension;
@@ -184,30 +196,6 @@ void AssetExplorerWidget::UpdateLayoutSizes(float availWidth)
     m_selectableSpacing = m_iconSpacing - m_selectedIconSpacing;
     m_iconStep = m_iconSize + m_iconSpacing;
     // m_outerPadding = m_iconSize / 2;
-}
-
-
-void AssetExplorerWidget::UpdateAssetViews()
-{
-    m_assetViews.clear();
-
-    int id = 0;
-    for (const auto &entry : fs::directory_iterator(m_currFolder))
-    {
-        m_assetViews.push_back(AssetView(id, entry));
-        id++;
-    }
-
-    std::sort(
-        m_assetViews.begin(), m_assetViews.end(),
-        [](const AssetView &left, const AssetView &right)
-        {
-            if (left.DirEntry.is_directory() != right.DirEntry.is_directory())
-                return left.DirEntry.is_directory();
-            return left.DirEntry.path().filename().string() 
-                < right.DirEntry.path().filename().string();
-        }
-    );
 }
 
 
@@ -288,7 +276,6 @@ void AssetExplorerWidget::RenderAssetBrowser()
                     );
                     ImGui::SetCursorScreenPos(cursorPos);
                     
-                    ImGui::SetNextItemSelectionUserData(itemIdx);
                     bool selected = m_assetSelection.Contains((ImGuiID)assetView.ID);
                     bool visible = ImGui::IsRectVisible(iconSize2D);
                     ImGui::Selectable(
@@ -300,13 +287,10 @@ void AssetExplorerWidget::RenderAssetBrowser()
                         iconSize2D
                     );
 
-                    if (ImGui::IsItemActivated() 
+                    if (ImGui::IsItemHovered()
                         && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left) 
                         && isFolder)
                         m_currFolder = assetView.DirEntry.path();
-                    
-                    if (ImGui::IsItemToggledSelection())
-                        selected = !selected;
 
                     if (!visible)
                     {

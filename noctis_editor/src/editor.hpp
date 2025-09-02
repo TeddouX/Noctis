@@ -10,15 +10,13 @@
 namespace NoctisEditor
 {
 
+class EditorUI;
+
 enum class EditorState
 {
     PROJECT_SELECTION,
     IN_EDITOR
 };
-
-
-class EditorUI;
-
 
 class Editor
 {
@@ -28,8 +26,8 @@ public:
     EditorState GetState() const { return this->m_state; }
     void SetState(EditorState state) { this->m_state = state; }
 
-    Project &GetCurrProject() { return this->m_currProject; }
-    void SetCurrProject(const Project &project) { this->m_currProject = project; };
+    Project *GetCurrProject() { return this->m_currProject.get(); }
+    void SetCurrProject(std::unique_ptr<Project> project) { this->m_currProject = std::move(project); }
 
     void Run();
     
@@ -37,7 +35,7 @@ private:
     static Editor s_instance;
     
     std::shared_ptr<Noctis::Window> m_window;
-    Project     m_currProject;
+    std::unique_ptr<Project>        m_currProject;
     EditorState m_state;
     EditorUI    m_ui;
     

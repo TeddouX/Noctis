@@ -7,6 +7,9 @@
 #include <noctis/ecs/component/material_component.hpp>
 #include <noctis/ecs/component/light_component.hpp>
 
+#include "../asset_management/editor_asset_manager.hpp"
+#include "../editor.hpp"
+
 namespace NoctisEditor
 {
 
@@ -47,8 +50,8 @@ void ActorCreationHelper::CreateSimpleShape(
     std::string_view modelName, 
     Noctis::Transform *parent)
 {
+    std::shared_ptr<EditorAssetManager> am = EDITOR().GetCurrProject()->GetAssetManager();
     Noctis::Scene *currScene = SCENE_MANAGER().GetCurrScene();
-    Noctis::IAssetManager *am = Noctis::AssetManagerAccessor::Get();
     
     Noctis::Entity entity(&currScene->GetComponentManager());
     auto model = am->GetTyped<Noctis::Model>(

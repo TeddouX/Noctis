@@ -11,7 +11,7 @@ namespace NoctisEditor
 void SceneTreeWidget::Render()
 {
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
-    ImGui::Begin(std::string(SceneTreeWidget::name).c_str());
+    ImGui::Begin(GetName().c_str());
 
     Noctis::Scene *currScene = SCENE_MANAGER().GetCurrScene();
 

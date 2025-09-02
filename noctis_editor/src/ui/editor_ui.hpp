@@ -28,8 +28,6 @@ private:
     EditorUIState m_state;
     float m_imGuiScale;
 
-    ImFont *m_font;
-
     std::vector<std::shared_ptr<IWidget>> m_allWidgets;
 
     void DockDisplays() const;

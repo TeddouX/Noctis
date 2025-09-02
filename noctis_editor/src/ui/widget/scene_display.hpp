@@ -11,10 +11,10 @@ namespace NoctisEditor
 class SceneDisplayWidget : public IWidget
 {
 public:
-    static constexpr std::string_view name = "Scene";
-
     SceneDisplayWidget(std::shared_ptr<Noctis::Window> window)
         : m_window(window) {};
+
+    static std::string GetName() { return "Scene"; }
 
     void Render() override;
 

@@ -19,7 +19,7 @@ namespace NoctisEditor
 class ConsoleWidget : public IWidget
 {
 public:
-    static constexpr std::string_view name = "Console";
+    static std::string GetName() { return "Console"; }
 
     void Update() override;
     void Render() override;

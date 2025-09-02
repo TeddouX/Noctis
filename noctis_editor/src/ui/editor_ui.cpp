@@ -5,13 +5,13 @@
 #include <imgui_internal.h>
 #include <noctis/scene/scene_manager.hpp>
 
+#include "../utils/imgui_utils.hpp"
+#include "../editor.hpp"
 #include "widget/scene_display.hpp"
 #include "widget/scene_tree.hpp"
 #include "widget/asset_explorer.hpp"
-#include "widget/actor_properties.hpp"
+#include "widget/properties.hpp"
 #include "widget/console.hpp"
-#include "../editor.hpp"
-#include "../utils/imgui_utils.hpp"
 
 namespace NoctisEditor
 {
@@ -31,9 +31,15 @@ EditorUI::EditorUI(std::shared_ptr<Noctis::Window> window, const char *glslVers)
     
     ImGui::StyleColorsDark();
 
-    ImGuiIO& io = ImGui::GetIO();
+    ImGuiIO &io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     io.IniFilename = nullptr;
+    io.FontDefault = io.Fonts->AddFontFromFileTTF(
+        "C:\\Windows\\Fonts\\Roboto-Regular.ttf", 
+        18.0f, 
+        nullptr, 
+        io.Fonts->GetGlyphRangesDefault()
+    );
 
     ImGuiStyle &style = ImGui::GetStyle();
     style.FrameRounding = 3;
@@ -41,19 +47,14 @@ EditorUI::EditorUI(std::shared_ptr<Noctis::Window> window, const char *glslVers)
     style.WindowMenuButtonPosition = ImGuiDir_None;
     style.WindowRounding = 3;
 
-    this->m_font = io.Fonts->AddFontFromFileTTF(
-        "C:\\Windows\\Fonts\\Roboto-Regular.ttf", 
-        18.0f, 
-        nullptr, 
-        io.Fonts->GetGlyphRangesDefault()
-    );
-
     // Add all widgets
+    auto propertiesWidget = std::make_shared<PropertiesWidget>();
+
     m_allWidgets.push_back(std::make_shared<SceneDisplayWidget>(this->m_mainWindow));
-    m_allWidgets.push_back(std::make_shared<ActorPropertiesWidget>());
-    m_allWidgets.push_back(std::make_shared<AssetExplorerWidget>());
+    m_allWidgets.push_back(std::make_shared<AssetExplorerWidget>(propertiesWidget));
     m_allWidgets.push_back(std::make_shared<ConsoleWidget>());
     m_allWidgets.push_back(std::make_shared<SceneTreeWidget>());
+    m_allWidgets.push_back(propertiesWidget);
 }
 
 
@@ -62,8 +63,6 @@ void EditorUI::Render()
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
-    
-    ImGui::PushFont(this->m_font);
 
     // ImGui::ShowDemoWindow();
     
@@ -75,8 +74,6 @@ void EditorUI::Render()
     // Show popups etc...
     this->HandleState();
     
-    ImGui::PopFont();
-
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
@@ -101,11 +98,11 @@ void EditorUI::DockDisplays() const
         ImGuiID assetExplorerID   = ImGui::DockBuilderSplitNode(centerID, ImGuiDir_Down, .3f, nullptr, &centerID);
         ImGuiID sceneTreeID       = ImGui::DockBuilderSplitNode(centerID, ImGuiDir_Left, .25f, nullptr, &centerID);
 
-        ImGui::DockBuilderDockWindow(std::string(SceneDisplayWidget::name).c_str(), centerID);
-        ImGui::DockBuilderDockWindow(std::string(ActorPropertiesWidget::name).c_str(), actorPropertiesID);
-        ImGui::DockBuilderDockWindow(std::string(AssetExplorerWidget::name).c_str(), assetExplorerID);
-        ImGui::DockBuilderDockWindow(std::string(ConsoleWidget::name).c_str(), assetExplorerID);
-        ImGui::DockBuilderDockWindow(std::string(SceneTreeWidget::name).c_str(), sceneTreeID);
+        ImGui::DockBuilderDockWindow(SceneDisplayWidget::GetName().c_str(), centerID);
+        ImGui::DockBuilderDockWindow(PropertiesWidget::GetName().c_str(), actorPropertiesID);
+        ImGui::DockBuilderDockWindow(AssetExplorerWidget::GetName().c_str(), assetExplorerID);
+        ImGui::DockBuilderDockWindow(ConsoleWidget::GetName().c_str(), assetExplorerID);
+        ImGui::DockBuilderDockWindow(SceneTreeWidget::GetName().c_str(), sceneTreeID);
 
         ImGui::DockBuilderFinish(dockspaceID);
     }

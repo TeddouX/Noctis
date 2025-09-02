@@ -10,59 +10,60 @@ namespace NoctisEditor
 {
 
 Project::Project(const fs::path &rootDir, const std::string &name)
-    : m_rootDir(rootDir), m_name(name)
+    : m_rootDir(rootDir), 
+    m_name(name), 
+    m_assetManager(std::make_shared<EditorAssetManager>())
 {
 }
 
 
 bool Project::Load(bool firstTime)
 {
-    fs::path projFilePath = this->m_rootDir / fmt::format("{}.nocproj", this->m_name);
+    fs::path projFilePath = m_rootDir / fmt::format("{}.nocproj", m_name);
 
     if (firstTime)
     {
-        LOG_INFO("Creating project: {}", this->m_rootDir.string());
+        LOG_INFO("Creating project: {}", m_rootDir.string());
         
         // Create all directories
-        fs::create_directories(this->GetAssetsFolder());
-        fs::create_directories(this->GetScenesFolder());
+        fs::create_directories(GetAssetsFolder());
+        fs::create_directories(GetScenesFolder());
     
         json j{
-            {"name", this->m_name}
+            {"name", m_name}
         };
 
         Noctis::Filesystem::WriteCBOR(projFilePath, json::to_cbor(j));
     }
     else
     {
-        LOG_INFO("Loading project: {}", this->m_rootDir.string());
+        LOG_INFO("Loading project: {}", m_rootDir.string());
 
         // Get name from the first project file that is found
-        for (const auto &entry : fs::directory_iterator(this->m_rootDir))
+        for (const auto &entry : fs::directory_iterator(m_rootDir))
         {
             if (entry.is_regular_file() && entry.path().extension() == ".nocproj")
             {
                 auto cborData = Noctis::Filesystem::ReadCBOR(entry.path());
                 json j = json::from_cbor(cborData);
 
-                this->m_name = j["name"];
+                m_name = j["name"];
             }
         }
 
         // Temporary
-        fs::create_directories(this->GetAssetsFolder());
+        fs::create_directories(GetAssetsFolder());
     
-        this->LoadScenes();
+        LoadScenes();
     }
 
-    Noctis::AssetManagerAccessor::Set(&EditorAssetManager::GetInstance());
-
-    EditorAssetManager::GetInstance().InitEmbedded();
-    EditorAssetManager::GetInstance().SetRootFolder(this->GetAssetsFolder());
+    m_assetManager->SetRootFolder(GetAssetsFolder());
+    m_assetManager->InitEmbedded();
+    Noctis::AssetManagerAccessor::Set(m_assetManager);
     
-    SCENE_MANAGER().SetScenesFolder(this->GetScenesFolder());
+    SCENE_MANAGER().SetScenesFolder(GetScenesFolder());
 
-    this->m_loaded = true;
+    m_loaded = true;
     
     return true;
 }
@@ -72,22 +73,22 @@ void Project::LoadScenes()
 {
     LOG_INFO(
         "Loading scenes from folder {}", 
-        this->GetScenesFolder().string()
+        GetScenesFolder().string()
     );
 
-    SCENE_MANAGER().SetScenesFolder(this->GetScenesFolder());
+    SCENE_MANAGER().SetScenesFolder(GetScenesFolder());
 
-    if (!fs::exists(this->GetScenesFolder()))
+    if (!fs::exists(GetScenesFolder()))
     {
         LOG_WARN(
             "The scene folder ({}) doesn't exist, creating one now...",
-            this->GetScenesFolder().string()
+            GetScenesFolder().string()
         );
-        fs::create_directories(this->GetScenesFolder());
+        fs::create_directories(GetScenesFolder());
         return;  
     }
 
-    for (const auto &entry : fs::directory_iterator(this->GetScenesFolder()))
+    for (const auto &entry : fs::directory_iterator(GetScenesFolder()))
     {
         fs::path path = entry.path();
         // Is the entry is a json file ?
@@ -103,15 +104,15 @@ void Project::LoadScenes()
 }
 
 
-fs::path Project::GetScenesFolder()
+fs::path Project::GetScenesFolder() const
 {
-    return this->m_rootDir / "Scenes";
+    return m_rootDir / "Scenes";
 }
 
 
-fs::path Project::GetAssetsFolder()
+fs::path Project::GetAssetsFolder() const
 {
-    return this->m_rootDir / "Assets";
+    return m_rootDir / "Assets";
 }
 
 

@@ -4,7 +4,6 @@
 #include "scene.hpp"
 #include "../logger.hpp"
 
-
 #define SCENE_MANAGER() Noctis::SceneManager::GetInstance()
 
 namespace Noctis
@@ -19,12 +18,12 @@ public:
 
     inline const std::unordered_map<std::string, Scene> &GetAllScenes() const { return this->m_scenes; }
 
-    void   AddScene(const std::string &name);
-    void   AddSceneFromPath(const fs::path &path);
-    void   RemoveScene(const std::string &name);
+    void AddScene(const std::string &name);
+    void AddSceneFromPath(const fs::path &path);
+    void RemoveScene(const std::string &name);
 
     /// @brief Saves the current scene, if set
-    void   SaveCurrScene();
+    void SaveCurrScene();
     /// @brief Sets the current scene
     void   SetCurrScene(const std::string &name);
     Scene *GetCurrScene();
