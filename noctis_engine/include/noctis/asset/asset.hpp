@@ -31,6 +31,8 @@ struct NOCTIS_API IAssetBase : public IPropertyHolder
     virtual ~IAssetBase() = default;
 
     std::string Name;
+    
+    std::string GetName() const override { return this->Name; }
 };
 
 

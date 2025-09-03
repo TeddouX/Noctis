@@ -276,6 +276,7 @@ void AssetExplorerWidget::RenderAssetBrowser()
                     );
                     ImGui::SetCursorScreenPos(cursorPos);
                     
+                    ImGui::SetNextItemSelectionUserData(itemIdx);
                     bool selected = m_assetSelection.Contains((ImGuiID)assetView.ID);
                     bool visible = ImGui::IsRectVisible(iconSize2D);
                     ImGui::Selectable(

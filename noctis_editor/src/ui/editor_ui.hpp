@@ -1,19 +1,18 @@
 #pragma once
 #include <string>
-#include <imgui.h>
-#include <noctis/window.hpp>
+#include <memory>
 
 #include "project_selection.hpp"
-#include "widget/widget.hpp"
+
+namespace Noctis
+{
+    class Window;
+}
 
 namespace NoctisEditor
 {
 
-struct EditorUIState
-{
-    bool showCreateScenePopup = false;
-};
-
+class IWidget;
 
 class EditorUI
 {
@@ -25,7 +24,6 @@ public:
 private:
     std::shared_ptr<Noctis::Window> m_mainWindow;
     ProjectSelectionUI m_psUI;
-    EditorUIState m_state;
     float m_imGuiScale;
 
     std::vector<std::shared_ptr<IWidget>> m_allWidgets;

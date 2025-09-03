@@ -1,9 +1,11 @@
 #include "editor_ui.hpp"
 
+#include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <imgui_internal.h>
 #include <noctis/scene/scene_manager.hpp>
+#include <noctis/window.hpp>
 
 #include "../utils/imgui_utils.hpp"
 #include "../editor.hpp"
@@ -12,6 +14,7 @@
 #include "widget/asset_explorer.hpp"
 #include "widget/properties.hpp"
 #include "widget/console.hpp"
+#include "widget/widget.hpp"
 
 namespace NoctisEditor
 {
@@ -111,12 +114,14 @@ void EditorUI::DockDisplays() const
 
 void EditorUI::ShowMenuBar()
 {
+    bool showCreateSceneModal = false;
+
     if (ImGui::BeginMainMenuBar()) 
     {
         if (ImGui::BeginMenu("Scene")) 
         {
             if (ImGui::MenuItem("Create Scene", "Ctrl+Shift+N"))
-                this->m_state.showCreateScenePopup = true;
+                showCreateSceneModal = true;
 
             if (ImGui::BeginMenu("Load Scene"))
             {
@@ -138,18 +143,14 @@ void EditorUI::ShowMenuBar()
 
         ImGui::EndMainMenuBar();
     }
+
+    if (showCreateSceneModal)
+        ImGui::OpenPopup("Create Scene##EDITOR_POPUP");
 }
 
 
 void EditorUI::HandleState()
 {
-    // Handle the ui state
-    if (this->m_state.showCreateScenePopup)
-    {
-        ImGui::OpenPopup("Create Scene##EDITOR_POPUP");
-        this->m_state.showCreateScenePopup = false;
-    }
-
     this->ShowCreateSceneModal();
 
     // Handle the editor state
@@ -200,7 +201,7 @@ void EditorUI::HandleInput()
 
         // Ctrl+Shift+N
         if (combo.Is(GLFW_KEY_N, { GLFW_MOD_CONTROL, GLFW_MOD_SHIFT }))
-            this->m_state.showCreateScenePopup = true;
+            ImGui::OpenPopup("Create Scene##EDITOR_POPUP");
     }
 }
 

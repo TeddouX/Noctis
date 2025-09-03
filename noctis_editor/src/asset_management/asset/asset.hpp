@@ -25,8 +25,6 @@ template <typename T>
 struct IEditorAsset : public Noctis::IAsset<T>
 {
     fs::path Path;
-
-    std::string GetName() const override { return this->Name; }
 };
 
 }
