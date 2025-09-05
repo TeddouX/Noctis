@@ -51,7 +51,6 @@ private:
 
 }
 
-
 namespace std 
 {
     template<>

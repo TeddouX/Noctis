@@ -63,15 +63,12 @@ set(ENGINE_SOURCES
     "include/noctis/rendering/texture.hpp"
     "include/noctis/rendering/vertex.hpp"
 
-    "include/noctis/scene/scene_manager.hpp"
-    "include/noctis/scene/scene.hpp"
-    "include/noctis/scene/scene.inl"
-
     "include/noctis/scripting/engine_bindings.hpp"
     "include/noctis/scripting/script_builder.hpp"
 
     "include/noctis/utils/uuid.hpp"
 
+    "include/noctis/scene.hpp"
     "include/noctis/engine.hpp"
     "include/noctis/filesystem.hpp"
     "include/noctis/logger.hpp"
@@ -109,14 +106,12 @@ set(ENGINE_SOURCES
     "src/rendering/shader.cpp"
     "src/rendering/texture.cpp"
 
-    "src/scene/scene_manager.cpp"
-    "src/scene/scene.cpp"
-
     "src/scripting/engine_bindings.cpp"
     "src/scripting/script_builder.cpp"
-
+    
     "src/utils/uuid.cpp"
-
+    
+    "src/scene.cpp"
     "src/filesystem.cpp"
     "src/logger.cpp"
     "src/window.cpp"

@@ -88,7 +88,7 @@ void RenderProperty(
     std::shared_ptr<Noctis::ColorProperty> prop, 
     std::shared_ptr<Noctis::IPropertyHolder> propHolder)
 {
-    InlinedLabel(prop->GetName().c_str());
+    NoctisEditor::InlinedLabel(prop->GetName().c_str());
 
     Noctis::Color &c = prop->GetValue();
     std::string id = GenImGuiID("color_input", prop, propHolder);

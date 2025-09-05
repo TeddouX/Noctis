@@ -7,6 +7,7 @@
 #include "../../asset_management/asset/asset.hpp"
 #include "../../utils/imgui_utils.hpp"
 #include "../../editor.hpp"
+#include "properties.hpp"
 
 namespace NoctisEditor
 {
@@ -227,7 +228,7 @@ void AssetExplorerWidget::RenderAssetBrowser()
         ImGuiMultiSelectFlags msFlags = ImGuiMultiSelectFlags_ClearOnEscape 
             | ImGuiMultiSelectFlags_ClearOnClickVoid
             | ImGuiMultiSelectFlags_BoxSelect2d;
-        ImGuiMultiSelectIO* msIO = ImGui::BeginMultiSelect(
+        ImGuiMultiSelectIO *msIO = ImGui::BeginMultiSelect(
             msFlags, 
             m_assetSelection.Size, 
             (int)m_assetViews.size()
@@ -288,10 +289,15 @@ void AssetExplorerWidget::RenderAssetBrowser()
                         iconSize2D
                     );
 
-                    if (ImGui::IsItemHovered()
-                        && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left) 
-                        && isFolder)
-                        m_currFolder = assetView.DirEntry.path();
+                    if (ImGui::IsItemHovered())
+                    {
+                        if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+                            this->m_propertiesWidget->SetSelectedAsset(assetView.Asset);
+
+                        if(ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left) && isFolder)
+                            m_currFolder = assetView.DirEntry.path();
+                    }
+                        
 
                     if (!visible)
                     {
@@ -332,6 +338,9 @@ void AssetExplorerWidget::RenderAssetBrowser()
         
         msIO = ImGui::EndMultiSelect();
         m_assetSelection.ApplyRequests(msIO);
+
+        if (m_assetSelection.Size <= 0)
+            this->m_propertiesWidget->SetSelectedAsset(nullptr);
     }
 
     ImGui::EndChild();

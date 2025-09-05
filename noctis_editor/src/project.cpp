@@ -2,7 +2,6 @@
 
 #include <fmt/format.h>
 #include <noctis/logger.hpp>
-#include <noctis/scene/scene_manager.hpp>
 
 #include "asset_management/editor_asset_manager.hpp"
 
@@ -12,14 +11,14 @@ namespace NoctisEditor
 Project::Project(const fs::path &rootDir, const std::string &name)
     : m_rootDir(rootDir), 
     m_name(name), 
-    m_assetManager(std::make_shared<EditorAssetManager>())
+    m_assetManager(std::make_shared<EditorAssetManager>()),
+    m_sm(GetScenesFolder())
 {
 }
 
-
 bool Project::Load(bool firstTime)
 {
-    fs::path projFilePath = m_rootDir / fmt::format("{}.nocproj", m_name);
+    fs::path projFilePath = m_rootDir / (m_name + ".nocproj");
 
     if (firstTime)
     {
@@ -33,7 +32,7 @@ bool Project::Load(bool firstTime)
             {"name", m_name}
         };
 
-        Noctis::Filesystem::WriteCBOR(projFilePath, json::to_cbor(j));
+        Noctis::Filesystem::WriteBytes(projFilePath, json::to_cbor(j));
     }
     else
     {
@@ -44,7 +43,7 @@ bool Project::Load(bool firstTime)
         {
             if (entry.is_regular_file() && entry.path().extension() == ".nocproj")
             {
-                auto cborData = Noctis::Filesystem::ReadCBOR(entry.path());
+                auto cborData = Noctis::Filesystem::ReadBytes(entry.path());
                 json j = json::from_cbor(cborData);
 
                 m_name = j["name"];
@@ -61,13 +60,8 @@ bool Project::Load(bool firstTime)
     m_assetManager->InitEmbedded();
     Noctis::AssetManagerAccessor::Set(m_assetManager);
     
-    SCENE_MANAGER().SetScenesFolder(GetScenesFolder());
-
-    m_loaded = true;
-    
     return true;
 }
-
 
 void Project::LoadScenes()
 {
@@ -75,8 +69,6 @@ void Project::LoadScenes()
         "Loading scenes from folder {}", 
         GetScenesFolder().string()
     );
-
-    SCENE_MANAGER().SetScenesFolder(GetScenesFolder());
 
     if (!fs::exists(GetScenesFolder()))
     {
@@ -95,26 +87,20 @@ void Project::LoadScenes()
         if (path.extension() == ".scene")
         {
             LOG_INFO("Found scene: {}", path.string());
-            
-            // Create a scene with the file's name
-            // The scene class handles loading when necessary
-            SCENE_MANAGER().AddSceneFromPath(path);
+            m_sm.AddScene(path);
         }
     }
 }
-
 
 fs::path Project::GetScenesFolder() const
 {
     return m_rootDir / "Scenes";
 }
 
-
 fs::path Project::GetAssetsFolder() const
 {
     return m_rootDir / "Assets";
 }
-
 
 bool Project::IsValidProjectFolder(const fs::path &path)
 {

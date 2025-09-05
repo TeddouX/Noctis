@@ -1,7 +1,6 @@
 #include "actor_creation_helper.hpp"
 
 #include <noctis/asset/asset_manager.hpp>
-#include <noctis/scene/scene_manager.hpp>
 #include <noctis/ecs/component/model_component.hpp>
 #include <noctis/ecs/component/actor_component.hpp>
 #include <noctis/ecs/component/material_component.hpp>
@@ -33,14 +32,21 @@ void ActorCreationHelper::AddDefaultComponents(
 
 void ActorCreationHelper::CreateEmpty(Noctis::Transform *parent)
 {
-    Noctis::Scene *currScene = SCENE_MANAGER().GetCurrScene();
+    Project *currProj = EDITOR().GetCurrProject();
+    if (!currProj)
+        return;
+
+    std::shared_ptr<EditorAssetManager> am = currProj->GetAssetManager();
+    Noctis::Scene *currScene = currProj->GetSceneManager().GetCurrentScene();
+    if (!currScene)
+        return;
     
-    Noctis::Entity entity(&currScene->GetComponentManager());
+    Noctis::Entity entity(currScene->GetComponentManager().get());
     
     AddDefaultComponents(entity, parent, "Empty Actor");
 
     currScene->AddEntity(entity);
-    currScene->SetSelectedEntity(entity);
+    currProj->SetSelectedEntity(entity);
 
     LOG_INFO("Created an empty actor");
 }
@@ -50,10 +56,16 @@ void ActorCreationHelper::CreateSimpleShape(
     std::string_view modelName, 
     Noctis::Transform *parent)
 {
-    std::shared_ptr<EditorAssetManager> am = EDITOR().GetCurrProject()->GetAssetManager();
-    Noctis::Scene *currScene = SCENE_MANAGER().GetCurrScene();
-    
-    Noctis::Entity entity(&currScene->GetComponentManager());
+    Project *currProj = EDITOR().GetCurrProject();
+    if (!currProj)
+        return;
+
+    std::shared_ptr<EditorAssetManager> am = currProj->GetAssetManager();
+    Noctis::Scene *currScene = currProj->GetSceneManager().GetCurrentScene();
+    if (!currScene)
+        return;
+
+    Noctis::Entity entity(currScene->GetComponentManager().get());
     auto model = am->GetTyped<Noctis::Model>(
         Noctis::AssetType::MODEL, 
         std::string(modelName)
@@ -70,7 +82,7 @@ void ActorCreationHelper::CreateSimpleShape(
     entity.AddComponent(std::make_shared<Noctis::Material>("default", shader));
 
     currScene->AddEntity(entity);
-    currScene->SetSelectedEntity(entity);
+    currProj->SetSelectedEntity(entity);
 
     LOG_INFO("Created an actor with model ({})", model->Name);
 }
@@ -78,9 +90,16 @@ void ActorCreationHelper::CreateSimpleShape(
 
 void ActorCreationHelper::CreateDirectionalLight(Noctis::Transform *parent)
 {
-    Noctis::Scene *currScene = SCENE_MANAGER().GetCurrScene();
+    Project *currProj = EDITOR().GetCurrProject();
+    if (!currProj)
+        return;
 
-    Noctis::Entity entity(&currScene->GetComponentManager());
+    std::shared_ptr<EditorAssetManager> am = currProj->GetAssetManager();
+    Noctis::Scene *currScene = currProj->GetSceneManager().GetCurrentScene();
+    if (!currScene)
+        return;
+    
+    Noctis::Entity entity(currScene->GetComponentManager().get());
 
     AddDefaultComponents(entity, parent, "Directional Light");
 
@@ -91,7 +110,7 @@ void ActorCreationHelper::CreateDirectionalLight(Noctis::Transform *parent)
     ));
     
     currScene->AddEntity(entity);    
-    currScene->SetSelectedEntity(entity);
+    currProj->SetSelectedEntity(entity);
     
     LOG_INFO("Created a directional light");
 }

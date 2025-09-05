@@ -1,11 +1,14 @@
 #pragma once
 #include <string>
 #include <noctis/filesystem.hpp>
+#include <noctis/ecs/entity.hpp>
 
-#include "asset_management/editor_asset_manager.hpp"
+#include "scene_manager.hpp"
 
 namespace NoctisEditor
 {
+
+class EditorAssetManager;
 
 class Project
 {
@@ -14,21 +17,26 @@ public:
 
     bool Load(bool firstTime);
 
-    std::shared_ptr<EditorAssetManager> GetAssetManager() { return this->m_assetManager; }
-    const fs::path &GetRootDir() const { return this->m_rootDir; }
+    std::shared_ptr<EditorAssetManager> GetAssetManager() { return m_assetManager; }
+    SceneManager &GetSceneManager() { return m_sm; }
+    const fs::path &GetRootDir() const { return m_rootDir; }
     fs::path GetScenesFolder() const;
     fs::path GetAssetsFolder() const;
 
-    bool IsLoaded() const { return this->m_loaded; }
+    void SetSelectedEntity(const Noctis::Entity &entity) { m_selectedEntity = entity; }
+    Noctis::Entity GetSelectedEntity() const { return m_selectedEntity; }
 
     static bool IsValidProjectFolder(const fs::path &path);
 
 private:
-    std::shared_ptr<EditorAssetManager> m_assetManager;
-    std::string m_name;
-    fs::path    m_rootDir;
-    bool        m_loaded = false;
+    fs::path     m_rootDir;
+    std::string  m_name;
 
+    std::shared_ptr<EditorAssetManager> m_assetManager;
+    SceneManager m_sm;
+
+    Noctis::Entity m_selectedEntity;
+    
     void LoadScenes();
 };
 

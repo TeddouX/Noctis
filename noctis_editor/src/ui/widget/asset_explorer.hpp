@@ -49,7 +49,7 @@ private:
     float m_layoutIconSpacing = 0.f;
     
     std::shared_ptr<PropertiesWidget> m_propertiesWidget;
-    std::vector<AssetView> m_assetViews;
+    std::vector<AssetView>     m_assetViews;
     ImGuiSelectionBasicStorage m_assetSelection;
 
     void RenderMenu();

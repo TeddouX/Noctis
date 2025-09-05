@@ -1,8 +1,9 @@
 #include "scene_display.hpp"
 
-#include <noctis/scene/scene_manager.hpp>
 #include <noctis/ecs/system/render_system.hpp>
 #include <noctis/ecs/system/lighting_system.hpp>
+
+#include "../../editor.hpp"
 
 namespace NoctisEditor
 {
@@ -40,7 +41,14 @@ void SceneDisplayWidget::RenderCurrScene()
         this->m_viewportHeight
     ));
     
-    Noctis::Scene *currScene = SCENE_MANAGER().GetCurrScene();
+    Project *proj = EDITOR().GetCurrProject();
+    if (!proj)
+    {
+        ImGui::End();
+        return;
+    }
+
+    Noctis::Scene *currScene = proj->GetSceneManager().GetCurrentScene();
     if (!currScene)
     {
         ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 0, 0, 255));
@@ -58,9 +66,10 @@ void SceneDisplayWidget::RenderCurrScene()
 
     // Update all the scene's systems that 
     // are related to rendering
-    currScene->GetSystem<Noctis::RenderSystem>()->SetCamera(&this->m_camera);
-    currScene->UpdateSystem<Noctis::LightingSystem>(.0f);
-    currScene->UpdateSystem<Noctis::RenderSystem>(.0f);
+    Noctis::SystemsManager &sceneSM = currScene->GetSystemsManager();
+    sceneSM.GetSystem<Noctis::RenderSystem>()->SetCamera(&this->m_camera);
+    sceneSM.UpdateSystem<Noctis::LightingSystem>(.0f);
+    sceneSM.UpdateSystem<Noctis::RenderSystem>(.0f);
 
     this->m_frameBuffer.Unbind();
 

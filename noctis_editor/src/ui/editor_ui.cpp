@@ -4,7 +4,6 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <imgui_internal.h>
-#include <noctis/scene/scene_manager.hpp>
 #include <noctis/window.hpp>
 
 #include "../utils/imgui_utils.hpp"
@@ -123,20 +122,25 @@ void EditorUI::ShowMenuBar()
             if (ImGui::MenuItem("Create Scene", "Ctrl+Shift+N"))
                 showCreateSceneModal = true;
 
+            Project *currProj = EDITOR().GetCurrProject();
+            if (!currProj)
+                return;
+
+            SceneManager &sm = currProj->GetSceneManager();
             if (ImGui::BeginMenu("Load Scene"))
             {
-                auto &allScenes = SCENE_MANAGER().GetAllScenes();
+                auto allScenes = sm.GetAllScenes();
                 // Iterate through all the scenes to create a 
                 // menu item for each one
                 for (auto &[name, scenePtr] : allScenes)
                     if (ImGui::MenuItem(name.c_str()))
-                        SCENE_MANAGER().SetCurrScene(name);
+                        sm.SetCurrentScene(name);
                 
                 ImGui::EndMenu();
             }
 
             if (ImGui::MenuItem("Save Scene", "Ctrl+S"))
-                SCENE_MANAGER().SaveCurrScene();
+                sm.SaveCurrentScene();
 
             ImGui::EndMenu();
         }
@@ -195,9 +199,15 @@ void EditorUI::HandleInput()
     {
         Noctis::KeyCombo combo = optCombo.value();
 
+        Project *currProj = EDITOR().GetCurrProject();
+        if (!currProj)
+            return;
+
+        SceneManager &sm = currProj->GetSceneManager();
+
         // Ctrl+S
         if (combo.Is(GLFW_KEY_S, { GLFW_MOD_CONTROL }))
-            SCENE_MANAGER().SaveCurrScene();
+            sm.SaveCurrentScene();
 
         // Ctrl+Shift+N
         if (combo.Is(GLFW_KEY_N, { GLFW_MOD_CONTROL, GLFW_MOD_SHIFT }))
@@ -219,9 +229,11 @@ void EditorUI::ShowCreateSceneModal()
         NoctisEditor::ResizableInputText("Scene name", sceneName, false);
 
         if (ImGui::Button("OK", ImVec2(120, 0))) 
-        { 
-            SCENE_MANAGER().AddScene(sceneName);
-            SCENE_MANAGER().SetCurrScene(sceneName);
+        {
+            SceneManager &sm = EDITOR().GetCurrProject()->GetSceneManager();
+            
+            sm.CreateScene(sceneName);
+            sm.SetCurrentScene(sceneName);
 
             sceneName.clear();
 

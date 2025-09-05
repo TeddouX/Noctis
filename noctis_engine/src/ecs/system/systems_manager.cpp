@@ -3,10 +3,10 @@
 namespace Noctis
 {
 
-void SystemsManager::UpdateAll(ComponentManager &cm, float dt)
+void SystemsManager::UpdateAll(float dt)
 {
     for (std::shared_ptr<ISystem> &system : this->m_systems)
-        system->Update(cm, dt);
+        system->Update(*m_cm, dt);
 }
 
 }

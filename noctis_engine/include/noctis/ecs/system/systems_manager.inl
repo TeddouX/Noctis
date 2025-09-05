@@ -9,7 +9,7 @@ T &SystemsManager::RegisterSystem(Args &&...args)
     std::shared_ptr<T> system = std::make_shared<T>(std::forward<Args>(args)...);
     T& ref = *system;
     
-    m_systems.push_back(std::move(system));
+    m_systems.push_back(system);
     
     return ref;
 }
@@ -28,15 +28,14 @@ T *SystemsManager::GetSystem()
 
 
 template <typename T>
-void SystemsManager::UpdateSystem(ComponentManager &cm, float dt)
+void SystemsManager::UpdateSystem(float dt)
 {
-
     for (std::shared_ptr<ISystem> &system : this->m_systems)
     {
         // Check if T is the same type as the pointer
         if (T *derived = dynamic_cast<T*>(system.get()))
         {
-            derived->Update(cm, dt);
+            derived->Update(*m_cm, dt);
             return;
         }
     }

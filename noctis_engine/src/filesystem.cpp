@@ -43,7 +43,7 @@ std::string Filesystem::GetFileName(const fs::path &path)
 }
 
 
-void Filesystem::WriteCBOR(const fs::path &filePath, std::vector<uint8_t> cborData)
+void Filesystem::WriteBytes(const fs::path &filePath, std::vector<uint8_t> cborData)
 {
     std::ofstream file(filePath, std::ios::binary);
 
@@ -60,7 +60,7 @@ void Filesystem::WriteCBOR(const fs::path &filePath, std::vector<uint8_t> cborDa
 }
 
 
-std::vector<uint8_t> Filesystem::ReadCBOR(const fs::path &filePath)
+std::vector<uint8_t> Filesystem::ReadBytes(const fs::path &filePath)
 {
     std::ifstream file(filePath, std::ios::binary | std::ios::ate);
 

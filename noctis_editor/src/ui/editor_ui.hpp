@@ -24,7 +24,6 @@ public:
 private:
     std::shared_ptr<Noctis::Window> m_mainWindow;
     ProjectSelectionUI m_psUI;
-    float m_imGuiScale;
 
     std::vector<std::shared_ptr<IWidget>> m_allWidgets;
 

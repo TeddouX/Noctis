@@ -22,10 +22,10 @@ public:
     static std::string GetFileName(const fs::path &path);
 
     /// @brief Writes cbor data to a file
-    static void WriteCBOR(const fs::path &path, std::vector<uint8_t> cborData);
+    static void WriteBytes(const fs::path &path, std::vector<uint8_t> cborData);
     
     /// @returns The cbor data that is stored in this file, if any
-    static std::vector<uint8_t> ReadCBOR(const fs::path &path);
+    static std::vector<uint8_t> ReadBytes(const fs::path &path);
 
     /// @brief Sets the contents of the file at the end of the path.
     /// If it doesn't exist, it will be created.

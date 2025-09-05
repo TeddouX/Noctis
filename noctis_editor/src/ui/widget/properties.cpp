@@ -4,12 +4,13 @@
 #include <noctis/ecs/component/transform_component.hpp>
 #include <noctis/ecs/component/component_registry.hpp>
 #include <noctis/ecs/entity.hpp>
-#include <noctis/scene/scene_manager.hpp>
 #include <noctis/property/property.hpp>
 #include <noctis/asset/asset.hpp>
 #include <noctis/math/math.hpp>
 #include <noctis/math/color.hpp>
 
+#include "../../editor.hpp"
+#include "../../project.hpp"
 #include "../../utils/imgui_utils.hpp"
 #include "../../utils/property_rendering.hpp"
 
@@ -22,8 +23,15 @@ void PropertiesWidget::Render()
 
     if (!m_selectedAsset)
     {
-        Noctis::Scene *currScene = SCENE_MANAGER().GetCurrScene();
-        Noctis::Entity &selectedEntity = currScene->GetSelectedEntity();
+        Project *proj = EDITOR().GetCurrProject();
+        if (!proj)
+        {
+            ImGui::End();
+            return;
+        }
+
+        Noctis::Scene *currScene = proj->GetSceneManager().GetCurrentScene();
+        Noctis::Entity selectedEntity = proj->GetSelectedEntity();
 
         if (currScene && selectedEntity.IsValid())
         {
@@ -63,7 +71,7 @@ void PropertiesWidget::Render()
                 if (open)
                     RenderProperties(component);
 
-                this->ShowComponentRightClickPopup(component, selectedEntity, popupID);
+                ShowComponentRightClickPopup(component, selectedEntity, popupID);
 
             }
 
@@ -76,14 +84,13 @@ void PropertiesWidget::Render()
             if (ImGui::Button("Add Component", ImVec2(buttonWidth, 0.f)))
                 ImGui::OpenPopup("ADD_COMPONENT_POPUP");
 
-            this->ShowAddComponentPopup(selectedEntity);
+            ShowAddComponentPopup(selectedEntity);
         }
     }
     // If an asset is selected 
     else
         RenderProperties(m_selectedAsset);
     
-
     ImGui::End();
 }
 

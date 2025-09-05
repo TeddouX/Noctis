@@ -22,7 +22,7 @@ struct ModelAsset : public IEditorAsset<Noctis::Model>
     std::vector<std::shared_ptr<Noctis::IPropertyBase>> GetProperties() override
     {
         return {
-
+            
         };
     }
 };

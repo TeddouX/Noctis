@@ -1,9 +1,9 @@
 #include "scene_tree.hpp"
 
 #include <noctis/asset/asset.hpp>
-#include <noctis/scene/scene_manager.hpp>
 
 #include "../../utils/actor_creation_helper.hpp"
+#include "../../editor.hpp"
 
 namespace NoctisEditor
 {
@@ -13,11 +13,11 @@ void SceneTreeWidget::Render()
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
     ImGui::Begin(GetName().c_str());
 
-    Noctis::Scene *currScene = SCENE_MANAGER().GetCurrScene();
-
+    Project *currProj = EDITOR().GetCurrProject();
+    Noctis::Scene *currScene = currProj->GetSceneManager().GetCurrentScene();
     if (currScene)
     {
-        Noctis::ComponentManager &cm = currScene->GetComponentManager();
+        std::shared_ptr<Noctis::ComponentManager> cm = currScene->GetComponentManager();
         
         ImGuiTreeNodeFlags headerFlags = ImGuiTreeNodeFlags_DefaultOpen
             | ImGuiTreeNodeFlags_OpenOnArrow;
@@ -26,7 +26,7 @@ void SceneTreeWidget::Render()
         {
             if (ImGui::IsItemClicked())
                 // Remove currently selected entity
-                currScene->SetSelectedEntity(0); 
+                currProj->SetSelectedEntity(0); 
 
             HandleActorCreationMenu(nullptr); // Parent is the root
             HandleDragDropTarget(nullptr);
@@ -36,7 +36,7 @@ void SceneTreeWidget::Render()
             // Iterate through all the scene's entities to add them to the tree
             for (const auto &entity : allEntities)
             {
-                auto transform = cm.GetComponent<Noctis::Transform>(entity);
+                auto transform = cm->GetComponent<Noctis::Transform>(entity);
 
                 if (transform->IsChild()) 
                     continue;
@@ -55,19 +55,19 @@ void SceneTreeWidget::IterateTransformChildren(
     Noctis::Transform *transform, 
     const Noctis::Entity &entity)
 {
-    Noctis::Scene *currScene = SCENE_MANAGER().GetCurrScene();
+    Project *currProj = EDITOR().GetCurrProject();
 
     ImGuiTreeNodeFlags treeFlags = ImGuiTreeNodeFlags_DefaultOpen 
         | ImGuiTreeNodeFlags_OpenOnArrow
         | (transform->HasChildren() ? 0 : ImGuiTreeNodeFlags_Leaf) 
-        | (entity == currScene->GetSelectedEntity() ? ImGuiTreeNodeFlags_Selected : 0);
+        | (entity == currProj->GetSelectedEntity() ? ImGuiTreeNodeFlags_Selected : 0);
 
     ImGui::PushID((int)entity.GetID());
     bool open = ImGui::TreeNodeEx(transform->GetActor()->GetName().c_str(), treeFlags);
 
     // Actor selection
     if (ImGui::IsItemClicked())
-        currScene->SetSelectedEntity(entity);
+        currProj->SetSelectedEntity(entity);
 
     HandleActorCreationMenu(transform);
 

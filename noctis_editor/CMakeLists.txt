@@ -35,6 +35,7 @@ set(EDITOR_SOURCES
 
     "src/editor.hpp"
     "src/project.hpp"
+    "src/scene_manager.hpp"
 
     # -------------------
     #    Source files
@@ -59,6 +60,7 @@ set(EDITOR_SOURCES
     "src/editor_main.cpp"
     "src/editor.cpp"
     "src/project.cpp"
+    "src/scene_manager.cpp"
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${EDITOR_SOURCES})
