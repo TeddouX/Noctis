@@ -1,37 +1,33 @@
 #pragma once
-#include <glad/glad.h>
+#include <variant>
+#include <memory>
 #include <string>
-#include <fstream>
-#include <sstream>
-#include <iostream>
 
-#include "../math/math.hpp"
-#include "../logger.hpp"
-#include "../filesystem.hpp"
+#include "graphics_backend_ctx.hpp"
+#include "../engine.hpp"
 
 namespace Noctis
 {
 
-class NOCTIS_API Shader
-{
-public:
-	Shader() = default;
-	Shader(const char *fileContents);
-	~Shader() = default;
+enum class UniformType { BOOL, INT, FLOAT };
 
-	void Use() const;
-
-	void SetBool(const std::string &name, bool value) const;
-	void SetInt(const std::string &name, int value) const;
-	void SetFloat(const std::string &name, float value) const;
-	void SetFloat(const std::string &name, float x, float y, float z) const;
-	void SetVector(const std::string &name, Vec3 value) const;
-	void SetMatrix(const std::string &name, Mat4 value) const;
-
-private:
-	GLuint m_shaderProgramID = 0;
-
-	void CreateProgram(const char *vertexCode, const char *fragmentCode);
+struct NOCTIS_API UniformInfo {
+    UniformType type;
+    std::string name;
+    std::variant<bool, int, float> val;
 };
 
-}
+class NOCTIS_API Shader {
+public:
+    virtual ~Shader() = default;
+
+    static std::unique_ptr<Shader> Create(
+        const std::shared_ptr<GraphicsBackendCtx> &ctx, 
+        const char *vertCode, 
+        const char *fragCode);
+
+    virtual void bind() = 0;
+    virtual void setUniform(const UniformInfo &info) = 0;
+};
+    
+} // namespace Noctis

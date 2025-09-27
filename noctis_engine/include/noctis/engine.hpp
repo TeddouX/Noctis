@@ -1,7 +1,5 @@
 #pragma once
 
-#define NOCTIS_OPENGL_VERSION "#version 460 core"
-
 #if defined(_WIN32) || defined(_WIN64)
     // Disable warning from using STL 
     // member variables in classes
