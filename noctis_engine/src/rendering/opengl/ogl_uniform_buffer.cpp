@@ -14,9 +14,6 @@ void UniformBufferOpenGL::rebind(int bind) {
     glBindBufferRange(GL_UNIFORM_BUFFER, bind, ID_, 0, size_);
 }
 
-void UniformBufferOpenGL::use() {
-}
-
 void UniformBufferOpenGL::uploadData(size_t size, void *data) {
     size_ = size;
 

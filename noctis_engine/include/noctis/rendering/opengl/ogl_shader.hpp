@@ -12,7 +12,6 @@ public:
 
     void bind() override;
     void setUniform(const UniformInfo &info) override;
-    void setUBO(const UniformBufferOpenGL &ubo, const char *uniformName);
 
 private:
     uint32_t programID_;

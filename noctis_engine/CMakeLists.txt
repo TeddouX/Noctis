@@ -24,6 +24,7 @@ set(ENGINE_SOURCES
     "include/noctis/rendering/opengl/ogl_uniform_buffer.hpp"
     "include/noctis/rendering/opengl/ogl_vertex_array.hpp"
     
+    "include/noctis/rendering/camera.hpp"
     "include/noctis/rendering/graphics_backend_ctx.hpp"
     "include/noctis/rendering/shader.hpp"
     "include/noctis/rendering/uniform_buffer.hpp"
@@ -41,6 +42,7 @@ set(ENGINE_SOURCES
     "src/rendering/opengl/ogl_uniform_buffer.cpp"
     "src/rendering/opengl/ogl_vertex_array.cpp"
     
+    "src/rendering/camera.cpp"
     "src/rendering/shader.cpp"
     "src/rendering/uniform_buffer.cpp"
     "src/rendering/vertex_array.cpp"

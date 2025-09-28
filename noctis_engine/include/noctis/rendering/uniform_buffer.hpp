@@ -14,7 +14,7 @@ public:
         int bindPoint);
     
     virtual void rebind(int bind) = 0;
-    virtual void use() = 0;
+    // virtual void use() = 0;
     virtual void uploadData(size_t size, void *data) = 0;
     virtual void updateData(size_t size, void *data) = 0;
 };

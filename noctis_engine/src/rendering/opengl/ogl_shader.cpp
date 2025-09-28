@@ -44,17 +44,6 @@ ShaderOpenGL::ShaderOpenGL(const char *vertCode, const char *fragCode) {
     glDeleteShader(fragShader);
 }
 
-void ShaderOpenGL::setUBO(const UniformBufferOpenGL &ubo, const char *uniformName) {
-    uint32_t blockIndex = glGetUniformBlockIndex(programID_, uniformName);
-
-    if (blockIndex < 0) {
-        std::cerr << "Uniform " << uniformName << " couldn't be found" << std::endl;
-        return;
-    }
-
-    glUniformBlockBinding(programID_, blockIndex, ubo.getBindPoint());
-}
-
 void ShaderOpenGL::bind() {
     glUseProgram(programID_);
 }

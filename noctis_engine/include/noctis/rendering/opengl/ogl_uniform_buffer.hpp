@@ -10,11 +10,9 @@ public:
     UniformBufferOpenGL(int bindPoint);
 
     void rebind(int bind) override;
-    void use() override;
+    // void use() override;
     void uploadData(size_t size, void *data) override;
     void updateData(size_t size, void *data) override;
-    
-    int getBindPoint() const { return bindPoint_; }
 
 private:
     uint32_t ID_;
