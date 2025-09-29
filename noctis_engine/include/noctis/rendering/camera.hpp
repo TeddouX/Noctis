@@ -14,7 +14,11 @@ class GraphicsBackendCtx;
 class NOCTIS_API Camera {
 public:
     Camera() = default;
-    Camera(std::shared_ptr<GraphicsBackendCtx> ctx, glm::vec3 pos, float aspectRatio, float fov, float near, float far);
+    Camera(const std::shared_ptr<GraphicsBackendCtx> &ctx, 
+        glm::vec3 pos, 
+        float aspectRatio, 
+        float fov, 
+        float near, float far);
 
     void rotateBy(float yaw, float pitch);
     void uploadData();

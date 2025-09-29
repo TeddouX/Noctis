@@ -14,7 +14,7 @@ enum class GraphicsBackend {
 class NOCTIS_API GraphicsBackendCtx {
 public:
     virtual GraphicsBackend getBackend() const = 0;
-    virtual void setClearScreenColor(glm::vec4 col) = 0;
+    virtual void setClearScreenColor(const glm::vec4 &col) = 0;
     virtual void clearScreen() = 0;
 };
 

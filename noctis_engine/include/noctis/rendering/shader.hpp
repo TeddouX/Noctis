@@ -23,7 +23,7 @@ public:
 
     static std::unique_ptr<Shader> Create(
         const std::shared_ptr<GraphicsBackendCtx> &ctx, 
-        const char *vertCode, 
+        const char *vertCode,
         const char *fragCode);
 
     virtual void bind() = 0;

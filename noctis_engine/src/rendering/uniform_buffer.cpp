@@ -5,7 +5,7 @@ namespace Noctis
 {
     
 std::unique_ptr<UniformBuffer> UniformBuffer::Create(
-    std::shared_ptr<GraphicsBackendCtx> ctx,
+    const std::shared_ptr<GraphicsBackendCtx> &ctx,
     int bindPoint
 ) {
     switch (ctx->getBackend()) {

@@ -5,7 +5,7 @@ namespace Noctis
 {
     
 std::unique_ptr<VertexArray> VertexArray::Create(
-    std::shared_ptr<GraphicsBackendCtx> ctx,
+    const std::shared_ptr<GraphicsBackendCtx> &ctx,
     const VertexArrayInfo &info
 ) {
     switch (ctx->getBackend()) {

@@ -7,7 +7,7 @@ namespace Noctis
 {
     
 Camera::Camera(
-    std::shared_ptr<GraphicsBackendCtx> ctx, 
+    const std::shared_ptr<GraphicsBackendCtx> &ctx, 
     glm::vec3 pos, 
     float aspectRatio, 
     float fov, 
@@ -40,7 +40,7 @@ void Camera::uploadData() {
     data_.viewMat = glm::lookAt(pos_, glm::normalize(front), glm::vec3(0, 1, 0));
     data_.pos = glm::vec4(pos_, 0);
 
-    uniformBuffer_->updateData(sizeof(Camera::Data), &data_);
+    uniformBuffer_->updateData(0, sizeof(Camera::Data), &data_);
 }
 
 } // namespace Noctis

@@ -26,7 +26,7 @@ struct NOCTIS_API VertexArrayInfo {
 class NOCTIS_API VertexArray {
 public:
     static std::unique_ptr<VertexArray> Create(
-        std::shared_ptr<GraphicsBackendCtx> ctx,
+        const std::shared_ptr<GraphicsBackendCtx> &ctx,
         const VertexArrayInfo &info);
 
     virtual void use() = 0; 

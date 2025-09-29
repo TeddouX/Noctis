@@ -14,7 +14,7 @@ public:
 
     GraphicsBackend getBackend() const override { return GraphicsBackend::OPENGL; }
     
-    void setClearScreenColor(glm::vec4 col) override { clearScreenCol_ = col; }
+    void setClearScreenColor(const glm::vec4 &col) override { clearScreenCol_ = col; }
     void clearScreen() override;
 
 private:

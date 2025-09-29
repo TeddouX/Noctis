@@ -4,9 +4,29 @@
 #include <noctis/rendering/vertex_array.hpp>
 #include <noctis/rendering/shader.hpp>
 #include <noctis/rendering/uniform_buffer.hpp>
+#include <noctis/rendering/ssbo.hpp>
 #include <noctis/rendering/camera.hpp>
 #include <noctis/window/window.hpp>
 #include <iostream>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp> 
+
+glm::mat4x4 createModelMatrice(glm::vec3 pos, glm::vec3 rot, glm::vec3 scale) {
+    // Identity
+    glm::mat4x4 model(1);
+
+    // Translation
+    model = glm::translate(model, pos);
+    // Rotation
+    glm::quat quaternion(glm::radians(rot));
+    glm::mat4x4 rotationMatrix = glm::toMat4(quaternion);
+    model *= rotationMatrix;
+    // Scale
+    model = glm::scale(model, scale);
+
+    return model;
+}
 
 int main() {
     Noctis::Window window(800, 600, "Testing");
@@ -22,10 +42,14 @@ int main() {
     "   mat4 projMat;\n"
     "   mat4 viewMat;\n"
     "} camera;\n"
+    "uniform int modelIdx;\n"
+    "layout(std430, binding = 2) buffer ModelMatrices {\n"
+    "   mat4 modelMatrices[];\n"
+    "} models;\n"   
     "out vec3 Pos;\n"
     "void main()\n"
     "{\n"
-    "   gl_Position = camera.projMat * camera.viewMat * vec4(aPos, 1.0);\n"
+    "   gl_Position = camera.projMat * camera.viewMat * models.modelMatrices[modelIdx] * vec4(aPos, 1.0);\n"
     "   Pos = aPos;\n"
     "}\0", 
     "#version 430 core\n"
@@ -52,14 +76,14 @@ int main() {
     Noctis::VertexArrayInfo cube {
         .vertices = {
             // Front face
-            Noctis::Vertex(glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(0), glm::vec2(0)), // 0
-            Noctis::Vertex(glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3(0), glm::vec2(0)), // 1
-            Noctis::Vertex(glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(0), glm::vec2(0)), // 2
-            Noctis::Vertex(glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(0), glm::vec2(0)), // 3
-            Noctis::Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0), glm::vec2(0)), // 4
-            Noctis::Vertex(glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3(0), glm::vec2(0)), // 5
-            Noctis::Vertex(glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3(0), glm::vec2(0)), // 6
-            Noctis::Vertex(glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(0), glm::vec2(0)), // 7
+            Noctis::Vertex(glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(0), glm::vec2(0)),
+            Noctis::Vertex(glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3(0), glm::vec2(0)),
+            Noctis::Vertex(glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(0), glm::vec2(0)),
+            Noctis::Vertex(glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(0), glm::vec2(0)),
+            Noctis::Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0), glm::vec2(0)),
+            Noctis::Vertex(glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3(0), glm::vec2(0)),
+            Noctis::Vertex(glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3(0), glm::vec2(0)),
+            Noctis::Vertex(glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(0), glm::vec2(0)),
         },
         .indices = {
             // Front
@@ -77,16 +101,18 @@ int main() {
         }
     };
 
-
     auto vertArray = Noctis::VertexArray::Create(ctx, cube);
-
-    std::shared_ptr<Noctis::UniformBuffer> ub = Noctis::UniformBuffer::Create(ctx, 1);
+    auto testUB = Noctis::UniformBuffer::Create(ctx, 1);
 
     glm::vec3 col(0, 0, 0);
-    ub->uploadData(sizeof(glm::vec3), &col);
+    testUB->uploadData(sizeof(glm::vec3), &col);
 
-    Noctis::Camera cam(ctx, glm::vec3(-5, 1, 2), 800/600, 60.f, .1f, 1000.f);
+    Noctis::Camera cam(ctx, glm::vec3(-5, 1, 2), 800/600, 70.f, .1f, 1000.f);
     cam.rotateBy(-5.f, -10.f);
+
+    auto modelSSBO = Noctis::SSBO::Create(ctx, 2);
+    glm::mat4x4 modelMatrice = createModelMatrice(glm::vec3(0, 1, 0), glm::vec3(0, 90, 0), glm::vec3(1));
+    modelSSBO->uploadData(sizeof(glm::mat4x4), &modelMatrice);
 
     while (!window.shouldClose()) {
         window.pollEvents();
@@ -98,7 +124,10 @@ int main() {
         col.g = static_cast<float>((sin(time + 2.0f) * 0.5f) + 0.5f);
         col.b = static_cast<float>((sin(time + 4.0f) * 0.5f) + 0.5f);
 
-        ub->updateData(sizeof(glm::vec3), &col);
+        modelMatrice = createModelMatrice(glm::vec3(0, sin(time + 0.0f) * 0.5f, 0), glm::vec3(0, time * 8, 0), glm::vec3(1));
+        modelSSBO->updateData(0, sizeof(glm::mat4x4), &modelMatrice);
+
+        testUB->updateData(0, sizeof(glm::vec3), &col);
         cam.uploadData();
 
         shader->bind();
